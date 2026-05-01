@@ -24,4 +24,4 @@ Veloform Configurator is built strictly using modular Angular standards and Fire
 Role-based access is applied per configuration. Users can only fetch and mutate their own configurations, asserted via `existing().userId == request.auth.uid`.
 
 ## Deployment
-Simulated deployment to Vercel and EdgeOne Edge nodes.
+Production build optimized for Cloud Run and static hosting.
