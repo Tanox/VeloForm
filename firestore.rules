@@ -1,0 +1,104 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+    
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+    
+    function incoming() {
+      return request.resource.data;
+    }
+    
+    function existing() {
+      return resource.data;
+    }
+    
+    function isValidConfigComponent(comp) {
+      return comp is map
+        && comp.keys().hasAll(['id', 'category', 'name', 'price', 'weight'])
+        && comp.keys().size() == 5
+        && comp.id is string
+        && comp.id.size() > 0
+        && comp.id.size() <= 100
+        && comp.category is string
+        && comp.category.size() > 0
+        && comp.category.size() <= 100
+        && comp.name is string
+        && comp.name.size() > 0
+        && comp.name.size() <= 200
+        && comp.price is number
+        && comp.weight is number;
+    }
+
+    function checkComponents(components) {
+      return components is list
+        && components.size() <= 50
+        && (components.size() == 0 || isValidConfigComponent(components[0]))
+        && (components.size() <= 1 || isValidConfigComponent(components[1]))
+        && (components.size() <= 2 || isValidConfigComponent(components[2]))
+        && (components.size() <= 3 || isValidConfigComponent(components[3]))
+        && (components.size() <= 4 || isValidConfigComponent(components[4]))
+        && (components.size() <= 5 || isValidConfigComponent(components[5]))
+        && (components.size() <= 6 || isValidConfigComponent(components[6]))
+        && (components.size() <= 7 || isValidConfigComponent(components[7]))
+        && (components.size() <= 8 || isValidConfigComponent(components[8]))
+        && (components.size() <= 9 || isValidConfigComponent(components[9]));
+    }
+
+    function isValidConfiguration(data) {
+      return data.keys().hasAll(['userId', 'bikeType', 'name', 'components', 'totalCost', 'estimatedWeight', 'createdAt', 'updatedAt'])
+      && data.keys().size() == 8
+      && data.userId == request.auth.uid
+      && data.bikeType is string
+      && data.bikeType in ['Road', 'MTB', 'Fold']
+      && data.name is string
+      && data.name.size() > 0
+      && data.name.size() <= 200
+      && checkComponents(data.components)
+      && data.totalCost is number
+      && data.estimatedWeight is number
+      && data.createdAt == request.time
+      && data.updatedAt == request.time;
+    }
+    
+    function isValidConfigurationUpdate(data) {
+      return data.keys().hasAll(['userId', 'bikeType', 'name', 'components', 'totalCost', 'estimatedWeight', 'createdAt', 'updatedAt'])
+      && data.keys().size() == 8
+      && data.userId == existing().userId
+      && data.bikeType is string
+      && data.bikeType in ['Road', 'MTB', 'Fold']
+      && data.name is string
+      && data.name.size() > 0
+      && data.name.size() <= 200
+      && checkComponents(data.components)
+      && data.totalCost is number
+      && data.estimatedWeight is number
+      && data.createdAt == existing().createdAt
+      && data.updatedAt == request.time;
+    }
+
+    match /components/{componentId} {
+      allow get: if isValidId(componentId);
+      allow list: if true;
+      allow write: if true; // Demo: allow seeding
+    }
+
+    match /configurations/{configurationId} {
+      allow get: if isSignedIn() && isValidId(configurationId) && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(configurationId) && isValidConfiguration(incoming());
+      allow update: if isSignedIn() && isValidId(configurationId) && existing().userId == request.auth.uid && isValidConfigurationUpdate(incoming()) && (
+        incoming().diff(existing()).affectedKeys().hasOnly(['bikeType', 'name', 'components', 'totalCost', 'estimatedWeight', 'updatedAt'])
+      );
+      allow delete: if isSignedIn() && isValidId(configurationId) && existing().userId == request.auth.uid;
+    }
+  }
+}

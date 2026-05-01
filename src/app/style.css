@@ -1,0 +1,30 @@
+/* src/app/style.css v2.0.0 */
+@theme {
+  --color-bg-base: #fafafa;
+  --color-bg-surface: #f4f4f5;
+  --color-bg-elevated: #ffffff;
+  --color-border: #e4e4e7;
+  --color-text-primary: #18181b;
+  --color-text-secondary: #71717a;
+  --color-accent: #000000;
+  --color-accent-text: #ffffff;
+}
+
+/* Base custom scrollbars for dark mode */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #27272a; /* zinc-800 */
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3f3f46; /* zinc-700 */
+}
