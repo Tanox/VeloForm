@@ -17,6 +17,7 @@
 | [架构概览](./architecture/overview.md) | 项目概述、技术栈、核心架构原则、目录结构 | 了解项目整体架构 |
 | [数据流设计](./architecture/data-flow.md) | 状态管理、组件通信、副作用处理、持久化流程 | 理解数据如何在系统中流动 |
 | [组件设计规范](./architecture/component-design.md) | 组件分类、命名规范、输入输出、变更检测、可访问性 | 开发新组件时参考 |
+| [架构决策记录](./architecture/adr/001-signal-based-state.md) | ADR 001: Signal-based 状态管理 | 理解关键架构决策 |
 
 ### 🔌 API 规范 (API)
 
@@ -37,6 +38,19 @@
 | 文档 | 说明 | 适用场景 |
 |------|------|----------|
 | [环境配置](./deployment/environments.md) | 部署流程、环境变量、SSR 配置、监控、SEO | 部署应用时参考 |
+| [CI/CD 流程](./devops/ci-cd.md) | 分支策略、自动化测试、部署流程、监控告警 | 设置 CI/CD 流水线 |
+
+### 🔒 安全规范 (Security)
+
+| 文档 | 说明 | 适用场景 |
+|------|------|----------|
+| [安全指南](./security/security-guidelines.md) | 认证授权、数据保护、安全审计、威胁防护 | 确保应用安全 |
+
+### ⚡ 性能规范 (Performance)
+
+| 文档 | 说明 | 适用场景 |
+|------|------|----------|
+| [性能优化](./performance/optimization.md) | Bundle 优化、Angular 性能、3D 渲染优化、监控 | 优化应用性能 |
 
 ---
 
