@@ -17,18 +17,30 @@ Veloform 采用基于 Angular Signals 的单向数据流架构，确保状态变
 activeType = signal<'Road' | 'MTB' | 'Fold'>('Road');
 
 // 组件列表
-components = signal<ConfigComponent[]>(DEFAULT_ROAD_COMPONENTS);
+components = signal<ConfigComponent[]>(ROAD_DEFAULTS);
 
 // 用户认证状态
 isLoggedIn = signal<boolean>(false);
-user = signal<User | null>(null);
+isSaving = signal<boolean>(false);
 
 // UI 状态
-isSaving = signal<boolean>(false);
 showLibrary = signal<boolean>(false);
 configId = signal<string | null>(null);
+manualConfigName = signal<string | null>(null);
+
+// DB 组件缓存（用于按车型过滤）
+allDbComponents = signal<ConfigComponent[]>([]);
 
 // 计算属性
+configName = computed(() => {
+  if (this.manualConfigName()) return this.manualConfigName()!;
+  switch(this.activeType()) {
+    case 'Road': return 'S-Works Tarmac SL8';
+    case 'MTB': return 'Epic World Cup';
+    case 'Fold': return 'Brompton T Line';
+  }
+});
+
 totalCost = computed(() =>
   components().reduce((sum, c) => sum + c.price, 0)
 );
@@ -54,7 +66,7 @@ graph TD
     A[app.ts - Root State] -->|input: activeType| B[SidebarComponent]
     A -->|input: components, isSaving| C[BuildListComponent]
     A -->|input: name, type, weight, cost| D[PreviewComponent]
-    A -->|no inputs| E[NavbarComponent]
+    A -->|no input bindings| E[NavbarComponent]
 
     B -->|output: typeSelected| A
     C -->|output: sync/save| F[FirebaseService]

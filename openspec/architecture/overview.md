@@ -1,4 +1,4 @@
-# Veloform 架构概览 (v3.1.0)
+# Veloform 架构概览 (v3.2.0)
 
 ## 项目概述
 
@@ -78,28 +78,28 @@ app.ts (root state)
 src/
 ├── app/
 │   ├── components/                          # UI 组件
-│   │   ├── build-list.ts                    # 构建列表面板 + 同步/部署操作
-│   │   ├── build-list.spec.ts               # 构建列表测试
-│   │   ├── component-selector.ts            # 组件选择器模态框
-│   │   ├── component-selector.spec.ts       # 组件选择器测试
-│   │   ├── confirm-dialog.ts                # 确认对话框组件
-│   │   ├── loading-indicator.ts             # 加载指示器组件
-│   │   ├── navbar.ts                        # 顶部导航栏
-│   │   ├── notification-display.ts          # 通知显示组件
+│   │   ├── build-list.ts                   # 构建列表面板 + 同步/部署操作
+│   │   ├── build-list.spec.ts              # 构建列表测试
+│   │   ├── component-selector.ts           # 组件选择器模态框（v3.2.0 新增）
+│   │   ├── component-selector.spec.ts      # 组件选择器测试
+│   │   ├── confirm-dialog.ts                # 确认对话框 + ConfirmDialogService（v3.2.0 新增）
+│   │   ├── loading-indicator.ts             # 加载指示器组件（v3.2.0 新增）
+│   │   ├── navbar.ts                       # 顶部导航栏
+│   │   ├── notification-display.ts         # 通知显示组件（v3.2.0 新增）
 │   │   ├── notification-display.spec.ts     # 通知显示测试
-│   │   ├── preview.ts                       # 3D Three.js 预览 + 统计页脚
-│   │   └── sidebar.ts                       # 车型选择侧边栏
+│   │   ├── preview.ts                      # 3D Three.js 预览 + 统计页脚
+│   │   └── sidebar.ts                      # 车型选择侧边栏
 │   ├── services/                            # 服务层
-│   │   ├── firebase.ts                      # Firebase 集成（CRUD、认证、错误处理）
+│   │   ├── firebase.ts                     # Firebase 集成（CRUD、认证、错误处理）
 │   │   ├── firebase.spec.ts                 # Firebase 服务测试
-│   │   ├── i18n.ts                          # 国际化服务
-│   │   ├── i18n.spec.ts                     # 国际化服务测试
-│   │   └── notification.ts                  # 通知管理服务
+│   │   ├── i18n.ts                         # 国际化服务
+│   │   ├── i18n.spec.ts                    # 国际化服务测试
+│   │   └── notification.ts                 # 通知管理服务（v3.2.0 新增）
 │   ├── app.ts                               # 根组件（状态管理、布局编排）
-│   ├── app.config.ts                        # 浏览器应用配置
-│   ├── app.config.server.ts                 # 服务器应用配置（SSR）
-│   ├── app.routes.ts                        # 客户端路由定义
-│   ├── app.routes.server.ts                 # 服务器路由定义
+│   ├── app.config.ts                        # 浏览器应用配置（provideRouter, provideBrowserGlobalErrorListeners）
+│   ├── app.config.server.ts                 # SSR 服务器应用配置
+│   ├── app.routes.ts                       # 客户端路由定义（当前为空 SPA）
+│   ├── app.routes.server.ts                 # 服务器路由定义（Prerender 配置）
 │   ├── app.constants.ts                     # 静态默认组件数据
 │   ├── types.ts                             # TypeScript 类型定义
 │   ├── style.css                            # 组件作用域样式 + Tailwind 主题
@@ -107,9 +107,9 @@ src/
 ├── main.ts                                  # 浏览器入口
 ├── main.server.ts                           # SSR 入口
 ├── server.ts                                # Express SSR 服务器
+├── routes.ts                                # 应用路由配置（含懒加载 /config/:id 路由）
 ├── styles.css                               # 全局样式
 ├── index.html                               # HTML 壳（SEO 元标签、JSON-LD）
-├── routes.ts                                # 路由配置
 └── globals.d.ts                             # 全局类型声明
 ```
 

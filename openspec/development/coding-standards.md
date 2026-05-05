@@ -355,7 +355,7 @@ class MockFirebaseService {
     return Promise.resolve();
   }
 
-  saveConfiguration(config: Configuration): Promise<void> {
+  saveConfiguration(config: Configuration): Promise<string> {
     return Promise.resolve();
   }
 }
@@ -412,7 +412,7 @@ async function saveConfig(config: Configuration): Promise<void> {
     };
 
     console.error('[Save Config Error]', appError);
-    notificationService.show('Failed to save configuration', 'error');
+    notificationService.error('Failed to save configuration');
     throw appError;
   }
 }

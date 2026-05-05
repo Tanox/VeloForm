@@ -54,23 +54,7 @@ try {
 |------|------|------|------|
 | `config` | `Configuration` | Yes | 配置对象 |
 
-**Configuration Schema**：
-
-```typescript
-interface Configuration {
-  id?: string;                    // Firestore Document ID (auto-generated)
-  userId?: string;                // Owner's Firebase Auth UID (set server-side)
-  bikeType: 'Road' | 'MTB' | 'Fold';
-  name: string;                   // Max 200 chars
-  components: ConfigComponent[];  // Max 50 items
-  totalCost: number;              // USD, must be >= 0
-  estimatedWeight: number;        // kg, must be > 0
-  createdAt?: Timestamp;          // Server timestamp (set on create)
-  updatedAt?: Timestamp;          // Server timestamp (set on every save)
-}
-```
-
-**返回值**: `Promise<void>`
+**返回值**: `Promise<string>` — 返回新建或更新后 Firestore 文档 ID
 
 **行为**：
 - 如果 `config.id` 存在：执行 merge update
@@ -236,27 +220,23 @@ const roadComponents = allComponents.filter(c => c.bikeType === 'Road');
 **种子数据结构**：
 
 ```typescript
-const SEED_COMPONENTS: DatabaseComponent[] = [
-  // Road Bike Components (4 items)
-  {
-    id: 'frame_road_sl8',
-    category: 'Frame',
-    bikeType: 'Road',
-    name: 'S-Works Tarmac SL8 Frame',
-    price: 3500,
-    weight: 795,
-    specs: 'Carbon Fact 12r'
-  },
-  {
-    id: 'drivetrain_road_duraace',
-    category: 'Drivetrain',
-    bikeType: 'Road',
-    name: 'Shimano Dura-Ace Di2 R9200',
-    price: 2800,
-    weight: 1520,
-    specs: '12-speed Electronic'
-  },
-  // ... more components
+const SEED_COMPONENTS = [
+  // Road (4 items)
+  { id: 'frame_road_sl8', category: 'Frame', bikeType: 'Road', name: 'S-Works Tarmac SL8', price: 5500, weight: 850, specs: 'Carbon Fact 12r' },
+  { id: 'frame_road_aethos', category: 'Frame', bikeType: 'Road', name: 'Aethos Pro', price: 4200, weight: 685, specs: 'Carbon Fact 10r' },
+  { id: 'drive_road_da', category: 'Drivetrain', bikeType: 'Road', name: 'Shimano Dura-Ace Di2 R9200', price: 4200, weight: 2430, specs: '12-speed electronic' },
+  { id: 'wheel_road_clx', category: 'Wheelset', bikeType: 'Road', name: 'Roval Rapide CLX II', price: 2800, weight: 1520, specs: 'Aero Carbon' },
+
+  // MTB (4 items)
+  { id: 'frame_mtb_epic', category: 'Frame', bikeType: 'MTB', name: 'Epic World Cup', price: 3500, weight: 1750, specs: 'Carbon, 75mm travel' },
+  { id: 'drive_mtb_xx1', category: 'Drivetrain', bikeType: 'MTB', name: 'SRAM XX1 Eagle AXS', price: 2500, weight: 1515, specs: '12-speed wireless' },
+  { id: 'susp_mtb_fox34', category: 'Suspension', bikeType: 'MTB', name: 'Fox 34 Float Factory', price: 1050, weight: 1738, specs: '120mm travel' },
+  { id: 'wheel_mtb_res30', category: 'Wheelset', bikeType: 'MTB', name: 'Reserve 30|SL', price: 1800, weight: 1650, specs: 'Carbon MTB' },
+
+  // Fold (3 items)
+  { id: 'frame_fold_tline', category: 'Frame', bikeType: 'Fold', name: 'Brompton T Line Titanium', price: 2100, weight: 1800, specs: 'Titanium' },
+  { id: 'drive_fold_6spd', category: 'Drivetrain', bikeType: 'Fold', name: 'Brompton 6-Speed', price: 400, weight: 1200, specs: 'Internal hub' },
+  { id: 'wheel_fold_super', category: 'Wheelset', bikeType: 'Fold', name: 'Brompton Superlight', price: 800, weight: 1100, specs: '16 inch' }
 ];
 ```
 

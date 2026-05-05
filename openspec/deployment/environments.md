@@ -116,56 +116,54 @@ npm run dev
 
 ### Express Server 配置
 
-**server.ts**：
+**server.ts**（使用 `AngularNodeAppEngine`，非 `CommonEngine`）：
 
 ```typescript
-import 'zone.js/node';
-import { APP_BASE_HREF } from '@angular/common';
-import { CommonEngine } from '@angular/ssr/node';
+import {
+  AngularNodeAppEngine,
+  createNodeRequestHandler,
+  isMainModule,
+  writeResponseToNodeResponse,
+} from '@angular/ssr/node';
 import express from 'express';
-import { fileURLToPath } from 'node:url';
-import { dirname, join, resolve } from 'node:path';
-import bootstrap from './src/main.server';
+import {join} from 'node:path';
 
-const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-const browserDistFolder = resolve(serverDistFolder, '../browser');
-const indexHtml = join(serverDistFolder, 'index.server.html');
+const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
-const commonEngine = new CommonEngine();
+const angularApp = new AngularNodeAppEngine();
 
-app.set('view engine', 'html');
-app.set('views', browserDistFolder);
+app.use(
+  express.static(browserDistFolder, {
+    maxAge: '1y',
+    index: false,
+    redirect: false,
+  }),
+);
 
-// Serve static files
-app.get('*.*', express.static(browserDistFolder, {
-  maxAge: '1y'
-}));
-
-// All regular routes use the Angular engine
-app.get('*', (req, res, next) => {
-  const { protocol, originalUrl, baseUrl, headers } = req;
-
-  commonEngine
-    .render({
-      bootstrap,
-      documentFilePath: indexHtml,
-      url: `${protocol}://${headers.host}${originalUrl}`,
-      publicPath: browserDistFolder,
-      providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
-    })
-    .then((html) => res.send(html))
-    .catch((err) => next(err));
+app.use((req, res, next) => {
+  angularApp
+    .handle(req)
+    .then((response) =>
+      response ? writeResponseToNodeResponse(response, res) : next(),
+    )
+    .catch(next);
 });
 
-function run(): void {
+if (isMainModule(import.meta.url) || process.env['pm_id']) {
   const port = process.env['PORT'] || 4000;
-  app.listen(port, () => {
+  app.listen(port, (error) => {
+    if (error) throw error;
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
 
-run();
+export const reqHandler = createNodeRequestHandler(app);
+```
+
+**请求处理器**用于 Angular CLI 开发服务器或 Firebase Cloud Functions：
+```typescript
+export const reqHandler = createNodeRequestHandler(app);
 ```
 
 ### 运行 SSR 服务
@@ -189,21 +187,30 @@ npm run serve:ssr:app
 
 ### firebase-applet-config.json
 
+项目使用专用的 Firebase Applet 配置格式（注意字段名与标准 Firebase SDK 格式略有不同）：
+
 ```json
 {
+  "projectId": "veloform-dev",
+  "appId": "1:123456789:web:abcdef",
   "apiKey": "YOUR_API_KEY",
-  "authDomain": "YOUR_PROJECT.firebaseapp.com",
-  "projectId": "YOUR_PROJECT_ID",
-  "storageBucket": "YOUR_PROJECT.appspot.com",
-  "messagingSenderId": "YOUR_SENDER_ID",
-  "appId": "YOUR_APP_ID"
+  "authDomain": "veloform-dev.firebaseapp.com",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "veloform-dev.appspot.com",
+  "messagingSenderId": "123456789",
+  "measurementId": "G-XXXXXXXXXX"
 }
 ```
 
+**读取方式**：直接通过 `import` 导入 JSON 文件（`firebase.ts`）：
+```typescript
+import firebaseConfig from '../../../firebase-applet-config.json';
+```
+
 **安全提醒**：
-- 此文件包含占位符，实际配置通过环境变量注入
-- 不要提交真实的 Firebase 密钥到仓库
-- 使用 Firebase App Check 保护 API
+- 此文件包含占位符占位符占位符，实际配置通过环境变量注入（Vercel Secrets 面板）。
+- 不要提交真实的 Firebase 密钥到仓库（已加入 `.gitignore`）。
+- `firestoreDatabaseId` 字段为 Veloform 特有，用于支持多数据库。
 
 ### Firestore 安全规则部署
 

@@ -187,14 +187,16 @@ const dbComponent: DatabaseComponent = {
 
 ## 默认数据集
 
+> ⚠️ 以下为 `app.constants.ts` 中定义的静态默认数据，与 Firestore `components` 集合中的种子数据可能存在差异。实际组件以 `getComponentsFromDB()` 返回的 Firestore 数据为准。
+
 ### Road Bike 默认组件
 
-| ID | Category | Name | Price | Weight | Specs |
-|----|----------|------|-------|--------|-------|
-| `frame_road_sl8` | Frame | S-Works Tarmac SL8 Frame | $3500 | 795g | Carbon Fact 12r |
-| `drivetrain_road_duraace` | Drivetrain | Shimano Dura-Ace Di2 R9200 | $2800 | 1520g | 12-speed Electronic |
-| `wheelset_road_clx64` | Wheelset | Roval CLX 64 | $2200 | 1370g | 64mm Deep Section |
-| `cockpit_road_sl` | Cockpit | Specialized SL Stem/Bar | $450 | 320g | Integrated Carbon |
+| ID | Category | Name | Price | Weight |
+|----|----------|------|-------|--------|
+| `1` | Drivetrain | Shimano Dura-Ace Di2 R9200 | $4200 | 2430g |
+| `2` | Wheelset | Roval Rapide CLX II | $2800 | 1520g |
+| `3` | Cockpit | Roval Rapide Cockpit | $600 | 310g |
+| `4` | Tires | Turbo Cotton 28mm | $180 | 480g |
 
 **Base Frame Weight**: 900g
 
@@ -202,12 +204,12 @@ const dbComponent: DatabaseComponent = {
 
 ### MTB 默认组件
 
-| ID | Category | Name | Price | Weight | Specs |
-|----|----------|------|-------|--------|-------|
-| `frame_mtb_epic` | Frame | Epic World Cup Frame | $2800 | 1650g | FACT 12m Carbon |
-| `drivetrain_mtb_xtr` | Drivetrain | Shimano XTR M9200 | $1800 | 1200g | 12-speed Mechanical |
-| `suspension_mtb_sid` | Suspension | RockShox SID SL Ultimate | $1100 | 1450g | 120mm Travel |
-| `wheelset_mtb_control` | Wheelset | Roval Control SL | $1800 | 1400g | 29" Carbon |
+| ID | Category | Name | Price | Weight |
+|----|----------|------|-------|--------|
+| `5` | Drivetrain | SRAM XX1 Eagle AXS | $2500 | 1515g |
+| `6` | Suspension | Fox 34 Float Factory | $1050 | 1738g |
+| `7` | Wheelset | Reserve 30\|SL | $1800 | 1650g |
+| `8` | Tires | Maxxis Rekon 2.4 | $160 | 1600g |
 
 **Base Frame Weight**: 1800g
 
@@ -215,11 +217,11 @@ const dbComponent: DatabaseComponent = {
 
 ### Fold 默认组件
 
-| ID | Category | Name | Price | Weight | Specs |
-|----|----------|------|-------|--------|-------|
-| `frame_fold_brompton` | Frame | Brompton T Line Frame | $4500 | 1850g | Titanium |
-| `drivetrain_fold_internal` | Drivetrain | Brompton Internal 6-speed | $800 | 900g | Internal Gear Hub |
-| `wheelset_fold_custom` | Wheelset | Brompton Custom Wheels | $600 | 800g | 16" Aluminum |
+| ID | Category | Name | Price | Weight |
+|----|----------|------|-------|--------|
+| `9` | Drivetrain | Brompton 6-Speed | $400 | 1200g |
+| `10` | Frame | Titanium Main Frame | $2100 | 1800g |
+| `11` | Wheelset | Brompton Superlight | $800 | 1100g |
 
 **Base Frame Weight**: 2000g
 
@@ -234,26 +236,18 @@ const dbComponent: DatabaseComponent = {
 
 export type BikeType = 'Road' | 'MTB' | 'Fold';
 
-export type ComponentCategory =
-  | 'Frame'
-  | 'Drivetrain'
-  | 'Wheelset'
-  | 'Suspension'
-  | 'Cockpit'
-  | 'Tires';
-
 export interface ConfigComponent {
   id: string;
-  category: ComponentCategory;
+  category: string;        // 'Frame' | 'Drivetrain' | 'Wheelset' | 'Suspension' | 'Cockpit' | 'Tires'
   name: string;
-  price: number;
-  weight: number; // grams
-  bikeType?: BikeType;
+  price: number;           // USD
+  weight: number;          // grams
+  bikeType?: BikeType;     // 仅在 DB 组件中使用
 }
 
 export interface DatabaseComponent extends ConfigComponent {
-  bikeType: BikeType; // Required in DB
-  specs: string;
+  bikeType: BikeType;     // DB 中必填
+  specs: string;          // 规格描述字符串
 }
 
 export interface Configuration {
@@ -263,7 +257,7 @@ export interface Configuration {
   name: string;
   components: ConfigComponent[];
   totalCost: number;
-  estimatedWeight: number; // kg
+  estimatedWeight: number; // kg（含基础车架重量）
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
 }
@@ -273,23 +267,25 @@ export interface Configuration {
 
 ## ER 图
 
+> ⚠️ Firestore 为文档数据库（非关系型），以下 ER 图仅为概念性参考，展示数据实体之间的关系。Firestore 中无真正的外键约束。
+
 ```mermaid
 erDiagram
+    CONFIGURATIONS ||--o{ COMPONENTS_IN_CONFIG : contains
     USERS ||--o{ CONFIGURATIONS : owns
-    CONFIGURATIONS ||--|{ COMPONENTS_IN_CONFIG : contains
     DATABASE_COMPONENTS ||--o{ COMPONENTS_IN_CONFIG : "referenced by"
 
     USERS {
-        string uid PK
-        string email
-        string displayName
-        string photoURL
+        string uid PK "Firebase Auth UID"
+        string email "来自 Firebase Auth"
+        string displayName "可选"
+        string photoURL "可选"
     }
 
     CONFIGURATIONS {
-        string id PK
-        string userId FK
-        string bikeType
+        string id PK "Firestore Document ID"
+        string userId FK "Firebase Auth UID"
+        string bikeType "Road | MTB | Fold"
         string name
         number totalCost
         number estimatedWeight
@@ -298,9 +294,9 @@ erDiagram
     }
 
     DATABASE_COMPONENTS {
-        string id PK
-        string category
-        string bikeType
+        string id PK "Firestore Document ID (如 frame_road_sl8)"
+        string category "Frame | Drivetrain | Wheelset | ..."
+        string bikeType "Road | MTB | Fold"
         string name
         number price
         number weight
@@ -308,9 +304,9 @@ erDiagram
     }
 
     COMPONENTS_IN_CONFIG {
-        string configId FK
-        string componentId FK
-        number quantity
+        string configId FK "指向 CONFIGURATIONS"
+        string componentId "组件 ID"
+        string componentSnapshot "ConfigComponent 快照数据"
     }
 ```
 
