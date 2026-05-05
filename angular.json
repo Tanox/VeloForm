@@ -67,6 +67,10 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "port": 4242,
+            "host": "0.0.0.0"
+          },
           "configurations": {
             "production": {
               "buildTarget": "app:build:production"
