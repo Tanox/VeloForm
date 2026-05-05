@@ -1,4 +1,4 @@
-// src/app/components/preview.ts v3.1.1
+// src/app/components/preview.ts v3.2.0
 import { ChangeDetectionStrategy, Component, input, effect, ElementRef, ViewChild, AfterViewInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { DecimalPipe, CurrencyPipe } from '@angular/common';

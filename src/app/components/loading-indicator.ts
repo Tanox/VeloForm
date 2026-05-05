@@ -1,4 +1,4 @@
-// src/app/components/loading-indicator.ts v3.1.1
+// src/app/components/loading-indicator.ts v3.2.0
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
