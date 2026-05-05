@@ -203,7 +203,8 @@ async function seedComponents() {
   for (const s of seeds) {
     try {
       await setDoc(doc(collection(db, 'components'), s.id), s);
-    } catch {
+    } catch (error) {
+      console.error(`Failed to seed component ${s.id}:`, error);
     }
   }
 }

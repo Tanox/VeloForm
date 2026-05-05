@@ -1,4 +1,5 @@
-// src/app/types.ts v3.1.1 - Enhanced type definitions with JSDoc
+// src/app/types.ts v3.2.0 - Enhanced type definitions with JSDoc
+import { Timestamp } from 'firebase/firestore';
 
 /**
  * Represents a single component in a bike configuration.
@@ -7,21 +8,21 @@
 export interface ConfigComponent {
   /** Unique identifier for the component */
   id: string;
-  
+
   /** Component category (e.g., 'Drivetrain', 'Wheelset', 'Frame') */
   category: string;
-  
+
   /** Display name of the component */
   name: string;
-  
+
   /** Price in USD */
   price: number;
-  
+
   /** Weight in grams */
   weight: number;
-  
+
   /** Bike type this component is compatible with (optional) */
-  bikeType?: 'Road' | 'MTB' | 'Fold';
+  bikeType?: BikeType;
 
   /** Optional specifications or detailed description */
   specs?: string;
@@ -34,30 +35,30 @@ export interface ConfigComponent {
 export interface Configuration {
   /** Unique identifier for the configuration (auto-generated at save time) */
   id?: string;
-  
+
   /** Firebase user ID of the configuration owner */
   userId?: string;
-  
+
   /** Type of bike this configuration is for */
-  bikeType: 'Road' | 'MTB' | 'Fold';
-  
+  bikeType: BikeType;
+
   /** Display name for the configuration */
   name: string;
-  
+
   /** Array of components that make up this configuration */
   components: ConfigComponent[];
-  
+
   /** Total cost of all components in USD */
   totalCost: number;
-  
+
   /** Estimated weight of the complete bike in kilograms */
   estimatedWeight: number;
-  
+
   /** Server timestamp when the configuration was created */
-  createdAt?: any; // Firebase serverTimestamp type
-  
+  createdAt?: Timestamp;
+
   /** Server timestamp when the configuration was last updated */
-  updatedAt?: any; // Firebase serverTimestamp type
+  updatedAt?: Timestamp;
 }
 
 /** Type for bike categories */

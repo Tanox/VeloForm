@@ -1,5 +1,5 @@
-// src/app/app.ts v3.1.1
-import { ChangeDetectionStrategy, Component, computed, signal, OnInit, effect } from '@angular/core';
+// src/app/app.ts v3.2.0 - Refactored with ConfigStore and ConfigService
+import { ChangeDetectionStrategy, Component, computed, effect, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from './components/navbar';
 import { DecimalPipe } from '@angular/common';
@@ -9,12 +9,11 @@ import { BuildListComponent } from './components/build-list';
 import { NotificationDisplayComponent } from './components/notification-display';
 import { ConfirmDialogComponent, confirmDialogService } from './components/confirm-dialog';
 import { ComponentSelectorComponent } from './components/component-selector';
-import { Configuration, ConfigComponent } from './types';
-import { saveConfiguration, auth, getUserConfigurations, deleteConfiguration, getComponentsFromDB } from './services/firebase';
+import { ConfigComponent, Configuration } from './types';
+import { auth } from './services/firebase';
 import { TPipe, t } from './services/i18n';
-import { notificationService } from './services/notification';
-import { onAuthStateChanged } from 'firebase/auth';
-import { ROAD_DEFAULTS, MTB_DEFAULTS, FOLD_DEFAULTS } from './app.constants';
+import { configStore } from './services/config.store';
+import { configService } from './services/config.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,73 +23,70 @@ import { ROAD_DEFAULTS, MTB_DEFAULTS, FOLD_DEFAULTS } from './app.constants';
   template: `
   <app-notification-display></app-notification-display>
   <app-confirm-dialog></app-confirm-dialog>
-  
-  <!-- Component Selector Modal -->
-  @if (showComponentSelector()) {
-    <app-component-selector 
-      [allComponents]="allDbComponents()"
-      [currentComponentId]="editingComponentId()"
-      [bikeType]="activeType()"
-      (close)="showComponentSelector.set(false)"
+
+  @if (configStore.showComponentSelector()) {
+    <app-component-selector
+      [allComponents]="configStore.allDbComponents()"
+      [currentComponentId]="configStore.editingComponentId()"
+      [bikeType]="configStore.activeType()"
+      (close)="configStore.setShowComponentSelector(false)"
       (select)="onComponentSelected($event)">
     </app-component-selector>
   }
-  
+
   <div class="bg-[#0a0a0b] text-zinc-300 font-sans w-full h-screen overflow-hidden flex flex-col relative">
-    <app-navbar (openLibrary)="showLibrary.set(true)"></app-navbar>
+    <app-navbar (openLibrary)="onOpenLibrary()"></app-navbar>
 
     <main class="flex flex-1 overflow-hidden flex-col md:flex-row relative">
-      <!-- Hidden on small screens, can implement a mobile drawer if needed -->
-      <app-sidebar class="hidden md:flex h-full" [activeType]="activeType()" (typeSelected)="onTypeSelected($event)"></app-sidebar>
-      
-      <!-- Mobile Category Selector -->
+      <app-sidebar class="hidden md:flex h-full" [activeType]="configStore.activeType()" (typeSelected)="onTypeSelected($event)"></app-sidebar>
+
       <div class="flex md:hidden w-full border-b border-zinc-800 bg-[#0c0c0d] p-2 gap-2 justify-center">
         @for (type of bikeTypes; track type) {
-          <button 
-            (click)="onTypeSelected(type)" 
+          <button
+            (click)="onTypeSelected(type)"
             class="px-4 py-2 text-xs font-bold uppercase rounded-lg border border-zinc-800"
-            [class.bg-zinc-800]="activeType() === type"
-            [class.text-white]="activeType() === type"
-            [class.text-zinc-500]="activeType() !== type">
+            [class.bg-zinc-800]="configStore.activeType() === type"
+            [class.text-white]="configStore.activeType() === type"
+            [class.text-zinc-500]="configStore.activeType() !== type">
             {{ type === 'Road' ? ('sidebar.road' | t) : type === 'MTB' ? ('sidebar.mtb' | t) : ('sidebar.fold' | t) }}
           </button>
         }
       </div>
 
       <div class="flex flex-col md:flex-row flex-1 overflow-hidden relative">
-        <app-preview 
+        <app-preview
           class="flex-1 h-[50vh] md:h-full relative flex flex-col z-10 border-b md:border-b-0 md:border-r border-zinc-800 shadow-2xl"
-          [name]="configName()" 
-          [type]="activeType()"
-          [weight]="totalWeight()" 
-          [cost]="totalCost()">
+          [name]="configStore.configName()"
+          [type]="configStore.activeType()"
+          [weight]="configStore.totalWeight()"
+          [cost]="configStore.totalCost()">
         </app-preview>
-        
-        <app-build-list 
+
+        <app-build-list
           class="h-[50vh] md:h-full shrink-0 relative z-10 bg-[#0a0a0b]"
-          [components]="components()" 
-          [isSaving]="isSaving()"
-          (sync)="onSync()" 
+          [components]="configStore.components()"
+          [isSaving]="configStore.isSaving()"
+          (sync)="onSync()"
           (deploy)="onDeploy()"
           (edit)="onEditComponent($event)">
         </app-build-list>
 
-        @if (showLibrary()) {
+        @if (configStore.showLibrary()) {
           <div class="absolute inset-0 z-50 bg-[#0a0a0b]/90 backdrop-blur-xl p-10 flex flex-col pt-10" id="library-modal">
             <div class="flex justify-between items-center mb-10 w-full mx-auto">
               <h2 class="text-3xl font-light text-white">{{ 'library.title' | t }}</h2>
-              <button (click)="showLibrary.set(false)" class="p-2 hover:bg-zinc-800 rounded-full cursor-pointer" [attr.aria-label]="'library.close' | t">
+              <button (click)="onCloseLibrary()" class="p-2 hover:bg-zinc-800 rounded-full cursor-pointer" [attr.aria-label]="'library.close' | t">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="stroke-white" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
               </button>
             </div>
-            
+
             <div class="w-full mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-y-auto">
-              @if (!isLoggedIn()) {
+              @if (!configStore.isLoggedIn()) {
                 <div class="col-span-full text-center text-zinc-500 py-20">{{ 'library.login_required' | t }}</div>
-              } @else if (myConfigs().length === 0) {
+              } @else if (configStore.myConfigs().length === 0) {
                 <div class="col-span-full text-center text-zinc-500 py-20">{{ 'library.no_builds' | t }}</div>
               } @else {
-                @for (cfg of myConfigs(); track cfg.id) {
+                @for (cfg of configStore.myConfigs(); track cfg.id) {
                   <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 hover:border-zinc-600 transition-colors cursor-pointer group" (click)="loadConfig(cfg)" (keydown.enter)="loadConfig(cfg)" tabindex="0">
                     <div class="flex justify-between items-start mb-4">
                       <div>
@@ -118,99 +114,35 @@ import { ROAD_DEFAULTS, MTB_DEFAULTS, FOLD_DEFAULTS } from './app.constants';
 })
 export class App implements OnInit {
   bikeTypes = ['Road', 'MTB', 'Fold'] as const;
-  activeType = signal<'Road' | 'MTB' | 'Fold'>('Road');
-  components = signal<ConfigComponent[]>(ROAD_DEFAULTS);
-  isSaving = signal(false);
-  configId = signal<string | null>(null);
-  manualConfigName = signal<string | null>(null);
-
-  allDbComponents = signal<ConfigComponent[]>([]);
-
-  showLibrary = signal(false);
-  myConfigs = signal<Configuration[]>([]);
-  isLoggedIn = signal(false);
-  
-  // Component selector state
-  showComponentSelector = signal(false);
-  editingComponentId = signal<string>('');
-
-  configName = computed(() => {
-    if (this.manualConfigName()) return this.manualConfigName()!;
-    switch(this.activeType()) {
-      case 'Road': return t('bike.name.road');
-      case 'MTB': return t('bike.name.mtb');
-      case 'Fold': return t('bike.name.fold');
-    }
-  });
+  configStore = configStore;
 
   constructor(private router: Router) {
-    onAuthStateChanged(auth, (u: any) => {
-      this.isLoggedIn.set(!!u);
-      if (u && this.showLibrary()) {
-        this.fetchMyConfigs();
-      }
-    });
-
     effect(() => {
-      // Refresh configs when library opens
-      if (this.showLibrary() && this.isLoggedIn()) {
-         this.fetchMyConfigs();
+      const loggedIn = configStore.isLoggedIn();
+      if (loggedIn && configStore.showLibrary()) {
+        configService.refreshMyConfigs();
       }
     });
   }
 
   async ngOnInit() {
-    this.allDbComponents.set(await getComponentsFromDB());
-    // Auto-populate based on DB if we want, but defaults are fine too
+    await configService.initializeApp();
   }
-
-  async fetchMyConfigs() {
-    this.myConfigs.set(await getUserConfigurations());
-  }
-
-  totalCost = computed(() => this.components().reduce((acc: number, c: ConfigComponent) => acc + c.price, 0));
-  
-  baseWeight = computed(() => {
-    switch(this.activeType()) {
-      case 'Road': return 900;
-      case 'MTB': return 1800;
-      case 'Fold': return 2000;
-      default: return 900; // fallback
-    }
-  });
-
-  totalWeight = computed(() => {
-    const compWeight = this.components().reduce((acc: number, c: ConfigComponent) => acc + c.weight, 0);
-    return (this.baseWeight() + compWeight) / 1000; // in kg
-  });
 
   onTypeSelected(type: 'Road' | 'MTB' | 'Fold') {
-    this.activeType.set(type);
-    this.configId.set(null);
-    this.manualConfigName.set(null);
-    
-    // Attempt to pull from DB if downloaded
-    const dbFiltered = this.allDbComponents().filter((c: ConfigComponent) => c.bikeType === type);
-    
-    if (dbFiltered.length > 0) {
-      this.components.set(dbFiltered);
-    } else {
-      switch(type) {
-        case 'Road': this.components.set(ROAD_DEFAULTS); break;
-        case 'MTB': this.components.set(MTB_DEFAULTS); break;
-        case 'Fold': this.components.set(FOLD_DEFAULTS); break;
-      }
-    }
+    configService.onTypeSelected(type);
+  }
+
+  onOpenLibrary() {
+    configService.toggleLibrary(true);
+  }
+
+  onCloseLibrary() {
+    configService.toggleLibrary(false);
   }
 
   loadConfig(cfg: Configuration) {
-    this.activeType.set(cfg.bikeType as 'Road'|'MTB'|'Fold');
-    this.manualConfigName.set(cfg.name);
-    this.components.set(cfg.components);
-    this.configId.set(cfg.id || null);
-    this.showLibrary.set(false);
-    
-    // Update URL to reflect current configuration
+    configService.loadConfiguration(cfg);
     if (cfg.id) {
       this.router.navigate(['/config', cfg.id]);
     }
@@ -219,84 +151,34 @@ export class App implements OnInit {
   async removeConfig(id: string | undefined, event: Event) {
     event.stopPropagation();
     if (!id) return;
-    
-    // Use custom confirm dialog instead of native confirm()
+
     const confirmed = await confirmDialogService.confirm({
       title: 'library.confirm_delete_title',
       message: 'library.confirm_delete_message',
       confirmText: 'library.delete',
       cancelText: 'library.cancel'
     });
-    
+
     if (!confirmed) return;
-    
-    try {
-      await deleteConfiguration(id);
-      await this.fetchMyConfigs();
-      if (this.configId() === id) {
-        this.configId.set(null); 
-        this.onTypeSelected(this.activeType()); // Reset to defaults
-      }
-    } catch {
-    }
+    await configService.removeConfig(id);
   }
 
   async onSync() {
-    if (!auth.currentUser) {
-      // Notification will be shown by saveConfiguration
-      return;
-    }
-    
-    this.isSaving.set(true);
-    
-    const config: Configuration = {
-      id: this.configId() || undefined,
-      bikeType: this.activeType(),
-      name: this.configName(),
-      components: this.components(),
-      totalCost: this.totalCost(),
-      estimatedWeight: this.totalWeight(),
-    };
-
-    try {
-      const newId = await saveConfiguration(config);
-      this.configId.set(newId);
-      
-      // Update URL to reflect the saved configuration
+    const newId = await configService.saveCurrentConfig();
+    if (newId) {
       this.router.navigate(['/config', newId]);
-    } catch {
-    } finally {
-      this.isSaving.set(false);
     }
   }
 
   onDeploy() {
-    notificationService.info('Deployment initiated to Vercel (Mock). Production build triggered.', 4000);
+    configService.onDeploy();
   }
-  
-  /**
-   * Open component selector for editing a component
-   */
+
   onEditComponent(component: ConfigComponent) {
-    this.editingComponentId.set(component.id);
-    this.showComponentSelector.set(true);
+    configService.openComponentEditor(component);
   }
-  
-  /**
-   * Handle component selection from the selector modal
-   */
+
   onComponentSelected(newComponent: ConfigComponent) {
-    const oldComponentId = this.editingComponentId();
-    
-    // Replace the component in the current configuration
-    this.components.update(comps => 
-      comps.map(c => c.id === oldComponentId ? newComponent : c)
-    );
-    
-    // Close the selector
-    this.showComponentSelector.set(false);
-    
-    // Show success notification
-    notificationService.success(`Component updated: ${newComponent.name}`, 2000);
+    configService.updateComponent(newComponent);
   }
 }

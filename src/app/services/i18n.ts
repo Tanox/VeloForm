@@ -49,7 +49,8 @@ const translations: Record<SupportedLang, Record<string, string>> = {
     'selector.current': 'Current',
     'selector.no_components': 'No components available for this category.',
     'selector.cancel': 'Cancel',
-    'build.edit_component': 'Edit'
+    'build.edit_component': 'Edit',
+    'auth.login_required': 'Please log in to save configurations.'
   },
   'zh-CN': {
     'nav.configurator': '装车配置',
@@ -93,7 +94,8 @@ const translations: Record<SupportedLang, Record<string, string>> = {
     'selector.current': '当前',
     'selector.no_components': '此类别下没有可用组件。',
     'selector.cancel': '取消',
-    'build.edit_component': '编辑'
+    'build.edit_component': '编辑',
+    'auth.login_required': '请登录以保存配置。'
   }
 };
 
