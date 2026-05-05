@@ -1,6 +1,6 @@
 # Veloform 自行车装车配置器
 
-[English Version](./README.md)
+[English Version](./README_EN.md)
 
 Veloform 是一款基于 Angular、Tailwind CSS 并由 Firebase 驱动的高级自行车配置器应用。它允许用户浏览和定制不同类别自行车的配置清单，包括公路车 (Road)、山地车 (MTB) 和折叠车 (Fold)。
 
@@ -42,4 +42,4 @@ npm run dev
 
 ## 版本信息
 
-当前运行版本 **v3.1.1**.
+当前运行版本 **v3.2.0**.
