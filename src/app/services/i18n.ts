@@ -1,4 +1,4 @@
-// src/app/services/i18n.ts v3.1.1 - Internationalization service
+// src/app/services/i18n.ts v3.2.0 - Internationalization service
 /**
  * Supported languages for the application
  */

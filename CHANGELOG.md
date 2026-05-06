@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.2.0]
 ### Added
 - New SVG logo and favicon with bicycle frame geometry design.
+- Component selector modal dialog for editing bike parts.
+- Notification system with toast-style notifications.
+- Confirm dialog service for user confirmation prompts.
+- Loading indicator component for async operations.
+- ConfigStore and ConfigService for centralized state management.
+- Routing system with /config/:id route for sharing builds.
+- Enhanced type definitions with complete JSDoc comments.
 
 ## [3.1.1]
 ### Fixed

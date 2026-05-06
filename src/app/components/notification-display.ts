@@ -1,4 +1,4 @@
-// src/app/components/notification-display.ts v3.1.1
+// src/app/components/notification-display.ts v3.2.0
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { notificationService } from '../services/notification';
 

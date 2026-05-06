@@ -1,4 +1,4 @@
-// src/app/services/notification.ts v3.1.1
+// src/app/services/notification.ts v3.2.0
 import { signal } from '@angular/core';
 
 export interface Notification {
