@@ -1,9 +1,34 @@
-// src/app/services/firebase.ts v3.1.0
+// src/app/services/firebase.ts v3.2.0
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore, doc, setDoc, getDoc, collection, serverTimestamp, getDocs, deleteDoc, query, where } from 'firebase/firestore';
-import firebaseConfig from '../../../firebase-applet-config.json';
+import fallbackConfig from '../../../firebase-applet-config.json';
 import { Configuration, ConfigComponent } from '../types';
+import { notificationService } from './notification';
+
+// Export notificationService for use in tests and components
+export { notificationService };
+
+// Load Firebase config from environment variables or fallback to JSON file
+const getEnv = () => {
+  try {
+    return (import.meta as any).env || {};
+  } catch {
+    return {};
+  }
+};
+
+const env = getEnv();
+const firebaseConfig = {
+  projectId: env.VITE_FIREBASE_PROJECT_ID || fallbackConfig.projectId,
+  appId: env.VITE_FIREBASE_APP_ID || fallbackConfig.appId,
+  apiKey: env.VITE_FIREBASE_API_KEY || fallbackConfig.apiKey,
+  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || fallbackConfig.authDomain,
+  firestoreDatabaseId: env.VITE_FIRESTORE_DATABASE_ID || fallbackConfig.firestoreDatabaseId,
+  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || fallbackConfig.storageBucket,
+  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID || fallbackConfig.messagingSenderId,
+  measurementId: env.VITE_FIREBASE_MEASUREMENT_ID || fallbackConfig.measurementId,
+};
 
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
@@ -18,6 +43,10 @@ enum OperationType {
   WRITE = 'write',
 }
 
+/**
+ * Firestore error information structure for logging and debugging
+ * @internal
+ */
 interface FirestoreErrorInfo {
   error: string;
   operationType: OperationType;
@@ -25,31 +54,57 @@ interface FirestoreErrorInfo {
   authInfo: Record<string, unknown>;
 }
 
+/**
+ * Handle Firestore errors with user-friendly notifications
+ * @param error - The error object
+ * @param operationType - Type of operation that failed
+ * @param path - Path to the resource that was being accessed
+ * @internal
+ */
 export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
-  const errInfo: FirestoreErrorInfo = {
-    error: error instanceof Error ? error.message : String(error),
-    authInfo: {
-      userId: auth.currentUser?.uid,
-      email: auth.currentUser?.email,
-    },
-    operationType,
-    path
-  }
-  console.error('Firestore Error: ', JSON.stringify(errInfo));
-  throw new Error(JSON.stringify(errInfo));
+  // Show user-friendly error message
+  const errorMessages: Record<OperationType, string> = {
+    [OperationType.CREATE]: 'Failed to save configuration. Please try again.',
+    [OperationType.UPDATE]: 'Failed to update configuration. Please try again.',
+    [OperationType.DELETE]: 'Failed to delete configuration. Please try again.',
+    [OperationType.LIST]: 'Failed to load configurations. Please refresh the page.',
+    [OperationType.GET]: 'Failed to load configuration. Please try again.',
+    [OperationType.WRITE]: 'Failed to save data. Please check your connection and try again.',
+  };
+  
+  notificationService.error(errorMessages[operationType]);
 }
 
+/**
+ * Initiates Google OAuth login flow
+ * Shows success/error notifications to the user
+ * @returns Promise that resolves when login flow completes
+ */
 export async function loginWithGoogle() {
   const provider = new GoogleAuthProvider();
   try {
     await signInWithPopup(auth, provider);
+    notificationService.success('Login successful!');
   } catch (error) {
-    console.error('Login error', error);
+    const message = error instanceof Error && error.message.includes('popup-closed')
+      ? 'Login was cancelled. Please try again.'
+      : 'Login failed. Please try again.';
+    notificationService.error(message);
   }
 }
 
+/**
+ * Save or update a configuration in Firestore
+ * Creates a new configuration if ID is not provided, otherwise updates existing
+ * @param config - Configuration to save
+ * @returns Promise resolving to the configuration ID
+ * @throws Error if user is not authenticated
+ */
 export async function saveConfiguration(config: Configuration) {
-  if (!auth.currentUser) throw new Error('User not authenticated');
+  if (!auth.currentUser) {
+    notificationService.error('You must be logged in to save configurations.');
+    throw new Error('User not authenticated');
+  }
   const configId = config.id || crypto.randomUUID();
   const docRef = doc(collection(db, 'configurations'), configId);
   
@@ -67,12 +122,17 @@ export async function saveConfiguration(config: Configuration) {
 
   try {
     await setDoc(docRef, data, { merge: true });
+    notificationService.success(existingDoc.exists() ? 'Configuration updated!' : 'Configuration saved!');
   } catch (error) {
     handleFirestoreError(error, existingDoc.exists() ? OperationType.UPDATE : OperationType.CREATE, `configurations/${configId}`);
   }
   return configId;
 }
 
+/**
+ * Fetch all configurations belonging to the currently logged-in user
+ * @returns Promise resolving to array of configurations, empty array if not authenticated or no configs exist
+ */
 export async function getUserConfigurations(): Promise<Configuration[]> {
   if (!auth.currentUser) return [];
   try {
@@ -85,15 +145,29 @@ export async function getUserConfigurations(): Promise<Configuration[]> {
   }
 }
 
+/**
+ * Delete a configuration from Firestore
+ * @param id - ID of the configuration to delete
+ * @throws Error if user is not authenticated
+ */
 export async function deleteConfiguration(id: string) {
-  if (!auth.currentUser) throw new Error('User not authenticated');
+  if (!auth.currentUser) {
+    notificationService.error('You must be logged in to delete configurations.');
+    throw new Error('User not authenticated');
+  }
   try {
     await deleteDoc(doc(collection(db, 'configurations'), id));
+    notificationService.success('Configuration deleted.');
   } catch (error) {
     handleFirestoreError(error, OperationType.DELETE, `configurations/${id}`);
   }
 }
 
+/**
+ * Fetch all available components from the database
+ * Auto-seeds the database with default components if empty
+ * @returns Promise resolving to array of all components
+ */
 export async function getComponentsFromDB(): Promise<ConfigComponent[]> {
   try {
     const snap = await getDocs(collection(db, 'components'));
@@ -129,8 +203,8 @@ async function seedComponents() {
   for (const s of seeds) {
     try {
       await setDoc(doc(collection(db, 'components'), s.id), s);
-    } catch (e) {
-      console.error('Seed error', e);
+    } catch (error) {
+      console.error(`Failed to seed component ${s.id}:`, error);
     }
   }
 }

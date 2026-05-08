@@ -20,10 +20,7 @@
         },
         "components": {
           "type": "array",
-          "description": "The components included in this configuration.",
-          "items": {
-            "$ref": "#/entities/ConfigComponent"
-          }
+          "description": "The components included in this configuration."
         },
         "totalCost": {
           "type": "number"

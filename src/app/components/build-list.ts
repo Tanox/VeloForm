@@ -1,13 +1,14 @@
-// src/app/components/build-list.ts v3.1.0
+// src/app/components/build-list.ts v3.2.0
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { ConfigComponent } from '../types';
 import { CurrencyPipe } from '@angular/common';
 import { TPipe } from '../services/i18n';
+import { LoadingIndicatorComponent } from './loading-indicator';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-build-list',
-  imports: [CurrencyPipe, TPipe],
+  imports: [CurrencyPipe, TPipe, LoadingIndicatorComponent],
   template: `
   <aside class="w-full md:w-80 border-l border-zinc-800 flex flex-col bg-[#0a0a0b] h-full" id="config-panel">
     <div class="p-6 border-b border-zinc-800 flex items-center justify-between">
@@ -22,9 +23,17 @@ import { TPipe } from '../services/i18n';
             <span class="text-[9px] uppercase text-zinc-500 font-bold tracking-widest">{{ comp.category }}</span>
             <span class="text-[9px] text-zinc-600">{{ comp.weight }}g</span>
           </div>
-          <div class="flex justify-between items-start">
-            <div class="text-xs text-white max-w-[180px] break-words">{{ comp.name }}</div>
-            <div class="text-[10px] text-zinc-500">{{ comp.price | currency:'USD':'symbol':'1.0-0' }}</div>
+          <div class="flex justify-between items-start gap-2">
+            <div class="text-xs text-white max-w-[150px] break-words">{{ comp.name }}</div>
+            <div class="flex items-center gap-2">
+              <button 
+                (click)="edit.emit(comp)"
+                class="text-[9px] text-zinc-500 hover:text-amber-500 transition-colors cursor-pointer bg-transparent border-none px-1 py-0.5 rounded hover:bg-zinc-800"
+                [attr.aria-label]="'build.edit_component' | t">
+                {{ 'build.edit_component' | t }}
+              </button>
+              <div class="text-[10px] text-zinc-500">{{ comp.price | currency:'USD':'symbol':'1.0-0' }}</div>
+            </div>
           </div>
           <div class="h-px w-full bg-zinc-900 mt-2"></div>
         </div>
@@ -36,9 +45,14 @@ import { TPipe } from '../services/i18n';
       <button 
         (click)="sync.emit()"
         [disabled]="isSaving()"
-        class="w-full py-3 bg-white text-black text-xs font-bold uppercase tracking-widest rounded hover:bg-zinc-200 transition-colors disabled:opacity-50 cursor-pointer" 
+        class="w-full py-3 bg-white text-black text-xs font-bold uppercase tracking-widest rounded hover:bg-zinc-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2" 
         id="btn-sync-firebase">
-        {{ isSaving() ? ('build.saving' | t) : ('build.sync' | t) }}
+        <app-loading-indicator [isLoading]="isSaving()" message="" wrapperClass="text-black"></app-loading-indicator>
+        @if (!isSaving()) {
+          {{ 'build.sync' | t }}
+        } @else {
+          {{ 'build.saving' | t }}
+        }
       </button>
       <button 
         (click)="deploy.emit()"
@@ -60,4 +74,5 @@ export class BuildListComponent {
   
   sync = output<void>();
   deploy = output<void>();
+  edit = output<ConfigComponent>();
 }
