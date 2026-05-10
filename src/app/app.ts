@@ -1,5 +1,5 @@
 // src/app/app.ts - 重构版本 v3.3.0
-import { ChangeDetectionStrategy, Component, effect, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavbarComponent } from './features/navbar/components/navbar.component';
 import { DecimalPipe } from '@angular/common';
@@ -10,8 +10,7 @@ import { NotificationDisplayComponent } from './shared/components/notification-d
 import { ConfirmDialogComponent, confirmDialogService } from './shared/components/confirm-dialog.component';
 import { ComponentSelectorComponent } from './features/configurator/components/component-selector.component';
 import { ConfigComponent, Configuration } from './core/models/types';
-import { auth } from './core/services/firebase.service';
-import { TPipe, t } from './core/services/i18n.service';
+import { TPipe } from './core/services/i18n.service';
 import { configStore } from './core/stores/config.store';
 import { configService } from './features/configurator/services/config.service';
 
@@ -29,8 +28,8 @@ import { configService } from './features/configurator/services/config.service';
       [allComponents]="configStore.allDbComponents()"
       [currentComponentId]="configStore.editingComponentId()"
       [bikeType]="configStore.activeType()"
-      (close)="configStore.setShowComponentSelector(false)"
-      (select)="onComponentSelected($event)">
+      (closeModal)="configStore.setShowComponentSelector(false)"
+      (componentSelect)="onComponentSelected($event)">
     </app-component-selector>
   }
 
@@ -128,10 +127,11 @@ import { configService } from './features/configurator/services/config.service';
   `
 })
 export class App implements OnInit {
+  private router = inject(Router);
   bikeTypes = ['Road', 'MTB', 'Fold'] as const;
   configStore = configStore;
 
-  constructor(private router: Router) {
+  constructor() {
     effect(() => {
       const loggedIn = configStore.isLoggedIn();
       if (loggedIn && configStore.showLibrary()) {

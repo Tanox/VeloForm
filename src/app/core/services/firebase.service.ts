@@ -18,24 +18,40 @@ class FirebaseService {
   }
 
   private loadConfig(): FirebaseConfig {
-    const getEnv = () => {
+    const getEnv = (): Record<string, string> => {
       try {
-        return (import.meta as any).env || {};
+        return (import.meta as { env?: Record<string, string> }).env || {};
       } catch {
         return {};
       }
     };
 
     const env = getEnv();
+    const keys = [
+      'VITE_FIREBASE_PROJECT_ID',
+      'VITE_FIREBASE_APP_ID',
+      'VITE_FIREBASE_API_KEY',
+      'VITE_FIREBASE_AUTH_DOMAIN',
+      'VITE_FIRESTORE_DATABASE_ID',
+      'VITE_FIREBASE_STORAGE_BUCKET',
+      'VITE_FIREBASE_MESSAGING_SENDER_ID',
+      'VITE_FIREBASE_MEASUREMENT_ID'
+    ] as const;
+
+    const getVal = (key: string) => {
+      const val = env[key];
+      return val || undefined;
+    };
+
     return {
-      projectId: env.VITE_FIREBASE_PROJECT_ID || fallbackConfig.projectId,
-      appId: env.VITE_FIREBASE_APP_ID || fallbackConfig.appId,
-      apiKey: env.VITE_FIREBASE_API_KEY || fallbackConfig.apiKey,
-      authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || fallbackConfig.authDomain,
-      firestoreDatabaseId: env.VITE_FIRESTORE_DATABASE_ID || fallbackConfig.firestoreDatabaseId,
-      storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || fallbackConfig.storageBucket,
-      messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID || fallbackConfig.messagingSenderId,
-      measurementId: env.VITE_FIREBASE_MEASUREMENT_ID || fallbackConfig.measurementId,
+      projectId: getVal(keys[0]) || fallbackConfig.projectId,
+      appId: getVal(keys[1]) || fallbackConfig.appId,
+      apiKey: getVal(keys[2]) || fallbackConfig.apiKey,
+      authDomain: getVal(keys[3]) || fallbackConfig.authDomain,
+      firestoreDatabaseId: getVal(keys[4]) || fallbackConfig.firestoreDatabaseId,
+      storageBucket: getVal(keys[5]) || fallbackConfig.storageBucket,
+      messagingSenderId: getVal(keys[6]) || fallbackConfig.messagingSenderId,
+      measurementId: getVal(keys[7]) || fallbackConfig.measurementId,
     };
   }
 

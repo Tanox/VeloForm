@@ -10,16 +10,16 @@ import { TPipe } from '../../../core/services/i18n.service';
   imports: [CurrencyPipe, TPipe],
   template: `
     <div id="component-selector-overlay" class="fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" 
-         (click)="close.emit()" role="dialog" aria-modal="true" aria-labelledby="selector-title">
+         role="dialog" aria-modal="true" aria-labelledby="selector-title">
       <div id="component-selector-modal" class="bg-[#0c0c0d] border border-zinc-800 rounded-2xl w-full max-w-2xl max-h-[85vh] sm:max-h-[80vh] flex flex-col overflow-hidden"
-           (click)="$event.stopPropagation()">
+           (click)="$event.stopPropagation()" (keydown.escape)="closeModal.emit()" tabindex="0">
         
         <header id="selector-header" class="p-4 sm:p-6 border-b border-zinc-800 flex items-center justify-between shrink-0">
           <div id="selector-title-group">
             <h2 id="selector-title" class="text-lg sm:text-xl font-medium text-white">{{ 'selector.title' | t }}</h2>
             <p id="selector-category" class="text-xs text-zinc-500 mt-1">{{ 'selector.category' | t }}: {{ selectedCategory() }}</p>
           </div>
-          <button id="selector-close-btn" (click)="close.emit()" 
+          <button id="selector-close-btn" (click)="closeModal.emit()" 
                   class="p-2 hover:bg-zinc-800 rounded-full transition-colors cursor-pointer touch-target"
                   [attr.aria-label]="'selector.close' | t">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -90,7 +90,7 @@ import { TPipe } from '../../../core/services/i18n.service';
         <footer id="selector-footer" class="p-3 sm:p-4 border-t border-zinc-800 bg-[#0c0c0d] shrink-0">
           <button 
             id="cancel-btn"
-            (click)="close.emit()"
+            (click)="closeModal.emit()"
             class="w-full py-3 bg-zinc-800 text-zinc-400 text-xs sm:text-sm font-bold uppercase tracking-widest rounded-lg hover:bg-zinc-700 hover:text-white transition-colors cursor-pointer touch-target">
             {{ 'selector.cancel' | t }}
           </button>
@@ -104,8 +104,8 @@ export class ComponentSelectorComponent {
   currentComponentId = input<string>('');
   bikeType = input<BikeType>('Road');
   
-  close = output<void>();
-  select = output<ConfigComponent>();
+  closeModal = output<void>();
+  componentSelect = output<ConfigComponent>();
   
   selectedCategory = signal<string>('All');
   
@@ -129,6 +129,6 @@ export class ComponentSelectorComponent {
   }
   
   selectComponent(component: ConfigComponent) {
-    this.select.emit(component);
+    this.componentSelect.emit(component);
   }
 }

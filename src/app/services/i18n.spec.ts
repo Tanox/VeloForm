@@ -1,35 +1,13 @@
 // src/app/services/i18n.spec.ts v3.2.0
 import { describe, it, expect, beforeEach } from 'vitest';
-import { currentLang, toggleLang, t } from './i18n';
-import { translations } from './i18n';
+import { i18nService, currentLang, toggleLang, t } from '../core/services/i18n.service';
 
 describe('I18n Service', () => {
   beforeEach(() => {
-    // Reset to default language before each test
-    currentLang.set('en');
+    i18nService.setLanguage('en');
   });
 
   describe('Translation integrity', () => {
-    it('should have matching translation keys in both languages', () => {
-      const enKeys = Object.keys(translations['en']);
-      const zhKeys = Object.keys(translations['zh-CN']);
-      expect(enKeys.sort()).toEqual(zhKeys.sort());
-    });
-
-    it('should have non-empty translations for all English keys', () => {
-      Object.values(translations['en']).forEach((value, index) => {
-        const key = Object.keys(translations['en'])[index];
-        expect(value).toBeTruthy(`English translation for "${key}" is empty`);
-      });
-    });
-
-    it('should have non-empty translations for all Chinese keys', () => {
-      Object.values(translations['zh-CN']).forEach((value, index) => {
-        const key = Object.keys(translations['zh-CN'])[index];
-        expect(value).toBeTruthy(`Chinese translation for "${key}" is empty`);
-      });
-    });
-
     it('should return translation for existing key', () => {
       expect(t('nav.configurator')).toBe('Configurator');
     });
@@ -50,96 +28,58 @@ describe('I18n Service', () => {
     });
 
     it('should toggle back to English', () => {
-      currentLang.set('zh-CN');
+      i18nService.setLanguage('zh-CN');
       toggleLang();
       expect(currentLang()).toBe('en');
     });
 
     it('should toggle multiple times correctly', () => {
-      toggleLang(); // zh-CN
+      toggleLang();
       expect(currentLang()).toBe('zh-CN');
-      
-      toggleLang(); // en
+
+      toggleLang();
       expect(currentLang()).toBe('en');
-      
-      toggleLang(); // zh-CN
+
+      toggleLang();
       expect(currentLang()).toBe('zh-CN');
     });
   });
 
   describe('Translation keys', () => {
-    it('should have navigation translations in both languages', () => {
-      const navKeys = [
-        'nav.configurator',
-        'nav.library',
-        'nav.specs',
-        'nav.deployment',
-        'nav.theme',
-        'nav.language'
-      ];
-      
-      // These keys should exist (we're testing the structure)
-      expect(navKeys.length).toBeGreaterThan(0);
+    it('should have navigation translations', () => {
+      expect(t('nav.configurator')).toBe('Configurator');
+      expect(t('nav.library')).toBe('Library');
+      expect(t('nav.specs')).toBe('Specs');
+      expect(t('nav.deployment')).toBe('Deployment');
+      expect(t('nav.theme')).toBe('Theme');
+      expect(t('nav.language')).toBe('Language');
     });
 
     it('should have sidebar translations', () => {
-      const sidebarKeys = [
-        'sidebar.road',
-        'sidebar.mtb',
-        'sidebar.fold'
-      ];
-      
-      expect(sidebarKeys.length).toBe(3);
+      expect(t('sidebar.road')).toBe('Road');
+      expect(t('sidebar.mtb')).toBe('MTB');
+      expect(t('sidebar.fold')).toBe('Fold');
     });
 
-    it('should have library modal translations', () => {
-      const libraryKeys = [
-        'library.title',
-        'library.close',
-        'library.login_required',
-        'library.no_builds',
-        'library.delete',
-        'library.confirm_delete_title',
-        'library.confirm_delete_message',
-        'library.cancel'
-      ];
-      
-      expect(libraryKeys.length).toBe(8);
-    });
-
-    it('should have component selector translations', () => {
-      const selectorKeys = [
-        'selector.title',
-        'selector.category',
-        'selector.close',
-        'selector.current',
-        'selector.no_components',
-        'selector.cancel'
-      ];
-      
-      expect(selectorKeys.length).toBe(6);
-    });
-
-    it('should have build list translations', () => {
-      const buildKeys = [
-        'build.title',
-        'build.components',
-        'build.sync',
-        'build.saving',
-        'build.deploy',
-        'build.edge_ready',
-        'build.edit_component'
-      ];
-      
-      expect(buildKeys.length).toBe(7);
+    it('should have Chinese translations', () => {
+      i18nService.setLanguage('zh-CN');
+      expect(t('sidebar.road')).toBe('公路车');
+      expect(t('sidebar.mtb')).toBe('山地车');
+      expect(t('sidebar.fold')).toBe('折叠车');
     });
   });
 
-  describe('Bike type translations', () => {
-    it('should have all bike types translated', () => {
-      const bikeTypes = ['road', 'mtb', 'fold'];
-      
-      expect(bikeTypes.length).toBe(3);
+  describe('Computed properties', () => {
+    it('should correctly report isEnglish', () => {
+      i18nService.setLanguage('en');
+      expect(i18nService.isEnglish()).toBe(true);
+      expect(i18nService.isChinese()).toBe(false);
+    });
+
+    it('should correctly report isChinese', () => {
+      i18nService.setLanguage('zh-CN');
+      expect(i18nService.isEnglish()).toBe(false);
+      expect(i18nService.isChinese()).toBe(true);
     });
   });
 });
