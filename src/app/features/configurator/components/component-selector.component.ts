@@ -10,8 +10,9 @@ import { TPipe } from '../../../core/services/i18n.service';
   imports: [CurrencyPipe, TPipe],
   template: `
     <div id="component-selector-overlay" class="fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" 
-         role="dialog" aria-modal="true" aria-labelledby="selector-title">
-      <div id="component-selector-modal" class="bg-[#0c0c0d] border border-zinc-800 rounded-2xl w-full max-w-2xl max-h-[85vh] sm:max-h-[80vh] flex flex-col overflow-hidden"
+         role="presentation" aria-hidden="true">
+      <button type="button" class="absolute inset-0 w-full h-full cursor-default focus:outline-none" (click)="closeModal.emit()" aria-label="Close modal"></button>
+      <div id="component-selector-modal" class="relative bg-[#0c0c0d] border border-zinc-800 rounded-2xl w-full max-w-2xl max-h-[85vh] sm:max-h-[80vh] flex flex-col overflow-hidden"
            (click)="$event.stopPropagation()" (keydown.escape)="closeModal.emit()" tabindex="0">
         
         <header id="selector-header" class="p-4 sm:p-6 border-b border-zinc-800 flex items-center justify-between shrink-0">

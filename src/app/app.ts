@@ -83,7 +83,8 @@ import { configService } from './features/configurator/services/config.service';
 
         @if (configStore.showLibrary()) {
           <div id="library-modal" class="absolute inset-0 z-50 bg-[#0a0a0b]/90 backdrop-blur-xl p-4 sm:p-6 lg:p-10 flex flex-col pt-12 lg:pt-10" role="dialog" aria-modal="true" aria-labelledby="library-title">
-            <div id="library-header" class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 lg:mb-10 w-full mx-auto max-w-7xl">
+            <button type="button" class="absolute inset-0 w-full h-full cursor-default focus:outline-none" (click)="onCloseLibrary()" aria-label="Close library"></button>
+            <div id="library-header" class="relative flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 lg:mb-10 w-full mx-auto max-w-7xl">
               <h2 id="library-title" class="text-2xl sm:text-3xl font-light text-white">{{ 'library.title' | t }}</h2>
               <button id="library-close-btn" (click)="onCloseLibrary()" class="p-3 hover:bg-zinc-800 rounded-full cursor-pointer transition-colors touch-target" [attr.aria-label]="'library.close' | t">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="stroke-white" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
