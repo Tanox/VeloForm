@@ -1,4 +1,4 @@
-// src/app/shared/components/confirm-dialog.component.ts - 重构版本 v3.3.0
+// src/app/shared/components/confirm-dialog.component.ts v3.4.0
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
 export interface ConfirmDialogOptions {

@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.0]
+### Changed
+- Unified version numbers across all code files to v3.4.0.
+- Simplified file header format from "重构版本 vX.Y.Z" to "vX.Y.Z".
+- Updated package.json version to 3.4.0.
+- Updated APP_INFO version constant to 3.4.0.
+
+## [3.3.0]
+### Changed
+- Restructured project to feature-based architecture.
+- Moved core services to `src/app/core/services/`.
+- Moved state management to `src/app/core/stores/`.
+- Moved models to `src/app/core/models/`.
+- Moved constants to `src/app/core/constants/`.
+- Created feature modules for configurator and navbar.
+- Added backward-compatible alias files for old import paths.
+
 ## [3.2.0]
 ### Added
 - New SVG logo and favicon with bicycle frame geometry design.

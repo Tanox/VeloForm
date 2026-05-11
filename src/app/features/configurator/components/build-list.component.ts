@@ -1,4 +1,4 @@
-// src/app/features/configurator/components/build-list.component.ts - 重构版本 v3.3.0
+// src/app/features/configurator/components/build-list.component.ts v3.4.0
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { ConfigComponent } from '../../../core/models/types';
 import { CurrencyPipe } from '@angular/common';

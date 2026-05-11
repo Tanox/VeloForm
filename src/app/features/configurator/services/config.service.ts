@@ -1,4 +1,4 @@
-// src/app/features/configurator/services/config.service.ts - 重构版本 v3.3.0
+// src/app/features/configurator/services/config.service.ts v3.4.0
 import { onAuthStateChanged } from 'firebase/auth';
 import { Configuration, ConfigComponent } from '../../../core/models/types';
 import { configStore } from '../../../core/stores/config.store';
