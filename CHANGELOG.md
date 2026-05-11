@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0]
+### Added
+- Feature-Based architectural refactoring (Core/Features/Shared layers)
+- `_redirects` and `_headers` files for EdgeOne Pages SPA deployment
+- Comprehensive SEO/GEO meta tags and JSON-LD structured data
+- Enhanced responsive CSS with mobile-first design
+- Semantic HTML IDs and ARIA accessibility attributes
+
+### Fixed
+- Loading Indicator component layout stability
+- Modal background click-to-close functionality
+- Navigation links with invalid href="#" attributes
+- Confirm dialog z-index layering
+- Firebase environment variable type safety
+
 ## [3.2.0]
 ### Added
 - New SVG logo and favicon with bicycle frame geometry design.
