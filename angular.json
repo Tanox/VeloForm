@@ -34,13 +34,7 @@
             ],
             "styles": [
               "src/styles.css"
-            ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "prerender": false,
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            ]
           },
           "configurations": {
             "production": {
@@ -70,7 +64,8 @@
           "builder": "@angular/build:dev-server",
           "options": {
             "port": 4242,
-            "host": "0.0.0.0"
+            "host": "0.0.0.0",
+            "allowedHosts": ["all"]
           },
           "configurations": {
             "production": {
