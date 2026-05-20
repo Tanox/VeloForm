@@ -1,10 +1,10 @@
-# Veloform 规范概览 (v3.3.0)
+# Veloform 规范概览 (v3.3.2)
 
 > **注意**: 本文档已重构为模块化结构。详细内容请访问 [openspec/README.md](./README.md)。
 
 ## 项目概述
 
-Veloform 是一个本地化（EN/ZH）、高性能的自行车配置器，支持 **公路车**、**山地车** 和 **折叠车** 三类车型的自定义构建模拟。具备实时 3D 程序化可视化、Firebase 后端持久化和服务器端渲染（SSR）。
+Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，支持 **公路车**、**山地车** 和 **折叠车** 三类车型的自定义构建模拟。具备实时 3D 程序化可视化、Firebase 后端持久化和静态部署。
 
 - **生产地址**: `https://veloform.app`
 - **代码仓库**: `https://github.com/sutchan/Veloform`
@@ -22,7 +22,7 @@ Veloform 是一个本地化（EN/ZH）、高性能的自行车配置器，支持
 | **3D 渲染** | Three.js (Procedural WebGL) | ^0.184.0 |
 | **SSR 运行时** | Express + Angular SSR | ^5.1.0 / ^21.0.0 |
 | **测试** | Vitest | ^4.0.0 |
-| **部署** | Vercel | — |
+| **部署** | Vercel / EdgeOne Pages | — |
 
 完整技术栈说明见 [架构概览](./architecture/overview.md)
 
@@ -41,6 +41,35 @@ Veloform 是一个本地化（EN/ZH）、高性能的自行车配置器，支持
 - [架构概览](./architecture/overview.md)
 - [数据流设计](./architecture/data-flow.md)
 - [组件设计规范](./architecture/component-design.md)
+
+---
+
+## 目录结构
+
+```
+src/
+├── app/
+│   ├── core/                          # 核心功能模块
+│   │   ├── constants/                 # 应用常量
+│   │   ├── models/                    # 数据模型/类型
+│   │   ├── services/                  # 核心服务
+│   │   └── stores/                    # 状态管理 (ConfigStore)
+│   │
+│   ├── features/                      # 功能模块
+│   │   ├── configurator/              # 配置器模块
+│   │   │   ├── components/            # 预览、配置清单、组件选择器
+│   │   │   └── services/              # ConfigService
+│   │   └── navbar/                    # 导航栏模块
+│   │
+│   ├── shared/                        # 共享组件
+│   │   └── components/                # 侧边栏、加载指示器、通知、对话框
+│   │
+│   └── app.ts                         # 根组件
+│
+├── public/                            # 静态资源 (EdgeOne 配置)
+├── styles.css                         # 全局样式
+└── main.ts                            # 入口文件
+```
 
 ---
 
@@ -75,11 +104,12 @@ Veloform 是一个本地化（EN/ZH）、高性能的自行车配置器，支持
 ### TypeScript
 - 避免 `any`，使用明确类型
 - 导出函数必须标注返回类型
+- 使用 `inject()` 进行依赖注入
 
 ### Angular
 - Standalone + OnPush
 - Signal-based 状态管理
-- 使用 `inject()` 依赖注入
+- 组件必须使用 `input()` / `output()` 装饰器
 
 ### 测试
 - 覆盖率目标：≥80%
@@ -93,12 +123,27 @@ Veloform 是一个本地化（EN/ZH）、高性能的自行车配置器，支持
 
 ## 部署
 
-- **平台**: Vercel (Angular framework preset)
+- **平台**: Vercel / EdgeOne Pages
 - **构建命令**: `npm run build`
-- **输出目录**: `dist/app/browser`
-- **SSR**: 可选 Express 运行时
+- **输出目录**: `dist/browser`
+- **SPA 配置**: `_redirects` 和 `_headers` 文件用于边缘部署
 
 完整部署指南见 [环境配置](./deployment/environments.md)
+
+---
+
+## UI 组件清单
+
+| 组件 | 说明 | 状态 |
+|------|------|------|
+| `NavbarComponent` | 顶部导航栏，含语言切换、主题切换 | ✅ |
+| `SidebarComponent` | 桌面端自行车类型选择器 | ✅ |
+| `PreviewComponent` | 3D 自行车预览 + 统计信息 | ✅ |
+| `BuildListComponent` | 配置清单 + 同步/部署按钮 | ✅ |
+| `ComponentSelectorComponent` | 组件选择模态框 | ✅ |
+| `NotificationDisplayComponent` | 通知提示组件 | ✅ |
+| `ConfirmDialogComponent` | 确认对话框组件 | ✅ |
+| `LoadingIndicatorComponent` | 加载指示器组件 | ✅ |
 
 ---
 
@@ -126,10 +171,12 @@ Veloform 是一个本地化（EN/ZH）、高性能的自行车配置器，支持
 
 | 规范版本 | 项目版本 | 更新日期 | 说明 |
 |---------|---------|---------|------|
-| v3.3.0 | 3.3.0 | 2026-05-08 | 完整架构重构，引入 Feature-Based 分层结构（Core/Features/Shared） |
+| v3.3.2 | 3.3.2 | 2026-05-20 | WebGL 检测与降级方案、部署配置修复、版本号统一 |
+| v3.3.1 | 3.3.1 | 2026-05-19 | 动态项目 ID、测试文件整理 |
+| v3.3.0 | 3.3.0 | 2026-05-11 | 完整架构重构，引入 Feature-Based 分层结构（Core/Features/Shared），修复 UI Bug |
 | v3.2.0 | 3.2.0 | 2026-05-01 | 新增组件编辑模态框、路由系统、通知系统、确认对话框服务 |
 | v3.1.0 | 3.1.0 | 2026-05-01 | 模块化重构，拆分为多个专业文档 |
 
 ---
 
-**最后更新**: 2026-05-08
+**最后更新**: 2026-05-20

@@ -20,7 +20,7 @@ class NotificationService {
     return `notification_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  private addNotification(message: string, type: NotificationType, duration: number = 3000) {
+  private addNotification(message: string, type: NotificationType, duration = 3000) {
     const notification: Notification = {
       id: this.generateId(),
       message,
