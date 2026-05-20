@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.2]
+### Added
+- WebGL support detection and graceful fallback for preview component
+- SVG bicycle icon as fallback when WebGL is not available
+- i18n strings for WebGL fallback message
+
+### Fixed
+- WebGL context creation error handling in preview component
+- Vercel output directory configuration (dist/browser instead of dist/app/browser)
+- Inconsistent version numbers in index.html metadata
+
+### Changed
+- Enhanced error handling in Three.js initialization
+- Improved component cleanup in ngOnDestroy
+
 ## [3.3.1]
 ### Added
 - Dynamic project ID based on bike type and configuration ID in navbar
