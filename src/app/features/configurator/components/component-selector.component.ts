@@ -1,4 +1,4 @@
-// src/app/features/configurator/components/component-selector.component.ts - 重构版本 v3.3.0
+// src/app/features/configurator/components/component-selector.component.ts v3.4.0
 import { ChangeDetectionStrategy, Component, input, output, signal, computed } from '@angular/core';
 import { ConfigComponent, BikeType } from '../../../core/models/types';
 import { CurrencyPipe } from '@angular/common';

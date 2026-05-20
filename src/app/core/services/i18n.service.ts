@@ -1,4 +1,4 @@
-// src/app/core/services/i18n.service.ts - 重构版本 v3.3.0
+// src/app/core/services/i18n.service.ts v3.4.0
 import { Pipe, PipeTransform, signal, computed } from '@angular/core';
 
 export type SupportedLang = 'en' | 'zh-CN';

@@ -1,4 +1,4 @@
-// src/app/core/models/types.ts - 重构版本 v3.3.0
+// src/app/core/models/types.ts v3.4.0
 import { Timestamp } from 'firebase/firestore';
 
 /**

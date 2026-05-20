@@ -5,46 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.3.2]
-### Added
-- WebGL support detection and graceful fallback for preview component
-- SVG bicycle icon as fallback when WebGL is not available
-- i18n strings for WebGL fallback message
-
-### Fixed
-- WebGL context creation error handling in preview component
-- Vercel output directory configuration (dist/browser instead of dist/app/browser)
-- Inconsistent version numbers in index.html metadata
-
+## [3.4.0]
 ### Changed
-- Enhanced error handling in Three.js initialization
-- Improved component cleanup in ngOnDestroy
-
-## [3.3.1]
-### Added
-- Dynamic project ID based on bike type and configuration ID in navbar
-
-### Fixed
-- Moved test files to correct locations (core/services/)
-
-### Changed
-- Updated navbar component to use computed signals for project ID
-- Test file imports updated to relative paths
+- Unified version numbers across all code files to v3.4.0.
+- Simplified file header format from "重构版本 vX.Y.Z" to "vX.Y.Z".
+- Updated package.json version to 3.4.0.
+- Updated APP_INFO version constant to 3.4.0.
 
 ## [3.3.0]
-### Added
-- Feature-Based architectural refactoring (Core/Features/Shared layers)
-- `_redirects` and `_headers` files for EdgeOne Pages SPA deployment
-- Comprehensive SEO/GEO meta tags and JSON-LD structured data
-- Enhanced responsive CSS with mobile-first design
-- Semantic HTML IDs and ARIA accessibility attributes
-
-### Fixed
-- Loading Indicator component layout stability
-- Modal background click-to-close functionality
-- Navigation links with invalid href="#" attributes
-- Confirm dialog z-index layering
-- Firebase environment variable type safety
+### Changed
+- Restructured project to feature-based architecture.
+- Moved core services to `src/app/core/services/`.
+- Moved state management to `src/app/core/stores/`.
+- Moved models to `src/app/core/models/`.
+- Moved constants to `src/app/core/constants/`.
+- Created feature modules for configurator and navbar.
+- Added backward-compatible alias files for old import paths.
 
 ## [3.2.0]
 ### Added

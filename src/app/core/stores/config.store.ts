@@ -1,4 +1,4 @@
-// src/app/core/stores/config.store.ts - 重构版本 v3.3.0
+// src/app/core/stores/config.store.ts v3.4.0
 import { computed, signal } from '@angular/core';
 import { ConfigComponent, Configuration, BikeType, ConfigState } from '../models/types';
 import { ROAD_DEFAULTS, MTB_DEFAULTS, FOLD_DEFAULTS } from '../constants/app.constants';

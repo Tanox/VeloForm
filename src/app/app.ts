@@ -1,5 +1,5 @@
-// src/app/app.ts - 重构版本 v3.3.0
-import { ChangeDetectionStrategy, Component, effect, OnInit, inject } from '@angular/core';
+// src/app/app.ts v3.4.0
+import { ChangeDetectionStrategy, Component, effect, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavbarComponent } from './features/navbar/components/navbar.component';
 import { DecimalPipe } from '@angular/common';

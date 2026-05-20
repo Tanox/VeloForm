@@ -1,4 +1,4 @@
-// src/app/shared/components/sidebar.component.ts - 重构版本 v3.3.0
+// src/app/shared/components/sidebar.component.ts v3.4.0
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TPipe } from '../../core/services/i18n.service';
 import { BikeType } from '../../core/models/types';

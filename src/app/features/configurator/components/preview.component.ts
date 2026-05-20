@@ -1,5 +1,5 @@
-// src/app/features/configurator/components/preview.component.ts - 重构版本 v3.3.1
-import { ChangeDetectionStrategy, Component, input, effect, ElementRef, ViewChild, AfterViewInit, OnDestroy, PLATFORM_ID, inject, signal, computed } from '@angular/core';
+// src/app/features/configurator/components/preview.component.ts v3.4.0
+import { ChangeDetectionStrategy, Component, input, effect, ElementRef, ViewChild, AfterViewInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { DecimalPipe, CurrencyPipe } from '@angular/common';
 import { TPipe } from '../../../core/services/i18n.service';

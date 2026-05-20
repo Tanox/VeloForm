@@ -1,4 +1,4 @@
-// src/app/core/services/firebase.service.ts - 重构版本 v3.3.0
+// src/app/core/services/firebase.service.ts v3.4.0
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, User } from 'firebase/auth';
 import { FirebaseConfig } from '../models/types';

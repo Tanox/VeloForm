@@ -1,5 +1,5 @@
-// src/app/features/navbar/components/navbar.component.ts - 重构版本 v3.3.1
-import { ChangeDetectionStrategy, Component, signal, output, computed } from '@angular/core';
+// src/app/features/navbar/components/navbar.component.ts v3.4.0
+import { ChangeDetectionStrategy, Component, signal, output } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
 import { User } from 'firebase/auth';
 import { auth, firebaseService } from '../../../core/services/firebase.service';

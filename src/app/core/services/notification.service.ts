@@ -1,4 +1,4 @@
-// src/app/core/services/notification.service.ts - 重构版本 v3.3.0
+// src/app/core/services/notification.service.ts v3.4.0
 import { signal, computed } from '@angular/core';
 
 export type NotificationType = 'success' | 'error' | 'warning' | 'info';

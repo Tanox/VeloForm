@@ -1,4 +1,4 @@
-// src/app/core/services/component.repository.ts - 重构版本 v3.3.0
+// src/app/core/services/component.repository.ts v3.4.0
 import { getFirestore, collection, doc, setDoc, getDocs } from 'firebase/firestore';
 import { ConfigComponent } from '../models/types';
 import { firebaseService } from './firebase.service';

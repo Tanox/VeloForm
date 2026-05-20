@@ -1,4 +1,4 @@
-// src/app/core/constants/app.constants.ts - 重构版本 v3.3.0
+// src/app/core/constants/app.constants.ts v3.4.0
 import { ConfigComponent } from '../models/types';
 
 /**
@@ -62,7 +62,7 @@ export const APP_CONSTANTS = {
   /** 应用元数据 */
   APP_INFO: {
     name: 'Veloform',
-    version: '3.3.0',
+    version: '3.4.0',
     tagline: 'Bike Configurator',
   } as const,
 } as const;

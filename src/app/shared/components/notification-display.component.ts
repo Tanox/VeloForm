@@ -1,4 +1,4 @@
-// src/app/shared/components/notification-display.component.ts - 重构版本 v3.3.0
+// src/app/shared/components/notification-display.component.ts v3.4.0
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { notificationService } from '../../core/services/notification.service';
 
