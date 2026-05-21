@@ -1,4 +1,10 @@
-# 数据流设计
+# 数据流设计 (v3.3.2)
+
+## 概述
+
+本文档描述 Veloform 项目的数据流设计、状态管理模式和组件间通信规范。
+
+---
 
 ## 状态管理架构
 
@@ -360,3 +366,8 @@ export class PreviewComponent {
 - [架构概览](./overview.md)
 - [组件设计规范](./component-design.md)
 - [开发规范](../development/coding-standards.md)
+
+---
+
+**最后更新**: 2026-05-05
+**版本**: v3.3.2

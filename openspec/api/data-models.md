@@ -1,4 +1,4 @@
-# 数据模型规范
+# 数据模型规范 (v3.3.2)
 
 ## 概述
 
@@ -410,3 +410,8 @@ function migrateConfiguration(
 - [Firestore API 规范](./firestore.md)
 - [架构概览](../architecture/overview.md)
 - [开发规范](../development/coding-standards.md)
+
+---
+
+**最后更新**: 2026-05-05
+**版本**: v3.3.2

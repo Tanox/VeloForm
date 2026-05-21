@@ -1,4 +1,4 @@
-# 测试规范
+# 测试规范 (v3.3.2)
 
 ## 概述
 
@@ -637,8 +637,6 @@ jobs:
           file: ./coverage/lcov.info
 ```
 
----
-
 ## 测试清单
 
 在提交 PR 前，确保：
@@ -659,3 +657,8 @@ jobs:
 - [开发规范](./coding-standards.md)
 - [架构概览](../architecture/overview.md)
 - [API 规范](../api/firestore.md)
+
+---
+
+**最后更新**: 2026-05-05
+**版本**: v3.3.2

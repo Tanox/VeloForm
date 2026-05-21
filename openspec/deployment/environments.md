@@ -1,4 +1,4 @@
-# 部署与环境配置规范
+# 部署与环境配置规范 (v3.3.2)
 
 ## 概述
 
@@ -495,3 +495,9 @@ export const config: ApplicationConfig = {
 - [架构概览](../architecture/overview.md)
 - [API 规范](../api/firestore.md)
 - [开发规范](../development/coding-standards.md)
+- [CI/CD 流程](../devops/ci-cd.md)
+
+---
+
+**最后更新**: 2026-05-05
+**版本**: v3.3.2

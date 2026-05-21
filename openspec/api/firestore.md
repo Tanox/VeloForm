@@ -1,4 +1,4 @@
-# Firestore API 接口规范
+# Firestore API 接口规范 (v3.3.2)
 
 ## 概述
 
@@ -446,3 +446,8 @@ async getComponentsFromDB(): Promise<DatabaseComponent[]> {
 - [架构概览](../architecture/overview.md)
 - [数据模型](./data-models.md)
 - [开发规范](../development/coding-standards.md)
+
+---
+
+**最后更新**: 2026-05-05
+**版本**: v3.3.2
