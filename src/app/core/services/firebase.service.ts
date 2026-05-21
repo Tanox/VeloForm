@@ -18,40 +18,42 @@ class FirebaseService {
   }
 
   private loadConfig(): FirebaseConfig {
-    const getEnv = (): Record<string, string> => {
+    const getEnv = (key: string): string | undefined => {
       try {
-        return (import.meta as { env?: Record<string, string> }).env || {};
+        // 尝试从 import.meta.env 读取
+        const env = (import.meta as { env?: Record<string, string> }).env || {};
+        const val = env[key];
+        if (val && val.trim()) {
+          return val;
+        }
       } catch {
-        return {};
+        // 如果失败，继续尝试其他方式
       }
-    };
-
-    const env = getEnv();
-    const keys = [
-      'VITE_FIREBASE_PROJECT_ID',
-      'VITE_FIREBASE_APP_ID',
-      'VITE_FIREBASE_API_KEY',
-      'VITE_FIREBASE_AUTH_DOMAIN',
-      'VITE_FIRESTORE_DATABASE_ID',
-      'VITE_FIREBASE_STORAGE_BUCKET',
-      'VITE_FIREBASE_MESSAGING_SENDER_ID',
-      'VITE_FIREBASE_MEASUREMENT_ID'
-    ] as const;
-
-    const getVal = (key: string) => {
-      const val = env[key];
-      return val || undefined;
+      
+      try {
+        // 尝试从 process.env 读取（用于 Node.js/SSR 环境）
+        if (typeof process !== 'undefined' && process.env) {
+          const val = process.env[key];
+          if (val && val.trim()) {
+            return val;
+          }
+        }
+      } catch {
+        // 如果失败，回退到默认配置
+      }
+      
+      return undefined;
     };
 
     return {
-      projectId: getVal(keys[0]) || fallbackConfig.projectId,
-      appId: getVal(keys[1]) || fallbackConfig.appId,
-      apiKey: getVal(keys[2]) || fallbackConfig.apiKey,
-      authDomain: getVal(keys[3]) || fallbackConfig.authDomain,
-      firestoreDatabaseId: getVal(keys[4]) || fallbackConfig.firestoreDatabaseId,
-      storageBucket: getVal(keys[5]) || fallbackConfig.storageBucket,
-      messagingSenderId: getVal(keys[6]) || fallbackConfig.messagingSenderId,
-      measurementId: getVal(keys[7]) || fallbackConfig.measurementId,
+      projectId: getEnv('VITE_FIREBASE_PROJECT_ID') || fallbackConfig.projectId,
+      appId: getEnv('VITE_FIREBASE_APP_ID') || fallbackConfig.appId,
+      apiKey: getEnv('VITE_FIREBASE_API_KEY') || fallbackConfig.apiKey,
+      authDomain: getEnv('VITE_FIREBASE_AUTH_DOMAIN') || fallbackConfig.authDomain,
+      firestoreDatabaseId: getEnv('VITE_FIRESTORE_DATABASE_ID') || fallbackConfig.firestoreDatabaseId,
+      storageBucket: getEnv('VITE_FIREBASE_STORAGE_BUCKET') || fallbackConfig.storageBucket,
+      messagingSenderId: getEnv('VITE_FIREBASE_MESSAGING_SENDER_ID') || fallbackConfig.messagingSenderId,
+      measurementId: getEnv('VITE_FIREBASE_MEASUREMENT_ID') || fallbackConfig.measurementId,
     };
   }
 
