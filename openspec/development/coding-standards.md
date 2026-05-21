@@ -1,4 +1,4 @@
-# 开发规范
+# 开发规范 (v3.3.2)
 
 ## 概述
 
@@ -689,3 +689,8 @@ export const routes: Routes = [
 - [架构概览](../architecture/overview.md)
 - [组件设计规范](../architecture/component-design.md)
 - [测试规范](./testing.md)
+
+---
+
+**最后更新**: 2026-05-05
+**版本**: v3.3.2

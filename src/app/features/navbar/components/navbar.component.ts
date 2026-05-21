@@ -1,10 +1,11 @@
 // src/app/features/navbar/components/navbar.component.ts v3.4.0
-import { ChangeDetectionStrategy, Component, signal, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, output, computed } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
 import { User } from 'firebase/auth';
 import { auth, firebaseService } from '../../../core/services/firebase.service';
 import { onAuthStateChanged } from 'firebase/auth';
 import { TPipe, i18nService } from '../../../core/services/i18n.service';
+import { configStore } from '../../../core/stores/config.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,10 +19,10 @@ import { TPipe, i18nService } from '../../../core/services/i18n.service';
     </a>
     
     <div id="desktop-nav-links" class="hidden md:flex gap-6 lg:gap-8 text-xs font-medium uppercase tracking-widest">
-      <a id="nav-configurator" href="#" class="text-white border-b border-white pb-1">{{ 'nav.configurator' | t }}</a>
-      <a id="nav-library" href="#" (click)="$event.preventDefault(); openLibrary.emit()" class="hover:text-white text-zinc-500 transition-colors">{{ 'nav.library' | t }}</a>
-      <a id="nav-specs" href="#" class="hover:text-white text-zinc-500 transition-colors">{{ 'nav.specs' | t }}</a>
-      <a id="nav-deployment" href="#" class="hover:text-white text-zinc-500 transition-colors">{{ 'nav.deployment' | t }}</a>
+      <span id="nav-configurator" class="text-white border-b border-white pb-1 cursor-default">{{ 'nav.configurator' | t }}</span>
+      <button id="nav-library" (click)="openLibrary.emit()" class="hover:text-white text-zinc-500 transition-colors cursor-pointer bg-transparent border-none p-0">{{ 'nav.library' | t }}</button>
+      <span id="nav-specs" class="text-zinc-500 cursor-not-allowed">{{ 'nav.specs' | t }}</span>
+      <span id="nav-deployment" class="text-zinc-500 cursor-not-allowed">{{ 'nav.deployment' | t }}</span>
     </div>
 
     <div id="controls-container" class="flex items-center gap-2 sm:gap-4">
@@ -37,7 +38,7 @@ import { TPipe, i18nService } from '../../../core/services/i18n.service';
       
       <div id="project-id-control" class="text-right hidden sm:block">
         <div id="project-id-label" class="text-[9px] sm:text-[10px] text-zinc-500 uppercase tracking-tighter leading-none">{{ 'nav.project_id' | t }}</div>
-        <div id="project-id-value" class="text-xs font-mono text-zinc-300">VF-992-ROAD</div>
+        <div id="project-id-value" class="text-xs font-mono text-zinc-300">{{ dynamicProjectId() }}</div>
       </div>
 
       @if (user()) {
@@ -60,6 +61,17 @@ export class NavbarComponent {
   isDark = signal(true);
   i18nService = i18nService;
   openLibrary = output<void>();
+
+  dynamicProjectId = computed(() => {
+    const type = configStore.activeType();
+    const prefix = type === 'Road' ? 'VF-RD' : type === 'MTB' ? 'VF-MB' : 'VF-FD';
+    const id = configStore.configId();
+    if (id) {
+      const shortId = id.substring(0, 4).toUpperCase();
+      return `${prefix}-${shortId}`;
+    }
+    return `${prefix}-NEW`;
+  });
 
   constructor() {
     onAuthStateChanged(auth, (u) => {

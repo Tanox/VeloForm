@@ -173,3 +173,8 @@ src/
 - [组件设计规范](./component-design.md)
 - [API 接口规范](../api/firestore.md)
 - [开发规范](../development/coding-standards.md)
+
+---
+
+**最后更新**: 2026-05-05
+**版本**: v3.4.0

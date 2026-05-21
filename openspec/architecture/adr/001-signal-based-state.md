@@ -1,4 +1,10 @@
-# ADR 001: 采用 Signal-based 状态管理
+# ADR 001: 采用 Signal-based 状态管理 (v3.2.0)
+
+## 概述
+
+本 ADR 记录了 Veloform 项目选择 Angular Signals 作为主要状态管理方案的决策过程和实施策略。
+
+---
 
 ## 状态
 

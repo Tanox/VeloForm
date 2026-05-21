@@ -1,6 +1,8 @@
-# 组件设计规范
+# 组件设计规范 (v3.3.2)
 
-## 组件架构原则
+## 概述
+
+本文档定义 Veloform 项目的组件设计原则、命名规范、输入输出模式和变更检测策略。
 
 Veloform 采用分层架构设计，所有组件均为 standalone components。状态管理通过 **ConfigStore** 和 **ConfigRepository** / **ComponentRepository** 分层处理。
 
@@ -396,3 +398,8 @@ describe('BuildListComponent', () => {
 - [架构概览](./overview.md)
 - [数据流设计](./data-flow.md)
 - [开发规范](../development/coding-standards.md)
+
+---
+
+**最后更新**: 2026-05-05
+**版本**: v3.3.2
