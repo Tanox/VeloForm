@@ -1,4 +1,4 @@
-# Veloform 安全规范 (v3.2.0)
+# Veloform 安全规范 (v3.4.0)
 
 ## 概述
 
@@ -168,4 +168,4 @@ function isValidConfiguration(config) {
 ---
 
 **最后更新**: 2026-05-05  
-**版本**: v3.2.0
+**版本**: v3.4.0

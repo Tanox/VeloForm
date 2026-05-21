@@ -1,4 +1,4 @@
-# Veloform CI/CD 流程规范 (v3.2.0)
+# Veloform CI/CD 流程规范 (v3.4.0)
 
 ## 概述
 
@@ -215,4 +215,4 @@ export default defineConfig({
 ---
 
 **最后更新**: 2026-05-05  
-**版本**: v3.2.0
+**版本**: v3.4.0
