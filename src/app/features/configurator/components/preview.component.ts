@@ -1,5 +1,5 @@
 // src/app/features/configurator/components/preview.component.ts v3.4.0
-import { ChangeDetectionStrategy, Component, input, effect, ElementRef, ViewChild, AfterViewInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, effect, ElementRef, ViewChild, AfterViewInit, OnDestroy, PLATFORM_ID, inject, signal, computed } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { DecimalPipe, CurrencyPipe } from '@angular/common';
 import { TPipe } from '../../../core/services/i18n.service';
@@ -73,6 +73,9 @@ export class PreviewComponent implements AfterViewInit, OnDestroy {
   private animationId = 0;
   private _webglSupported = signal(false);
   
+  private materials: THREE.Material[] = [];
+  private geometries: THREE.BufferGeometry[] = [];
+  
   readonly webglSupported = computed(() => this._webglSupported());
 
   private platformId = inject(PLATFORM_ID);
@@ -106,16 +109,45 @@ export class PreviewComponent implements AfterViewInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       cancelAnimationFrame(this.animationId);
       window.removeEventListener('resize', this.onResize.bind(this));
-      if (this.renderer && this.rendererContainer) {
+      
+      this.clearBikeMesh();
+      
+      this.materials.forEach(mat => mat.dispose());
+      this.geometries.forEach(geo => geo.dispose());
+      this.materials = [];
+      this.geometries = [];
+      
+      if (this.scene) {
+        this.scene.traverse((object) => {
+          if (object instanceof THREE.Mesh) {
+            if (object.geometry) object.geometry.dispose();
+            if (object.material) {
+              if (Array.isArray(object.material)) {
+                object.material.forEach(mat => mat.dispose());
+              } else {
+                object.material.dispose();
+              }
+            }
+          }
+        });
+        this.scene.clear();
+      }
+      
+      if (this.renderer) {
         try {
           this.renderer.dispose();
-          if (this.renderer.domElement.parentNode) {
+          if (this.renderer.domElement.parentNode && this.rendererContainer) {
             this.rendererContainer.nativeElement.removeChild(this.renderer.domElement);
           }
         } catch {
           // Ignore cleanup errors
         }
       }
+      
+      this.camera = null as any;
+      this.scene = null as any;
+      this.renderer = null as any;
+      this.bikeGroup = null as any;
     }
   }
 
@@ -126,6 +158,40 @@ export class PreviewComponent implements AfterViewInit, OnDestroy {
       return !!(gl && gl instanceof WebGLRenderingContext);
     } catch {
       return false;
+    }
+  }
+
+  private clearBikeMesh() {
+    if (!this.bikeGroup) return;
+    
+    while (this.bikeGroup.children.length > 0) {
+      const child = this.bikeGroup.children[0];
+      if (child instanceof THREE.Mesh) {
+        if (child.geometry) {
+          child.geometry.dispose();
+          const geoIndex = this.geometries.indexOf(child.geometry);
+          if (geoIndex > -1) {
+            this.geometries.splice(geoIndex, 1);
+          }
+        }
+        
+        if (Array.isArray(child.material)) {
+          child.material.forEach(mat => mat.dispose());
+          child.material.forEach(mat => {
+            const matIndex = this.materials.indexOf(mat);
+            if (matIndex > -1) {
+              this.materials.splice(matIndex, 1);
+            }
+          });
+        } else if (child.material) {
+          child.material.dispose();
+          const matIndex = this.materials.indexOf(child.material);
+          if (matIndex > -1) {
+            this.materials.splice(matIndex, 1);
+          }
+        }
+      }
+      this.bikeGroup.remove(child);
     }
   }
 
@@ -160,9 +226,7 @@ export class PreviewComponent implements AfterViewInit, OnDestroy {
   private buildBikeMesh(bikeType: string) {
     if (!this.bikeGroup) return;
     
-    while(this.bikeGroup.children.length > 0) { 
-        this.bikeGroup.remove(this.bikeGroup.children[0]); 
-    }
+    this.clearBikeMesh();
 
     const matFrame = new THREE.MeshStandardMaterial({ 
       color: bikeType === 'Road' ? 0xcc0000 : (bikeType === 'MTB' ? 0x334433 : 0xaaaaaa),
@@ -171,8 +235,11 @@ export class PreviewComponent implements AfterViewInit, OnDestroy {
     const matTire = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.9 });
     const matMetal = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.9, roughness: 0.1 });
 
+    this.materials.push(matFrame, matTire, matMetal);
+
     const createCylinder = (radius: number, length: number, mat: THREE.Material) => {
       const geo = new THREE.CylinderGeometry(radius, radius, length, 16);
+      this.geometries.push(geo);
       const mesh = new THREE.Mesh(geo, mat);
       return mesh;
     };
@@ -180,6 +247,7 @@ export class PreviewComponent implements AfterViewInit, OnDestroy {
     const tireRadius = bikeType === 'Fold' ? 0.2 : 0.4;
     const tireThick = bikeType === 'MTB' ? 0.05 : 0.02;
     const geoTire = new THREE.TorusGeometry(tireRadius, tireThick, 16, 64);
+    this.geometries.push(geoTire);
     
     const wheel1 = new THREE.Mesh(geoTire, matTire);
     wheel1.position.set(-0.6, -0.2, 0);
