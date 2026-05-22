@@ -1,10 +1,10 @@
 {
   "projectId": "veloform-dev",
   "appId": "1:123456789:web:abcdef",
-  "apiKey": "AIzaSyDevKeyPlaceholder",
+  "apiKey": "YOUR_API_KEY",
   "authDomain": "veloform-dev.firebaseapp.com",
   "firestoreDatabaseId": "(default)",
   "storageBucket": "veloform-dev.appspot.com",
   "messagingSenderId": "123456789",
-  "measurementId": "G-DEVPLACEHOLDER"
+  "measurementId": "G-XXXXXXXXXX"
 }
