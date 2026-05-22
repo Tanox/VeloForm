@@ -1,6 +1,7 @@
 {
   "name": "ai-studio-angular-app",
   "version": "3.4.0",
+  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -40,6 +41,7 @@
     "@angular/compiler-cli": "^21.0.0",
     "@tailwindcss/postcss": "^4.1.12",
     "@types/express": "^5.0.1",
+    "@types/jasmine": "~5.1.0",
     "@types/node": "^20.17.19",
     "@types/three": "^0.184.0",
     "angular-eslint": "21.1.0",

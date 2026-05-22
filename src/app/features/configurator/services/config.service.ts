@@ -43,6 +43,13 @@ class ConfigService {
       estimatedWeight: configStore.totalWeight(),
     };
 
+    const validation = this.validateConfiguration(config);
+    if (!validation.valid) {
+      notificationService.warning(validation.error || 'Invalid configuration', 4000);
+      configStore.setIsSaving(false);
+      return null;
+    }
+
     try {
       const newId = await configRepository.save(config);
       configStore.setConfigId(newId);
@@ -50,6 +57,7 @@ class ConfigService {
       return newId;
     } catch (error) {
       console.error('Failed to save configuration:', error);
+      notificationService.error('Failed to save configuration. Please try again.', 4000);
       return null;
     } finally {
       configStore.setIsSaving(false);
@@ -61,7 +69,24 @@ class ConfigService {
     configStore.setMyConfigs(configs);
   }
 
+  private validateConfiguration(config: Configuration): { valid: boolean; error?: string } {
+    if (!config.bikeType || !['Road', 'MTB', 'Fold'].includes(config.bikeType)) {
+      return { valid: false, error: 'Invalid bike type' };
+    }
+    
+    if (!config.components || config.components.length === 0) {
+      return { valid: false, error: 'Configuration must have at least one component' };
+    }
+    
+    if (!config.name || config.name.trim().length === 0) {
+      return { valid: false, error: 'Configuration name is required' };
+    }
+    
+    return { valid: true };
+  }
+
   async removeConfig(id: string): Promise<boolean> {
+    configStore.setIsSaving(true);
     try {
       await configRepository.delete(id);
       await this.refreshMyConfigs();
@@ -69,10 +94,14 @@ class ConfigService {
       if (configStore.configId() === id) {
         configStore.resetToDefaults();
       }
+      notificationService.success('Configuration deleted successfully', 3000);
       return true;
     } catch (error) {
       console.error('Failed to delete configuration:', error);
+      notificationService.error('Failed to delete configuration. Please try again.', 4000);
       return false;
+    } finally {
+      configStore.setIsSaving(false);
     }
   }
 
@@ -104,6 +133,17 @@ class ConfigService {
   }
 
   onDeploy() {
+    const isLoggedIn = configStore.isLoggedIn();
+    if (!isLoggedIn) {
+      notificationService.error('Please login first to deploy your configuration', 4000);
+      return;
+    }
+    
+    if (configStore.components().length === 0) {
+      notificationService.warning('No components configured. Please add components before deploying.', 4000);
+      return;
+    }
+    
     notificationService.info('Deployment initiated to Vercel (Mock). Production build triggered.', 4000);
   }
 }
