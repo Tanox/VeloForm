@@ -143,11 +143,6 @@ export class PreviewComponent implements AfterViewInit, OnDestroy {
           // Ignore cleanup errors
         }
       }
-      
-      this.camera = null as any;
-      this.scene = null as any;
-      this.renderer = null as any;
-      this.bikeGroup = null as any;
     }
   }
 
