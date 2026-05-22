@@ -32,8 +32,9 @@ class FirebaseService {
       
       try {
         // 尝试从 process.env 读取（用于 Node.js/SSR 环境）
-        if (typeof process !== 'undefined' && process.env) {
-          const val = process.env[key];
+        const globalProcess = (globalThis as { process?: { env?: Record<string, string> } }).process;
+        if (globalProcess && globalProcess.env) {
+          const val = globalProcess.env[key];
           if (val && val.trim()) {
             return val;
           }
