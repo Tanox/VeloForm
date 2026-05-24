@@ -161,6 +161,8 @@ export class App implements OnInit {
     configService.loadConfiguration(cfg);
     if (cfg.id) {
       this.router.navigate(['/config', cfg.id]);
+    } else {
+      this.router.navigate(['/']);
     }
   }
 

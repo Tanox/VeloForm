@@ -1,15 +1,15 @@
 // src/app/shared/components/sidebar.component.ts v3.4.0
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { TPipe } from '../../core/services/i18n.service';
+import { i18nService } from '../../core/services/i18n.service';
 import { BikeType } from '../../core/models/types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-sidebar',
-  imports: [TPipe],
+  imports: [],
   template: `
   <aside id="bike-type-selector" class="w-16 lg:w-20 border-r border-zinc-800 flex flex-col items-center py-6 lg:py-8 bg-[#0c0c0d]" role="navigation" aria-label="Bike type selection">
-    <div id="sidebar-label" class="text-[9px] lg:text-[10px] uppercase tracking-widest text-zinc-500 mb-6 lg:mb-8">{{ 'sidebar.road' | t }}</div>
+    <div id="sidebar-label" class="text-[9px] lg:text-[10px] uppercase tracking-widest text-zinc-500 mb-6 lg:mb-8">{{ getSidebarLabel() }}</div>
     <nav id="bike-type-buttons" class="flex flex-col gap-3 lg:gap-4" role="tablist" aria-label="Bike types">
       @for (type of bikeTypes; track type) {
         <button 
@@ -48,5 +48,11 @@ export class SidebarComponent {
       'Fold': 'F'
     };
     return labels[type];
+  }
+
+  getSidebarLabel(): string {
+    const typeKey = this.activeType() === 'Road' ? 'sidebar.road' :
+                   this.activeType() === 'MTB' ? 'sidebar.mtb' : 'sidebar.fold';
+    return i18nService.translate(typeKey);
   }
 }
