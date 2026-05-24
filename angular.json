@@ -89,6 +89,25 @@
               "src/**/*.html"
             ]
           }
+        },
+        "server": {
+          "builder": "@angular/build:server",
+          "options": {
+            "outputPath": "dist/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.app.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@angular/build:prerender",
+          "options": {
+            "routesFile": "src/prerendered-routes.json"
+          }
         }
       }
     }
