@@ -119,7 +119,9 @@ class I18nService {
   translate(key: string): string {
     const translation = translations[this._currentLang()][key];
     if (!translation) {
-      console.warn(`Missing translation for key: ${key}`);
+      if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+        console.warn(`Missing translation for key: ${key}`);
+      }
       return key;
     }
     return translation;

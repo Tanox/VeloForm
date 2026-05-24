@@ -141,10 +141,10 @@ export class PreviewComponent implements AfterViewInit, OnDestroy {
       if (this.renderer) {
         try {
           this.renderer.dispose();
-          if (this.renderer.domElement.parentNode && this.rendererContainer?.nativeElement) {
+          if (this.renderer.domElement.parentNode && this.rendererContainer && this.rendererContainer.nativeElement) {
             this.rendererContainer.nativeElement.removeChild(this.renderer.domElement);
           }
-        } catch {
+        } catch (_e) {
           // Ignore cleanup errors
         }
       }
