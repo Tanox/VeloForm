@@ -118,9 +118,14 @@ export class PreviewComponent implements AfterViewInit, OnDestroy {
       this.geometries = [];
       
       if (this.scene) {
+        if (this.bikeGroup) {
+          this.scene.remove(this.bikeGroup);
+        }
         this.scene.traverse((object) => {
           if (object instanceof THREE.Mesh) {
-            if (object.geometry) object.geometry.dispose();
+            if (object.geometry) {
+              object.geometry.dispose();
+            }
             if (object.material) {
               if (Array.isArray(object.material)) {
                 object.material.forEach(mat => mat.dispose());
@@ -136,7 +141,7 @@ export class PreviewComponent implements AfterViewInit, OnDestroy {
       if (this.renderer) {
         try {
           this.renderer.dispose();
-          if (this.renderer.domElement.parentNode && this.rendererContainer) {
+          if (this.renderer.domElement.parentNode && this.rendererContainer?.nativeElement) {
             this.rendererContainer.nativeElement.removeChild(this.renderer.domElement);
           }
         } catch {

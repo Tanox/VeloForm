@@ -117,7 +117,12 @@ class I18nService {
   }
 
   translate(key: string): string {
-    return translations[this._currentLang()][key] || key;
+    const translation = translations[this._currentLang()][key];
+    if (!translation) {
+      console.warn(`Missing translation for key: ${key}`);
+      return key;
+    }
+    return translation;
   }
 
   getAvailableKeys(): TranslationKey[] {

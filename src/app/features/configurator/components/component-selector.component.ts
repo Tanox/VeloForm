@@ -114,7 +114,11 @@ export class ComponentSelectorComponent {
     const categories = new Set(this.allComponents()
       .filter(c => c.bikeType === this.bikeType())
       .map(c => c.category));
-    return ['All', ...Array.from(categories).sort()];
+    const sortedCategories = Array.from(categories).sort();
+    if (sortedCategories.length === 0) {
+      return ['All'];
+    }
+    return ['All', ...sortedCategories];
   });
   
   filteredComponents = computed(() => {
