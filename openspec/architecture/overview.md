@@ -87,7 +87,8 @@ src/
 │   │   │   ├── config.repository.ts  # 配置数据访问层
 │   │   │   ├── component.repository.ts # 组件数据访问层
 │   │   │   ├── notification.service.ts # 通知管理
-│   │   │   └── i18n.service.ts      # 国际化服务
+│   │   │   ├── i18n.service.ts      # 国际化服务
+│   │   │   └── bike-renderer.service.ts # Three.js 3D 渲染服务
 │   │   ├── stores/                  # 状态管理
 │   │   │   └── config.store.ts      # ConfigStore (Angular Signals)
 │   │   └── index.ts                 # Barrel 导出

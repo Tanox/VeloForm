@@ -1,6 +1,7 @@
 // src/app/shared/components/notification-display.component.ts v3.4.0
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { notificationService } from '../../core/services/notification.service';
+import { t } from '../../core/services/i18n.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,7 +24,7 @@ import { notificationService } from '../../core/services/notification.service';
             id="notification-close-{{ notif.id }}"
             (click)="notificationService.remove(notif.id)"
             class="ml-1 sm:ml-2 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0 p-1 touch-target"
-            [attr.aria-label]="'Close notification'">
+            [attr.aria-label]="getCloseLabel()">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M18 6 6 18M6 6l12 12"/>
             </svg>
@@ -50,6 +51,10 @@ import { notificationService } from '../../core/services/notification.service';
 })
 export class NotificationDisplayComponent {
   notificationService = notificationService;
+
+  getCloseLabel(): string {
+    return t('notification.close');
+  }
 
   getNotificationClasses(type: string): string {
     const baseClasses = 'max-w-xs sm:max-w-md';

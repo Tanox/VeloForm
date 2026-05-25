@@ -51,7 +51,10 @@ const translations: Record<SupportedLang, TranslationMap> = {
     'selector.no_components': 'No components available for this category.',
     'selector.cancel': 'Cancel',
     'build.edit_component': 'Edit',
-    'auth.login_required': 'Please log in to save configurations.'
+    'auth.login_required': 'Please log in to save configurations.',
+    'dialog.confirm': 'Confirm',
+    'dialog.cancel': 'Cancel',
+    'notification.close': 'Close notification'
   },
   'zh-CN': {
     'nav.configurator': '装车配置',
@@ -97,7 +100,10 @@ const translations: Record<SupportedLang, TranslationMap> = {
     'selector.no_components': '此类别下没有可用组件。',
     'selector.cancel': '取消',
     'build.edit_component': '编辑',
-    'auth.login_required': '请登录以保存配置。'
+    'auth.login_required': '请登录以保存配置。',
+    'dialog.confirm': '确认',
+    'dialog.cancel': '取消',
+    'notification.close': '关闭通知'
   }
 };
 

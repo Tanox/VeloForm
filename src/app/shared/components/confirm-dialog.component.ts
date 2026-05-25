@@ -1,5 +1,6 @@
 // src/app/shared/components/confirm-dialog.component.ts v3.4.0
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { t } from '../../core/services/i18n.service';
 
 export interface ConfirmDialogOptions {
   title: string;
@@ -53,10 +54,10 @@ export const confirmDialogService = new ConfirmDialogService();
       <div id="confirm-dialog-modal" class="bg-[#1a1a1b] border border-zinc-700 rounded-lg shadow-2xl max-w-sm w-full mx-4 animate-in fade-in zoom-in-95" role="alertdialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-message">
         <div id="dialog-content" class="p-5 sm:p-6">
           <h2 id="dialog-title" class="text-base sm:text-lg font-semibold text-white mb-2">
-            {{ confirmDialogService.options()?.title }}
+            {{ getLocalizedTitle() }}
           </h2>
           <p id="dialog-message" class="text-zinc-400 text-sm leading-relaxed">
-            {{ confirmDialogService.options()?.message }}
+            {{ getLocalizedMessage() }}
           </p>
         </div>
         
@@ -65,13 +66,13 @@ export const confirmDialogService = new ConfirmDialogService();
             id="dialog-cancel-btn"
             (click)="confirmDialogService.cancelAction()"
             class="flex-1 px-4 py-2.5 sm:py-2 bg-zinc-800 text-zinc-300 text-sm font-medium rounded hover:bg-zinc-700 transition-colors cursor-pointer touch-target">
-            {{ confirmDialogService.options()?.cancelText || 'Cancel' }}
+            {{ getLocalizedCancelText() }}
           </button>
           <button 
             id="dialog-confirm-btn"
             (click)="confirmDialogService.confirmAction()"
             class="flex-1 px-4 py-2.5 sm:py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-700 transition-colors cursor-pointer touch-target">
-            {{ confirmDialogService.options()?.confirmText || 'Confirm' }}
+            {{ getLocalizedConfirmText() }}
           </button>
         </div>
       </div>
@@ -97,4 +98,28 @@ export const confirmDialogService = new ConfirmDialogService();
 })
 export class ConfirmDialogComponent {
   confirmDialogService = confirmDialogService;
+
+  getLocalizedTitle(): string {
+    const opts = this.confirmDialogService.options();
+    if (!opts) return '';
+    return opts.title.startsWith('library.') ? t(opts.title) : opts.title;
+  }
+
+  getLocalizedMessage(): string {
+    const opts = this.confirmDialogService.options();
+    if (!opts) return '';
+    return opts.message.startsWith('library.') ? t(opts.message) : opts.message;
+  }
+
+  getLocalizedConfirmText(): string {
+    const opts = this.confirmDialogService.options();
+    if (!opts?.confirmText) return t('dialog.confirm');
+    return opts.confirmText.startsWith('library.') ? t(opts.confirmText) : opts.confirmText;
+  }
+
+  getLocalizedCancelText(): string {
+    const opts = this.confirmDialogService.options();
+    if (!opts?.cancelText) return t('dialog.cancel');
+    return opts.cancelText.startsWith('library.') ? t(opts.cancelText) : opts.cancelText;
+  }
 }
