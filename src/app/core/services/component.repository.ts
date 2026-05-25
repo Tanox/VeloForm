@@ -2,7 +2,6 @@
 import { getFirestore, collection, doc, setDoc, getDocs } from 'firebase/firestore';
 import { ConfigComponent, BikeType } from '../models/types';
 import { firebaseService } from './firebase.service';
-import { notificationService } from './notification.service';
 import { APP_CONSTANTS, ROAD_DEFAULTS, MTB_DEFAULTS, FOLD_DEFAULTS } from '../constants/app.constants';
 
 /**
@@ -13,7 +12,7 @@ class ComponentRepository {
   private db?: ReturnType<typeof getFirestore>;
 
   private getDefaultComponents(): ConfigComponent[] {
-    return [...ROAD_DEFAULTS, ...MTB_DEFAULTS, ...FOLD_DEFAULTS].map((comp, index) => ({
+    return [...ROAD_DEFAULTS, ...MTB_DEFAULTS, ...FOLD_DEFAULTS].map((comp) => ({
       ...comp,
       bikeType: comp.bikeType || this.inferBikeTypeFromDefaults(comp)
     }));
