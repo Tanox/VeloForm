@@ -1,7 +1,7 @@
 {
-  "framework": "angular",
+  "framework": "next",
   "buildCommand": "npm run build",
-  "outputDirectory": "./dist/browser",
+  "outputDirectory": "./.next",
   "installCommand": "npm install",
   "rootDirectory": "",
   "headers": [
