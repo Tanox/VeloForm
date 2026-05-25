@@ -12,7 +12,7 @@ class ComponentRepository {
   private db?: ReturnType<typeof getFirestore>;
 
   private getDefaultComponents(): ConfigComponent[] {
-    return [...ROAD_DEFAULTS, ...MTB_DEFAULTS, ...FOLD_DEFAULTS].map((comp) => ({
+return [...ROAD_DEFAULTS, ...MTB_DEFAULTS, ...FOLD_DEFAULTS].map((comp) => ({
       ...comp,
       bikeType: comp.bikeType || this.inferBikeTypeFromDefaults(comp)
     }));
