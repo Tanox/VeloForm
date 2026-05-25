@@ -1,36 +1,68 @@
 // src/app/core/services/component.repository.ts v3.4.0
 import { getFirestore, collection, doc, setDoc, getDocs } from 'firebase/firestore';
-import { ConfigComponent } from '../models/types';
+import { ConfigComponent, BikeType } from '../models/types';
 import { firebaseService } from './firebase.service';
 import { notificationService } from './notification.service';
-import { APP_CONSTANTS } from '../constants/app.constants';
+import { APP_CONSTANTS, ROAD_DEFAULTS, MTB_DEFAULTS, FOLD_DEFAULTS } from '../constants/app.constants';
 
 /**
  * 组件数据访问层
  * 负责处理与组件相关的所有数据库操作
  */
 class ComponentRepository {
-  private db = getFirestore(firebaseService.app, firebaseService.config.firestoreDatabaseId);
+  private db?: ReturnType<typeof getFirestore>;
+
+  private getDefaultComponents(): ConfigComponent[] {
+    return [...ROAD_DEFAULTS, ...MTB_DEFAULTS, ...FOLD_DEFAULTS].map((comp, index) => ({
+      ...comp,
+      bikeType: comp.bikeType || this.inferBikeTypeFromDefaults(comp)
+    }));
+  }
+
+  private inferBikeTypeFromDefaults(comp: ConfigComponent): BikeType {
+    if (ROAD_DEFAULTS.some(d => d.id === comp.id)) return 'Road';
+    if (MTB_DEFAULTS.some(d => d.id === comp.id)) return 'MTB';
+    if (FOLD_DEFAULTS.some(d => d.id === comp.id)) return 'Fold';
+    return 'Road';
+  }
+
+  private initializeDb() {
+    if (!this.db) {
+      try {
+        this.db = getFirestore(firebaseService.app, firebaseService.config.firestoreDatabaseId);
+      } catch (error) {
+        console.warn('Firebase DB initialization failed, using default components:', error);
+      }
+    }
+  }
 
   /**
    * 获取所有组件
    * @returns Promise<ConfigComponent[]> 组件数组
    */
   async getAll(): Promise<ConfigComponent[]> {
+    this.initializeDb();
+    
+    if (!this.db) {
+      return this.getDefaultComponents();
+    }
+
     try {
       const snap = await getDocs(collection(this.db, APP_CONSTANTS.FIRESTORE_COLLECTIONS.components));
       
       if (snap.empty) {
         await this.seedComponents();
         const freshSnap = await getDocs(collection(this.db, APP_CONSTANTS.FIRESTORE_COLLECTIONS.components));
-        return freshSnap.docs.map(d => d.data() as ConfigComponent);
+        if (!freshSnap.empty) {
+          return freshSnap.docs.map(d => d.data() as ConfigComponent);
+        }
+        return this.getDefaultComponents();
       }
       
       return snap.docs.map(d => d.data() as ConfigComponent);
     } catch (error) {
-      console.error('Failed to fetch components:', error);
-      notificationService.error('Failed to load components. Please refresh the page.');
-      return [];
+      console.warn('Failed to fetch components from DB, using defaults:', error);
+      return this.getDefaultComponents();
     }
   }
 
@@ -39,6 +71,11 @@ class ComponentRepository {
    * @private
    */
   private async seedComponents() {
+    if (!this.db) {
+      console.warn('Cannot seed components: DB not initialized');
+      return;
+    }
+
     const seeds: ConfigComponent[] = [
       { id: 'frame_road_sl8', category: 'Frame', bikeType: 'Road', name: 'S-Works Tarmac SL8', price: 5500, weight: 850, specs: 'Carbon Fact 12r' },
       { id: 'frame_road_aethos', category: 'Frame', bikeType: 'Road', name: 'Aethos Pro', price: 4200, weight: 685, specs: 'Carbon Fact 10r' },
