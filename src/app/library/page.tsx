@@ -12,6 +12,7 @@ import Link from 'next/link';
 export default function LibraryPage() {
   const myConfigs = useConfigStore((state) => state.myConfigs);
   const loadConfiguration = useConfigStore((state) => state.loadConfiguration);
+  const deleteConfiguration = useConfigStore((state) => state.deleteConfiguration);
 
   return (
     <div className="min-h-screen">
@@ -80,7 +81,11 @@ export default function LibraryPage() {
                         <FolderOpen className="w-4 h-4 mr-2" />
                         Load
                       </Button>
-                      <Button variant="ghost" size="sm">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => config.id && deleteConfiguration(config.id)}
+                      >
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>

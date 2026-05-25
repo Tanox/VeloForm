@@ -5,16 +5,18 @@ import { formatCurrency, formatWeight } from '@/lib/utils';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { motion } from 'framer-motion';
-import { Save, RefreshCw } from 'lucide-react';
+import { Save, RefreshCw, Loader2 } from 'lucide-react';
 
 export function SummaryPanel() {
-  const { activeType, getTotalCost, getTotalWeight, manualConfigName, resetToDefaults } =
+  const { activeType, getTotalCost, getTotalWeight, manualConfigName, resetToDefaults, isSaving, saveConfiguration } =
     useConfigStore((state) => ({
       activeType: state.activeType,
       getTotalCost: state.getTotalCost,
       getTotalWeight: state.getTotalWeight,
       manualConfigName: state.manualConfigName,
       resetToDefaults: state.resetToDefaults,
+      isSaving: state.isSaving,
+      saveConfiguration: state.saveConfiguration,
     }));
   const totalCost = getTotalCost();
   const totalWeight = getTotalWeight();
@@ -55,9 +57,13 @@ export function SummaryPanel() {
         </div>
 
         <div className="space-y-2">
-          <Button className="w-full" size="lg">
-            <Save className="w-4 h-4 mr-2" />
-            Save Build
+          <Button className="w-full" size="lg" onClick={saveConfiguration} disabled={isSaving}>
+            {isSaving ? (
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <Save className="w-4 h-4 mr-2" />
+            )}
+            {isSaving ? 'Saving...' : 'Save Build'}
           </Button>
           <Button variant="outline" className="w-full" onClick={resetToDefaults}>
             <RefreshCw className="w-4 h-4 mr-2" />

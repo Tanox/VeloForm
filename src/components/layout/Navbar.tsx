@@ -4,6 +4,7 @@ import { BikeTypeSelector } from '@/components/configurator/BikeTypeSelector';
 import { APP_CONSTANTS } from '@/lib/constants';
 import { BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import Link from 'next/link';
 
 export function Navbar() {
   return (
@@ -25,10 +26,12 @@ export function Navbar() {
           <BikeTypeSelector />
 
           <div className="flex items-center gap-3">
-            <Button variant="ghost">
-              <BookOpen className="w-4 h-4 mr-2" />
-              Library
-            </Button>
+            <Link href="/library">
+              <Button variant="ghost">
+                <BookOpen className="w-4 h-4 mr-2" />
+                Library
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

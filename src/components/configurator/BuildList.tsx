@@ -2,6 +2,7 @@
 
 import { useConfigStore } from '@/lib/store';
 import { formatCurrency, formatWeight } from '@/lib/utils';
+import { APP_CONSTANTS } from '@/lib/constants';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Edit3 } from 'lucide-react';
@@ -32,7 +33,7 @@ export function BuildList() {
             </div>
             <div className="text-right mr-4">
               <p className="text-primary font-semibold">{formatCurrency(component.price)}</p>
-              <p className="text-sm text-muted">{formatWeight(component.weight / 1000)}</p>
+              <p className="text-sm text-muted">{formatWeight(component.weight / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR)}</p>
             </div>
             <Button
               variant="ghost"

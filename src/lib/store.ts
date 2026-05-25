@@ -17,6 +17,8 @@ interface ConfigStore extends ConfigState {
   setManualConfigName: (name: string | null) => void;
   getTotalCost: () => number;
   getTotalWeight: () => number;
+  saveConfiguration: () => void;
+  deleteConfiguration: (configId: string) => void;
 }
 
 export const useConfigStore = create<ConfigStore>((set, get) => ({
@@ -88,5 +90,45 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     const baseWeight = APP_CONSTANTS.BASE_WEIGHTS[state.activeType];
     const componentWeight = state.components.reduce((sum, comp) => sum + comp.weight, 0);
     return (baseWeight + componentWeight) / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR;
+  },
+
+  saveConfiguration: () => {
+    const state = get();
+    set({ isSaving: true });
+
+    // Simulate async save operation
+    setTimeout(() => {
+      const config: Configuration = {
+        id: state.configId || `config_${Date.now()}`,
+        bikeType: state.activeType,
+        name: state.manualConfigName || `${state.activeType} Build`,
+        components: [...state.components],
+        totalCost: state.getTotalCost(),
+        estimatedWeight: state.getTotalWeight(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      set((prevState) => {
+        const existingIndex = prevState.myConfigs.findIndex((c) => c.id === config.id);
+        if (existingIndex >= 0) {
+          const updated = [...prevState.myConfigs];
+          updated[existingIndex] = config;
+          return { myConfigs: updated, configId: config.id || null, isSaving: false };
+        }
+        return {
+          myConfigs: [...prevState.myConfigs, config],
+          configId: config.id || null,
+          isSaving: false,
+        };
+      });
+    }, 600);
+  },
+
+  deleteConfiguration: (configId: string) => {
+    set((state) => ({
+      myConfigs: state.myConfigs.filter((c) => c.id !== configId),
+      configId: state.configId === configId ? null : state.configId,
+    }));
   },
 }));
