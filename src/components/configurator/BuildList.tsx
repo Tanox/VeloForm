@@ -5,16 +5,26 @@ import { formatCurrency, formatWeight } from '@/lib/utils';
 import { APP_CONSTANTS } from '@/lib/constants';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { useTranslation } from '@/lib/i18n';
 import { Edit3 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export function BuildList() {
+  const t = useTranslation();
   const components = useConfigStore((state) => state.components);
   const toggleComponentSelector = useConfigStore((state) => state.toggleComponentSelector);
 
+  const getCategoryTranslation = (category: string) => {
+    const key = `categories.${category.toLowerCase()}`;
+    const translated = t(key);
+    return translated === key ? category : translated;
+  };
+
   return (
     <div className="space-y-3">
-      <h3 className="text-lg font-display font-semibold text-foreground mb-4">Build List</h3>
+      <h3 className="text-lg font-display font-semibold text-foreground mb-4">
+        {t('configurator.buildList')}
+      </h3>
       {components.map((component, index) => (
         <motion.div
           key={component.id}
@@ -26,7 +36,7 @@ export function BuildList() {
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <span className="text-xs uppercase tracking-wider text-muted">
-                  {component.category}
+                  {getCategoryTranslation(component.category)}
                 </span>
               </div>
               <h4 className="font-medium text-foreground mt-1">{component.name}</h4>

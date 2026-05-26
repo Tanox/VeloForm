@@ -11,8 +11,10 @@ import { mockAlternatives } from '@/lib/mock-data';
 import { ConfigComponent } from '@/types';
 import { Check } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from '@/lib/i18n';
 
 export function ComponentSelector() {
+  const t = useTranslation();
   const showComponentSelector = useConfigStore((state) => state.showComponentSelector);
   const toggleComponentSelector = useConfigStore((state) => state.toggleComponentSelector);
   const components = useConfigStore((state) => state.components);
@@ -34,13 +36,19 @@ export function ComponentSelector() {
     toggleComponentSelector();
   };
 
+  const getCategoryTranslation = (category: string) => {
+    const key = `categories.${category.toLowerCase()}`;
+    const translated = t(key);
+    return translated === key ? category : translated;
+  };
+
   if (!currentComponent) return null;
 
   return (
     <Modal
       isOpen={showComponentSelector}
       onClose={() => toggleComponentSelector()}
-      title={`Select ${currentComponent.category}`}
+      title={`${t('configurator.selectComponent')} ${getCategoryTranslation(currentComponent.category)}`}
     >
       <div className="space-y-3 max-h-[60vh] overflow-y-auto">
         {alternatives.map((component, index) => (
@@ -76,7 +84,7 @@ export function ComponentSelector() {
       </div>
       <div className="mt-6">
         <Button variant="outline" className="w-full" onClick={() => toggleComponentSelector()}>
-          Cancel
+          {t('common.cancel')}
         </Button>
       </div>
     </Modal>
