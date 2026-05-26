@@ -16,9 +16,13 @@
 |------|------|----------|
 | [架构概览](./architecture/overview.md) | 项目概述、技术栈、核心架构原则、目录结构 | 了解项目整体架构 |
 | [数据流设计](./architecture/data-flow.md) | 状态管理、组件通信、副作用处理、持久化流程 | 理解数据如何在系统中流动 |
+<<<<<<< HEAD
 | [状态管理](./architecture/state-management.md) | React 状态管理方案、Context、Zustand、Server State | 选择合适的状态管理方案 |
 | [组件模式](./architecture/component-patterns.md) | React 组件设计模式、Hooks 最佳实践、性能优化 | 开发可复用组件时参考 |
 | [组件设计规范](./architecture/component-design.md) | 组件分类、命名规范、Props 定义、可访问性 | 开发新组件时参考 |
+=======
+| [组件设计规范](./architecture/component-design.md) | 组件分类、命名规范、输入输出、变更检测、可访问性 | 开发新组件时参考 |
+>>>>>>> origin/main
 | [ADR 索引](./architecture/adr/) | 架构决策记录索引 | 理解关键架构决策背景 |
 | [规范标准化](./规范标准化.md) | 文档格式、版本管理、命名规范和维护流程 | 规范化文档编写 |
 
@@ -26,15 +30,24 @@
 
 | 文档 | 说明 | 适用场景 |
 |------|------|----------|
+<<<<<<< HEAD
 | [Firestore API](./api/firestore.md) | Next.js Firebase SDK 接口、安全规则、错误处理、性能优化 | 调用后端服务时参考 |
+=======
+| [Firestore API](./api/firestore.md) | Firebase 服务接口、安全规则、错误处理，性能优化 | 调用后端服务时参考 |
+>>>>>>> origin/main
 | [数据模型](./api/data-models.md) | 实体定义、Schema、验证规则、ER 图 | 理解数据结构时参考 |
 
 ### 💻 开发规范 (Development)
 
 | 文档 | 说明 | 适用场景 |
 |------|------|----------|
+<<<<<<< HEAD
 | [编码规范](./development/coding-standards.md) | TypeScript、React/Next.js、样式、Git 工作流、性能优化 | 编写代码时遵循 |
 | [测试规范](./development/testing.md) | 测试策略、框架使用、覆盖率要求、最佳实践 | 编写测试时参考 |
+=======
+| [编码规范](./development/coding-standards.md) | TypeScript、Angular、样式、Git 工作流，性能优化 | 编写代码时遵循 |
+| [测试规范](./development/testing.md) | 测试策略、框架使用、覆盖率要求，最佳实践 | 编写测试时参考 |
+>>>>>>> origin/main
 
 ### 🚀 部署规范 (Deployment)
 
@@ -53,7 +66,11 @@
 
 | 文档 | 说明 | 适用场景 |
 |------|------|----------|
+<<<<<<< HEAD
 | [性能优化](./performance/optimization.md) | Bundle 优化、React 性能、3D 渲染优化、监控 | 优化应用性能 |
+=======
+| [性能优化](./performance/optimization.md) | Bundle 优化、Angular 性能、3D 渲染优化、监控 | 优化应用性能 |
+>>>>>>> origin/main
 
 ---
 
@@ -68,8 +85,13 @@
 
 ### 我要开发一个新功能
 
+<<<<<<< HEAD
 1. 查看 [组件模式](./architecture/component-patterns.md) 了解 React 组件开发模式
 2. 参考 [状态管理](./architecture/state-management.md) 选择合适的状态管理方案
+=======
+1. 查看 [组件设计规范](./architecture/component-design.md) 了解组件开发标准
+2. 参考 [数据流设计](./architecture/data-flow.md) 理解状态管理模式
+>>>>>>> origin/main
 3. 如需调用后端，查阅 [Firestore API](./api/firestore.md)
 4. 完成后按照 [测试规范](./development/testing.md) 编写测试
 
@@ -97,8 +119,13 @@
 - [ ] 遵循 [编码规范](./development/coding-standards.md)
 - [ ] 通过 ESLint 检查 (`npm run lint`)
 - [ ] 无 `any` 类型滥用
+<<<<<<< HEAD
 - [ ] 使用 React Hooks 正确管理组件状态
 - [ ] Server/Client 组件边界划分清晰
+=======
+- [ ] 组件使用 `OnPush` 变更检测
+- [ ] 使用 Signal-based 状态管理
+>>>>>>> origin/main
 
 ### 测试
 - [ ] 新功能包含单元测试
@@ -142,7 +169,10 @@
 
 | 规范版本 | 项目版本 | 更新日期 | 主要变更 |
 |---------|---------|---------|---------|
+<<<<<<< HEAD
 | v3.4.0 | 3.4.0 | 2026-05-26 | 技术栈迁移至 Next.js：更新文档索引结构、添加 React 组件模式和状态管理规范、更新开发规范为 Next.js 标准 |
+=======
+>>>>>>> origin/main
 | v3.4.0 | 3.4.0 | 2026-05-05 | 文档体系标准化：统一所有文档版本号至 v3.4.0、完善 OpenSpec 规范格式、规范化文档结构 |
 | v3.3.0 | 3.3.0 | 2026-05-11 | 完整架构重构，引入 Feature-Based 分层结构（Core/Features/Shared），修复 UI Bug |
 | v3.2.0 | 3.2.0 | 2026-05-01 | 新增组件编辑、路由系统、通知系统、确认对话框 |
@@ -170,5 +200,9 @@
 
 ---
 
+<<<<<<< HEAD
 **最后更新**: 2026-05-26
+=======
+**最后更新**: 2026-05-05  
+>>>>>>> origin/main
 **版本**: v3.4.0

@@ -11,7 +11,11 @@ export default function Home() {
     <div className="min-h-screen">
       <Navbar />
       
+<<<<<<< HEAD
       <main className="max-w-7xl mx-auto px-4 pt-24 pb-8">
+=======
+      <main className="max-w-7xl mx-auto px-4 py-8">
+>>>>>>> origin/main
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
