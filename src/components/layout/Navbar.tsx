@@ -5,9 +5,11 @@ import { APP_CONSTANTS } from '@/lib/constants';
 import { BookOpen, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
-import { useLanguage, useSetLanguage } from '@/lib/i18n';
+import { useLanguage, useSetLanguage, useTranslation } from '@/lib/i18n';
+import { motion } from 'framer-motion';
 
 export function Navbar() {
+  const t = useTranslation();
   const language = useLanguage();
   const setLanguage = useSetLanguage();
 
@@ -16,37 +18,51 @@ export function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-40 bg-background/80 backdrop-blur-xl border-b border-zinc-800">
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center">
-              <span className="text-xl font-bold text-white">V</span>
-            </div>
-            <div>
-              <h1 className="text-xl font-display font-bold text-foreground">
+    <motion.nav 
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+      className="sticky top-0 z-40 bg-background/60 backdrop-blur-2xl border-b border-zinc-800/50"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="flex items-center justify-between gap-4">
+          <Link href="/" className="flex items-center gap-3 group">
+            <motion.div 
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              className="w-12 h-12 bg-gradient-to-br from-primary via-primary to-accent rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all duration-300"
+            >
+              <span className="text-2xl font-bold text-white">V</span>
+            </motion.div>
+            <div className="hidden sm:block">
+              <h1 className="text-xl font-display font-bold text-foreground group-hover:text-gradient transition-all duration-300">
                 {APP_CONSTANTS.APP_INFO.name}
               </h1>
-              <p className="text-xs text-muted">{APP_CONSTANTS.APP_INFO.tagline}</p>
+              <p className="text-xs text-muted/80">{APP_CONSTANTS.APP_INFO.tagline}</p>
             </div>
+          </Link>
+
+          <div className="flex-1 max-w-md">
+            <BikeTypeSelector />
           </div>
 
-          <BikeTypeSelector />
-
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" onClick={toggleLanguage}>
-              <Globe className="w-4 h-4 mr-2" />
-              {language === 'en' ? 'EN' : '中文'}
-            </Button>
-            <Link href="/library">
-              <Button variant="ghost">
-                <BookOpen className="w-4 h-4 mr-2" />
-                Library
+          <div className="flex items-center gap-2">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button variant="ghost" onClick={toggleLanguage}>
+                <Globe className="w-4 h-4 mr-2" />
+                {language === 'en' ? 'EN' : '中文'}
               </Button>
-            </Link>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link href="/library">
+                <Button variant="ghost">
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  <span className="hidden sm:inline">{t('nav.library')}</span>
+                </Button>
+              </Link>
+            </motion.div>
           </div>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 }
