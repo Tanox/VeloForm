@@ -1,5 +1,6 @@
+'use client';
+
 import { initializeApp, getApps } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -11,12 +12,13 @@ const firebaseConfig = {
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '123456',
 };
 
+// Only initialize Firebase on client
 let app;
-if (!getApps().length) {
+if (typeof window !== 'undefined' && !getApps().length) {
   app = initializeApp(firebaseConfig);
-} else {
+} else if (typeof window !== 'undefined') {
   app = getApps()[0];
 }
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+// Export null or dummy values for server
+export const db = typeof window !== 'undefined' ? getFirestore(app!) : null;

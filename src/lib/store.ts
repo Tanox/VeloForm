@@ -1,3 +1,5 @@
+'use client';
+
 import { create } from 'zustand';
 import { ConfigState, ConfigComponent, Configuration, BikeType } from '@/types';
 import { getDefaultsForType, APP_CONSTANTS } from './constants';
@@ -17,8 +19,11 @@ interface ConfigStore extends ConfigState {
   setManualConfigName: (name: string | null) => void;
   getTotalCost: () => number;
   getTotalWeight: () => number;
-  saveConfiguration: () => void;
-  deleteConfiguration: (configId: string) => void;
+  saveConfiguration: () => Promise<void>;
+  deleteConfiguration: (configId: string) => Promise<void>;
+  loadMyConfigs: (userId?: string) => Promise<void>;
+  userId: string | null;
+  setUserId: (userId: string | null) => void;
 }
 
 export const useConfigStore = create<ConfigStore>((set, get) => ({
@@ -33,6 +38,7 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   isSaving: false,
   showComponentSelector: false,
   editingComponentId: '',
+  userId: null,
 
   setActiveType: (type: BikeType) =>
     set({
@@ -79,6 +85,7 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   setSaving: (saving: boolean) => set({ isSaving: saving }),
   setConfigId: (id: string | null) => set({ configId: id }),
   setManualConfigName: (name: string | null) => set({ manualConfigName: name }),
+  setUserId: (userId: string | null) => set({ userId }),
 
   getTotalCost: () => {
     const state = get();
@@ -92,14 +99,13 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     return (baseWeight + componentWeight) / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR;
   },
 
-  saveConfiguration: () => {
+  saveConfiguration: async () => {
     const state = get();
     set({ isSaving: true });
 
-    // Simulate async save operation
-    setTimeout(() => {
+    try {
       const config: Configuration = {
-        id: state.configId || `config_${Date.now()}`,
+        id: state.configId || undefined,
         bikeType: state.activeType,
         name: state.manualConfigName || `${state.activeType} Build`,
         components: [...state.components],
@@ -108,6 +114,19 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
         createdAt: new Date(),
         updatedAt: new Date(),
       };
+
+      // Try to save to Firebase first (dynamic import to avoid server issues)
+      try {
+        const { saveConfigurationToFirebase } = await import('./firebase-service');
+        const savedId = await saveConfigurationToFirebase(config, state.userId || undefined);
+        config.id = savedId;
+      } catch (error) {
+        console.warn('Failed to save to Firebase, using local storage only:', error);
+        // Fallback to local only if Firebase fails
+        if (!config.id) {
+          config.id = `config_${Date.now()}`;
+        }
+      }
 
       set((prevState) => {
         const existingIndex = prevState.myConfigs.findIndex((c) => c.id === config.id);
@@ -122,13 +141,33 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
           isSaving: false,
         };
       });
-    }, 600);
+    } catch (error) {
+      console.error('Failed to save configuration:', error);
+      set({ isSaving: false });
+    }
   },
 
-  deleteConfiguration: (configId: string) => {
+  deleteConfiguration: async (configId: string) => {
+    try {
+      const { deleteConfigurationFromFirebase } = await import('./firebase-service');
+      await deleteConfigurationFromFirebase(configId);
+    } catch (error) {
+      console.warn('Failed to delete from Firebase:', error);
+    }
+
     set((state) => ({
       myConfigs: state.myConfigs.filter((c) => c.id !== configId),
       configId: state.configId === configId ? null : state.configId,
     }));
+  },
+
+  loadMyConfigs: async (userId?: string) => {
+    try {
+      const { loadConfigurationsFromFirebase } = await import('./firebase-service');
+      const configs = await loadConfigurationsFromFirebase(userId);
+      set({ myConfigs: configs, userId: userId || null });
+    } catch (error) {
+      console.error('Failed to load configurations:', error);
+    }
   },
 }));
