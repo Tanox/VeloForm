@@ -1,4 +1,8 @@
-# Veloform 安全规范 (v3.4.0)
+# 安全规范
+
+> **路径**: `/openspec/security/security-guidelines.md`  
+> **版本**: v3.4.0  
+> **更新日期**: 2026-05-05
 
 ## 概述
 
@@ -154,7 +158,7 @@ function isValidConfiguration(config) {
 
 ---
 
-## 6. 安全最佳实践清单
+## 安全最佳实践清单
 
 | 类别 | 最佳实践 |
 |------|----------|
@@ -167,5 +171,6 @@ function isValidConfiguration(config) {
 
 ---
 
+**文档路径**: `/openspec/security/security-guidelines.md`  
 **最后更新**: 2026-05-05  
 **版本**: v3.4.0

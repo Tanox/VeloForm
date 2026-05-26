@@ -1,8 +1,12 @@
-# Veloform 规范概览 (v3.4.0)
+# Veloform 规范概览
 
-> **注意**: 本文档已重构为模块化结构。详细内容请访问 [openspec/README.md](./README.md)。
+> **路径**: `/openspec/SPEC.md`  
+> **版本**: v3.4.0  
+> **更新日期**: 2026-05-05
 
-## 项目概述
+## 概述
+
+本文档是 Veloform 项目规范体系的核心概览，提供技术栈、架构原则、目录结构和核心规范的快速参考。详细内容请访问 [openspec/README.md](./README.md)。
 
 Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，支持 **公路车**、**山地车** 和 **折叠车** 三类车型的自定义构建模拟。具备实时 3D 程序化可视化、Firebase 后端持久化和静态部署。
 
@@ -149,7 +153,7 @@ src/
 
 ## 文档导航
 
-### 📚 完整规范体系
+### 完整规范体系
 
 | 分类 | 文档 |
 |------|------|
@@ -157,8 +161,11 @@ src/
 | **API** | [Firestore](./api/firestore.md) · [数据模型](./api/data-models.md) |
 | **开发** | [编码规范](./development/coding-standards.md) · [测试](./development/testing.md) |
 | **部署** | [环境配置](./deployment/environments.md) |
+| **DevOps** | [CI/CD 流程](./devops/ci-cd.md) |
+| **性能** | [性能优化](./performance/optimization.md) |
+| **安全** | [安全指南](./security/security-guidelines.md) |
 
-### 🔗 相关文档
+### 相关文档
 
 - **[openspec/README.md](./README.md)** - 规范索引入口（推荐从这里开始）
 - **[PROJECT_GUIDELINES.md](../PROJECT_GUIDELINES.md)** - 项目开发指南和协作流程
@@ -167,18 +174,6 @@ src/
 
 ---
 
-## 版本历史
-
-| 规范版本 | 项目版本 | 更新日期 | 说明 |
-|---------|---------|---------|------|
-| v3.4.0 | 3.4.0 | 2026-05-05 | 文档体系标准化：统一所有文档版本号至 v3.4.0、完善 OpenSpec 规范格式、规范化文档结构 |
-| v3.3.2 | 3.3.2 | 2026-05-20 | WebGL 检测与降级方案、部署配置修复、版本号统一 |
-| v3.3.1 | 3.3.1 | 2026-05-19 | 动态项目 ID、测试文件整理 |
-| v3.3.0 | 3.3.0 | 2026-05-11 | 完整架构重构，引入 Feature-Based 分层结构（Core/Features/Shared），修复 UI Bug |
-| v3.2.0 | 3.2.0 | 2026-05-01 | 新增组件编辑模态框、路由系统、通知系统、确认对话框服务 |
-| v3.1.0 | 3.1.0 | 2026-05-01 | 模块化重构，拆分为多个专业文档 |
-
----
-
+**文档路径**: `/openspec/SPEC.md`  
 **最后更新**: 2026-05-05  
 **版本**: v3.4.0

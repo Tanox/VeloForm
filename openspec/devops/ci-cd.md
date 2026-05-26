@@ -1,4 +1,8 @@
-# Veloform CI/CD 流程规范 (v3.4.0)
+# CI/CD 流程规范
+
+> **路径**: `/openspec/devops/ci-cd.md`  
+> **版本**: v3.4.0  
+> **更新日期**: 2026-05-05
 
 ## 概述
 
@@ -202,7 +206,7 @@ export default defineConfig({
 
 ---
 
-## 6. CI/CD 最佳实践清单
+## CI/CD 最佳实践清单
 
 | 类别 | 最佳实践 |
 |------|----------|
@@ -214,5 +218,6 @@ export default defineConfig({
 
 ---
 
+**文档路径**: `/openspec/devops/ci-cd.md`  
 **最后更新**: 2026-05-05  
 **版本**: v3.4.0

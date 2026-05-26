@@ -1,4 +1,8 @@
-# Veloform 性能优化规范 (v3.4.0)
+# 性能优化规范
+
+> **路径**: `/openspec/performance/optimization.md`  
+> **版本**: v3.4.0  
+> **更新日期**: 2026-05-05
 
 ## 概述
 
@@ -269,7 +273,7 @@ await batch.commit();
 
 ---
 
-## 6. 性能优化最佳实践清单
+## 性能优化最佳实践清单
 
 | 类别 | 最佳实践 |
 |------|----------|
@@ -281,5 +285,6 @@ await batch.commit();
 
 ---
 
+**文档路径**: `/openspec/performance/optimization.md`  
 **最后更新**: 2026-05-05  
 **版本**: v3.4.0
