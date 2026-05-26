@@ -26,7 +26,7 @@ export function SummaryPanel() {
   };
 
   return (
-    <Card className="sticky top-6">
+    <Card className="sticky top-24">
       <div className="space-y-6">
         <div>
           <h3 className="text-sm font-medium text-muted mb-2">Current Build</h3>

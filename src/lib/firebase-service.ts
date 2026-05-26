@@ -5,10 +5,8 @@ import { APP_CONSTANTS } from './constants';
 
 // Helper function to check if Firebase is configured
 function isFirebaseConfigured(): boolean {
-  return (
-    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID &&
-    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID !== 'YOUR_PROJECT_ID'
-  );
+  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+  return !!(projectId && projectId !== 'YOUR_PROJECT_ID');
 }
 
 export async function saveConfigurationToFirebase(
