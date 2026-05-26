@@ -11,3 +11,5 @@ coverage
 *.tgz
 .cache
 .tmp
+/.next
+.next/
