@@ -21,6 +21,10 @@ export function SummaryPanel() {
   const totalCost = getTotalCost();
   const totalWeight = getTotalWeight();
 
+  const handleSave = async () => {
+    await saveConfiguration();
+  };
+
   return (
     <Card className="sticky top-6">
       <div className="space-y-6">
@@ -57,7 +61,7 @@ export function SummaryPanel() {
         </div>
 
         <div className="space-y-2">
-          <Button className="w-full" size="lg" onClick={saveConfiguration} disabled={isSaving}>
+          <Button className="w-full" size="lg" onClick={handleSave} disabled={isSaving}>
             {isSaving ? (
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
             ) : (
