@@ -1,10 +1,8 @@
 # Veloform 规范概览 (v3.4.0)
 
-> **注意**: 本文档已重构为模块化结构。详细内容请访问 [openspec/README.md](./README.md)。
+## 概述
 
-## 项目概述
-
-Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，支持 **公路车**、**山地车** 和 **折叠车** 三类车型的自定义构建模拟。具备实时 3D 程序化可视化、Firebase 后端持久化和静态部署。
+Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，支持 **公路车**、**山地车** 和 **折叠车** 三类车型的自定义构建模拟。具备实时价格和重量计算、Firebase 后端持久化和静态部署。
 
 - **生产地址**: `https://veloform.app`
 - **代码仓库**: `https://github.com/sutchan/Veloform`
@@ -15,32 +13,26 @@ Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，支
 
 | 层级 | 技术 | 版本 |
 | :--- | :--- | :--- |
-| **框架** | Angular (Zoneless, Signal-based) | ^21.0.0 |
-| **语言** | TypeScript | ~5.9.2 |
-| **样式** | Tailwind CSS (Mobile-first) | ^4.1.12 |
-| **后端/数据库** | Firebase (Firestore, Auth) | ^12.12.1 |
-| **3D 渲染** | Three.js (Procedural WebGL) | ^0.184.0 |
-| **SSR 运行时** | Express + Angular SSR | ^5.1.0 / ^21.0.0 |
-| **测试** | Vitest | ^4.0.0 |
-| **部署** | Vercel / EdgeOne Pages | — |
+| **框架** | Next.js (App Router) | 14.1.0 |
+| **UI 库** | React | ^18.2.0 |
+| **状态管理** | Zustand | ^4.5.0 |
+| **样式** | Tailwind CSS | 3.4.0 |
+| **后端/数据库** | Firebase (Firestore) | ^10.0.0 |
+| **动画** | Framer Motion | ^10.16.4 |
+| **图标** | Lucide React | ^0.294.0 |
 
-完整技术栈说明见 [架构概览](./architecture/overview.md)
+完整技术栈说明见下方。
 
 ---
 
 ## 核心架构原则
 
-1. **分层架构** - Core / Features / Shared 三层分离
-2. **单向数据流** - 使用 Angular Signals 实现可预测的状态管理
-3. **OnPush 变更检测** - 所有组件默认使用 OnPush 策略
-4. **Standalone Components** - 扁平化组件架构
-5. **Repository 模式** - 数据访问层与业务逻辑分离
-6. **平台安全** - Three.js 和 DOM 操作需要 `isPlatformBrowser()` 检查
-
-详细架构设计见：
-- [架构概览](./architecture/overview.md)
-- [数据流设计](./architecture/data-flow.md)
-- [组件设计规范](./architecture/component-design.md)
+1. **组件优先** - 使用 React 函数组件配合客户端 Hooks
+2. **状态隔离** - 使用 Zustand 进行全局状态管理
+3. **类型安全** - 使用 TypeScript 严格类型检查
+4. **渐进增强** - 使用客户端组件 ('use client') 处理交互
+5. **数据分离** - 组件、服务、状态管理分离
+6. **错误处理** - 使用 ErrorBoundary 捕获渲染错误
 
 ---
 
@@ -48,27 +40,38 @@ Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，支
 
 ```
 src/
-├── app/
-│   ├── core/                          # 核心功能模块
-│   │   ├── constants/                 # 应用常量
-│   │   ├── models/                    # 数据模型/类型
-│   │   ├── services/                  # 核心服务
-│   │   └── stores/                    # 状态管理 (ConfigStore)
-│   │
-│   ├── features/                      # 功能模块
-│   │   ├── configurator/              # 配置器模块
-│   │   │   ├── components/            # 预览、配置清单、组件选择器
-│   │   │   └── services/              # ConfigService
-│   │   └── navbar/                    # 导航栏模块
-│   │
-│   ├── shared/                        # 共享组件
-│   │   └── components/                # 侧边栏、加载指示器、通知、对话框
-│   │
-│   └── app.ts                         # 根组件
-│
-├── public/                            # 静态资源 (EdgeOne 配置)
-├── styles.css                         # 全局样式
-└── main.ts                            # 入口文件
+├── app/                           # Next.js App Router
+│   ├── layout.tsx                 # 根布局
+│   ├── page.tsx                   # 首页（配置器）
+│   ├── globals.css                # 全局样式
+│   └── library/
+│       └── page.tsx               # 配置库页面
+├── components/
+│   ├── configurator/              # 配置器组件
+│   │   ├── BikeTypeSelector.tsx   # 车型选择器
+│   │   ├── BuildList.tsx          # 配置清单
+│   │   ├── ComponentSelector.tsx  # 组件选择器
+│   │   └── SummaryPanel.tsx       # 摘要面板
+│   ├── layout/
+│   │   └── Navbar.tsx             # 导航栏
+│   └── ui/                        # UI 基础组件
+│       ├── Button.tsx
+│       ├── Card.tsx
+│       ├── Modal.tsx
+│       └── ErrorBoundary.tsx
+├── lib/
+│   ├── constants.ts               # 应用常量
+│   ├── mock-data.ts               # 模拟数据
+│   ├── store.ts                   # Zustand 状态管理
+│   ├── utils.ts                   # 工具函数
+│   ├── firebase.ts                # Firebase 初始化
+│   ├── firebase-service.ts        # Firebase 服务
+│   └── i18n/                      # 国际化
+│       ├── index.ts               # i18n 服务
+│       ├── en.ts                  # 英文翻译
+│       └── zh-CN.ts               # 中文翻译
+└── types/
+    └── index.ts                   # 类型定义
 ```
 
 ---
@@ -77,11 +80,10 @@ src/
 
 ### 核心实体
 
-- **ConfigComponent** - 自行车组件（车架、传动、轮组等）
+- **ConfigComponent** - 自行车组件
 - **Configuration** - 用户保存的自行车配置
-- **DatabaseComponent** - Firestore 中的全局组件字典
 
-完整数据模型定义见 [数据模型规范](./api/data-models.md)
+完整类型定义见 `src/types/index.ts`
 
 ---
 
@@ -89,13 +91,12 @@ src/
 
 ### Firebase 服务
 
-- `loginWithGoogle()` - Google OAuth 登录
-- `saveConfiguration(config)` - 保存配置到 Firestore
-- `getUserConfigurations()` - 获取用户配置列表
-- `deleteConfiguration(id)` - 删除配置
-- `getComponentsFromDB()` - 获取组件字典
+- `saveConfigurationToFirebase(config, userId?)` - 保存配置到 Firestore
+- `loadConfigurationsFromFirebase(userId?)` - 加载用户配置列表
+- `deleteConfigurationFromFirebase(configId)` - 删除配置
+- `loadComponentsFromFirebase()` - 加载组件字典
 
-完整 API 规范见 [Firestore API 规范](./api/firestore.md)
+完整服务定义见 `src/lib/firebase-service.ts`
 
 ---
 
@@ -104,31 +105,23 @@ src/
 ### TypeScript
 - 避免 `any`，使用明确类型
 - 导出函数必须标注返回类型
-- 使用 `inject()` 进行依赖注入
+- 使用类型守卫和类型断言
 
-### Angular
-- Standalone + OnPush
-- Signal-based 状态管理
-- 组件必须使用 `input()` / `output()` 装饰器
+### React
+- 使用函数组件配合 Hooks
+- 状态管理使用 Zustand
+- 客户端组件使用 `'use client'` 指令
+- 保持组件单一职责
 
-### 测试
-- 覆盖率目标：≥80%
-- 新功能必须配套单元测试
+### 样式
+- 使用 Tailwind CSS 工具类
+- 避免自定义 CSS
+- 移动端优先设计
 
-完整开发规范见：
-- [编码规范](./development/coding-standards.md)
-- [测试规范](./development/testing.md)
-
----
-
-## 部署
-
-- **平台**: Vercel / EdgeOne Pages
-- **构建命令**: `npm run build`
-- **输出目录**: `dist/browser`
-- **SPA 配置**: `_redirects` 和 `_headers` 文件用于边缘部署
-
-完整部署指南见 [环境配置](./deployment/environments.md)
+### 错误处理
+- 使用 ErrorBoundary 捕获组件错误
+- 合理处理 Promise 错误
+- 提供友好的错误提示
 
 ---
 
@@ -136,14 +129,15 @@ src/
 
 | 组件 | 说明 | 状态 |
 |------|------|------|
-| `NavbarComponent` | 顶部导航栏，含语言切换、主题切换 | ✅ |
-| `SidebarComponent` | 桌面端自行车类型选择器 | ✅ |
-| `PreviewComponent` | 3D 自行车预览 + 统计信息 | ✅ |
-| `BuildListComponent` | 配置清单 + 同步/部署按钮 | ✅ |
-| `ComponentSelectorComponent` | 组件选择模态框 | ✅ |
-| `NotificationDisplayComponent` | 通知提示组件 | ✅ |
-| `ConfirmDialogComponent` | 确认对话框组件 | ✅ |
-| `LoadingIndicatorComponent` | 加载指示器组件 | ✅ |
+| `Navbar` | 顶部导航栏，包含语言切换 | ✅ |
+| `BikeTypeSelector` | 车型选择器 | ✅ |
+| `BuildList` | 配置清单和组件编辑 | ✅ |
+| `SummaryPanel` | 价格和重量计算 | ✅ |
+| `ComponentSelector` | 组件选择模态框 | ✅ |
+| `ErrorBoundary` | 错误边界 | ✅ |
+| `Button` | 通用按钮组件 | ✅ |
+| `Card` | 通用卡片组件 | ✅ |
+| `Modal` | 通用模态框组件 | ✅ |
 
 ---
 
@@ -151,19 +145,11 @@ src/
 
 ### 📚 完整规范体系
 
-| 分类 | 文档 |
+| 分类 | 说明 |
 |------|------|
-| **架构** | [概览](./architecture/overview.md) · [数据流](./architecture/data-flow.md) · [组件设计](./architecture/component-design.md) |
-| **API** | [Firestore](./api/firestore.md) · [数据模型](./api/data-models.md) |
-| **开发** | [编码规范](./development/coding-standards.md) · [测试](./development/testing.md) |
-| **部署** | [环境配置](./deployment/environments.md) |
-
-### 🔗 相关文档
-
-- **[openspec/README.md](./README.md)** - 规范索引入口（推荐从这里开始）
-- **[PROJECT_GUIDELINES.md](../PROJECT_GUIDELINES.md)** - 项目开发指南和协作流程
-- **[README.md](../README.md)** - 项目概述
-- **[CHANGELOG.md](../CHANGELOG.md)** - 版本历史
+| **架构** | 整体架构和数据流 |
+| **开发** | 编码规范和最佳实践 |
+| **部署** | 部署环境和流程 |
 
 ---
 
@@ -171,14 +157,12 @@ src/
 
 | 规范版本 | 项目版本 | 更新日期 | 说明 |
 |---------|---------|---------|------|
-| v3.4.0 | 3.4.0 | 2026-05-05 | 文档体系标准化：统一所有文档版本号至 v3.4.0、完善 OpenSpec 规范格式、规范化文档结构 |
-| v3.3.2 | 3.3.2 | 2026-05-20 | WebGL 检测与降级方案、部署配置修复、版本号统一 |
+| v3.4.0 | 3.4.0 | 2026-05-26 | 文档体系标准化，新增国际化支持、错误边界，更新为 Next.js 架构 |
+| v3.3.2 | 3.3.2 | 2026-05-20 | 部署配置修复、版本号统一 |
 | v3.3.1 | 3.3.1 | 2026-05-19 | 动态项目 ID、测试文件整理 |
-| v3.3.0 | 3.3.0 | 2026-05-11 | 完整架构重构，引入 Feature-Based 分层结构（Core/Features/Shared），修复 UI Bug |
-| v3.2.0 | 3.2.0 | 2026-05-01 | 新增组件编辑模态框、路由系统、通知系统、确认对话框服务 |
-| v3.1.0 | 3.1.0 | 2026-05-01 | 模块化重构，拆分为多个专业文档 |
+| v3.3.0 | 3.3.0 | 2026-05-11 | 完整架构重构，修复 UI 问题 |
 
 ---
 
-**最后更新**: 2026-05-05  
+**最后更新**: 2026-05-26  
 **版本**: v3.4.0
