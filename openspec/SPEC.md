@@ -4,7 +4,7 @@
 
 ## 项目概述
 
-Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，支持 **公路车**、**山地车** 和 **折叠车** 三类车型的自定义构建模拟。具备实时 3D 程序化可视化、Firebase 后端持久化和静态部署。
+Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，支持 **公路车**、**山地车** 和 **折叠车** 三类车型的自定义构建模拟。具备 Firebase 后端持久化和静态部署。
 
 - **生产地址**: `https://veloform.app`
 - **代码仓库**: `https://github.com/sutchan/Veloform`
@@ -15,13 +15,13 @@ Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，支
 
 | 层级 | 技术 | 版本 |
 | :--- | :--- | :--- |
-| **框架** | Angular (Zoneless, Signal-based) | ^21.0.0 |
-| **语言** | TypeScript | ~5.9.2 |
-| **样式** | Tailwind CSS (Mobile-first) | ^4.1.12 |
-| **后端/数据库** | Firebase (Firestore, Auth) | ^12.12.1 |
-| **3D 渲染** | Three.js (Procedural WebGL) | ^0.184.0 |
-| **SSR 运行时** | Express + Angular SSR | ^5.1.0 / ^21.0.0 |
-| **测试** | Vitest | ^4.0.0 |
+| **框架** | Next.js | 14.1.0 |
+| **语言** | React | ^18.2.0 |
+| **状态管理** | Zustand | ^4.5.0 |
+| **样式** | Tailwind CSS | ^3.4.0 |
+| **后端/数据库** | Firebase | ^10.0.0 |
+| **动画** | Framer Motion | ^10.16.4 |
+| **图标** | Lucide React | ^0.294.0 |
 | **部署** | Vercel / EdgeOne Pages | — |
 
 完整技术栈说明见 [架构概览](./architecture/overview.md)
@@ -30,12 +30,12 @@ Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，支
 
 ## 核心架构原则
 
-1. **分层架构** - Core / Features / Shared 三层分离
-2. **单向数据流** - 使用 Angular Signals 实现可预测的状态管理
-3. **OnPush 变更检测** - 所有组件默认使用 OnPush 策略
-4. **Standalone Components** - 扁平化组件架构
-5. **Repository 模式** - 数据访问层与业务逻辑分离
-6. **平台安全** - Three.js 和 DOM 操作需要 `isPlatformBrowser()` 检查
+1. **App Router 架构** - 使用 Next.js 14 App Router 布局
+2. **单向数据流** - 使用 Zustand 实现可预测的状态管理
+3. **响应式设计** - 移动优先的响应式布局
+4. **组件化架构** - 扁平化的 UI 组件架构
+5. **服务层分离** - Firebase 服务与业务逻辑分离
+6. **客户端安全** - 客户端专用组件使用 `use client` 指令
 
 详细架构设计见：
 - [架构概览](./architecture/overview.md)
@@ -48,27 +48,42 @@ Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，支
 
 ```
 src/
-├── app/
-│   ├── core/                          # 核心功能模块
-│   │   ├── constants/                 # 应用常量
-│   │   ├── models/                    # 数据模型/类型
-│   │   ├── services/                  # 核心服务
-│   │   └── stores/                    # 状态管理 (ConfigStore)
-│   │
-│   ├── features/                      # 功能模块
-│   │   ├── configurator/              # 配置器模块
-│   │   │   ├── components/            # 预览、配置清单、组件选择器
-│   │   │   └── services/              # ConfigService
-│   │   └── navbar/                    # 导航栏模块
-│   │
-│   ├── shared/                        # 共享组件
-│   │   └── components/                # 侧边栏、加载指示器、通知、对话框
-│   │
-│   └── app.ts                         # 根组件
+├── app/                          # Next.js App Router 路由
+│   ├── page.tsx                 # 首页/配置器
+│   ├── library/
+│   │   └── page.tsx             # 配置库页面
+│   ├── layout.tsx               # 根布局
+│   ├── providers.tsx            # 全局提供者
+│   └── globals.css              # 全局样式
 │
-├── public/                            # 静态资源 (EdgeOne 配置)
-├── styles.css                         # 全局样式
-└── main.ts                            # 入口文件
+├── components/                   # UI 组件
+│   ├── configurator/            # 配置器相关组件
+│   │   ├── BikeTypeSelector.tsx
+│   │   ├── BuildList.tsx
+│   │   ├── ComponentSelector.tsx
+│   │   └── SummaryPanel.tsx
+│   ├── layout/                  # 布局组件
+│   │   └── Navbar.tsx
+│   └── ui/                      # 通用 UI 组件
+│       ├── Button.tsx
+│       ├── Card.tsx
+│       ├── Modal.tsx
+│       └── ErrorBoundary.tsx
+│
+├── lib/                         # 核心功能
+│   ├── i18n/                   # 国际化
+│   │   ├── index.ts
+│   │   ├── en.ts
+│   │   └── zh-CN.ts
+│   ├── store.ts                # Zustand 状态管理
+│   ├── constants.ts            # 应用常量
+│   ├── mock-data.ts            # 模拟数据
+│   ├── utils.ts                # 工具函数
+│   ├── firebase.ts             # Firebase 配置
+│   └── firebase-service.ts     # Firebase 服务
+│
+└── types/                       # TypeScript 类型
+    └── index.ts
 ```
 
 ---
@@ -79,7 +94,6 @@ src/
 
 - **ConfigComponent** - 自行车组件（车架、传动、轮组等）
 - **Configuration** - 用户保存的自行车配置
-- **DatabaseComponent** - Firestore 中的全局组件字典
 
 完整数据模型定义见 [数据模型规范](./api/data-models.md)
 
@@ -89,11 +103,9 @@ src/
 
 ### Firebase 服务
 
-- `loginWithGoogle()` - Google OAuth 登录
 - `saveConfiguration(config)` - 保存配置到 Firestore
 - `getUserConfigurations()` - 获取用户配置列表
 - `deleteConfiguration(id)` - 删除配置
-- `getComponentsFromDB()` - 获取组件字典
 
 完整 API 规范见 [Firestore API 规范](./api/firestore.md)
 
@@ -104,16 +116,18 @@ src/
 ### TypeScript
 - 避免 `any`，使用明确类型
 - 导出函数必须标注返回类型
-- 使用 `inject()` 进行依赖注入
+- 使用类型推断保持代码简洁
 
-### Angular
-- Standalone + OnPush
-- Signal-based 状态管理
-- 组件必须使用 `input()` / `output()` 装饰器
+### React / Next.js
+- 客户端组件使用 `use client`
+- 使用 Server Components 进行静态渲染
+- 组件使用 Hooks 管理状态
+- 使用 Framer Motion 处理动画
 
-### 测试
-- 覆盖率目标：≥80%
-- 新功能必须配套单元测试
+### 国际化 (i18n)
+- 使用 `useTranslation()` Hook 获取翻译
+- 支持 EN 和 ZH-CN 语言切换
+- 翻译文件位于 `src/lib/i18n/`
 
 完整开发规范见：
 - [编码规范](./development/coding-standards.md)
@@ -125,7 +139,7 @@ src/
 
 - **平台**: Vercel / EdgeOne Pages
 - **构建命令**: `npm run build`
-- **输出目录**: `dist/browser`
+- **输出目录**: `.next`
 - **SPA 配置**: `_redirects` 和 `_headers` 文件用于边缘部署
 
 完整部署指南见 [环境配置](./deployment/environments.md)
@@ -136,14 +150,12 @@ src/
 
 | 组件 | 说明 | 状态 |
 |------|------|------|
-| `NavbarComponent` | 顶部导航栏，含语言切换、主题切换 | ✅ |
-| `SidebarComponent` | 桌面端自行车类型选择器 | ✅ |
-| `PreviewComponent` | 3D 自行车预览 + 统计信息 | ✅ |
-| `BuildListComponent` | 配置清单 + 同步/部署按钮 | ✅ |
-| `ComponentSelectorComponent` | 组件选择模态框 | ✅ |
-| `NotificationDisplayComponent` | 通知提示组件 | ✅ |
-| `ConfirmDialogComponent` | 确认对话框组件 | ✅ |
-| `LoadingIndicatorComponent` | 加载指示器组件 | ✅ |
+| `Navbar` | 顶部导航栏，含语言切换 | ✅ |
+| `BikeTypeSelector` | 自行车类型选择器 | ✅ |
+| `BuildList` | 配置清单 | ✅ |
+| `ComponentSelector` | 组件选择模态框 | ✅ |
+| `SummaryPanel` | 汇总面板，含保存/重置 | ✅ |
+| `ErrorBoundary` | 错误边界 | ✅ |
 
 ---
 
@@ -171,6 +183,7 @@ src/
 
 | 规范版本 | 项目版本 | 更新日期 | 说明 |
 |---------|---------|---------|------|
+| v3.4.0 | 3.4.0 | 2026-05-26 | 更新规范文档为 Next.js 项目、添加 i18n 系统、错误边界处理、完整项目重构 |
 | v3.4.0 | 3.4.0 | 2026-05-05 | 文档体系标准化：统一所有文档版本号至 v3.4.0、完善 OpenSpec 规范格式、规范化文档结构 |
 | v3.3.2 | 3.3.2 | 2026-05-20 | WebGL 检测与降级方案、部署配置修复、版本号统一 |
 | v3.3.1 | 3.3.1 | 2026-05-19 | 动态项目 ID、测试文件整理 |
@@ -180,5 +193,5 @@ src/
 
 ---
 
-**最后更新**: 2026-05-05  
+**最后更新**: 2026-05-26  
 **版本**: v3.4.0

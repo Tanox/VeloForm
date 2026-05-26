@@ -2,11 +2,19 @@
 
 import { BikeTypeSelector } from '@/components/configurator/BikeTypeSelector';
 import { APP_CONSTANTS } from '@/lib/constants';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
+import { useLanguage, useSetLanguage } from '@/lib/i18n';
 
 export function Navbar() {
+  const language = useLanguage();
+  const setLanguage = useSetLanguage();
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'en' ? 'zh-CN' : 'en');
+  };
+
   return (
     <nav className="sticky top-0 z-40 bg-background/80 backdrop-blur-xl border-b border-zinc-800">
       <div className="max-w-7xl mx-auto px-4 py-4">
@@ -26,6 +34,10 @@ export function Navbar() {
           <BikeTypeSelector />
 
           <div className="flex items-center gap-3">
+            <Button variant="ghost" onClick={toggleLanguage}>
+              <Globe className="w-4 h-4 mr-2" />
+              {language === 'en' ? 'EN' : '中文'}
+            </Button>
             <Link href="/library">
               <Button variant="ghost">
                 <BookOpen className="w-4 h-4 mr-2" />
