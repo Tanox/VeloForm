@@ -115,14 +115,13 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
         updatedAt: new Date(),
       };
 
-      // Try to save to Firebase first (dynamic import to avoid server issues)
+      // Try to save to Firebase (dynamic import to avoid server issues)
       try {
         const { saveConfigurationToFirebase } = await import('./firebase-service');
         const savedId = await saveConfigurationToFirebase(config, state.userId || undefined);
         config.id = savedId;
       } catch (error) {
-        console.warn('Failed to save to Firebase, using local storage only:', error);
-        // Fallback to local only if Firebase fails
+        console.warn('Firebase save failed, using local only:', error);
         if (!config.id) {
           config.id = `config_${Date.now()}`;
         }

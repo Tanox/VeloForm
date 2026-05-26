@@ -1,36 +1,48 @@
 'use client';
 
-import { db } from './firebase';
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  setDoc,
-  deleteDoc,
-  query,
-  where,
-  serverTimestamp,
-} from 'firebase/firestore';
 import { Configuration, ConfigComponent } from '@/types';
 import { APP_CONSTANTS } from './constants';
 
-const COLLECTIONS = APP_CONSTANTS.FIRESTORE_COLLECTIONS;
+// Helper function to check if Firebase is configured
+function isFirebaseConfigured(): boolean {
+  return (
+    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID &&
+    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID !== 'YOUR_PROJECT_ID'
+  );
+}
 
 export async function saveConfigurationToFirebase(
   config: Configuration,
   userId?: string
 ): Promise<string> {
-  if (!db) {
-    throw new Error('Firebase not initialized');
+  // If Firebase isn't configured, return local id
+  if (!isFirebaseConfigured()) {
+    console.log('Firebase not configured, using local only');
+    return config.id || `config_${Date.now()}`;
   }
+
   try {
-    const configData = {
+    const { db } = await import('./firebase');
+    const { collection, doc, setDoc, serverTimestamp } = await import('firebase/firestore');
+    
+    if (!db) {
+      throw new Error('Firebase not initialized');
+    }
+
+    const COLLECTIONS = APP_CONSTANTS.FIRESTORE_COLLECTIONS;
+    
+    // Convert dates to serializable format for Firebase
+    const configData: any = {
       ...config,
       userId: userId || null,
       updatedAt: serverTimestamp(),
-      createdAt: config.createdAt || serverTimestamp(),
     };
+    
+    if (!config.createdAt) {
+      configData.createdAt = serverTimestamp();
+    } else if (config.createdAt instanceof Date) {
+      configData.createdAt = config.createdAt;
+    }
 
     if (config.id) {
       await setDoc(doc(db, COLLECTIONS.configurations, config.id), configData, {
@@ -43,18 +55,29 @@ export async function saveConfigurationToFirebase(
       return newDocRef.id;
     }
   } catch (error) {
-    console.error('Error saving configuration:', error);
-    throw error;
+    console.error('Error saving configuration to Firebase:', error);
+    // Fallback to local id
+    return config.id || `config_${Date.now()}`;
   }
 }
 
 export async function loadConfigurationsFromFirebase(
   userId?: string
 ): Promise<Configuration[]> {
-  if (!db) {
+  if (!isFirebaseConfigured()) {
     return [];
   }
+
   try {
+    const { db } = await import('./firebase');
+    const { collection, getDocs, query, where } = await import('firebase/firestore');
+    
+    if (!db) {
+      return [];
+    }
+
+    const COLLECTIONS = APP_CONSTANTS.FIRESTORE_COLLECTIONS;
+    
     let q;
     if (userId) {
       q = query(
@@ -73,7 +96,7 @@ export async function loadConfigurationsFromFirebase(
       updatedAt: doc.data().updatedAt?.toDate?.() || new Date(),
     })) as Configuration[];
   } catch (error) {
-    console.error('Error loading configurations:', error);
+    console.error('Error loading configurations from Firebase:', error);
     return [];
   }
 }
@@ -81,29 +104,47 @@ export async function loadConfigurationsFromFirebase(
 export async function deleteConfigurationFromFirebase(
   configId: string
 ): Promise<void> {
-  if (!db) {
-    throw new Error('Firebase not initialized');
+  if (!isFirebaseConfigured()) {
+    return;
   }
+
   try {
+    const { db } = await import('./firebase');
+    const { doc, deleteDoc } = await import('firebase/firestore');
+    
+    if (!db) {
+      return;
+    }
+
+    const COLLECTIONS = APP_CONSTANTS.FIRESTORE_COLLECTIONS;
     await deleteDoc(doc(db, COLLECTIONS.configurations, configId));
   } catch (error) {
-    console.error('Error deleting configuration:', error);
-    throw error;
+    console.error('Error deleting configuration from Firebase:', error);
+    // Don't throw error for Firebase issues, just log
   }
 }
 
 export async function loadComponentsFromFirebase(): Promise<ConfigComponent[]> {
-  if (!db) {
+  if (!isFirebaseConfigured()) {
     return [];
   }
+
   try {
+    const { db } = await import('./firebase');
+    const { collection, getDocs } = await import('firebase/firestore');
+    
+    if (!db) {
+      return [];
+    }
+
+    const COLLECTIONS = APP_CONSTANTS.FIRESTORE_COLLECTIONS;
     const snapshot = await getDocs(collection(db, COLLECTIONS.components));
     return snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     })) as ConfigComponent[];
   } catch (error) {
-    console.error('Error loading components:', error);
+    console.error('Error loading components from Firebase:', error);
     return [];
   }
 }
