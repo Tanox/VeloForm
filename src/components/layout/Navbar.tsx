@@ -1,6 +1,7 @@
 'use client';
 
 import { BikeTypeSelector } from '@/components/configurator/BikeTypeSelector';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { APP_CONSTANTS } from '@/lib/constants';
 import { BookOpen, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -46,6 +47,7 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button variant="ghost" onClick={toggleLanguage}>
                 <Globe className="w-4 h-4 mr-2" />

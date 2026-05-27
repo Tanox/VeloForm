@@ -1,8 +1,10 @@
 'use client';
 
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { ConfigState, ConfigComponent, Configuration, BikeType } from '@/types';
 import { getDefaultsForType, APP_CONSTANTS } from './constants';
+import { toast } from './toast';
 
 interface ConfigStore extends ConfigState {
   setActiveType: (type: BikeType) => void;
@@ -23,130 +25,141 @@ interface ConfigStore extends ConfigState {
   userId: string | null;
 }
 
-export const useConfigStore = create<ConfigStore>((set, get) => ({
-  activeType: 'Road',
-  components: getDefaultsForType('Road'),
-  configId: null,
-  manualConfigName: null,
-  myConfigs: [],
-  isSaving: false,
-  showComponentSelector: false,
-  editingComponentId: '',
-  userId: null,
-
-  setActiveType: (type: BikeType) =>
-    set({
-      activeType: type,
-      components: getDefaultsForType(type),
+export const useConfigStore = create<ConfigStore>()(
+  persist(
+    (set, get) => ({
+      activeType: 'Road',
+      components: getDefaultsForType('Road'),
       configId: null,
       manualConfigName: null,
-    }),
+      myConfigs: [],
+      isSaving: false,
+      showComponentSelector: false,
+      editingComponentId: '',
+      userId: null,
 
-  replaceComponent: (newComponent: ConfigComponent) =>
-    set((state) => ({
-      components: state.components.map((comp) =>
-        comp.category === newComponent.category ? newComponent : comp
-      ),
-    })),
+      setActiveType: (type: BikeType) =>
+        set({
+          activeType: type,
+          components: getDefaultsForType(type),
+          configId: null,
+          manualConfigName: null,
+        }),
 
-  setComponents: (components: ConfigComponent[]) => set({ components }),
+      replaceComponent: (newComponent: ConfigComponent) =>
+        set((state) => ({
+          components: state.components.map((comp) =>
+            comp.category === newComponent.category ? newComponent : comp
+          ),
+        })),
 
-  loadConfiguration: (config: Configuration) =>
-    set({
-      activeType: config.bikeType,
-      components: config.components,
-      configId: config.id || null,
-      manualConfigName: config.name,
-    }),
+      setComponents: (components: ConfigComponent[]) => set({ components }),
 
-  resetToDefaults: () =>
-    set((state) => ({
-      components: getDefaultsForType(state.activeType),
-      configId: null,
-      manualConfigName: null,
-    })),
-
-  toggleComponentSelector: (componentId?: string) =>
-    set((state) => ({
-      showComponentSelector: !state.showComponentSelector,
-      editingComponentId: componentId || state.editingComponentId,
-    })),
-
-  setMyConfigs: (configs: Configuration[]) => set({ myConfigs: configs }),
-  setSaving: (saving: boolean) => set({ isSaving: saving }),
-  setConfigId: (id: string | null) => set({ configId: id }),
-  setManualConfigName: (name: string | null) => set({ manualConfigName: name }),
-  setUserId: (userId: string | null) => set({ userId }),
-
-  getTotalCost: () => {
-    const state = get();
-    return state.components.reduce((sum, comp) => sum + comp.price, 0);
-  },
-
-  getTotalWeight: () => {
-    const state = get();
-    const baseWeight = APP_CONSTANTS.BASE_WEIGHTS[state.activeType];
-    const componentWeight = state.components.reduce((sum, comp) => sum + comp.weight, 0);
-    return (baseWeight + componentWeight) / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR;
-  },
-
-  saveConfiguration: async () => {
-    const state = get();
-    set({ isSaving: true });
-
-    try {
-      const config: Configuration = {
-        id: state.configId || undefined,
-        bikeType: state.activeType,
-        name: state.manualConfigName || `${state.activeType} Build`,
-        components: [...state.components],
-        totalCost: state.getTotalCost(),
-        estimatedWeight: state.getTotalWeight(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-
-      try {
-        const { saveConfigurationToFirebase } = await import('./firebase-service');
-        const savedId = await saveConfigurationToFirebase(config, state.userId || undefined);
-        config.id = savedId;
-      } catch (error) {
-        console.warn('Firebase save failed, using local only:', error);
-        if (!config.id) {
-          config.id = `config_${Date.now()}`;
-        }
-      }
-
-      set((prevState) => {
-        const existingIndex = prevState.myConfigs.findIndex((c) => c.id === config.id);
-        if (existingIndex >= 0) {
-          const updated = [...prevState.myConfigs];
-          updated[existingIndex] = config;
-          return { myConfigs: updated, configId: config.id || null, isSaving: false };
-        }
-        return {
-          myConfigs: [...prevState.myConfigs, config],
+      loadConfiguration: (config: Configuration) =>
+        set({
+          activeType: config.bikeType,
+          components: config.components,
           configId: config.id || null,
-          isSaving: false,
-        };
-      });
-    } catch (error) {
-      console.error('Failed to save configuration:', error);
-      set({ isSaving: false });
-    }
-  },
+          manualConfigName: config.name,
+        }),
 
-  deleteConfiguration: async (configId: string) => {
-    try {
-      const { deleteConfigurationFromFirebase } = await import('./firebase-service');
-      await deleteConfigurationFromFirebase(configId);
-    } catch (error) {
-      console.warn('Failed to delete from Firebase:', error);
-    }
+      resetToDefaults: () =>
+        set((state) => ({
+          components: getDefaultsForType(state.activeType),
+          configId: null,
+          manualConfigName: null,
+        })),
 
-    set((state) => ({
-      myConfigs: state.myConfigs.filter((c) => c.id !== configId),
-      configId: state.configId === configId ? null : state.configId,
-    }));
-  },
-}));
+      toggleComponentSelector: (componentId?: string) =>
+        set((state) => ({
+          showComponentSelector: !state.showComponentSelector,
+          editingComponentId: componentId || state.editingComponentId,
+        })),
+
+      setMyConfigs: (configs: Configuration[]) => set({ myConfigs: configs }),
+      setSaving: (saving: boolean) => set({ isSaving: saving }),
+      setConfigId: (id: string | null) => set({ configId: id }),
+      setManualConfigName: (name: string | null) => set({ manualConfigName: name }),
+      setUserId: (userId: string | null) => set({ userId }),
+
+      getTotalCost: () => {
+        const state = get();
+        return state.components.reduce((sum, comp) => sum + comp.price, 0);
+      },
+
+      getTotalWeight: () => {
+        const state = get();
+        const baseWeight = APP_CONSTANTS.BASE_WEIGHTS[state.activeType];
+        const componentWeight = state.components.reduce((sum, comp) => sum + comp.weight, 0);
+        return (baseWeight + componentWeight) / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR;
+      },
+
+      saveConfiguration: async () => {
+        const state = get();
+        set({ isSaving: true });
+
+        try {
+          const config: Configuration = {
+            id: state.configId || undefined,
+            bikeType: state.activeType,
+            name: state.manualConfigName || `${state.activeType} Build`,
+            components: [...state.components],
+            totalCost: state.getTotalCost(),
+            estimatedWeight: state.getTotalWeight(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          };
+
+          try {
+            const { saveConfigurationToFirebase } = await import('./firebase-service');
+            const savedId = await saveConfigurationToFirebase(config, state.userId || undefined);
+            config.id = savedId;
+          } catch (error) {
+            console.warn('Firebase save failed, using local only:', error);
+            if (!config.id) {
+              config.id = `config_${Date.now()}`;
+            }
+          }
+
+          set((prevState) => {
+            const existingIndex = prevState.myConfigs.findIndex((c) => c.id === config.id);
+            if (existingIndex >= 0) {
+              const updated = [...prevState.myConfigs];
+              updated[existingIndex] = config;
+              toast('success', 'Configuration updated successfully!');
+              return { myConfigs: updated, configId: config.id || null, isSaving: false };
+            }
+            toast('success', 'Configuration saved successfully!');
+            return {
+              myConfigs: [...prevState.myConfigs, config],
+              configId: config.id || null,
+              isSaving: false,
+            };
+          });
+        } catch (error) {
+          console.error('Failed to save configuration:', error);
+          toast('error', 'Failed to save configuration');
+          set({ isSaving: false });
+        }
+      },
+
+      deleteConfiguration: async (configId: string) => {
+        try {
+          const { deleteConfigurationFromFirebase } = await import('./firebase-service');
+          await deleteConfigurationFromFirebase(configId);
+        } catch (error) {
+          console.warn('Failed to delete from Firebase:', error);
+        }
+
+        set((state) => ({
+          myConfigs: state.myConfigs.filter((c) => c.id !== configId),
+          configId: state.configId === configId ? null : state.configId,
+        }));
+        toast('info', 'Configuration deleted');
+      },
+    }),
+    {
+      name: 'veloform-config-storage',
+    }
+  )
+);
