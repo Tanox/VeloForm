@@ -1,13 +1,12 @@
 # Veloform 项目开发指南
 
-## 目的
-本文档定义 Veloform 项目的协作流程、开发工作流和团队规范。技术架构和详细编码规范请参阅 [openspec 文档](./openspec/README.md)。
+> **路径**: `/openspec/PROJECT_GUIDELINES.md`  
+> **版本**: v3.4.0  
+> **更新日期**: 2026-05-05
 
-## 目录
-- [快速开始](#快速开始)
-- [开发工作流](#开发工作流)
-- [协作规范](#协作规范)
-- [文档体系](#文档体系)
+## 概述
+
+本文档定义 Veloform 项目的协作流程、开发工作流和团队规范。技术架构和详细编码规范请参阅 [openspec 文档](./README.md)。
 
 ---
 
@@ -314,11 +313,12 @@ A:
 
 ## 相关资源
 
-- **[openspec 规范索引](./openspec/README.md)** - 完整技术文档
-- **[项目 README](./README.md)** - 项目概述
-- **[变更日志](./CHANGELOG.md)** - 版本历史
-- **[改进记录](./IMPROVEMENTS.md)** - 近期改进
+- **[openspec 规范索引](./README.md)** - 完整技术文档
+- **[项目 README](../README.md)** - 项目概述
+- **[变更日志](../CHANGELOG.md)** - 版本历史
 
 ---
 
-**最后更新**: 2026-05-01
+**文档路径**: `/openspec/PROJECT_GUIDELINES.md`  
+**最后更新**: 2026-05-05  
+**版本**: v3.4.0

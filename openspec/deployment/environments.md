@@ -1,8 +1,12 @@
-# 部署与环境配置规范 (v3.4.0)
+# 部署与环境配置规范
+
+> **路径**: `/openspec/deployment/environments.md`  
+> **版本**: v3.4.0  
+> **更新日期**: 2026-05-05
 
 ## 概述
 
-本文档定义 Veloform 项目的部署流程、环境配置和监控策略。
+本文档定义 Veloform 项目的部署流程、环境配置和监控策略。包括开发、预发布和生产三个环境的配置说明。
 
 ---
 
@@ -499,5 +503,6 @@ export const config: ApplicationConfig = {
 
 ---
 
-**最后更新**: 2026-05-05
+**文档路径**: `/openspec/deployment/environments.md`  
+**最后更新**: 2026-05-05  
 **版本**: v3.4.0
