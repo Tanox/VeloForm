@@ -1,8 +1,12 @@
-# 数据模型规范 (v3.4.0)
+# 数据模型规范
+
+> **路径**: `/openspec/api/data-models.md`  
+> **版本**: v3.4.0  
+> **更新日期**: 2026-05-05
 
 ## 概述
 
-本文档定义 Veloform 项目中所有核心数据实体的结构、约束和关系。
+本文档定义 Veloform 项目中所有核心数据实体的结构、约束和关系，包括 ConfigComponent、Configuration 和 DatabaseComponent 等实体。
 
 ---
 
@@ -413,5 +417,6 @@ function migrateConfiguration(
 
 ---
 
-**最后更新**: 2026-05-05
+**文档路径**: `/openspec/api/data-models.md`  
+**最后更新**: 2026-05-05  
 **版本**: v3.4.0

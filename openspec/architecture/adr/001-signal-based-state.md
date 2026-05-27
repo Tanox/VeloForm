@@ -1,4 +1,8 @@
-# ADR 001: 采用 Signal-based 状态管理 (v3.4.0)
+# ADR 001: 采用 Signal-based 状态管理
+
+> **路径**: `/openspec/architecture/adr/001-signal-based-state.md`  
+> **版本**: v3.4.0  
+> **更新日期**: 2026-05-05
 
 ## 概述
 

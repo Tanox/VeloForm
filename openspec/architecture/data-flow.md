@@ -1,8 +1,12 @@
-# 数据流设计 (v3.4.0)
+# 数据流设计
+
+> **路径**: `/openspec/architecture/data-flow.md`  
+> **版本**: v3.4.0  
+> **更新日期**: 2026-05-05
 
 ## 概述
 
-本文档描述 Veloform 项目的数据流设计、状态管理模式和组件间通信规范。
+本文档描述 Veloform 项目的数据流设计、状态管理模式和组件间通信规范。Veloform 采用基于 Angular Signals 的单向数据流架构，使用 **ConfigStore** 和 **ConfigService** 实现中心化状态管理，确保状态变更的可预测性和可追踪性。
 
 ---
 
@@ -369,5 +373,6 @@ export class PreviewComponent {
 
 ---
 
-**最后更新**: 2026-05-05
+**文档路径**: `/openspec/architecture/data-flow.md`  
+**最后更新**: 2026-05-05  
 **版本**: v3.4.0

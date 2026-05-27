@@ -1,8 +1,12 @@
-# 测试规范 (v3.4.0)
+# 测试规范
+
+> **路径**: `/openspec/development/testing.md`  
+> **版本**: v3.4.0  
+> **更新日期**: 2026-05-05
 
 ## 概述
 
-本文档定义 Veloform 项目的测试策略、测试框架使用方法和质量标准。
+本文档定义 Veloform 项目的测试策略、测试框架使用方法和质量标准。测试金字塔包含单元测试、集成测试和 E2E 测试三个层级。
 
 ---
 
@@ -654,11 +658,12 @@ jobs:
 
 ## 相关文档
 
-- [开发规范](./coding-standards.md)
+- [编码规范](./coding-standards.md)
 - [架构概览](../architecture/overview.md)
 - [API 规范](../api/firestore.md)
 
 ---
 
-**最后更新**: 2026-05-05
+**文档路径**: `/openspec/development/testing.md`  
+**最后更新**: 2026-05-05  
 **版本**: v3.4.0

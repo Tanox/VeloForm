@@ -1,4 +1,8 @@
-# 开发规范 (v3.4.0)
+# 编码规范
+
+> **路径**: `/openspec/development/coding-standards.md`  
+> **版本**: v3.4.0  
+> **更新日期**: 2026-05-05
 
 ## 概述
 
@@ -692,5 +696,6 @@ export const routes: Routes = [
 
 ---
 
-**最后更新**: 2026-05-05
+**文档路径**: `/openspec/development/coding-standards.md`  
+**最后更新**: 2026-05-05  
 **版本**: v3.4.0

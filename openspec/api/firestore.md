@@ -1,8 +1,12 @@
-# Firestore API 接口规范 (v3.4.0)
+# Firestore API 接口规范
+
+> **路径**: `/openspec/api/firestore.md`  
+> **版本**: v3.4.0  
+> **更新日期**: 2026-05-05
 
 ## 概述
 
-Veloform 使用 Firebase Firestore 作为后端数据库，通过 Angular Firebase SDK 进行数据操作。本文档定义所有数据库集合的 schema、安全规则和 API 契约。
+本文档定义 Veloform 项目中 Firebase Firestore 数据库的 API 接口规范，包括认证服务、配置管理 API 和组件字典 API。Veloform 使用 Angular Firebase SDK 进行数据操作，所有数据库集合的 schema、安全规则和 API 契约均在此定义。
 
 ---
 
@@ -449,5 +453,6 @@ async getComponentsFromDB(): Promise<DatabaseComponent[]> {
 
 ---
 
-**最后更新**: 2026-05-05
+**文档路径**: `/openspec/api/firestore.md`  
+**最后更新**: 2026-05-05  
 **版本**: v3.4.0

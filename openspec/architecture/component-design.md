@@ -1,10 +1,12 @@
-# 组件设计规范 (v3.4.0)
+# 组件设计规范
+
+> **路径**: `/openspec/architecture/component-design.md`  
+> **版本**: v3.4.0  
+> **更新日期**: 2026-05-05
 
 ## 概述
 
-本文档定义 Veloform 项目的组件设计原则、命名规范、输入输出模式和变更检测策略。
-
-Veloform 采用分层架构设计，所有组件均为 standalone components。状态管理通过 **ConfigStore** 和 **ConfigRepository** / **ComponentRepository** 分层处理。
+本文档定义 Veloform 项目的组件设计原则、命名规范、输入输出模式和变更检测策略。Veloform 采用分层架构设计，所有组件均为 standalone components。状态管理通过 **ConfigStore** 和 **ConfigRepository** / **ComponentRepository** 分层处理。
 
 ---
 
