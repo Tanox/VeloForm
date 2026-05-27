@@ -10,20 +10,17 @@ interface ConfigStore extends ConfigState {
   setComponents: (components: ConfigComponent[]) => void;
   loadConfiguration: (config: Configuration) => void;
   resetToDefaults: () => void;
-  toggleLibrary: () => void;
   toggleComponentSelector: (componentId?: string) => void;
   setMyConfigs: (configs: Configuration[]) => void;
-  setLoggedIn: (loggedIn: boolean) => void;
   setSaving: (saving: boolean) => void;
   setConfigId: (id: string | null) => void;
   setManualConfigName: (name: string | null) => void;
+  setUserId: (userId: string | null) => void;
   getTotalCost: () => number;
   getTotalWeight: () => number;
   saveConfiguration: () => Promise<void>;
   deleteConfiguration: (configId: string) => Promise<void>;
-  loadMyConfigs: (userId?: string) => Promise<void>;
   userId: string | null;
-  setUserId: (userId: string | null) => void;
 }
 
 export const useConfigStore = create<ConfigStore>((set, get) => ({
@@ -31,10 +28,7 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   components: getDefaultsForType('Road'),
   configId: null,
   manualConfigName: null,
-  allDbComponents: [],
-  showLibrary: false,
   myConfigs: [],
-  isLoggedIn: false,
   isSaving: false,
   showComponentSelector: false,
   editingComponentId: '',
@@ -72,8 +66,6 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       manualConfigName: null,
     })),
 
-  toggleLibrary: () => set((state) => ({ showLibrary: !state.showLibrary })),
-
   toggleComponentSelector: (componentId?: string) =>
     set((state) => ({
       showComponentSelector: !state.showComponentSelector,
@@ -81,7 +73,6 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     })),
 
   setMyConfigs: (configs: Configuration[]) => set({ myConfigs: configs }),
-  setLoggedIn: (loggedIn: boolean) => set({ isLoggedIn: loggedIn }),
   setSaving: (saving: boolean) => set({ isSaving: saving }),
   setConfigId: (id: string | null) => set({ configId: id }),
   setManualConfigName: (name: string | null) => set({ manualConfigName: name }),
@@ -115,14 +106,12 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
         updatedAt: new Date(),
       };
 
-      // Try to save to Firebase first (dynamic import to avoid server issues)
       try {
         const { saveConfigurationToFirebase } = await import('./firebase-service');
         const savedId = await saveConfigurationToFirebase(config, state.userId || undefined);
         config.id = savedId;
       } catch (error) {
-        console.warn('Failed to save to Firebase, using local storage only:', error);
-        // Fallback to local only if Firebase fails
+        console.warn('Firebase save failed, using local only:', error);
         if (!config.id) {
           config.id = `config_${Date.now()}`;
         }
@@ -159,15 +148,5 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       myConfigs: state.myConfigs.filter((c) => c.id !== configId),
       configId: state.configId === configId ? null : state.configId,
     }));
-  },
-
-  loadMyConfigs: async (userId?: string) => {
-    try {
-      const { loadConfigurationsFromFirebase } = await import('./firebase-service');
-      const configs = await loadConfigurationsFromFirebase(userId);
-      set({ myConfigs: configs, userId: userId || null });
-    } catch (error) {
-      console.error('Failed to load configurations:', error);
-    }
   },
 }));

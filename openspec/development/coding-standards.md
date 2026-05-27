@@ -1,8 +1,4 @@
-# 编码规范
-
-> **路径**: `/openspec/development/coding-standards.md`  
-> **版本**: v3.4.0  
-> **更新日期**: 2026-05-05
+# 开发规范 (v3.4.0)
 
 ## 概述
 
@@ -31,17 +27,17 @@ function calculateWeight(components: any): any {
 **使用泛型增强类型安全**：
 
 ```typescript
-// ✅ Good - Generic service
-class DataService<T extends { id: string }> {
-  private items = signal<T[]>([]);
-
-  addItem(item: T): void {
-    this.items.update(list => [...list, item]);
-  }
+// ✅ Good - Generic function
+function createDataService<T extends { id: string }>() {
+  return {
+    items: [] as T[],
+    addItem(item: T): void {
+      this.items.push(item);
+    }
+  };
 }
 
-// Usage
-const componentService = new DataService<ConfigComponent>();
+const componentService = createDataService<ConfigComponent>();
 ```
 
 **联合类型优于字符串字面量**：
@@ -49,10 +45,10 @@ const componentService = new DataService<ConfigComponent>();
 ```typescript
 // ✅ Good
 type BikeType = 'Road' | 'MTB' | 'Fold';
-function setBikeType(type: BikeType) { ... }
+function setBikeType(type: BikeType): void { ... }
 
 // ❌ Bad
-function setBikeType(type: string) { ... }
+function setBikeType(type: string): void { ... }
 ```
 
 ### 2. 函数签名
@@ -112,119 +108,383 @@ type ComponentId = string & { readonly __brand: unique symbol };
 
 ---
 
-## Angular 最佳实践
+## Next.js/React 最佳实践
 
-### 1. 组件设计
+### 1. 'use client' 指令使用
 
-**Standalone Components**：
+**确定使用场景**：
 
-```typescript
-@Component({
-  selector: 'app-preview',
-  standalone: true,  // Always use standalone
-  imports: [CommonModule],
-  template: `...`,
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class PreviewComponent { }
-```
-
-**OnPush 变更检测**：
+| 场景 | 'use client' |
+|------|---------------|
+| 使用 Hooks (useState, useEffect 等) | 必须 |
+| 使用浏览器 API (window, document) | 必须 |
+| 事件处理器 | 必须 |
+| 纯服务端组件 (Server Components) | 禁止 |
+| 仅接收 props 渲染 UI | 禁止 |
+| 数据获取 (server components) | 禁止 |
 
 ```typescript
-// ✅ All components should use OnPush
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-```
+// ✅ Good - 需要交互的组件
+'use client';
 
-**Signal-based 状态管理**：
+import { useState } from 'react';
+
+export function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(c => c + 1)}>{count}</button>;
+}
+```
 
 ```typescript
-// ✅ Good - Signal state
-export class MyComponent {
-  count = signal(0);
-  doubled = computed(() => this.count() * 2);
-
-  increment() {
-    this.count.update(n => n + 1);
-  }
-}
-
-// ❌ Bad - RxJS for simple UI state
-export class MyComponent {
-  count$ = new BehaviorSubject<number>(0);
+// ✅ Good - Server Component (no 'use client')
+// app/dashboard/page.tsx
+export default async function DashboardPage() {
+  const data = await fetchData(); // 服务端数据获取
+  return <Dashboard data={data} />;
 }
 ```
 
-### 2. 依赖注入
-
-**使用 `inject()` 函数**：
+**组件拆分原则**：
 
 ```typescript
-// ✅ Modern approach
-export class MyComponent {
-  private firebaseService = inject(FirebaseService);
-  private router = inject(Router);
-}
+// ❌ Bad - 在根组件使用 'use client'，阻止服务端渲染
+'use client';
 
-// ❌ Old constructor approach
-export class MyComponent {
-  constructor(
-    private firebaseService: FirebaseService,
-    private router: Router
-  ) {}
+import { HeavyComponent } from './HeavyComponent';
+
+export default function Page() {
+  const [show, setShow] = useState(false);
+  return (
+    <div>
+      <button onClick={() => setShow(true)}>Show</button>
+      {show && <HeavyComponent />}
+    </div>
+  );
 }
 ```
-
-**服务单例保证**：
 
 ```typescript
-@Injectable({
-  providedIn: 'root'  // Ensure singleton
-})
-export class FirebaseService { }
-```
+// ✅ Good - 拆分出 Client Component
+// components/ShowButton.tsx
+'use client';
 
-### 3. 模板最佳实践
+import { HeavyComponent } from './HeavyComponent';
 
-**避免模板中的复杂表达式**：
-
-```html
-<!-- ✅ Good - Use computed signal -->
-<div>Total: {{ totalCost() | currency }}</div>
-
-<!-- ❌ Bad - Complex calculation in template -->
-<div>Total: {{ components().reduce((sum, c) => sum + c.price, 0) | currency }}</div>
-```
-
-**使用 `@for` 替代 `*ngFor`**：
-
-```html
-<!-- ✅ Angular 17+ syntax -->
-@for (component of components(); track component.id) {
-  <div>{{ component.name }}</div>
+export function ShowButton() {
+  const [show, setShow] = useState(false);
+  return (
+    <div>
+      <button onClick={() => setShow(true)}>Show</button>
+      {show && <HeavyComponent />}
+    </div>
+  );
 }
 
-<!-- ❌ Old syntax -->
-<div *ngFor="let component of components()">
-  {{ component.name }}
-</div>
+// app/page.tsx
+import { ShowButton } from '@/components/ShowButton';
+
+export default function Page() {
+  return <ShowButton />;
+}
 ```
 
-**使用 `@if` 替代 `*ngIf`**：
+### 2. 组件定义
 
-```html
-<!-- ✅ Angular 17+ syntax -->
-@if (isLoading()) {
-  <app-loading />
-} @else {
-  <app-content />
+**使用函数组件**：
+
+```typescript
+// ✅ Good - 函数组件
+interface ButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  variant?: 'primary' | 'secondary';
 }
 
-<!-- ❌ Old syntax -->
-<app-loading *ngIf="isLoading()"></app-loading>
-<app-content *ngIf="!isLoading()"></app-content>
+export function Button({ children, onClick, variant = 'primary' }: ButtonProps) {
+  const baseStyles = 'px-4 py-2 rounded font-medium';
+  const variantStyles = variant === 'primary'
+    ? 'bg-blue-500 text-white hover:bg-blue-600'
+    : 'bg-gray-200 text-gray-800 hover:bg-gray-300';
+
+  return (
+    <button className={`${baseStyles} ${variantStyles}`} onClick={onClick}>
+      {children}
+    </button>
+  );
+}
+```
+
+**组件文件组织**：
+
+```
+src/components/
+├── Button/
+│   ├── Button.tsx        # 组件实现
+│   ├── Button.test.tsx   # 测试
+│   └── index.ts          # 导出
+└── Modal/
+    ├── Modal.tsx
+    ├── Modal.test.tsx
+    └── index.ts
+```
+
+### 3. Hooks 使用规范
+
+#### useState
+
+**初始化**：
+
+```typescript
+// ✅ Good - 使用函数初始化 (惰性初始化)
+const [items, setItems] = useState(() => {
+  return JSON.parse(localStorage.getItem('items') || '[]');
+});
+
+// ❌ Bad - 每次渲染执行
+const [items, setItems] = useState(JSON.parse(localStorage.getItem('items') || '[]'));
+```
+
+**状态结构化**：
+
+```typescript
+// ✅ Good - 相关状态合并为对象
+const [formState, setFormState] = useState({
+  name: '',
+  email: '',
+  isSubmitting: false
+});
+
+// ❌ Bad - 多个独立状态
+const [name, setName] = useState('');
+const [email, setEmail] = useState('');
+const [isSubmitting, setIsSubmitting] = useState(false);
+```
+
+#### useEffect
+
+**依赖数组完整**：
+
+```typescript
+// ✅ Good - 完整依赖
+useEffect(() => {
+  const subscription = dataSource.subscribe(data => setData(data));
+  return () => subscription.unsubscribe();
+}, [dataSource]);
+
+// ❌ Bad - 遗漏依赖
+useEffect(() => {
+  const subscription = dataSource.subscribe(data => setData(data));
+  return () => subscription.unsubscribe();
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
+```
+
+**Effect 清理**：
+
+```typescript
+// ✅ Good - 清理副作用
+useEffect(() => {
+  const timer = setInterval(() => {
+    setSeconds(s => s + 1);
+  }, 1000);
+
+  return () => clearInterval(timer); // 清理定时器
+}, []);
+```
+
+**数据获取使用 Server Components**：
+
+```typescript
+// ✅ Good - 服务端数据获取 (Next.js 13+)
+// app/users/page.tsx
+export default async function UsersPage() {
+  const users = await db.query('SELECT * FROM users');
+  return <UserList users={users} />;
+}
+
+// ❌ Bad - 在 Client Component 中获取数据
+'use client';
+function UsersPage() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/users').then(res => res.json()).then(setUsers);
+  }, []);
+
+  return <UserList users={users} />;
+}
+```
+
+#### useCallback
+
+**使用场景**：
+
+```typescript
+// ✅ Good - 作为 props 传递给子组件
+const handleSubmit = useCallback((data: FormData) => {
+  saveForm(data);
+}, []);
+
+return <Form onSubmit={handleSubmit} />;
+```
+
+```typescript
+// ✅ Good - 用于 useEffect 依赖
+const [filter, setFilter] = useState('');
+
+const fetchFilteredData = useCallback(async () => {
+  return await api.getData(filter);
+}, [filter]);
+
+useEffect(() => {
+  fetchFilteredData().then(setData);
+}, [fetchFilteredData]);
+```
+
+```typescript
+// ❌ Bad - 简单计算不需要 useCallback
+const doubled = useCallback(() => count * 2, [count]); // 性能损耗大于收益
+```
+
+#### useMemo
+
+**使用场景**：
+
+```typescript
+// ✅ Good - 昂贵计算
+const sortedItems = useMemo(() => {
+  return items.sort((a, b) => a.name.localeCompare(b.name));
+}, [items]);
+```
+
+```typescript
+// ✅ Good - 引用稳定性
+const options = useMemo(() => ({
+  enableHighAccuracy: true,
+  timeout: 5000
+}), []); // 空依赖，引用永远不变
+```
+
+```typescript
+// ❌ Bad - 简单计算不需要 useMemo
+const doubled = useMemo(() => count * 2, [count]);
+```
+
+---
+
+## Zustand 状态管理
+
+### 1. Store 结构
+
+**单一职责 Store**：
+
+```typescript
+// stores/useConfigStore.ts
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+
+interface ConfigState {
+  components: ConfigComponent[];
+  selectedId: string | null;
+  addComponent: (component: ConfigComponent) => void;
+  removeComponent: (id: string) => void;
+  selectComponent: (id: string | null) => void;
+  updateComponent: (id: string, updates: Partial<ConfigComponent>) => void;
+}
+
+export const useConfigStore = create<ConfigState>()(
+  persist(
+    (set) => ({
+      components: [],
+      selectedId: null,
+
+      addComponent: (component) =>
+        set((state) => ({
+          components: [...state.components, component]
+        })),
+
+      removeComponent: (id) =>
+        set((state) => ({
+          components: state.components.filter((c) => c.id !== id),
+          selectedId: state.selectedId === id ? null : state.selectedId
+        })),
+
+      selectComponent: (id) => set({ selectedId: id }),
+
+      updateComponent: (id, updates) =>
+        set((state) => ({
+          components: state.components.map((c) =>
+            c.id === id ? { ...c, ...updates } : c
+          )
+        }))
+    }),
+    { name: 'config-storage' }
+  )
+);
+```
+
+### 2. Store 使用
+
+**组件中使用**：
+
+```typescript
+// ✅ Good - 使用选择器避免不必要的重渲染
+function ConfigList() {
+  const components = useConfigStore((state) => state.components);
+  const selectComponent = useConfigStore((state) => state.selectComponent);
+
+  return (
+    <ul>
+      {components.map((c) => (
+        <li key={c.id} onClick={() => selectComponent(c.id)}>
+          {c.name}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// ❌ Bad - 获取整个 state
+function ConfigList() {
+  const { components, selectComponent } = useConfigStore(); // 任何 state 变化都会重渲染
+}
+```
+
+### 3. Store 命名
+
+```typescript
+// ✅ Good - 清晰的前缀命名
+useAuthStore      // 认证相关
+useConfigStore    // 配置相关
+useUIStore        // UI 状态相关
+
+// ❌ Bad - 模糊命名
+useStore
+useAppStore
+```
+
+### 4. 派生状态
+
+```typescript
+// ✅ Good - 在组件中计算派生状态
+function ConfigSummary() {
+  const components = useConfigStore((state) => state.components);
+  const totalWeight = useMemo(
+    () => components.reduce((sum, c) => sum + c.weight, 0),
+    [components]
+  );
+  const totalPrice = useMemo(
+    () => components.reduce((sum, c) => sum + c.price, 0),
+    [components]
+  );
+
+  return (
+    <div>
+      <span>Weight: {totalWeight}g</span>
+      <span>Price: ${totalPrice}</span>
+    </div>
+  );
+}
 ```
 
 ---
@@ -235,18 +495,18 @@ export class FirebaseService { }
 
 **移动优先响应式**：
 
-```html
-<!-- Mobile: column, Desktop: row -->
-<div class="flex flex-col md:flex-row gap-4">
-  <aside class="w-full md:w-64">Sidebar</aside>
-  <main class="flex-1">Content</main>
+```tsx
+// Mobile: column, Desktop: row
+<div className="flex flex-col md:flex-row gap-4">
+  <aside className="w-full md:w-64">Sidebar</aside>
+  <main className="flex-1">Content</main>
 </div>
 ```
 
 **暗色模式支持**：
 
-```html
-<div class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+```tsx
+<div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
   Content
 </div>
 ```
@@ -263,26 +523,54 @@ export class FirebaseService { }
 }
 ```
 
-```html
-<!-- ✅ Good - Tailwind utilities -->
-<button class="px-4 py-2 bg-blue-500 text-white rounded">
+```tsx
+{/* ✅ Good - Tailwind utilities */}
+<button className="px-4 py-2 bg-blue-500 text-white rounded">
   Click me
 </button>
 ```
 
 **提取重复模式为组件**：
 
-```typescript
-// Instead of repeating classes, create a component
-@Component({
-  selector: 'app-primary-button',
-  template: `
-    <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-      <ng-content></ng-content>
+```tsx
+// components/PrimaryButton.tsx
+interface PrimaryButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+}
+
+export function PrimaryButton({ children, onClick }: PrimaryButtonProps) {
+  return (
+    <button
+      className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+      onClick={onClick}
+    >
+      {children}
     </button>
-  `
-})
-export class PrimaryButtonComponent {}
+  );
+}
+```
+
+**Tailwind 配置**：
+
+```javascript
+// tailwind.config.js
+module.exports = {
+  content: [
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}'
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          500: '#3b82f6'
+        }
+      }
+    }
+  }
+};
 ```
 
 ---
@@ -294,45 +582,121 @@ export class PrimaryButtonComponent {}
 **测试文件位置**：与被测文件同目录
 
 ```
-src/app/
-├── services/
-│   ├── firebase.ts
-│   └── firebase.spec.ts
+src/
 ├── components/
-│   ├── build-list.ts
-│   └── build-list.spec.ts
+│   ├── Button/
+│   │   ├── Button.tsx
+│   │   └── Button.test.tsx
+│   └── Modal/
+│       ├── Modal.tsx
+│       └── Modal.test.tsx
+├── stores/
+│   ├── useConfigStore.ts
+│   └── useConfigStore.test.ts
+└── lib/
+    ├── api.ts
+    └── api.test.ts
 ```
 
-**测试文件命名**：`*.spec.ts`
+**测试文件命名**：`*.test.tsx` 或 `*.test.ts`
 
-### 2. 测试结构
+### 2. 组件测试
 
-**标准测试模板**：
+**React Testing Library 模板**：
 
 ```typescript
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BuildListComponent } from './build-list';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { Button } from './Button';
 
-describe('BuildListComponent', () => {
-  let component: BuildListComponent;
-  let fixture: ComponentFixture<BuildListComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [BuildListComponent]
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(BuildListComponent);
-    component = fixture.componentInstance;
+describe('Button', () => {
+  it('should render children', () => {
+    render(<Button>Click me</Button>);
+    expect(screen.getByRole('button', { name: /click me/i })).toBeInTheDocument();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should call onClick when clicked', () => {
+    const handleClick = vi.fn();
+    render(<Button onClick={handleClick}>Click me</Button>);
+
+    fireEvent.click(screen.getByRole('button'));
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not call onClick when disabled', () => {
+    const handleClick = vi.fn();
+    render(<Button onClick={handleClick} disabled>Click me</Button>);
+
+    fireEvent.click(screen.getByRole('button'));
+    expect(handleClick).not.toHaveBeenCalled();
   });
 });
 ```
 
-### 3. 测试覆盖率目标
+### 3. Hooks 测试
+
+```typescript
+import { renderHook, act } from '@testing-library/react';
+import { useCounter } from './useCounter';
+
+describe('useCounter', () => {
+  it('should increment count', () => {
+    const { result } = renderHook(() => useCounter());
+
+    act(() => {
+      result.current.increment();
+    });
+
+    expect(result.current.count).toBe(1);
+  });
+
+  it('should decrement count', () => {
+    const { result } = renderHook(() => useCounter({ initial: 10 }));
+
+    act(() => {
+      result.current.decrement();
+    });
+
+    expect(result.current.count).toBe(9);
+  });
+});
+```
+
+### 4. Store 测试
+
+```typescript
+import { renderHook, act } from '@testing-library/react';
+import { useConfigStore } from './useConfigStore';
+import { vi } from 'vitest';
+
+describe('useConfigStore', () => {
+  beforeEach(() => {
+    useConfigStore.setState({ components: [], selectedId: null });
+  });
+
+  it('should add component', () => {
+    const { result } = renderHook(() => useConfigStore());
+
+    act(() => {
+      result.current.addComponent({ id: '1', name: 'Wheel', category: 'wheel', price: 100, weight: 500 });
+    });
+
+    expect(result.current.components).toHaveLength(1);
+  });
+
+  it('should select component', () => {
+    const { result } = renderHook(() => useConfigStore());
+
+    act(() => {
+      result.current.addComponent({ id: '1', name: 'Wheel', category: 'wheel', price: 100, weight: 500 });
+      result.current.selectComponent('1');
+    });
+
+    expect(result.current.selectedId).toBe('1');
+  });
+});
+```
+
+### 5. 测试覆盖率目标
 
 | 指标 | 目标 |
 |------|------|
@@ -345,45 +709,7 @@ describe('BuildListComponent', () => {
 
 ```bash
 npm run test
-```
-
-### 4. Mock 策略
-
-**Mock 服务**：
-
-```typescript
-class MockFirebaseService {
-  authState = signal<User | null>(null);
-
-  loginWithGoogle(): Promise<void> {
-    return Promise.resolve();
-  }
-
-  saveConfiguration(config: Configuration): Promise<string> {
-    return Promise.resolve();
-  }
-}
-
-beforeEach(() => {
-  TestBed.configureTestingModule({
-    imports: [MyComponent],
-    providers: [
-      { provide: FirebaseService, useClass: MockFirebaseService }
-    ]
-  });
-});
-```
-
-**Mock Signals**：
-
-```typescript
-it('should display loading state', () => {
-  component.isSaving.set(true);
-  fixture.detectChanges();
-
-  const spinner = fixture.nativeElement.querySelector('.spinner');
-  expect(spinner).toBeTruthy();
-});
+npm run test:coverage  # 带覆盖率报告
 ```
 
 ---
@@ -396,7 +722,7 @@ it('should display loading state', () => {
 interface AppError {
   code: string;
   message: string;
-  context?: Record<string, any>;
+  context?: Record<string, unknown>;
   timestamp: number;
 }
 ```
@@ -422,22 +748,53 @@ async function saveConfig(config: Configuration): Promise<void> {
 }
 ```
 
-### 3. 全局错误处理
+### 3. 错误边界 (Error Boundaries)
 
-```typescript
-// app.config.ts
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideErrorHandler({
-      errorHandler: class CustomErrorHandler implements ErrorHandler {
-        handleError(error: any): void {
-          console.error('[Global Error]', error);
-          // Send to error tracking service (e.g., Sentry)
-        }
-      }
-    })
-  ]
-};
+```tsx
+// components/ErrorBoundary.tsx
+'use client';
+
+import { Component, ReactNode } from 'react';
+
+interface Props {
+  children: ReactNode;
+  fallback?: ReactNode;
+}
+
+interface State {
+  hasError: boolean;
+  error?: Error;
+}
+
+export class ErrorBoundary extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error): State {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+    console.error('[Error Boundary]', error, errorInfo);
+  }
+
+  render(): ReactNode {
+    if (this.state.hasError) {
+      return this.props.fallback ?? (
+        <div className="p-4 bg-red-100 text-red-800 rounded">
+          <h2>Something went wrong</h2>
+          <button onClick={() => this.setState({ hasError: false })}>
+            Try again
+          </button>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
 ```
 
 ---
@@ -472,20 +829,33 @@ console.log('User logged in');
 **移除 `console.log`**：
 
 ```typescript
-// Use a logger service that can be disabled in production
-@Injectable({ providedIn: 'root' })
-export class LoggerService {
-  private isProduction = inject(ENVIRONMENT).production;
-
-  log(message: string, data?: any): void {
-    if (!this.isProduction) {
+// ✅ Good - 使用日志服务
+const logger = {
+  log(message: string, data?: unknown): void {
+    if (process.env.NODE_ENV !== 'production') {
       console.log(message, data);
     }
-  }
+  },
 
-  error(message: string, error?: any): void {
+  error(message: string, error?: unknown): void {
     console.error(message, error);
-    // Always log errors, even in production
+  }
+};
+```
+
+**Server Components 中的日志**：
+
+```typescript
+// app/api/data/route.ts
+import { logger } from '@/lib/logger';
+
+export async function GET() {
+  try {
+    const data = await fetchData();
+    return Response.json(data);
+  } catch (error) {
+    logger.error('[API] Failed to fetch data', { error });
+    return Response.json({ error: 'Internal error' }, { status: 500 });
   }
 }
 ```
@@ -498,31 +868,33 @@ export class LoggerService {
 
 **键盘导航**：
 
-```html
-<!-- All interactive elements must be keyboard accessible -->
-<button tabindex="0" (keydown.enter)="onSelect()" (keydown.space)="onSelect()">
+```tsx
+<button
+  tabIndex={0}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' || e.key === ' ') onSelect();
+  }}
+>
   Select
 </button>
 ```
 
 **ARIA 标签**：
 
-```html
-<!-- Icon buttons need labels -->
-<button aria-label="Close dialog" (click)="close()">
-  <span class="material-icons">close</span>
+```tsx
+<button aria-label="Close dialog" onClick={close}>
+  <span className="material-icons">close</span>
 </button>
 ```
 
 **焦点管理**：
 
-```typescript
-// Modal should trap focus
-@ViewChild('modal') modal!: ElementRef;
-
-ngAfterViewInit() {
-  this.modal.nativeElement.focus();
-}
+```tsx
+useEffect(() => {
+  if (isOpen) {
+    firstFocusableRef.current?.focus();
+  }
+}, [isOpen]);
 ```
 
 **颜色对比度**：
@@ -548,31 +920,60 @@ const translations = {
 };
 ```
 
-### 2. 使用翻译管道
+### 2. 使用 next-intl
 
-```html
-<!-- In templates -->
-<h1>{{ 'nav.home' | translate }}</h1>
-
-<!-- In components -->
-export class MyComponent {
-  private i18n = inject(I18nService);
-
-  getTitle(): string {
-    return this.i18n.translate('nav.home');
+```typescript
+// messages/en.json
+{
+  "nav": {
+    "home": "Home",
+    "library": "Library"
+  },
+  "preview": {
+    "weight": "Weight",
+    "cost": "Cost"
   }
+}
+```
+
+```tsx
+// components/NavLink.tsx
+import { useTranslations } from 'next-intl';
+
+interface NavLinkProps {
+  href: string;
+}
+
+export function NavLink({ href }: NavLinkProps) {
+  const t = useTranslations();
+  const label = href === '/' ? t('nav.home') : t('nav.library');
+
+  return <a href={href}>{label}</a>;
 }
 ```
 
 ### 3. 语言切换
 
-```typescript
-export class I18nService {
-  currentLang = signal<'en' | 'zh-CN'>('en');
+```tsx
+// components/LanguageSwitcher.tsx
+'use client';
 
-  toggleLang(): void {
-    this.currentLang.update(lang => lang === 'en' ? 'zh-CN' : 'en');
-  }
+import { useRouter, usePathname } from 'next/navigation';
+
+export function LanguageSwitcher() {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const switchLocale = (locale: string) => {
+    router.push(pathname.replace(/^\/[a-z]{2}/, `/${locale}`));
+  };
+
+  return (
+    <select onChange={(e) => switchLocale(e.target.value)}>
+      <option value="en">English</option>
+      <option value="zh-CN">中文</option>
+    </select>
+  );
 }
 ```
 
@@ -651,39 +1052,88 @@ Closes #123
 **检查 bundle size**：
 
 ```bash
-npm run build -- --stats-json
-npx webpack-bundle-analyzer dist/stats.json
+npm run build
+npx @next/bundle-analyzer .next/analyze
 ```
 
-### 2. 懒加载
+### 2. 组件优化
 
-**路由懒加载**：
+**使用 `React.memo`**：
 
-```typescript
-// app.routes.ts
-export const routes: Routes = [
-  {
-    path: 'library',
-    loadComponent: () => import('./components/library').then(m => m.LibraryComponent)
-  }
-];
+```tsx
+// ✅ Good - 优化子组件重渲染
+const ListItem = React.memo(({ item, onClick }: ListItemProps) => {
+  return <div onClick={() => onClick(item.id)}>{item.name}</div>;
+});
 ```
 
-### 3. 图片优化
-
-**使用 WebP 格式**：
-
-```html
-<picture>
-  <source srcset="bike.webp" type="image/webp">
-  <img src="bike.jpg" alt="Bike">
-</picture>
+```tsx
+// ❌ Bad - 所有 props 变化都会导致重渲染
+function ListItem({ item, onClick }: ListItemProps) {
+  return <div onClick={() => onClick(item.id)}>{item.name}</div>;
+}
 ```
 
-**懒加载图片**：
+**使用 `next/image`**：
 
-```html
-<img src="bike.jpg" loading="lazy" alt="Bike">
+```tsx
+import Image from 'next/image';
+
+export function ProductImage({ src, alt }: { src: string; alt: string }) {
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={400}
+      height={300}
+      placeholder="blur"
+      blurDataURL={generateBlurPlaceholder(src)}
+    />
+  );
+}
+```
+
+### 3. 路由优化
+
+**布局组件分离**：
+
+```tsx
+// ✅ Good - 布局组件分离
+// app/layout.tsx (服务端)
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html>
+      <body>
+        <Navbar /> {/* 可能需要 'use client' */}
+        {children}
+      </body>
+    </html>
+  );
+}
+
+// app/page.tsx (服务端)
+export default function HomePage() {
+  return <h1>Welcome</h1>;
+}
+```
+
+**动态导入**：
+
+```tsx
+import dynamic from 'next/dynamic';
+
+const HeavyChart = dynamic(() => import('@/components/HeavyChart'), {
+  loading: () => <Skeleton />,
+  ssr: false
+});
+
+export function Dashboard() {
+  return (
+    <div>
+      <HeavyChart data={data} />
+    </div>
+  );
+}
 ```
 
 ---
@@ -696,6 +1146,5 @@ export const routes: Routes = [
 
 ---
 
-**文档路径**: `/openspec/development/coding-standards.md`  
-**最后更新**: 2026-05-05  
+**最后更新**: 2026-05-26
 **版本**: v3.4.0

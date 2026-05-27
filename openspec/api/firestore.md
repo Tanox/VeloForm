@@ -1,12 +1,78 @@
-# Firestore API 接口规范
-
-> **路径**: `/openspec/api/firestore.md`  
-> **版本**: v3.4.0  
-> **更新日期**: 2026-05-05
+# Firestore API 接口规范 (v3.4.0)
 
 ## 概述
 
-本文档定义 Veloform 项目中 Firebase Firestore 数据库的 API 接口规范，包括认证服务、配置管理 API 和组件字典 API。Veloform 使用 Angular Firebase SDK 进行数据操作，所有数据库集合的 schema、安全规则和 API 契约均在此定义。
+Veloform 使用 Firebase Firestore 作为后端数据库，通过 Next.js Firebase SDK 进行数据操作。本文档定义所有数据库集合的 schema、安全规则和 API 契约。
+
+---
+
+## 服务初始化
+
+### 动态导入策略
+
+**重要**: Firebase 模块必须在客户端动态导入，避免服务端构建时出现问题。
+
+```typescript
+// 在 service 层顶部
+let firestoreDb: Firestore | null = null;
+let firebaseAuth: Auth | null = null;
+
+export async function initializeFirebase(): Promise<boolean> {
+  if (firestoreDb && firebaseAuth) {
+    return true;
+  }
+
+  const { firebaseApp } = await import('./firebase');
+  if (!firebaseApp) {
+    return false;
+  }
+
+  firestoreDb = getFirestore(firebaseApp);
+  firebaseAuth = getAuth(firebaseApp);
+  return true;
+}
+```
+
+### 配置检查
+
+**函数**: `isFirebaseConfigured()`
+
+**返回值**: `Promise<boolean>`
+
+**行为**：检查 Firebase 是否已正确配置（环境变量存在且应用已初始化）
+
+```typescript
+export async function isFirebaseConfigured(): Promise<boolean> {
+  const hasApiKey = !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+  const hasProjectId = !!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+
+  if (!hasApiKey || !hasProjectId) {
+    return false;
+  }
+
+  return await initializeFirebase();
+}
+```
+
+### 认证状态监听
+
+**函数**: `onAuthStateChangedListener(callback)`
+
+**参数**：
+- `callback`: `(user: User | null) => void`
+
+**行为**：监听 Firebase Auth 状态变化
+
+```typescript
+export function onAuthStateChangedListener(
+  callback: (user: User | null) => void
+): () => void {
+  if (!firebaseAuth) {
+    return () => {};
+  }
+  return onAuthStateChanged(firebaseAuth, callback);
+}
+```
 
 ---
 
@@ -16,30 +82,50 @@
 
 **函数**: `loginWithGoogle()`
 
-**位置**: `src/app/services/firebase.ts`
+**位置**: `src/lib/firebase-service.ts`
 
-**返回值**: `Promise<void>`
+**返回值**: `Promise<UserCredential>`
 
 **行为**：
 - 触发 Google OAuth popup
-- 成功后自动更新 Firebase Auth 状态
+- 成功后返回 UserCredential
 - 失败时抛出结构化错误
+
+**示例**：
+
+```typescript
+import { loginWithGoogle } from '@/lib/firebase-service';
+
+try {
+  const result = await loginWithGoogle();
+  console.log('Logged in:', result.user.email);
+} catch (error) {
+  // Handle error
+}
+```
 
 **错误处理**：
 
 ```typescript
-try {
-  await loginWithGoogle();
-} catch (error) {
-  // Error structure
-  {
-    code: string;        // e.g., 'auth/popup-closed-by-user'
-    message: string;     // Human-readable message
-    operation: 'login';
-    path: '/auth/google';
-    authenticated: boolean;
-  }
+interface AuthError {
+  code: string;        // e.g., 'auth/popup-closed-by-user'
+  message: string;     // Human-readable message
+  operation: 'login';
+  path: '/auth/google';
+  authenticated: boolean;
 }
+```
+
+### 登出
+
+**函数**: `logoutFromFirebase()`
+
+**返回值**: `Promise<void>`
+
+```typescript
+import { logoutFromFirebase } from '@/lib/firebase-service';
+
+await logoutFromFirebase();
 ```
 
 ---
@@ -48,22 +134,25 @@ try {
 
 ### 1. 保存配置
 
-**函数**: `saveConfiguration(config: Configuration)`
+**函数**: `saveConfigurationToFirebase(config: Configuration, userId?: string)`
 
-**位置**: `src/app/services/firebase.ts`
+**位置**: `src/lib/firebase-service.ts`
 
 **参数**：
 
 | 参数 | 类型 | 必填 | 说明 |
 |------|------|------|------|
 | `config` | `Configuration` | Yes | 配置对象 |
+| `userId` | `string` | No | 用户 ID（未提供时自动获取当前用户） |
 
 **返回值**: `Promise<string>` — 返回新建或更新后 Firestore 文档 ID
+
+**前置条件**：用户已认证
 
 **行为**：
 - 如果 `config.id` 存在：执行 merge update
 - 如果 `config.id` 不存在：创建新文档，自动生成 UUID
-- 自动设置 `userId`（从当前认证用户）
+- 自动设置 `userId`（从参数或当前认证用户）
 - 自动设置 `updatedAt` 为服务器时间戳
 - 首次保存时设置 `createdAt`
 
@@ -86,7 +175,8 @@ const config: Configuration = {
   estimatedWeight: 6.8
 };
 
-await saveConfiguration(config);
+const configId = await saveConfigurationToFirebase(config);
+// configId: 'abc123...'
 ```
 
 **错误场景**：
@@ -96,56 +186,72 @@ await saveConfiguration(config);
 | `permission-denied` | 未认证或不是所有者 | 提示用户重新登录 |
 | `invalid-argument` | Schema 验证失败 | 显示具体字段错误 |
 | `unavailable` | Firestore 不可用 | 重试机制（最多 3 次） |
+| `firebase-not-configured` | Firebase 未配置 | 使用本地存储降级 |
+
+**优雅降级**：
+
+当 Firebase 未配置时，自动使用 localStorage 存储：
+
+```typescript
+const configId = await saveConfigurationToFirebase(config);
+if (configId === 'local-storage') {
+  console.log('Saved to localStorage');
+}
+```
 
 ---
 
 ### 2. 获取用户配置列表
 
-**函数**: `getUserConfigurations()`
+**函数**: `loadConfigurationsFromFirebase(userId?: string)`
 
-**位置**: `src/app/services/firebase.ts`
-
-**参数**: 无（从当前认证用户推导）
-
-**返回值**: `Promise<Configuration[]>`
-
-**查询条件**：
-- Collection: `configurations`
-- Filter: `userId == currentUser.uid`
-- Order: `updatedAt DESC`
-
-**示例**：
-
-```typescript
-const configs = await getUserConfigurations();
-// Returns: [{ id: '...', name: 'My Road Bike', ... }, ...]
-```
-
-**性能优化**：
-- 限制返回数量（最多 100 条）
-- 仅查询必要字段（projection）
-- 客户端缓存结果（Signal-based）
-
-**错误场景**：
-
-| 错误码 | 说明 | 处理方式 |
-|--------|------|----------|
-| `permission-denied` | 未认证 | 提示用户登录 |
-| `unavailable` | Firestore 不可用 | 显示离线提示 |
-
----
-
-### 3. 删除配置
-
-**函数**: `deleteConfiguration(id: string)`
-
-**位置**: `src/app/services/firebase.ts`
+**位置**: `src/lib/firebase-service.ts`
 
 **参数**：
 
 | 参数 | 类型 | 必填 | 说明 |
 |------|------|------|------|
-| `id` | `string` | Yes | 配置文档 ID |
+| `userId` | `string` | No | 用户 ID（未提供时自动获取当前用户） |
+
+**返回值**: `Promise<Configuration[]>`
+
+**查询条件**：
+- Collection: `configurations`
+- Filter: `userId == userId`
+- Order: `updatedAt DESC`
+
+**示例**：
+
+```typescript
+const configs = await loadConfigurationsFromFirebase();
+// Returns: [{ id: '...', name: 'My Road Bike', ... }, ...]
+```
+
+**性能优化**：
+- 限制返回数量（最多 100 条）
+- 客户端缓存结果（React Query/SWR 建议）
+
+**错误场景**：
+
+| 错误码 | 说明 | 处理方式 |
+|--------|------|----------|
+| `permission-denied` | 未认证 | 返回空数组，提示登录 |
+| `unavailable` | Firestore 不可用 | 返回缓存数据或空数组 |
+| `firebase-not-configured` | Firebase 未配置 | 从 localStorage 读取 |
+
+---
+
+### 3. 删除配置
+
+**函数**: `deleteConfigurationFromFirebase(configId: string)`
+
+**位置**: `src/lib/firebase-service.ts`
+
+**参数**：
+
+| 参数 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `configId` | `string` | Yes | 配置文档 ID |
 
 **返回值**: `Promise<void>`
 
@@ -156,8 +262,10 @@ const configs = await getUserConfigurations();
 **示例**：
 
 ```typescript
+import { deleteConfigurationFromFirebase } from '@/lib/firebase-service';
+
 try {
-  await deleteConfiguration('abc123');
+  await deleteConfigurationFromFirebase('abc123');
   showNotification('Configuration deleted');
 } catch (error) {
   showError('Failed to delete configuration');
@@ -170,6 +278,7 @@ try {
 |--------|------|----------|
 | `permission-denied` | 未认证或不是所有者 | 提示权限不足 |
 | `not-found` | 配置不存在 | 静默忽略或刷新列表 |
+| `firebase-not-configured` | Firebase 未配置 | 从 localStorage 删除 |
 
 ---
 
@@ -177,18 +286,18 @@ try {
 
 ### 1. 获取组件列表
 
-**函数**: `getComponentsFromDB()`
+**函数**: `loadComponentsFromFirebase()`
 
-**位置**: `src/app/services/firebase.ts`
+**位置**: `src/lib/firebase-service.ts`
 
 **参数**: 无
 
-**返回值**: `Promise<DatabaseComponent[]>`
+**返回值**: `Promise<ConfigComponent[]>`
 
-**DatabaseComponent Schema**：
+**ConfigComponent Schema**：
 
 ```typescript
-interface DatabaseComponent {
+interface ConfigComponent {
   id: string;           // Document ID (e.g., 'frame_road_sl8')
   category: string;     // e.g., 'Drivetrain', 'Wheelset', 'Frame'
   bikeType: string;     // 'Road' | 'MTB' | 'Fold'
@@ -201,23 +310,30 @@ interface DatabaseComponent {
 
 **行为**：
 - 查询 `components` collection
-- 如果 collection 为空，自动执行 `seedComponents()`
+- 如果 collection 为空，自动执行种子数据初始化
 - 返回所有组件（客户端过滤 by bikeType）
 
 **示例**：
 
 ```typescript
-const allComponents = await getComponentsFromDB();
+const allComponents = await loadComponentsFromFirebase();
 const roadComponents = allComponents.filter(c => c.bikeType === 'Road');
 ```
+
+**错误场景**：
+
+| 错误码 | 说明 | 处理方式 |
+|--------|------|----------|
+| `unavailable` | Firestore 不可用 | 返回内置默认组件 |
+| `firebase-not-configured` | Firebase 未配置 | 使用内置默认组件 |
 
 ---
 
 ### 2. 组件种子数据
 
-**函数**: `seedComponents()`
+**函数**: `seedComponentsToFirebase()`
 
-**位置**: `src/app/services/firebase.ts`
+**位置**: `src/lib/firebase-service.ts`
 
 **触发条件**：`components` collection 为空时自动执行
 
@@ -345,55 +461,63 @@ match /configurations/{configurationId} {
 ### 结构化错误对象
 
 ```typescript
-interface FirestoreErrorInfo {
+interface FirestoreError {
+  code: string;              // Firebase error code
   message: string;          // Original error message
   operation: 'create' | 'read' | 'update' | 'delete' | 'login';
   path: string;             // Firestore path
   authenticated: boolean;   // User auth status
   timestamp: number;        // Error occurrence time
+  fallback?: boolean;       // Whether fallback was used
 }
 ```
 
 ### 错误处理示例
 
 ```typescript
-async function handleFirestoreError(
-  error: any,
-  operation: string,
-  path: string
-): Promise<never> {
-  const errorInfo: FirestoreErrorInfo = {
-    message: error.message || 'Unknown error',
-    operation,
-    path,
-    authenticated: !!auth.currentUser,
-    timestamp: Date.now()
-  };
+import { saveConfigurationToFirebase } from '@/lib/firebase-service';
 
-  console.error('[Firestore Error]', errorInfo);
+async function handleSaveError(error: any, config: Configuration): Promise<void> {
+  if (error.code === 'firebase-not-configured') {
+    console.log('Firebase not configured, using local fallback');
+    return;
+  }
 
-  // Re-throw with structured info
-  throw errorInfo;
+  if (error.code === 'permission-denied') {
+    showNotification('Please log in to save configurations', 'error');
+    openLoginModal();
+    return;
+  }
+
+  if (error.code === 'unavailable') {
+    showNotification('Network error. Will retry automatically.', 'warning');
+    return;
+  }
+
+  showNotification('Failed to save. Please try again.', 'error');
+}
+
+// Usage
+try {
+  await saveConfigurationToFirebase(config);
+} catch (error) {
+  await handleSaveError(error, config);
 }
 ```
 
-### 客户端错误处理
+### 优雅降级策略
+
+当 Firebase 未配置时，系统自动降级到 localStorage：
 
 ```typescript
-try {
-  await saveConfiguration(config);
-} catch (error: any) {
-  if (error.operation === 'create') {
-    if (error.message.includes('permission-denied')) {
-      showNotification('Please log in to save configurations', 'error');
-      openLoginModal();
-    } else if (error.message.includes('invalid-argument')) {
-      showNotification('Invalid configuration data', 'error');
-    } else {
-      showNotification('Failed to save. Please try again.', 'error');
-    }
+// 自动检测并降级
+const result = await saveConfigurationToFirebase(config).catch(async (error) => {
+  if (error.code === 'firebase-not-configured') {
+    // 使用 localStorage 作为后备
+    return saveToLocalStorage(config);
   }
-}
+  throw error;
+});
 ```
 
 ---
@@ -404,14 +528,16 @@ try {
 
 ```typescript
 // Good - Use where clause
-query(collection(firestore, 'configurations'),
-      where('userId', '==', uid),
-      orderBy('updatedAt', 'desc'),
-      limit(100));
+const q = query(
+  collection(firestoreDb, 'configurations'),
+  where('userId', '==', userId),
+  orderBy('updatedAt', 'desc'),
+  limit(100)
+);
 
 // Bad - Client-side filtering
-getDocs(collection(firestore, 'configurations'))
-  .then(docs => docs.filter(d => d.userId === uid));
+const snapshot = await getDocs(collection(firestoreDb, 'configurations'));
+const filtered = snapshot.docs.filter(doc => doc.data().userId === userId);
 ```
 
 ### 2. 索引策略
@@ -422,25 +548,31 @@ getDocs(collection(firestore, 'configurations'))
 
 ### 3. 缓存策略
 
+使用 React Query 或 SWR 进行数据缓存：
+
 ```typescript
-// Signal-based caching
-private _cachedComponents = signal<DatabaseComponent[]>([]);
-private _lastFetchTime = signal<number>(0);
+// 使用 React Query
+const { data: configs, isLoading } = useQuery({
+  queryKey: ['configurations', userId],
+  queryFn: () => loadConfigurationsFromFirebase(userId),
+  staleTime: 5 * 60 * 1000, // 5 minutes
+  cacheTime: 30 * 60 * 1000 // 30 minutes
+});
+```
 
-async getComponentsFromDB(): Promise<DatabaseComponent[]> {
-  const now = Date.now();
-  const cacheAge = now - this._lastFetchTime();
+---
 
-  // Cache for 5 minutes
-  if (cacheAge < 5 * 60 * 1000 && this._cachedComponents().length > 0) {
-    return this._cachedComponents();
-  }
+## 环境变量
 
-  const components = await fetchFromFirestore();
-  this._cachedComponents.set(components);
-  this._lastFetchTime.set(now);
-  return components;
-}
+需要以下环境变量：
+
+```env
+NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
+NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id
 ```
 
 ---
@@ -453,6 +585,5 @@ async getComponentsFromDB(): Promise<DatabaseComponent[]> {
 
 ---
 
-**文档路径**: `/openspec/api/firestore.md`  
-**最后更新**: 2026-05-05  
+**最后更新**: 2026-05-26
 **版本**: v3.4.0

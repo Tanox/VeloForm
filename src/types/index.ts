@@ -30,10 +30,7 @@ export interface ConfigState {
   components: ConfigComponent[];
   configId: string | null;
   manualConfigName: string | null;
-  allDbComponents: ConfigComponent[];
-  showLibrary: boolean;
   myConfigs: Configuration[];
-  isLoggedIn: boolean;
   isSaving: boolean;
   showComponentSelector: boolean;
   editingComponentId: string;
