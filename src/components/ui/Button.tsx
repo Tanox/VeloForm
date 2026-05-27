@@ -17,23 +17,23 @@ export function Button({
   ...props
 }: ButtonProps) {
   const variants = {
-    primary: 'bg-primary hover:bg-primary/90 text-white',
-    secondary: 'bg-secondary hover:bg-secondary/90 text-white',
-    outline: 'border-2 border-primary text-primary hover:bg-primary hover:text-white',
-    ghost: 'text-foreground hover:bg-card',
+    primary: 'bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98]',
+    secondary: 'bg-secondary hover:bg-secondary/90 text-white shadow-lg shadow-secondary/20 hover:shadow-secondary/30 hover:scale-[1.02] active:scale-[0.98]',
+    outline: 'border-2 border-zinc-700 text-foreground hover:bg-zinc-800 hover:text-white hover:border-zinc-600',
+    ghost: 'text-foreground hover:bg-zinc-800 hover:text-white',
   };
 
   const sizes = {
     sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg',
+    md: 'px-5 py-2.5 text-base',
+    lg: 'px-7 py-3.5 text-lg',
   };
 
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center rounded-full font-medium transition-all duration-200',
-        'focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50 disabled:cursor-not-allowed',
+        'inline-flex items-center justify-center rounded-full font-semibold transition-all duration-300 ease-out',
+        'focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none',
         variants[variant],
         sizes[size],
         className

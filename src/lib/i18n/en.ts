@@ -1,0 +1,46 @@
+export const translations = {
+  nav: {
+    home: 'Home',
+    library: 'Library',
+  },
+  configurator: {
+    buildList: 'Build List',
+    selectComponent: 'Select Component',
+    saveBuild: 'Save Build',
+    saving: 'Saving...',
+    reset: 'Reset',
+    currentBuild: 'Current Build',
+    totalCost: 'Total Cost',
+    estimatedWeight: 'Est. Weight',
+  },
+  bikeTypes: {
+    road: 'Road',
+    mtb: 'MTB',
+    fold: 'Fold',
+  },
+  categories: {
+    frame: 'Frame',
+    drivetrain: 'Drivetrain',
+    wheelset: 'Wheelset',
+    suspension: 'Suspension',
+    cockpit: 'Cockpit',
+    tires: 'Tires',
+  },
+  library: {
+    title: 'Your Build Library',
+    subtitle: 'Saved configurations from Veloform',
+    noConfigs: 'No saved configurations yet',
+    startBuilding: 'Start Building',
+    load: 'Load',
+    cost: 'Cost',
+    weight: 'Weight',
+    backToConfigurator: 'Back to Configurator',
+  },
+  common: {
+    cancel: 'Cancel',
+    save: 'Save',
+    delete: 'Delete',
+    edit: 'Edit',
+    close: 'Close',
+  },
+} as const;

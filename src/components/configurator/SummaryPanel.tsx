@@ -4,10 +4,12 @@ import { useConfigStore } from '@/lib/store';
 import { formatCurrency, formatWeight } from '@/lib/utils';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { useTranslation } from '@/lib/i18n';
 import { motion } from 'framer-motion';
-import { Save, RefreshCw, Loader2 } from 'lucide-react';
+import { Save, RefreshCw, Loader2, TrendingUp, Scale } from 'lucide-react';
 
 export function SummaryPanel() {
+  const t = useTranslation();
   const { activeType, getTotalCost, getTotalWeight, manualConfigName, resetToDefaults, isSaving, saveConfiguration } =
     useConfigStore((state) => ({
       activeType: state.activeType,
@@ -26,55 +28,93 @@ export function SummaryPanel() {
   };
 
   return (
-    <Card className="sticky top-24">
-      <div className="space-y-6">
-        <div>
-          <h3 className="text-sm font-medium text-muted mb-2">Current Build</h3>
-          <p className="text-2xl font-display font-bold text-foreground">
-            {manualConfigName || `${activeType} Build`}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-zinc-900 rounded-xl p-4">
-            <p className="text-xs text-muted uppercase tracking-wide mb-1">Total Cost</p>
-            <motion.p
-              key={totalCost}
-              initial={{ scale: 1 }}
-              animate={{ scale: [1, 1.05, 1] }}
-              className="text-2xl font-bold text-primary"
-            >
-              {formatCurrency(totalCost)}
-            </motion.p>
+    <motion.div
+      initial={{ opacity: 0, x: 30 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+    >
+      <Card className="sticky top-6 overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-accent/10 rounded-bl-full" />
+        <div className="relative space-y-6">
+          <div>
+            <h3 className="text-sm font-medium text-muted mb-2">
+              {t('configurator.currentBuild')}
+            </h3>
+            <p className="text-2xl font-display font-bold text-foreground">
+              {manualConfigName || `${activeType} Build`}
+            </p>
           </div>
-          <div className="bg-zinc-900 rounded-xl p-4">
-            <p className="text-xs text-muted uppercase tracking-wide mb-1">Est. Weight</p>
-            <motion.p
-              key={totalWeight}
-              initial={{ scale: 1 }}
-              animate={{ scale: [1, 1.05, 1] }}
-              className="text-2xl font-bold text-accent"
+
+          <div className="grid grid-cols-2 gap-4">
+            <motion.div 
+              className="bg-zinc-900/60 backdrop-blur-sm border border-zinc-800/50 rounded-2xl p-5"
+              whileHover={{ scale: 1.02, y: -2 }}
+              transition={{ duration: 0.2 }}
             >
-              {formatWeight(totalWeight)}
-            </motion.p>
+              <div className="flex items-center gap-2 mb-2">
+                <TrendingUp className="w-4 h-4 text-primary/70" />
+                <p className="text-xs text-muted/80 uppercase tracking-wide">
+                  {t('configurator.totalCost')}
+                </p>
+              </div>
+              <motion.p
+                key={totalCost}
+                initial={{ scale: 1 }}
+                animate={{ scale: [1, 1.08, 1] }}
+                transition={{ duration: 0.4 }}
+                className="text-3xl font-bold text-primary"
+              >
+                {formatCurrency(totalCost)}
+              </motion.p>
+            </motion.div>
+            <motion.div 
+              className="bg-zinc-900/60 backdrop-blur-sm border border-zinc-800/50 rounded-2xl p-5"
+              whileHover={{ scale: 1.02, y: -2 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <Scale className="w-4 h-4 text-accent/70" />
+                <p className="text-xs text-muted/80 uppercase tracking-wide">
+                  {t('configurator.estimatedWeight')}
+                </p>
+              </div>
+              <motion.p
+                key={totalWeight}
+                initial={{ scale: 1 }}
+                animate={{ scale: [1, 1.08, 1] }}
+                transition={{ duration: 0.4 }}
+                className="text-3xl font-bold text-accent"
+              >
+                {formatWeight(totalWeight)}
+              </motion.p>
+            </motion.div>
+          </div>
+
+          <div className="space-y-3 pt-2">
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button className="w-full" size="lg" onClick={handleSave} disabled={isSaving}>
+                {isSaving ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    {t('configurator.saving')}
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-4 h-4 mr-2" />
+                    {t('configurator.saveBuild')}
+                  </>
+                )}
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button variant="outline" className="w-full" onClick={resetToDefaults}>
+                <RefreshCw className="w-4 h-4 mr-2" />
+                {t('configurator.reset')}
+              </Button>
+            </motion.div>
           </div>
         </div>
-
-        <div className="space-y-2">
-          <Button className="w-full" size="lg" onClick={handleSave} disabled={isSaving}>
-            {isSaving ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4 mr-2" />
-            )}
-            {isSaving ? 'Saving...' : 'Save Build'}
-          </Button>
-          <Button variant="outline" className="w-full" onClick={resetToDefaults}>
-            <RefreshCw className="w-4 h-4 mr-2" />
-            Reset
-          </Button>
-        </div>
-      </div>
-    </Card>
+      </Card>
+    </motion.div>
   );
 }

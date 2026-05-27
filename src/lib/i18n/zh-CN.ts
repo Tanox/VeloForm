@@ -1,0 +1,46 @@
+export const translations = {
+  nav: {
+    home: '首页',
+    library: '配置库',
+  },
+  configurator: {
+    buildList: '配置清单',
+    selectComponent: '选择组件',
+    saveBuild: '保存配置',
+    saving: '保存中...',
+    reset: '重置',
+    currentBuild: '当前配置',
+    totalCost: '总价格',
+    estimatedWeight: '预估重量',
+  },
+  bikeTypes: {
+    road: '公路车',
+    mtb: '山地车',
+    fold: '折叠车',
+  },
+  categories: {
+    frame: '车架',
+    drivetrain: '传动系统',
+    wheelset: '轮组',
+    suspension: '避震',
+    cockpit: '车把组件',
+    tires: '轮胎',
+  },
+  library: {
+    title: '您的配置库',
+    subtitle: 'Veloform 保存的配置',
+    noConfigs: '暂无保存的配置',
+    startBuilding: '开始配置',
+    load: '加载',
+    cost: '价格',
+    weight: '重量',
+    backToConfigurator: '返回配置器',
+  },
+  common: {
+    cancel: '取消',
+    save: '保存',
+    delete: '删除',
+    edit: '编辑',
+    close: '关闭',
+  },
+} as const;
