@@ -1,24 +1,33 @@
 'use client';
 
-import { initializeApp, getApps } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { initializeApp, getApp, getApps, FirebaseApp } from 'firebase/app';
+import { getFirestore, Firestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'demo-project',
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || 'demo-app-id',
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || 'demo-api-key',
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || 'demo.firebaseapp.com',
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || 'demo.appspot.com',
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '123456',
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
 };
 
-// Only initialize Firebase on client
-let app;
-if (typeof window !== 'undefined' && !getApps().length) {
-  app = initializeApp(firebaseConfig);
-} else if (typeof window !== 'undefined') {
-  app = getApps()[0];
+function hasRequiredConfig(): boolean {
+  return !!(firebaseConfig.projectId && firebaseConfig.apiKey);
 }
 
-// Export null or dummy values for server
-export const db = typeof window !== 'undefined' ? getFirestore(app!) : null;
+let app: FirebaseApp | null = null;
+let db: Firestore | null = null;
+
+if (typeof window !== 'undefined' && hasRequiredConfig()) {
+  try {
+    app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+    db = getFirestore(app);
+  } catch (error) {
+    console.error('Firebase initialization error:', error);
+    app = null;
+    db = null;
+  }
+}
+
+export { app, db };
