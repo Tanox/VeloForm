@@ -26,11 +26,7 @@ export function SummaryPanel() {
   };
 
   return (
-<<<<<<< HEAD
     <Card className="sticky top-24">
-=======
-    <Card className="sticky top-6">
->>>>>>> origin/main
       <div className="space-y-6">
         <div>
           <h3 className="text-sm font-medium text-muted mb-2">Current Build</h3>

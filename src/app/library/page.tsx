@@ -18,11 +18,7 @@ export default function LibraryPage() {
     <div className="min-h-screen">
       <Navbar />
       
-<<<<<<< HEAD
       <main className="max-w-7xl mx-auto px-4 pt-24 pb-8">
-=======
-      <main className="max-w-7xl mx-auto px-4 py-8">
->>>>>>> origin/main
         <div className="mb-8">
           <Link href="/">
             <Button variant="ghost" size="sm">

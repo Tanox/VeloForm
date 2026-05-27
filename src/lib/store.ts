@@ -311,13 +311,6 @@ interface ConfigStore extends ConfigState {
    */
   userId: string | null;
 
-  /**
-   * @method setUserId
-   * @description 设置当前用户 ID
-   * @param {string | null} userId - 用户 ID
-   * @returns {void}
-   */
-  setUserId: (userId: string | null) => void;
 }
 
 /**
