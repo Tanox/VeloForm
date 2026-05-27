@@ -5,11 +5,13 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { useConfigStore } from '@/lib/store';
 import { formatCurrency, formatWeight } from '@/lib/utils';
+import { useTranslation } from '@/lib/i18n';
 import { motion } from 'framer-motion';
 import { FolderOpen, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LibraryPage() {
+  const t = useTranslation();
   const myConfigs = useConfigStore((state) => state.myConfigs);
   const loadConfiguration = useConfigStore((state) => state.loadConfiguration);
   const deleteConfiguration = useConfigStore((state) => state.deleteConfiguration);
@@ -21,21 +23,21 @@ export default function LibraryPage() {
       <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
           <Link href="/">
-            <Button variant="ghost" size="sm">
-              ← Back to Configurator
-            </Button>
-          </Link>
-          <h1 className="text-3xl font-display font-bold text-foreground mt-4">
-            Your Build Library
-          </h1>
-          <p className="text-muted mt-2">Saved configurations from Veloform</p>
+              <Button variant="ghost" size="sm">
+                ← {t('library.backToConfigurator')}
+              </Button>
+            </Link>
+            <h1 className="text-3xl font-display font-bold text-foreground mt-4">
+              {t('library.title')}
+            </h1>
+            <p className="text-muted mt-2">{t('library.subtitle')}</p>
         </div>
 
         {myConfigs.length === 0 ? (
           <Card className="text-center py-16">
-            <div className="text-muted text-lg mb-4">No saved configurations yet</div>
+            <div className="text-muted text-lg mb-4">{t('library.noConfigs')}</div>
             <Link href="/">
-              <Button>Start Building</Button>
+              <Button>{t('library.startBuilding')}</Button>
             </Link>
           </Card>
         ) : (
@@ -57,19 +59,19 @@ export default function LibraryPage() {
                     </div>
                     
                     <div className="flex justify-between text-sm">
-                      <div>
-                        <p className="text-muted">Cost</p>
-                        <p className="font-semibold text-primary">
-                          {formatCurrency(config.totalCost)}
-                        </p>
+                        <div>
+                          <p className="text-muted">{t('library.cost')}</p>
+                          <p className="font-semibold text-primary">
+                            {formatCurrency(config.totalCost)}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-muted">{t('library.weight')}</p>
+                          <p className="font-semibold text-accent">
+                            {formatWeight(config.estimatedWeight)}
+                          </p>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <p className="text-muted">Weight</p>
-                        <p className="font-semibold text-accent">
-                          {formatWeight(config.estimatedWeight)}
-                        </p>
-                      </div>
-                    </div>
                     
                     <div className="flex gap-2 pt-2">
                       <Button
@@ -79,7 +81,7 @@ export default function LibraryPage() {
                         onClick={() => loadConfiguration(config)}
                       >
                         <FolderOpen className="w-4 h-4 mr-2" />
-                        Load
+                        {t('library.load')}
                       </Button>
                       <Button
                         variant="ghost"
