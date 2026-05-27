@@ -1,6 +1,7 @@
 'use client';
 
 import { create } from 'zustand';
+import { useCallback } from 'react';
 import { translations as enTranslations } from './en';
 import { translations as zhCNTranslations } from './zh-CN';
 
@@ -42,7 +43,11 @@ export const useI18nStore = create<I18nStore>((set, get) => ({
 }));
 
 export function useTranslation() {
-  return useI18nStore((state) => state.t);
+  const language = useI18nStore((state) => state.language);
+  const t = useI18nStore((state) => state.t);
+  return useCallback((key: string, params?: Record<string, string | number>) => {
+    return t(key, params);
+  }, [language, t]);
 }
 
 export function useLanguage() {
