@@ -37,4 +37,5 @@ export interface ConfigState {
   isSaving: boolean;
   showComponentSelector: boolean;
   editingComponentId: string;
+  userId: string | null;
 }
