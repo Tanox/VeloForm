@@ -1,8 +1,6 @@
 {
   "version": 2,
-  "framework": "angular",
   "buildCommand": "npm run build",
-  "outputDirectory": "dist/browser",
   "installCommand": "npm install",
   "devCommand": "npm run dev",
   "headers": [
@@ -28,7 +26,7 @@
       ]
     },
     {
-      "source": "/assets/(.*)",
+      "source": "/_next/static/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -71,12 +69,6 @@
           "value": "public, max-age=86400"
         }
       ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/((?!api/).*)",
-      "destination": "/index.html"
     }
   ]
 }
