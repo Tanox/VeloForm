@@ -20,28 +20,28 @@ export default function LibraryPage() {
     <div className="min-h-screen">
       <Navbar />
       
-      <main className="max-w-7xl mx-auto px-4 pt-24 pb-8">
-        <div className="mb-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-6 sm:pb-8">
+        <div className="mb-6 sm:mb-8">
           <Link href="/">
               <Button variant="ghost" size="sm">
                 ← {t('library.backToConfigurator')}
               </Button>
             </Link>
-            <h1 className="text-3xl font-display font-bold text-foreground mt-4">
+            <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground mt-3 sm:mt-4">
               {t('library.title')}
             </h1>
-            <p className="text-muted mt-2">{t('library.subtitle')}</p>
+            <p className="text-sm sm:text-base text-muted mt-2">{t('library.subtitle')}</p>
         </div>
 
         {myConfigs.length === 0 ? (
-          <Card className="text-center py-16">
-            <div className="text-muted text-lg mb-4">{t('library.noConfigs')}</div>
+          <Card className="text-center py-12 sm:py-16">
+            <div className="text-muted text-base sm:text-lg mb-4">{t('library.noConfigs')}</div>
             <Link href="/">
               <Button>{t('library.startBuilding')}</Button>
             </Link>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {myConfigs.map((config, index) => (
               <motion.div
                 key={config.id || index}
@@ -50,15 +50,15 @@ export default function LibraryPage() {
                 transition={{ delay: index * 0.05 }}
               >
                 <Card>
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     <div>
-                      <h3 className="font-display font-semibold text-foreground">
+                      <h3 className="font-display font-semibold text-foreground truncate">
                         {config.name}
                       </h3>
-                      <p className="text-sm text-muted">{config.bikeType}</p>
+                      <p className="text-xs sm:text-sm text-muted">{config.bikeType}</p>
                     </div>
                     
-                    <div className="flex justify-between text-sm">
+                    <div className="flex justify-between text-xs sm:text-sm">
                         <div>
                           <p className="text-muted">{t('library.cost')}</p>
                           <p className="font-semibold text-primary">

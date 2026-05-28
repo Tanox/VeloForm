@@ -50,7 +50,7 @@ export function ComponentSelector() {
       onClose={() => toggleComponentSelector()}
       title={`${t('configurator.selectComponent')} ${getCategoryTranslation(currentComponent.category)}`}
     >
-      <div className="space-y-3 max-h-[60vh] overflow-y-auto">
+      <div className="space-y-2 sm:space-y-3 max-h-[50vh] sm:max-h-[60vh] overflow-y-auto">
         {alternatives.map((component, index) => (
           <motion.div
             key={component.id}
@@ -59,31 +59,29 @@ export function ComponentSelector() {
             transition={{ delay: index * 0.05 }}
           >
             <Card
-              className={`cursor-pointer transition-all ${
-                component.id === currentComponent.id ? 'border-primary' : ''
-              }`}
+              className={`cursor-pointer transition-all ${component.id === currentComponent.id ? 'border-primary' : ''}`}
               onClick={() => handleSelect(component)}
             >
-              <div className="flex items-center justify-between">
-                <div>
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <h4 className="font-medium text-foreground">{component.name}</h4>
+                    <h4 className="font-medium text-foreground text-sm sm:text-base truncate">{component.name}</h4>
                     {component.id === currentComponent.id && (
-                      <Check className="w-4 h-4 text-primary" />
+                      <Check className="w-4 h-4 text-primary flex-shrink-0" />
                     )}
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-primary font-semibold">{formatCurrency(component.price)}</p>
-                  <p className="text-sm text-muted">{formatWeight(component.weight / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR)}</p>
+                <div className="text-right flex-shrink-0">
+                  <p className="text-primary font-semibold text-sm sm:text-base">{formatCurrency(component.price)}</p>
+                  <p className="text-xs sm:text-sm text-muted">{formatWeight(component.weight / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR)}</p>
                 </div>
               </div>
             </Card>
           </motion.div>
         ))}
       </div>
-      <div className="mt-6">
-        <Button variant="outline" className="w-full" onClick={() => toggleComponentSelector()}>
+      <div className="mt-4 sm:mt-6">
+        <Button variant="outline" className="w-full" size="md" onClick={() => toggleComponentSelector()}>
           {t('common.cancel')}
         </Button>
       </div>

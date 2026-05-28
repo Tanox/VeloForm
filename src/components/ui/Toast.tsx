@@ -43,18 +43,18 @@ function Toast({ toast }: { toast: ToastType }) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 20, scale: 0.9 }}
       className={cn(
-        'flex items-center gap-3 px-4 py-3 rounded-xl border shadow-lg',
+        'flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border shadow-lg',
         bgMap[toast.type],
         borderMap[toast.type]
       )}
     >
-      <Icon className={cn('w-5 h-5 flex-shrink-0', colorMap[toast.type])} />
-      <p className="text-sm font-medium text-foreground">{toast.message}</p>
+      <Icon className={cn('w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0', colorMap[toast.type])} />
+      <p className="text-xs sm:text-sm font-medium text-foreground flex-1">{toast.message}</p>
       <button
         onClick={() => removeToast(toast.id)}
-        className="ml-auto p-1 rounded-md hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+        className="ml-auto p-1 rounded-md hover:bg-black/10 dark:hover:bg-white/10 transition-colors flex-shrink-0"
       >
-        <X className="w-4 h-4 text-muted" />
+        <X className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted" />
       </button>
     </motion.div>
   );

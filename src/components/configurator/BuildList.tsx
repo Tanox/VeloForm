@@ -39,21 +39,21 @@ export function BuildList() {
           transition={{ delay: index * 0.08, type: 'spring', stiffness: 100 }}
           whileHover={{ scale: 1.01, x: 4 }}
         >
-          <Card className="flex items-center justify-between group">
+          <Card className="flex items-center justify-between gap-3 sm:gap-4 group">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold uppercase tracking-widest text-primary/80">
                   {getCategoryTranslation(component.category)}
                 </span>
               </div>
-              <h4 className="font-semibold text-foreground mt-1.5 truncate group-hover:text-gradient transition-all duration-300">
+              <h4 className="font-semibold text-foreground mt-1 text-sm sm:text-base truncate group-hover:text-gradient transition-all duration-300">
                 {component.name}
               </h4>
             </div>
-            <div className="flex items-center gap-6 ml-4">
+            <div className="flex items-center gap-3 sm:gap-6 ml-auto flex-shrink-0">
               <div className="text-right">
-                <p className="text-primary font-bold text-lg">{formatCurrency(component.price)}</p>
-                <p className="text-sm text-muted/70">{formatWeight(component.weight / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR)}</p>
+                <p className="text-primary font-bold text-base sm:text-lg">{formatCurrency(component.price)}</p>
+                <p className="text-xs sm:text-sm text-muted/70">{formatWeight(component.weight / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR)}</p>
               </div>
               <motion.div whileHover={{ scale: 1.1, rotate: 90 }} whileTap={{ scale: 0.9 }}>
                 <Button
