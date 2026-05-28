@@ -18,13 +18,13 @@ export function BikeTypeSelector() {
   };
 
   return (
-    <div className="flex gap-1.5 p-1.5 bg-zinc-900/50 backdrop-blur-sm rounded-full border border-zinc-800/50">
+    <div className="flex gap-1 p-1 bg-zinc-900/50 backdrop-blur-sm rounded-full border border-zinc-800/50">
       {types.map((type, index) => (
         <motion.button
           key={type}
           onClick={() => setActiveType(type)}
           className={
-            'relative px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ' +
+            'relative px-3 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 whitespace-nowrap ' +
             (activeType === type
               ? 'text-white'
               : 'text-muted hover:text-foreground hover:bg-zinc-800/50')
