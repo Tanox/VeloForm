@@ -2,7 +2,7 @@
 
 ## 项目概述
 
-Veloform 是一个本地化（EN/ZH）、高性能的自行车配置器，专为骑行者设计，支持 **公路车**、**山地车** 和 **折叠车** 三类车型的自定义构建模拟。它具备实时 3D 程序化可视化、Firebase 后端持久化和服务端渲染（SSR）以优化 SEO。
+Veloform 是一个本地化（EN/ZH）、高性能的自行车配置器，专为骑行者设计，支持 **公路车**、**山地车** 和 **折叠车** 三类车型的自定义构建模拟。它具备实时价格和重量计算、Firebase 后端持久化。
 
 - **生产地址**: `https://veloform.app`
 - **代码仓库**: `https://github.com/sutchan/Veloform`
@@ -18,10 +18,8 @@ Veloform 是一个本地化（EN/ZH）、高性能的自行车配置器，专为
 | **语言** | TypeScript | ~5.3.0 |
 | **样式** | Tailwind CSS (Mobile-first) | ^3.4.0 |
 | **状态管理** | Zustand | ^4.5.0 |
-| **后端/数据库** | Firebase (Firestore, Auth) | ^10.0.0 |
-| **3D 渲染** | Three.js (Procedural WebGL) | ^0.184.0 |
+| **后端/数据库** | Firebase (Firestore) | ^10.0.0 |
 | **动画** | Framer Motion | ^10.16.4 |
-| **AI 集成** | Google GenAI SDK | ^1.27.0 |
 | **代码检查** | ESLint + Prettier | ^9.39.1 / ^3.16.0 |
 | **测试** | Vitest | ^4.0.0 |
 | **部署** | Vercel | — |
@@ -60,25 +58,21 @@ export default async function ConfiguratorPage() {
 ```
 app.tsx (root)
   ├── Zustand Store: useConfigStore
-  │     ├── state: activeType, components, isSaving, configId, showLibrary, myConfigs, isLoggedIn
+  │     ├── state: activeType, components, isSaving, configId, showLibrary, myConfigs
   │     ├── actions: setActiveType, addComponent, removeComponent, saveConfig, loadConfig
   │     └── computed: configName, totalCost, baseWeight, totalWeight (via selectors)
   │
   ├── Navbar (Client Component)
-  │     ├── hooks: useAuth, useTheme, useLanguage
+  │     ├── hooks: useTheme, useLanguage
   │     └── handlers: openLibrary, toggleTheme
   │
-  ├── Sidebar (Client Component)
-  │     ├── props: activeType
-  │     └── events: onTypeSelect
+  ├── BuildList (Client Component)
+  │     ├── props: components, isSaving
+  │     └── events: onSync, onEdit
   │
-  ├── Preview (Client Component)
-  │     ├── props: name, type, weight, cost
-  │     └── Three.js scene (renderer, camera, bikeGroup)
-  │
-  └── BuildList (Client Component)
-        ├── props: components, isSaving
-        └── events: onSync, onDeploy
+  └── SummaryPanel (Client Component)
+        ├── props: name, type, weight, cost
+        └── Framer Motion animations (panel transitions)
 ```
 
 ### 3. 动态导入与 Firebase
@@ -125,80 +119,60 @@ const FirebaseAuth = dynamic(
 ```
 src/
 ├── app/                           # Next.js App Router
-│   ├── (main)/                    # 主布局路由组
-│   │   ├── configurator/
-│   │   │   ├── page.tsx          # 配置器页面
-│   │   │   └── loading.tsx      # 加载状态
-│   │   ├── library/
-│   │   │   └── page.tsx         # 方案库页面
-│   │   ├── layout.tsx           # 主布局组件
-│   │   └── page.tsx             # 首页
-│   │
-│   ├── api/                      # API Routes (可选)
-│   │   └── config/
-│   │       └── route.ts
-│   │
-│   ├── globals.css              # 全局样式
+│   ├── page.tsx                  # 首页/配置器
+│   ├── library/
+│   │   └── page.tsx             # 配置库页面
 │   ├── layout.tsx               # Root Layout
-│   └── page.tsx                 # Root Page (重定向)
+│   ├── providers.tsx             # 全局提供者
+│   ├── globals.css              # 全局样式
+│   └── middleware.ts            # 中间件
 │
 ├── components/                   # React 组件
 │   ├── configurator/            # 配置器组件
-│   │   ├── Preview.tsx          # 3D 预览组件
-│   │   ├── BuildList.tsx        # 组件列表
-│   │   └── ComponentSelector.tsx
+│   │   ├── BikeTypeSelector.tsx
+│   │   ├── BuildList.tsx
+│   │   ├── ComponentSelector.tsx
+│   │   ├── ComponentDetailModal.tsx
+│   │   ├── SummaryPanel.tsx
+│   │   ├── CostBreakdownChart.tsx
+│   │   ├── RecommendedConfigs.tsx
+│   │   ├── ComparePanel.tsx
+│   │   └── ShareModal.tsx
 │   │
 │   ├── layout/                  # 布局组件
-│   │   ├── Navbar.tsx           # 导航栏
-│   │   ├── Sidebar.tsx          # 侧边栏
-│   │   └── LoadingIndicator.tsx
+│   │   └── Navbar.tsx
 │   │
 │   └── ui/                      # 基础 UI 组件
 │       ├── Button.tsx
 │       ├── Card.tsx
 │       ├── Modal.tsx
-│       └── Notification.tsx
+│       ├── Toast.tsx
+│       ├── ErrorBoundary.tsx
+│       ├── ThemeToggle.tsx
+│       ├── OnboardingGuide.tsx
+│       └── SupportModal.tsx
 │
 ├── lib/                          # 工具库
-│   ├── store/                   # Zustand 状态管理
-│   │   ├── useConfigStore.ts   # 配置状态
-│   │   └── useAuthStore.ts     # 认证状态
+│   ├── i18n/                   # 国际化
+│   │   ├── index.ts
+│   │   ├── en.ts
+│   │   └── zh-CN.ts
 │   │
-│   ├── firebase-service/       # Firebase 服务
-│   │   ├── init.ts             # Firebase 初始化
-│   │   ├── auth.ts             # 认证服务
-│   │   └── firestore.ts        # Firestore 服务
-│   │
-│   ├── three/                   # Three.js 工具
-│   │   ├── BikeBuilder.ts      # 自行车模型构建器
-│   │   ├── SceneManager.ts     # 场景管理器
-│   │   └── materials.ts        # 材质配置
-│   │
-│   ├── utils/                   # 工具函数
-│   │   ├── calculations.ts     # 成本/重量计算
-│   │   └── validation.ts       # 数据验证
-│   │
-│   ├── constants/               # 常量定义
-│   │   ├── bike.constants.ts   # 车型配置
-│   │   └── component.constants.ts
-│   │
-│   └── mock-data/               # 开发环境 Mock 数据
-│       └── mock-components.ts
+│   ├── store.ts                # Zustand 状态管理
+│   ├── constants.ts            # 应用常量
+│   ├── mock-data.ts            # 模拟数据
+│   ├── recommended-configs.ts  # 推荐配置
+│   ├── utils.ts                # 工具函数
+│   ├── toast.ts                # Toast 通知
+│   ├── firebase.ts             # Firebase 配置
+│   └── firebase-service.ts     # Firebase 服务
 │
 ├── types/                        # TypeScript 类型定义
-│   ├── bike.ts                  # 自行车相关类型
-│   ├── component.ts             # 组件类型
-│   ├── config.ts                # 配置类型
-│   └── firebase.ts              # Firebase 类型
-│
-├── hooks/                        # 自定义 React Hooks
-│   ├── useBikeConfig.ts
-│   ├── useAuth.ts
-│   ├── useI18n.ts
-│   └── useNotification.ts
+│   └── index.ts
 │
 └── public/                      # 静态资源
-    └── models/                  # GLTF 模型（如有）
+    ├── _headers                # Vercel 头部配置
+    └── _redirects              # Vercel 重定向配置
 ```
 
 ---
@@ -249,11 +223,12 @@ src/
 - **TypeScript**: 优秀的类型推断支持
 - **中间件**: 灵活的中间件系统支持持久化、日志等
 
-### 为什么选择 Three.js 而非其他 3D 库？
+### 为什么选择 Framer Motion？
 
-- **轻量级**: 仅需核心功能，bundle size 可控
-- **灵活性**: 程序化生成几何体，无需加载外部模型文件
-- **成熟生态**: 丰富的示例和社区支持
+- **声明式动画**: 使用 React 的声明式方式定义动画，无需直接操作 DOM
+- **性能优化**: 自动处理动画性能，减少不必要的重渲染
+- **丰富的 API**: 提供手势、过渡、布局等多种动画能力
+- **易于集成**: 与 React 组件无缝集成，支持 SSR
 
 ### 客户端/服务端组件划分策略
 
