@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.1]
+### Added
+- Added component detail modal with i18n support
+- Added new translation keys for component details and reviews
+- Created modular data structure in `src/lib/data/` directory
+
+### Changed
+- Refactored `mock-data.ts` into modular structure:
+  - `src/lib/data/component-details.ts` - Detailed component information
+  - `src/lib/data/component-alternatives.ts` - Component alternatives
+  - `src/lib/data/index.ts` - Exports
+- Updated `ComponentDetailModal.tsx` to use i18n translations
+- Updated `BuildList.tsx` to use i18n translations
+- Fixed TypeScript type issues in `firebase-service.ts` (replaced `any` with proper types)
+- Updated `README.md` and `README_EN.md` directory structure documentation
+- Updated `openspec/SPEC.md` to reflect current project structure
+- Updated `openspec/PROJECT_GUIDELINES.md` (removed Angular references)
+- Updated `openspec/architecture/data-flow.md` (removed Angular references)
+- Updated UI component inventory in `openspec/SPEC.md`
+
+### Fixed
+- Removed hardcoded English text from `ComponentDetailModal.tsx`
+- Added missing i18n translation keys for component detail page
+- Fixed `any` type usage in `firebase-service.ts` for better type safety
+
 ## [3.4.0]
 ### Changed
 - Unified version numbers across all code files to v3.4.0.

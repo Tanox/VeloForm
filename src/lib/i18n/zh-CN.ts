@@ -103,5 +103,14 @@ export const translations = {
     delete: '删除',
     edit: '编辑',
     close: '关闭',
+    components: '个组件',
+  },
+  componentDetail: {
+    technicalSpecs: '技术规格',
+    keyFeatures: '关键特性',
+    selectComponent: '选择此组件',
+    price: '价格',
+    weight: '重量',
+    reviews: '条评价',
   },
 } as const;

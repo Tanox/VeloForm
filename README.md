@@ -33,19 +33,50 @@ src/
 ├── app/                          # App Router 路由文件
 │   ├── layout.tsx
 │   ├── page.tsx
-│   └── ...
+│   ├── providers.tsx
+│   ├── globals.css
+│   └── library/
+│       └── page.tsx
 ├── components/                   # UI 组件
 │   ├── configurator/             # 配置器组件
+│   │   ├── BikeTypeSelector.tsx
+│   │   ├── BuildList.tsx
+│   │   ├── ComponentDetailModal.tsx
+│   │   ├── ComponentSelector.tsx
+│   │   ├── CostBreakdownChart.tsx
+│   │   ├── RecommendedConfigs.tsx
+│   │   ├── ShareModal.tsx
+│   │   └── SummaryPanel.tsx
 │   ├── layout/                   # 布局组件
+│   │   └── Navbar.tsx
 │   └── ui/                      # 通用 UI 组件
+│       ├── Button.tsx
+│       ├── Card.tsx
+│       ├── ErrorBoundary.tsx
+│       ├── Modal.tsx
+│       ├── OnboardingGuide.tsx
+│       ├── SupportModal.tsx
+│       ├── ThemeToggle.tsx
+│       └── Toast.tsx
 ├── lib/                          # 工具库
-│   ├── store/                    # Zustand 状态管理
-│   ├── firebase-service/         # Firebase 服务
-│   ├── utils/                    # 工具函数
-│   ├── constants/                # 常量定义
-│   └── mock-data/                # 模拟数据
-├── types/                        # TypeScript 类型定义
-└── ...
+│   ├── constants.ts              # 应用常量
+│   ├── firebase-service.ts       # Firebase 服务
+│   ├── firebase.ts               # Firebase 配置
+│   ├── store.ts                  # Zustand 状态管理
+│   ├── utils.ts                  # 工具函数
+│   ├── toast.ts                  # Toast 通知
+│   ├── mock-data.ts              # 模拟数据（已废弃，使用 data/）
+│   ├── recommended-configs.ts    # 推荐配置
+│   ├── data/                     # 模块化数据
+│   │   ├── index.ts
+│   │   ├── component-details.ts
+│   │   └── component-alternatives.ts
+│   └── i18n/                     # 国际化
+│       ├── index.ts
+│       ├── en.ts
+│       └── zh-CN.ts
+└── types/                        # TypeScript 类型定义
+    └── index.ts
 ```
 
 详细开发规范请参阅 [openspec/PROJECT_GUIDELINES.md](openspec/PROJECT_GUIDELINES.md)。
@@ -76,4 +107,4 @@ npm run dev
 
 ## 版本信息
 
-当前运行版本 **v3.4.0**。
+当前运行版本 **v3.4.1**。

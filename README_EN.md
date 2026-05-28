@@ -33,19 +33,50 @@ src/
 ├── app/                          # App Router route files
 │   ├── layout.tsx
 │   ├── page.tsx
-│   └── ...
+│   ├── providers.tsx
+│   ├── globals.css
+│   └── library/
+│       └── page.tsx
 ├── components/                   # UI components
 │   ├── configurator/             # Configurator components
+│   │   ├── BikeTypeSelector.tsx
+│   │   ├── BuildList.tsx
+│   │   ├── ComponentDetailModal.tsx
+│   │   ├── ComponentSelector.tsx
+│   │   ├── CostBreakdownChart.tsx
+│   │   ├── RecommendedConfigs.tsx
+│   │   ├── ShareModal.tsx
+│   │   └── SummaryPanel.tsx
 │   ├── layout/                   # Layout components
+│   │   └── Navbar.tsx
 │   └── ui/                      # General UI components
+│       ├── Button.tsx
+│       ├── Card.tsx
+│       ├── ErrorBoundary.tsx
+│       ├── Modal.tsx
+│       ├── OnboardingGuide.tsx
+│       ├── SupportModal.tsx
+│       ├── ThemeToggle.tsx
+│       └── Toast.tsx
 ├── lib/                          # Utility library
-│   ├── store/                    # Zustand state management
-│   ├── firebase-service/         # Firebase services
-│   ├── utils/                    # Utility functions
-│   ├── constants/                # Constant definitions
-│   └── mock-data/                # Mock data
-├── types/                        # TypeScript type definitions
-└── ...
+│   ├── constants.ts              # App constants
+│   ├── firebase-service.ts       # Firebase services
+│   ├── firebase.ts               # Firebase configuration
+│   ├── store.ts                 # Zustand state management
+│   ├── utils.ts                 # Utility functions
+│   ├── toast.ts                 # Toast notifications
+│   ├── mock-data.ts             # Mock data (deprecated, use data/)
+│   ├── recommended-configs.ts    # Recommended configurations
+│   ├── data/                    # Modular data
+│   │   ├── index.ts
+│   │   ├── component-details.ts
+│   │   └── component-alternatives.ts
+│   └── i18n/                    # Internationalization
+│       ├── index.ts
+│       ├── en.ts
+│       └── zh-CN.ts
+└── types/                        # TypeScript type definitions
+    └── index.ts
 ```
 
 For detailed development guidelines, see [openspec/PROJECT_GUIDELINES.md](openspec/PROJECT_GUIDELINES.md).
@@ -76,4 +107,4 @@ For development conventions, branch and commit rules, testing requirements, and 
 
 ## Version
 
-Currently running version **v3.4.0**.
+Currently running version **v3.4.1**.

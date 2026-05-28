@@ -28,7 +28,7 @@ export function BuildList() {
         </h3>
         <div className="flex items-center gap-2 text-muted text-sm">
           <Settings className="w-4 h-4" />
-          <span>{components.length} components</span>
+          <span>{components.length} {t('common.components')}</span>
         </div>
       </div>
       {components.map((component, index) => (

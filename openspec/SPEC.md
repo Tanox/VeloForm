@@ -1,7 +1,7 @@
 # Veloform 规范概览
 
 > **路径**: `/openspec/SPEC.md`  
-> **版本**: v3.4.0  
+> **版本**: v3.4.1  
 > **更新日期**: 2026-05-05
 
 ## 概述
@@ -64,25 +64,39 @@ src/
 │   ├── configurator/            # 配置器相关组件
 │   │   ├── BikeTypeSelector.tsx
 │   │   ├── BuildList.tsx
+│   │   ├── ComponentDetailModal.tsx
 │   │   ├── ComponentSelector.tsx
+│   │   ├── CostBreakdownChart.tsx
+│   │   ├── ComparePanel.tsx
+│   │   ├── RecommendedConfigs.tsx
+│   │   ├── ShareModal.tsx
 │   │   └── SummaryPanel.tsx
 │   ├── layout/                  # 布局组件
 │   │   └── Navbar.tsx
 │   └── ui/                      # 通用 UI 组件
 │       ├── Button.tsx
 │       ├── Card.tsx
+│       ├── ErrorBoundary.tsx
 │       ├── Modal.tsx
-│       └── ErrorBoundary.tsx
+│       ├── OnboardingGuide.tsx
+│       ├── SupportModal.tsx
+│       ├── ThemeToggle.tsx
+│       └── Toast.tsx
 │
 ├── lib/                         # 核心功能
 │   ├── i18n/                   # 国际化
 │   │   ├── index.ts
 │   │   ├── en.ts
 │   │   └── zh-CN.ts
+│   ├── data/                   # 模块化数据
+│   │   ├── index.ts
+│   │   ├── component-details.ts
+│   │   └── component-alternatives.ts
 │   ├── store.ts                # Zustand 状态管理
 │   ├── constants.ts            # 应用常量
-│   ├── mock-data.ts            # 模拟数据
+│   ├── recommended-configs.ts  # 推荐配置
 │   ├── utils.ts                # 工具函数
+│   ├── toast.ts               # Toast 通知
 │   ├── firebase.ts             # Firebase 配置
 │   └── firebase-service.ts     # Firebase 服务
 │
@@ -158,8 +172,17 @@ src/
 | `BikeTypeSelector` | 自行车类型选择器 | ✅ |
 | `BuildList` | 配置清单 | ✅ |
 | `ComponentSelector` | 组件选择模态框 | ✅ |
+| `ComponentDetailModal` | 组件详情模态框 | ✅ |
 | `SummaryPanel` | 汇总面板，含保存/重置 | ✅ |
+| `RecommendedConfigs` | 推荐配置卡片 | ✅ |
+| `ComparePanel` | 配置比较面板 | ✅ |
+| `ShareModal` | 分享模态框 | ✅ |
+| `CostBreakdownChart` | 成本分解图表 | ✅ |
+| `OnboardingGuide` | 新手引导 | ✅ |
+| `SupportModal` | 支持/帮助模态框 | ✅ |
 | `ErrorBoundary` | 错误边界 | ✅ |
+| `ThemeToggle` | 主题切换按钮 | ✅ |
+| `Toast` | Toast 通知组件 | ✅ |
 
 ---
 
@@ -190,8 +213,8 @@ src/
 
 | 规范版本 | 项目版本 | 更新日期 | 说明 |
 |---------|---------|---------|------|
-| v3.4.0 | 3.4.0 | 2026-05-26 | 更新规范文档为 Next.js 项目、添加 i18n 系统、错误边界处理、完整项目重构 |
-| v3.4.0 | 3.4.0 | 2026-05-05 | 文档体系标准化：统一所有文档版本号至 v3.4.0、完善 OpenSpec 规范格式、规范化文档结构 |
+| v3.4.1 | 3.4.0 | 2026-05-26 | 更新规范文档为 Next.js 项目、添加 i18n 系统、错误边界处理、完整项目重构 |
+| v3.4.1 | 3.4.0 | 2026-05-05 | 文档体系标准化：统一所有文档版本号至 v3.4.1、完善 OpenSpec 规范格式、规范化文档结构 |
 | v3.3.2 | 3.3.2 | 2026-05-20 | WebGL 检测与降级方案、部署配置修复、版本号统一 |
 | v3.3.1 | 3.3.1 | 2026-05-19 | 动态项目 ID、测试文件整理 |
 | v3.3.0 | 3.3.0 | 2026-05-11 | 完整架构重构，引入 Feature-Based 分层结构（Core/Features/Shared），修复 UI Bug |
@@ -201,4 +224,4 @@ src/
 ---
 
 **最后更新**: 2026-05-26  
-**版本**: v3.4.0
+**版本**: v3.4.1

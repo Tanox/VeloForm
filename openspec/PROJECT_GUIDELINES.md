@@ -1,7 +1,7 @@
 # Veloform 项目开发指南
 
 > **路径**: `/openspec/PROJECT_GUIDELINES.md`  
-> **版本**: v3.4.0  
+> **版本**: v3.4.1  
 > **更新日期**: 2026-05-05
 
 ## 概述
@@ -220,10 +220,10 @@ Veloform 采用分层文档体系：
 - 导出函数和类必须标注返回类型
 - 使用泛型增强类型安全
 
-### Angular
-- 所有组件使用 standalone + OnPush
-- 优先使用 Signal-based 状态管理
-- 使用 `inject()` 进行依赖注入
+### React / Next.js
+- 使用函数组件
+- 优先使用 Zustand 进行状态管理
+- 合理使用 Hooks（useState, useEffect, useCallback, useMemo）
 
 ### 样式
 - 使用 Tailwind CSS 实用类
@@ -321,4 +321,4 @@ A:
 
 **文档路径**: `/openspec/PROJECT_GUIDELINES.md`  
 **最后更新**: 2026-05-05  
-**版本**: v3.4.0
+**版本**: v3.4.1

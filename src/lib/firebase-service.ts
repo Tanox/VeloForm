@@ -2,6 +2,21 @@
 
 import { Configuration } from '@/types';
 import { APP_CONSTANTS } from './constants';
+import type { Timestamp, FieldValue } from 'firebase/firestore';
+
+type FirestoreConfigData = {
+  id?: string;
+  userId?: string | null;
+  bikeType: Configuration['bikeType'];
+  name: string;
+  components: Configuration['components'];
+  totalCost: number;
+  estimatedWeight: number;
+  createdAt?: Timestamp | Date | FieldValue;
+  updatedAt: Timestamp | FieldValue;
+  description?: string;
+  tags?: string[];
+};
 
 function isFirebaseConfigured(): boolean {
   const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
@@ -27,7 +42,7 @@ export async function saveConfigurationToFirebase(
 
     const COLLECTIONS = APP_CONSTANTS.FIRESTORE_COLLECTIONS;
     
-    const configData: any = {
+    const configData: FirestoreConfigData = {
       ...config,
       userId: userId || null,
       updatedAt: serverTimestamp(),
