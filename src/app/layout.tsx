@@ -31,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body className="min-h-screen bg-background gradient-mesh noise-bg font-sans">
+      <body className="min-h-screen bg-background gradient-mesh noise-bg font-sans antialiased">
         <Providers>
           {children}
           <Toaster />
