@@ -1,15 +1,19 @@
 'use client';
 
+import { useState } from 'react';
 import { useConfigStore } from '@/lib/store';
 import { formatCurrency, formatWeight } from '@/lib/utils';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { useTranslation } from '@/lib/i18n';
 import { motion } from 'framer-motion';
-import { Save, RefreshCw, Loader2, TrendingUp, Scale } from 'lucide-react';
+import { Save, RefreshCw, Loader2, TrendingUp, Scale, Share2 } from 'lucide-react';
+import { ShareModal } from './ShareModal';
+import { CostBreakdownChart } from './CostBreakdownChart';
 
 export function SummaryPanel() {
   const t = useTranslation();
+  const [showShareModal, setShowShareModal] = useState(false);
   const { activeType, getTotalCost, getTotalWeight, manualConfigName, resetToDefaults, isSaving, saveConfiguration } =
     useConfigStore((state) => ({
       activeType: state.activeType,
@@ -90,7 +94,9 @@ export function SummaryPanel() {
             </motion.div>
           </div>
 
-          <div className="space-y-2 sm:space-y-3 pt-2">
+          <CostBreakdownChart />
+
+          <div className="space-y-3 pt-2">
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button className="w-full" size="md" onClick={handleSave} disabled={isSaving}>
                 {isSaving ? (
@@ -107,7 +113,13 @@ export function SummaryPanel() {
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button variant="outline" className="w-full" size="md" onClick={resetToDefaults}>
+              <Button variant="outline" className="w-full" onClick={() => setShowShareModal(true)}>
+                <Share2 className="w-4 h-4 mr-2" />
+                {t('share.title')}
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button variant="outline" className="w-full" onClick={resetToDefaults}>
                 <RefreshCw className="w-4 h-4 mr-2" />
                 {t('configurator.reset')}
               </Button>
@@ -115,6 +127,8 @@ export function SummaryPanel() {
           </div>
         </div>
       </Card>
+      
+      <ShareModal isOpen={showShareModal} onClose={() => setShowShareModal(false)} />
     </motion.div>
   );
 }

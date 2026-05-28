@@ -8,7 +8,7 @@ export interface ConfigComponent {
   price: number;
   weight: number;
   bikeType?: BikeType;
-  specs?: string;
+  specs?: Record<string, string | number>;
   brand?: string;
   model?: string;
 }
@@ -23,6 +23,8 @@ export interface Configuration {
   estimatedWeight: number;
   createdAt?: Date;
   updatedAt?: Date;
+  description?: string;
+  tags?: string[];
 }
 
 export interface ConfigState {

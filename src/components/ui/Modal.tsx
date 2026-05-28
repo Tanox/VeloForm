@@ -11,9 +11,10 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   children: ReactNode;
+  className?: string;
 }
 
-export function Modal({ isOpen, onClose, title, children }: ModalProps) {
+export function Modal({ isOpen, onClose, title, children, className }: ModalProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -50,7 +51,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="relative bg-card/95 backdrop-blur-xl border border-zinc-800 rounded-2xl sm:rounded-3xl p-5 sm:p-7 w-full max-w-2xl shadow-2xl shadow-black/50 max-h-[90vh] overflow-y-auto"
+            className={cn("relative bg-card/95 backdrop-blur-xl border border-zinc-800 rounded-3xl p-7 w-full max-w-2xl shadow-2xl shadow-black/50", className)}
           >
             <div className="flex items-center justify-between mb-4 sm:mb-6">
               <h2 className="text-lg sm:text-2xl font-display font-bold text-foreground">{title}</h2>
