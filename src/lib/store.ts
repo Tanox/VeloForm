@@ -22,6 +22,12 @@ interface ConfigStore extends ConfigState {
   getTotalWeight: () => number;
   saveConfiguration: () => Promise<void>;
   deleteConfiguration: (configId: string) => Promise<void>;
+  generateShareableLink: () => string;
+  exportConfiguration: () => string;
+  toggleCompare: (configId: string) => void;
+  clearCompare: () => void;
+  getComparingConfigs: () => Configuration[];
+  comparingConfigIds: string[];
   userId: string | null;
 }
 
@@ -37,6 +43,7 @@ export const useConfigStore = create<ConfigStore>()(
       showComponentSelector: false,
       editingComponentId: '',
       userId: null,
+      comparingConfigIds: [] as string[],
 
       setActiveType: (type: BikeType) =>
         set({
@@ -81,6 +88,36 @@ export const useConfigStore = create<ConfigStore>()(
       setConfigId: (id: string | null) => set({ configId: id }),
       setManualConfigName: (name: string | null) => set({ manualConfigName: name }),
       setUserId: (userId: string | null) => set({ userId }),
+
+      generateShareableLink: () => {
+        const state = get();
+        const config = {
+          bikeType: state.activeType,
+          components: state.components,
+          name: state.manualConfigName || `${state.activeType} Build`,
+        };
+        const encoded = btoa(JSON.stringify(config));
+        const origin = typeof window !== 'undefined' ? window.location.origin : '';
+        return `${origin}/?config=${encoded}`;
+      },
+
+      exportConfiguration: () => {
+        const state = get();
+        const exportData = {
+          name: state.manualConfigName || `${state.activeType} Build`,
+          bikeType: state.activeType,
+          totalCost: state.getTotalCost(),
+          estimatedWeight: state.getTotalWeight(),
+          components: state.components.map((comp) => ({
+            category: comp.category,
+            name: comp.name,
+            price: comp.price,
+            weight: comp.weight,
+          })),
+          exportedAt: new Date().toISOString(),
+        };
+        return JSON.stringify(exportData, null, 2);
+      },
 
       getTotalCost: () => {
         const state = get();
@@ -154,8 +191,36 @@ export const useConfigStore = create<ConfigStore>()(
         set((state) => ({
           myConfigs: state.myConfigs.filter((c) => c.id !== configId),
           configId: state.configId === configId ? null : state.configId,
+          comparingConfigIds: state.comparingConfigIds.filter((id) => id !== configId),
         }));
         toast('info', 'Configuration deleted');
+      },
+
+      toggleCompare: (configId: string) => {
+        set((state) => {
+          const isComparing = state.comparingConfigIds.includes(configId);
+          if (isComparing) {
+            return {
+              comparingConfigIds: state.comparingConfigIds.filter((id) => id !== configId),
+            };
+          }
+          if (state.comparingConfigIds.length >= 3) {
+            toast('warning', 'You can compare up to 3 configurations');
+            return state;
+          }
+          return {
+            comparingConfigIds: [...state.comparingConfigIds, configId],
+          };
+        });
+      },
+
+      clearCompare: () => set({ comparingConfigIds: [] }),
+
+      getComparingConfigs: () => {
+        const state = get();
+        return state.comparingConfigIds
+          .map((id) => state.myConfigs.find((c) => c.id === id))
+          .filter(Boolean) as Configuration[];
       },
     }),
     {

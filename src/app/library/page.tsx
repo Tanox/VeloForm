@@ -7,20 +7,23 @@ import { useConfigStore } from '@/lib/store';
 import { formatCurrency, formatWeight } from '@/lib/utils';
 import { useTranslation } from '@/lib/i18n';
 import { motion } from 'framer-motion';
-import { FolderOpen, Trash2 } from 'lucide-react';
+import { FolderOpen, Trash2, GitCompare } from 'lucide-react';
 import Link from 'next/link';
+import { ComparePanel } from '@/components/configurator/ComparePanel';
 
 export default function LibraryPage() {
   const t = useTranslation();
   const myConfigs = useConfigStore((state) => state.myConfigs);
   const loadConfiguration = useConfigStore((state) => state.loadConfiguration);
   const deleteConfiguration = useConfigStore((state) => state.deleteConfiguration);
+  const toggleCompare = useConfigStore((state) => state.toggleCompare);
+  const comparingConfigIds = useConfigStore((state) => state.comparingConfigIds);
 
   return (
     <div className="min-h-screen">
       <Navbar />
       
-      <main className="max-w-7xl mx-auto px-4 pt-24 pb-8">
+      <main className="max-w-7xl mx-auto px-4 pt-24 pb-8 pb-[280px]">
         <div className="mb-8">
           <Link href="/">
               <Button variant="ghost" size="sm">
@@ -82,6 +85,13 @@ export default function LibraryPage() {
                       >
                         <FolderOpen className="w-4 h-4 mr-2" />
                         {t('library.load')}
+                      </Button>
+                      <Button
+                        variant={comparingConfigIds.includes(config.id || '') ? 'primary' : 'ghost'}
+                        size="sm"
+                        onClick={() => config.id && toggleCompare(config.id)}
+                      >
+                        <GitCompare className="w-4 h-4" />
                       </Button>
                       <Button
                         variant="ghost"
