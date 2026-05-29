@@ -1,18 +1,18 @@
 # 数据流设计
 
 > **路径**: `/openspec/architecture/data-flow.md`  
-> **版本**: v3.4.0  
+> **版本**: v3.4.1  
 > **更新日期**: 2026-05-05
 
 ## 概述
 
-本文档描述 Veloform 项目的数据流设计、状态管理模式和组件间通信规范。Veloform 采用基于 Angular Signals 的单向数据流架构，使用 **ConfigStore** 和 **ConfigService** 实现中心化状态管理，确保状态变更的可预测性和可追踪性。
+本文档描述 Veloform 项目的数据流设计、状态管理模式和组件间通信规范。Veloform 采用基于 Zustand 的单向数据流架构，使用 **useConfigStore** 实现中心化状态管理，确保状态变更的可预测性和可追踪性。
 
 ---
 
 ## 状态管理架构
 
-Veloform 采用基于 Angular Signals 的单向数据流架构，使用 **ConfigStore** 和 **ConfigService** 实现中心化状态管理，确保状态变更的可预测性和可追踪性。
+Veloform 采用基于 Zustand 的单向数据流架构，使用 **useConfigStore** 实现中心化状态管理，确保状态变更的可预测性和可追踪性。
 
 ---
 
@@ -215,20 +215,20 @@ export const confirmDialogService = new ConfirmDialogService();
 
 ## 副作用管理 (Effects)
 
-Angular Effects 用于处理副作用和响应式订阅。在本项目中，Effects 主要在根组件 `app.ts` 中使用：
+React useEffect Hook 用于处理副作用。在本项目中，useEffect 主要在客户端组件中使用：
 
 ### 1. 配置库自动刷新
 
 当用户登录且显示库模态框时，自动刷新配置列表：
 
 ```typescript
-// app.ts
-effect(() => {
-  const loggedIn = configStore.isLoggedIn();
-  if (loggedIn && configStore.showLibrary()) {
-    configService.refreshMyConfigs();
+// components/layout/LibraryModal.tsx
+useEffect(() => {
+  const loggedIn = useAuthStore.getState().isLoggedIn;
+  if (loggedIn && isOpen) {
+    loadConfigurationsFromFirebase(userId);
   }
-});
+}, [isOpen, userId]);
 ```
 
 ### 2. 认证状态监听
@@ -236,26 +236,23 @@ effect(() => {
 通过 Firebase Auth 状态变化更新登录状态：
 
 ```typescript
-// config.service.ts
-initAuthListener() {
-  onAuthStateChanged(auth, (user) => {
-    configStore.setIsLoggedIn(!!user);
-  });
-}
+// lib/firebase.ts
+onAuthStateChanged(auth, (user) => {
+  useAuthStore.setState({ isLoggedIn: !!user, user });
+});
 ```
 
 ### 3. 组件选择器监听
 
-在 `PreviewComponent` 中监听车型变化以更新 3D 渲染：
+在 `ComponentSelector` 组件中监听车型变化以更新可选组件：
 
 ```typescript
-// preview.ts
-effect(() => {
-  const currentType = this.type();
-  if (isPlatformBrowser(this.platformId) && this.bikeGroup) {
-    this.buildBikeMesh(currentType);
+// components/configurator/ComponentSelector.tsx
+useEffect(() => {
+  if (showComponentSelector && !currentComponent) {
+    toggleComponentSelector();
   }
-});
+}, [showComponentSelector, currentComponent, toggleComponentSelector]);
 ```
 
 ---
@@ -375,4 +372,4 @@ export class PreviewComponent {
 
 **文档路径**: `/openspec/architecture/data-flow.md`  
 **最后更新**: 2026-05-05  
-**版本**: v3.4.0
+**版本**: v3.4.1

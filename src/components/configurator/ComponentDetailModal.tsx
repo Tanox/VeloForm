@@ -5,7 +5,8 @@ import Image from 'next/image';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { formatCurrency, formatWeight } from '@/lib/utils';
-import { mockComponentDetails } from '@/lib/mock-data';
+import { mockComponentDetails } from '@/lib/data';
+import { useTranslation } from '@/lib/i18n';
 import { Star, ChevronRight } from 'lucide-react';
 
 interface ComponentDetailModalProps {
@@ -16,6 +17,7 @@ interface ComponentDetailModalProps {
 }
 
 export function ComponentDetailModal({ isOpen, onClose, componentId, onSelect }: ComponentDetailModalProps) {
+  const t = useTranslation();
   const detail = mockComponentDetails[componentId];
 
   if (!detail) return null;
@@ -73,20 +75,20 @@ export function ComponentDetailModal({ isOpen, onClose, componentId, onSelect }:
                 />
               ))}
               <span className="ml-2 text-sm text-muted">
-                ({detail.rating}) {detail.reviewCount} reviews
+                ({detail.rating}) {detail.reviewCount} {t('componentDetail.reviews')}
               </span>
             </div>
           </div>
 
           <div className="flex items-center gap-6 py-4 border-y border-zinc-800">
             <div>
-              <p className="text-xs text-muted uppercase tracking-wider">Price</p>
+              <p className="text-xs text-muted uppercase tracking-wider">{t('componentDetail.price')}</p>
               <p className="text-2xl font-bold text-primary">
                 {formatCurrency(detail.price)}
               </p>
             </div>
             <div>
-              <p className="text-xs text-muted uppercase tracking-wider">Weight</p>
+              <p className="text-xs text-muted uppercase tracking-wider">{t('componentDetail.weight')}</p>
               <p className="text-2xl font-bold text-accent">
                 {formatWeight(detail.weight / 1000)}
               </p>
@@ -96,7 +98,7 @@ export function ComponentDetailModal({ isOpen, onClose, componentId, onSelect }:
           {detail.specs && (
             <div>
               <h4 className="text-sm font-semibold text-foreground mb-3">
-                Technical Specifications
+                {t('componentDetail.technicalSpecs')}
               </h4>
               <div className="space-y-2">
                 {Object.entries(detail.specs).map(([key, value]) => (
@@ -114,7 +116,7 @@ export function ComponentDetailModal({ isOpen, onClose, componentId, onSelect }:
 
           {detail.features && detail.features.length > 0 && (
             <div>
-              <h4 className="text-sm font-semibold text-foreground mb-3">Key Features</h4>
+              <h4 className="text-sm font-semibold text-foreground mb-3">{t('componentDetail.keyFeatures')}</h4>
               <div className="grid grid-cols-2 gap-2">
                 {detail.features.map((feature, index) => (
                   <motion.div
@@ -134,7 +136,7 @@ export function ComponentDetailModal({ isOpen, onClose, componentId, onSelect }:
 
           {onSelect && (
             <Button className="w-full" size="lg" onClick={onSelect}>
-              Select this component
+              {t('componentDetail.selectComponent')}
               <ChevronRight className="w-4 h-4 ml-2" />
             </Button>
           )}

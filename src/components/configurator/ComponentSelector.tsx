@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { formatCurrency, formatWeight } from '@/lib/utils';
 import { APP_CONSTANTS } from '@/lib/constants';
-import { mockAlternatives } from '@/lib/mock-data';
+import { mockAlternatives } from '@/lib/data';
 import { promotionalComponents } from '@/lib/recommended-configs';
 import { ConfigComponent } from '@/types';
 import { Check, Eye } from 'lucide-react';

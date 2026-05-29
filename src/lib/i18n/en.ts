@@ -103,5 +103,14 @@ export const translations = {
     delete: 'Delete',
     edit: 'Edit',
     close: 'Close',
+    components: 'components',
+  },
+  componentDetail: {
+    technicalSpecs: 'Technical Specifications',
+    keyFeatures: 'Key Features',
+    selectComponent: 'Select this component',
+    price: 'Price',
+    weight: 'Weight',
+    reviews: 'reviews',
   },
 } as const;

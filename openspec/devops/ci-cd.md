@@ -1,7 +1,7 @@
 # CI/CD 流程规范
 
 > **路径**: `/openspec/devops/ci-cd.md`  
-> **版本**: v3.4.0  
+> **版本**: v3.4.1  
 > **更新日期**: 2026-05-05
 
 ## 概述
@@ -220,4 +220,4 @@ export default defineConfig({
 
 **文档路径**: `/openspec/devops/ci-cd.md`  
 **最后更新**: 2026-05-05  
-**版本**: v3.4.0
+**版本**: v3.4.1
