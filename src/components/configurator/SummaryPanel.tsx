@@ -37,7 +37,7 @@ export function SummaryPanel() {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
     >
-      <Card className="sticky top-20 sm:top-6 overflow-hidden">
+      <Card className="sticky top-24 overflow-hidden">
         <div className="absolute top-0 right-0 w-20 sm:w-32 h-20 sm:h-32 bg-gradient-to-br from-primary/10 to-accent/10 rounded-bl-full" />
         <div className="relative space-y-4 sm:space-y-6">
           <div>

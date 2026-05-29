@@ -14,7 +14,7 @@ export default function Home() {
     <div className="min-h-screen">
       <Navbar />
       
-      <main className="max-w-7xl mx-auto px-4 pt-6 pb-8 sm:pt-24">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-8">
         <div className="sm:hidden mb-6">
           <BikeTypeSelector />
         </div>

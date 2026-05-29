@@ -43,11 +43,10 @@ export const useI18nStore = create<I18nStore>((set, get) => ({
 }));
 
 export function useTranslation() {
-  const language = useI18nStore((state) => state.language);
   const t = useI18nStore((state) => state.t);
   return useCallback((key: string, params?: Record<string, string | number>) => {
     return t(key, params);
-  }, [language, t]);
+  }, [t]);
 }
 
 export function useLanguage() {
