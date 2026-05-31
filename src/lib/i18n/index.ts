@@ -7,11 +7,12 @@ import { translations as zhCNTranslations } from './zh-CN';
 
 type Language = 'en' | 'zh-CN';
 
-type Translations = Record<string, any>;
+type TranslationValue = string | Record<string, TranslationValue>;
+type Translations = Record<string, TranslationValue>;
 
 const translations: Record<Language, Translations> = {
-  en: enTranslations as Translations,
-  'zh-CN': zhCNTranslations as Translations,
+  en: enTranslations as unknown as Translations,
+  'zh-CN': zhCNTranslations as unknown as Translations,
 };
 
 interface I18nStore {
@@ -20,8 +21,15 @@ interface I18nStore {
   t: (key: string, params?: Record<string, string | number>) => string;
 }
 
-function getNestedValue(obj: any, path: string): string {
-  return path.split('.').reduce((acc, part) => acc?.[part], obj) || path;
+function getNestedValue(obj: TranslationValue, path: string): string {
+  const result = path.split('.').reduce((acc: TranslationValue | undefined, part) => {
+    if (typeof acc === 'object' && acc !== null) {
+      return acc[part];
+    }
+    return undefined;
+  }, obj);
+  
+  return typeof result === 'string' ? result : path;
 }
 
 export const useI18nStore = create<I18nStore>((set, get) => ({
