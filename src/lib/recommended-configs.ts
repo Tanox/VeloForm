@@ -5,8 +5,8 @@ export const recommendedConfigurations: Configuration[] = [
     id: 'rec_road_race',
     name: 'Pro Race Build',
     bikeType: 'Road',
-    totalCost: 9780,
-    estimatedWeight: 6.8,
+    totalCost: 7780,
+    estimatedWeight: 5.64,
     components: [
       { id: 'd1', category: 'Drivetrain', name: 'Shimano Dura-Ace Di2 R9200', price: 4200, weight: 2430 },
       { id: 'w1', category: 'Wheelset', name: 'Roval Rapide CLX II', price: 2800, weight: 1520 },
@@ -20,8 +20,8 @@ export const recommendedConfigurations: Configuration[] = [
     id: 'rec_road_allround',
     name: 'All-Rounder Build',
     bikeType: 'Road',
-    totalCost: 7510,
-    estimatedWeight: 7.2,
+    totalCost: 7610,
+    estimatedWeight: 5.6,
     components: [
       { id: 'd2', category: 'Drivetrain', name: 'SRAM Red AXS', price: 4000, weight: 2380 },
       { id: 'w3', category: 'Wheelset', name: 'Enve SES 4.5', price: 2900, weight: 1550 },
@@ -35,12 +35,12 @@ export const recommendedConfigurations: Configuration[] = [
     id: 'rec_mtb_xc',
     name: 'XC Race Build',
     bikeType: 'MTB',
-    totalCost: 6350,
-    estimatedWeight: 10.5,
+    totalCost: 6600,
+    estimatedWeight: 8.01,
     components: [
-      { id: 'd2', category: 'Drivetrain', name: 'SRAM Red AXS', price: 4000, weight: 2380 },
+      { id: 'd1', category: 'Drivetrain', name: 'Shimano Dura-Ace Di2 R9200', price: 4200, weight: 2430 },
       { id: 's3', category: 'Suspension', name: 'Fox 32 Step-Cast Factory', price: 1100, weight: 1580 },
-      { id: 'w2', category: 'Wheelset', name: 'Zipp 454 NSW', price: 3200, weight: 1480 },
+      { id: 'w1', category: 'Wheelset', name: 'Roval Rapide CLX II', price: 2800, weight: 1520 },
       { id: 't2', category: 'Tires', name: 'GP5000 S TR', price: 160, weight: 450 },
     ],
     description: 'Ultra-lightweight cross-country mountain bike setup',
@@ -50,8 +50,8 @@ export const recommendedConfigurations: Configuration[] = [
     id: 'rec_fold_city',
     name: 'Urban Fold Build',
     bikeType: 'Fold',
-    totalCost: 3300,
-    estimatedWeight: 11.2,
+    totalCost: 7660,
+    estimatedWeight: 8.9,
     components: [
       { id: 'd3', category: 'Drivetrain', name: 'Campagnolo Super Record EPS', price: 4500, weight: 2450 },
       { id: 'f1', category: 'Frame', name: 'Titanium Main Frame', price: 2100, weight: 1800 },
@@ -63,9 +63,9 @@ export const recommendedConfigurations: Configuration[] = [
 ];
 
 export const promotionalComponents: Record<string, { discount: number; originalPrice: number }> = {
-  'd2': { discount: 15, originalPrice: 4000 },
-  'w1': { discount: 10, originalPrice: 2800 },
-  'c1': { discount: 5, originalPrice: 600 },
-  't2': { discount: 20, originalPrice: 160 },
-  's2': { discount: 12, originalPrice: 950 },
+  'd2': { discount: 15, originalPrice: 4706 },
+  'w1': { discount: 10, originalPrice: 3111 },
+  'c1': { discount: 5, originalPrice: 632 },
+  't2': { discount: 20, originalPrice: 200 },
+  's2': { discount: 12, originalPrice: 1080 },
 };
