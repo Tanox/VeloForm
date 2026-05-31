@@ -6,6 +6,7 @@ import { SummaryPanel } from '@/components/configurator/SummaryPanel';
 import { ComponentSelector } from '@/components/configurator/ComponentSelector';
 import { RecommendedConfigs } from '@/components/configurator/RecommendedConfigs';
 import { BikeTypeSelector } from '@/components/configurator/BikeTypeSelector';
+import { ComparePanel } from '@/components/configurator/ComparePanel';
 import { OnboardingGuide } from '@/components/ui/OnboardingGuide';
 import { motion } from 'framer-motion';
 
@@ -42,6 +43,7 @@ export default function Home() {
       
       <ComponentSelector />
       <OnboardingGuide />
+      <ComparePanel />
     </div>
   );
 }
