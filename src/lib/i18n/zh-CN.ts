@@ -35,6 +35,7 @@ export const translations = {
     cost: '价格',
     weight: '重量',
     backToConfigurator: '返回配置器',
+    bikeType: '车型',
   },
   recommended: {
     title: '推荐配置',

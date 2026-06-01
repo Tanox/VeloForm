@@ -35,6 +35,7 @@ export const translations = {
     cost: 'Cost',
     weight: 'Weight',
     backToConfigurator: 'Back to Configurator',
+    bikeType: 'Bike Type',
   },
   recommended: {
     title: 'Recommended Builds',

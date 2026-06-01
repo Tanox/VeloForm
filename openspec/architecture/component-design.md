@@ -2,89 +2,79 @@
 
 > **路径**: `/openspec/architecture/component-design.md`  
 > **版本**: v3.4.1  
-> **更新日期**: 2026-05-05
+> **更新日期**: 2026-06-01
 
 ## 概述
 
-本文档定义 Veloform 项目的组件设计原则、命名规范、输入输出模式和变更检测策略。Veloform 采用分层架构设计，所有组件均为 standalone components。状态管理通过 **ConfigStore** 和 **ConfigRepository** / **ComponentRepository** 分层处理。
+本文档定义 Veloform 项目的组件设计原则、命名规范、Props 模式和状态管理策略。Veloform 采用 Next.js App Router 架构，使用 React Server Components 和 Client Components 分离策略。状态管理通过 **Zustand Store** 集中处理。
 
 ---
 
 ## 组件分类
 
-### 1. 智能组件 (Smart Components)
+### 1. 客户端组件 (Client Components)
 
-负责状态管理和业务逻辑，通常位于组件树顶层。智能组件通过 **ConfigService** 与 **ConfigStore** 交互。
+使用 `use client` 指令标记，负责状态管理、用户交互和客户端特有逻辑。通过 Zustand Store 进行状态管理。
 
-**示例**：`app.ts` (根组件)
+**示例**：`Navbar.tsx` (`components/layout/`)
 
 ```typescript
-@Component({
-  selector: 'app-root',
-  imports: [NavbarComponent, SidebarComponent, PreviewComponent, BuildListComponent],
-  template: `...`,
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class App implements OnInit {
-  configStore = configStore;
+'use client';
 
-  constructor(private router: Router) {
-    effect(() => {
-      const loggedIn = configStore.isLoggedIn();
-      if (loggedIn && configStore.showLibrary()) {
-        configService.refreshMyConfigs();
-      }
-    });
-  }
+import { useState } from 'react';
+import { useConfigStore } from '@/lib/store';
+import { useTranslation } from '@/lib/i18n';
 
-  ngOnInit() {
-    configService.initializeApp();
-  }
+export function Navbar() {
+  const [showSupportModal, setShowSupportModal] = useState(false);
+  const t = useTranslation();
+  const activeType = useConfigStore((state) => state.activeType);
+  const setActiveType = useConfigStore((state) => state.setActiveType);
 
-  onTypeSelected(type: 'Road' | 'MTB' | 'Fold') {
-    configService.onTypeSelected(type);
-  }
+  return (
+    <nav className="sticky top-0 z-40">
+      {/* Navigation content */}
+    </nav>
+  );
 }
 ```
 
 **职责**：
-- 初始化应用服务
-- 协调子组件交互
-- 调用 ConfigService 执行业务操作
-- 通过 effect 处理响应式副作用
+- 管理本地状态
+- 处理用户交互
+- 通过 Zustand Store 读取/更新全局状态
+- 使用 hooks 处理副作用
 
-### 2. 展示组件 (Presentational Components)
+### 2. 服务端组件 (Server Components)
 
-负责 UI 渲染和用户交互，通过 inputs/outputs 与父组件通信。
+无需 `use client` 指令，默认服务端渲染，负责数据获取和静态内容渲染。
 
-**示例**：`PreviewComponent` (`features/configurator/components/`)
+**示例**：`page.tsx` (`app/`)
 
 ```typescript
-@Component({
-  selector: 'app-preview',
-  imports: [DecimalPipe, CurrencyPipe, TPipe],
-  template: `...`,
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class PreviewComponent implements AfterViewInit, OnDestroy {
-  name = input<string>('S-Works Tarmac SL8');
-  type = input<string>('Road');
-  weight = input<number>(6.8);
-  cost = input<number>(12000);
+import { Navbar } from '@/components/layout/Navbar';
+import { BuildList } from '@/components/configurator/BuildList';
 
-  // Three.js 3D 渲染
-  private renderer!: THREE.WebGLRenderer;
-  private scene!: THREE.Scene;
-  private bikeGroup!: THREE.Group;
+export default async function Home() {
+  // Server-side data fetching
+  const initialData = await fetchInitialConfig();
+  
+  return (
+    <div className="min-h-screen">
+      <Navbar />
+      <main>
+        <BuildList initialData={initialData} />
+      </main>
+    </div>
+  );
 }
 ```
 
 **职责**：
-- 接收数据并渲染 UI
-- 发射用户交互事件
-- 不包含业务逻辑
-- 无副作用
-- 处理平台特定的 UI 逻辑（如 Three.js）
+- 服务端数据获取
+- 静态内容渲染
+- 传递 props 给客户端组件
+- 优化首屏加载性能
 
 ---
 
@@ -92,157 +82,195 @@ export class PreviewComponent implements AfterViewInit, OnDestroy {
 
 ### 文件命名
 
-- 使用 `kebab-case`：`build-list.component.ts`
-- 测试文件与被测文件同目录：`build-list.component.spec.ts`
-- 组件类名使用 `PascalCase`：`BuildListComponent`
+- 使用 `PascalCase`：`BuildList.tsx`
+- 测试文件与被测文件同目录：`BuildList.test.tsx`
+- 组件函数名使用 `PascalCase`：`BuildList`
 
-### 选择器命名
+### 目录结构
 
-- 统一使用 `app-` 前缀
-- 使用 `kebab-case`：`app-build-list`
-
-```typescript
-@Component({
-  selector: 'app-build-list',  // ✅ Good
-  // selector: 'buildList',    // ❌ Bad - no prefix, camelCase
-  // selector: 'app_build_list', // ❌ Bad - underscores
-})
+```
+components/
+├── layout/           # 布局组件
+│   └── Navbar.tsx
+├── configurator/     # 配置器相关组件
+│   ├── BuildList.tsx
+│   └── BikeTypeSelector.tsx
+└── ui/               # 通用 UI 组件
+    ├── Button.tsx
+    └── Card.tsx
 ```
 
 ---
 
-## 输入输出规范
+## Props 规范
 
-### Inputs
+### Props 定义
 
-使用 `input()` 和 `input.required()` 定义组件输入：
+使用 TypeScript interface 定义组件 Props：
 
 ```typescript
-export class ComponentSelectorComponent {
-  // Required input
-  components = input.required<ConfigComponent[]>();
+interface BuildListProps {
+  // Required prop
+  components: ConfigComponent[];
+  
+  // Optional prop with default
+  isLoading?: boolean;
+  
+  // Callback function
+  onEdit?: (id: string) => void;
+}
 
-  // Optional input with default
-  isLoading = input<boolean>(false);
-
-  // Input with transform
-  count = input<number, string | number>(0, {
-    transform: (value: string | number) => Number(value)
-  });
+export function BuildList({ components, isLoading = false, onEdit }: BuildListProps) {
+  return (
+    <div>
+      {isLoading && <LoadingIndicator />}
+      {components.map((component) => (
+        <div key={component.id} onClick={() => onEdit?.(component.id)}>
+          {component.name}
+        </div>
+      ))}
+    </div>
+  );
 }
 ```
 
 **最佳实践**：
-- 优先使用 `input.required()` 明确必需属性
-- 为可选 input 提供合理的默认值
-- 避免在模板中直接访问 `input()` signal，使用 `computed` 派生
+- 使用 interface 定义 Props 类型
+- 为可选 Props 提供合理的默认值
+- 使用可选链 `?.` 处理可选回调
+- 避免传递复杂对象，优先传递必要的最小数据
 
-### Outputs
+### 事件处理
 
-使用 `output()` 定义组件事件：
+通过回调函数处理组件交互：
 
 ```typescript
-export class BuildListComponent {
-  sync = output<void>();
-  deploy = output<void>();
+interface ComponentSelectorProps {
+  onSelect: (component: ConfigComponent) => void;
+  onClose: () => void;
+}
 
-  onSave() {
-    this.sync.emit();
-  }
+export function ComponentSelector({ onSelect, onClose }: ComponentSelectorProps) {
+  const handleSelect = (component: ConfigComponent) => {
+    onSelect(component);
+    onClose();
+  };
+
+  return (
+    <div>
+      <button onClick={onClose}>Close</button>
+      <button onClick={() => handleSelect(selectedComponent)}>
+        Select
+      </button>
+    </div>
+  );
 }
 ```
 
-**最佳实践**：
-- 事件名称使用动词（`save`、`delete`、`select`）
-- 避免在 output 中传递复杂对象
-- 使用 TypeScript 枚举或字面量类型限制事件 payload
-
 ---
 
-## 变更检测策略
+## React Hooks 使用指南
 
-### OnPush 策略
+### 常用 Hooks
 
-所有组件默认使用 `OnPush`：
-
-```typescript
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-```
-
-**触发更新的条件**：
-1. Input 引用发生变化
-2. Output 事件发射
-3. 手动调用 `ChangeDetectorRef.markForCheck()`
-4. Async pipe 订阅的值变化（本项目不使用 RxJS）
-
-**注意事项**：
-- 不可变数据更新：`signal.update(list => [...list, newItem])`
-- 避免直接修改 input signal 指向的对象
-
----
-
-## 生命周期钩子使用指南
-
-### 推荐使用的钩子
-
-| 钩子 | 用途 | 示例 |
+| Hook | 用途 | 示例 |
 |------|------|------|
-| `ngOnInit` | 初始化逻辑、订阅服务 | 加载初始数据 |
-| `ngAfterViewInit` | DOM 操作、3D 渲染初始化 | Three.js scene setup |
-| `ngOnDestroy` | 清理资源、取消订阅 | 移除 event listeners |
-| `ngOnChanges` | 响应 input 变化（简单场景） | 重新计算派生数据 |
+| `useState` | 管理本地状态 | `const [count, setCount] = useState(0)` |
+| `useEffect` | 处理副作用 | 数据获取、订阅、DOM 操作 |
+| `useCallback` | 缓存回调函数 | 优化子组件重新渲染 |
+| `useMemo` | 缓存计算结果 | 复杂计算优化 |
+| `useRef` | 访问 DOM 或持久化值 | 获取 DOM 元素引用 |
 
-### 避免使用的钩子
-
-- `ngDoCheck`：性能开销大，优先使用 `effect()`
-- `ngAfterContentInit/Checked`：内容投影在本项目中不使用
-
-### Effect 替代生命周期钩子
-
-对于响应式逻辑，优先使用 `effect()`：
+### useEffect 使用模式
 
 ```typescript
-// Instead of ngOnChanges
-effect(() => {
-  const type = this.activeType();
-  this.updateBikeMesh(type);
-});
+import { useEffect, useState } from 'react';
+
+export function Configurator() {
+  const [configs, setConfigs] = useState<Configuration[]>([]);
+  const isLoggedIn = useConfigStore((state) => state.isLoggedIn);
+
+  // 组件挂载时加载数据
+  useEffect(() => {
+    if (isLoggedIn) {
+      const fetchConfigs = async () => {
+        const data = await fetchUserConfigs();
+        setConfigs(data);
+      };
+      fetchConfigs();
+    }
+  }, [isLoggedIn]); // 依赖变化时重新执行
+
+  return <div>{/* ... */}</div>;
+}
+```
+
+### 清理副作用
+
+```typescript
+useEffect(() => {
+  const handleResize = () => {
+    // Handle window resize
+  };
+  
+  window.addEventListener('resize', handleResize);
+  
+  // 清理函数
+  return () => {
+    window.removeEventListener('resize', handleResize);
+  };
+}, []);
 ```
 
 ---
 
-## 平台安全性
+## 服务端渲染兼容
 
-### SSR 兼容
+### 客户端特有代码处理
 
-Three.js 和 DOM 操作需要平台检查：
+使用 `useEffect` 确保只在客户端执行：
 
 ```typescript
-import { isPlatformBrowser } from '@angular/common';
-import { inject, PLATFORM_ID } from '@angular/core';
+'use client';
 
-export class PreviewComponent implements AfterViewInit {
-  private platformId = inject(PLATFORM_ID);
-  private renderer: WebGLRenderer | null = null;
+import { useEffect, useState } from 'react';
 
-  ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.initThreeJS();
-    }
+export function PreviewCanvas() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    // 初始化 Three.js 或其他客户端代码
+    // const renderer = new THREE.WebGLRenderer();
+  }, []);
+
+  if (!isClient) {
+    return <div className="aspect-video bg-surface rounded-xl" />;
   }
 
-  private initThreeJS() {
-    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas.nativeElement });
-    // ... rest of initialization
-  }
+  return <canvas className="w-full h-full" />;
+}
+```
 
-  ngOnDestroy() {
-    if (this.renderer) {
-      this.renderer.dispose();
-    }
-  }
+### Next.js 特定模式
+
+使用 `use client` 指令标记客户端组件：
+
+```typescript
+'use client';
+
+import { motion } from 'framer-motion';
+
+export function AnimatedCard({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-surface rounded-xl p-4"
+    >
+      {children}
+    </motion.div>
+  );
 }
 ```
 
@@ -254,11 +282,14 @@ export class PreviewComponent implements AfterViewInit {
 
 所有交互元素必须支持键盘操作：
 
-```html
+```jsx
 <button
-  tabindex="0"
-  (keydown.enter)="onSelect()"
-  (keydown.space)="onSelect()"
+  onClick={onSelect}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      onSelect();
+    }
+  }}
   aria-label="Select Road Bike"
 >
   Road
@@ -267,20 +298,43 @@ export class PreviewComponent implements AfterViewInit {
 
 ### ARIA 属性
 
-```html
+```jsx
 <div role="dialog" aria-modal="true" aria-labelledby="modal-title">
-  <h2 id="modal-title">Garage</h2>
+  <h2 id="modal-title">Component Selector</h2>
 </div>
 ```
 
 ### 焦点管理
 
 ```typescript
-// Modal focus trap
-@ViewChild('modalContainer') modalContainer!: ElementRef;
+import { useEffect, useRef } from 'react';
 
-ngAfterViewInit() {
-  this.modalContainer.nativeElement.focus();
+export function Modal({ isOpen, onClose, children }) {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen && modalRef.current) {
+      modalRef.current.focus();
+    }
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div 
+      ref={modalRef} 
+      tabIndex={-1}
+      role="dialog" 
+      aria-modal="true"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      {children}
+    </div>
+  );
 }
 ```
 
@@ -290,32 +344,30 @@ ngAfterViewInit() {
 
 ### 测试文件结构
 
+使用 Vitest 和 Testing Library：
+
 ```typescript
-describe('BuildListComponent', () => {
-  let component: BuildListComponent;
-  let fixture: ComponentFixture<BuildListComponent>;
+import { render, screen, fireEvent } from '@testing-library/react';
+import { BuildList } from './BuildList';
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [BuildListComponent]
-    }).compileComponents();
+describe('BuildList', () => {
+  const mockComponents = [
+    { id: '1', name: 'Component 1', category: 'Frame', price: 1000, weight: 1000 },
+  ];
 
-    fixture = TestBed.createComponent(BuildListComponent);
-    component = fixture.componentInstance;
+  it('should render component list', () => {
+    render(<BuildList components={mockComponents} />);
+    expect(screen.getByText('Component 1')).toBeInTheDocument();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should emit sync event on save button click', () => {
-    const syncSpy = vi.fn();
-    component.sync.subscribe(syncSpy);
-
-    const saveButton = fixture.nativeElement.querySelector('#save-btn');
-    saveButton.click();
-
-    expect(syncSpy).toHaveBeenCalled();
+  it('should call onEdit when edit button is clicked', () => {
+    const onEditMock = vi.fn();
+    render(<BuildList components={mockComponents} onEdit={onEditMock} />);
+    
+    const editButton = screen.getByRole('button', { name: /edit/i });
+    fireEvent.click(editButton);
+    
+    expect(onEditMock).toHaveBeenCalledWith('1');
   });
 });
 ```
@@ -335,14 +387,14 @@ describe('BuildListComponent', () => {
 
 优先使用实用类，避免自定义 CSS：
 
-```html
-<!-- Good -->
-<button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+```jsx
+// Good
+<button className="px-4 py-2 bg-primary text-white rounded-full hover:bg-primary-dark transition-all">
   Save
 </button>
 
-<!-- Bad - inline styles -->
-<button style="padding: 8px 16px; background: blue; color: white;">
+// Bad - inline styles
+<button style={{ padding: '8px 16px', background: 'blue' }}>
   Save
 </button>
 ```
@@ -351,47 +403,97 @@ describe('BuildListComponent', () => {
 
 使用移动优先断点：
 
-```html
-<div class="flex flex-col md:flex-row gap-4">
-  <!-- Mobile: vertical stack -->
-  <!-- Desktop: horizontal row -->
+```jsx
+<div className="flex flex-col md:flex-row gap-4">
+  {/* Mobile: vertical stack */}
+  {/* Desktop: horizontal row */}
 </div>
 ```
 
 ### 暗色模式支持
 
-```html
-<div class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-  Content
-</div>
+使用 Next.js Themes 实现主题切换：
+
+```jsx
+'use client';
+
+import { useTheme } from 'next-themes';
+
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+
+  return (
+    <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+      {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+    </button>
+  );
+}
+```
+
+### 动画效果
+
+使用 Framer Motion 实现动画：
+
+```jsx
+'use client';
+
+import { motion } from 'framer-motion';
+
+export function FadeInCard({ children }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="bg-surface rounded-xl p-4"
+    >
+      {children}
+    </motion.div>
+  );
+}
 ```
 
 ---
 
 ## 组件清单
 
-### Features 模块组件
+### Configurator 模块组件
 
-| 组件 | 类型 | 路径 | 职责 | Inputs | Outputs |
-|------|------|------|------|--------|---------|
-| `NavbarComponent` | Smart | `features/navbar/components/` | 导航、认证、主题/语言切换 | — | `openLibrary` |
-| `PreviewComponent` | Presentational | `features/configurator/components/` | Three.js 3D 预览 + 统计页脚 | `name`, `type`, `weight`, `cost` | — |
-| `BuildListComponent` | Presentational | `features/configurator/components/` | 组件列表、编辑操作 | `components`, `isSaving` | `sync`, `deploy`, `edit` |
-| `ComponentSelectorComponent` | Presentational | `features/configurator/components/` | 组件选择模态框 | `allComponents`, `currentComponentId`, `bikeType` | `select`, `close` |
+| 组件 | 类型 | 路径 | 职责 | Props |
+|------|------|------|------|--------|
+| `BuildList` | Client | `components/configurator/` | 组件列表展示和编辑 | `components`, `isSaving` |
+| `BikeTypeSelector` | Client | `components/configurator/` | 车型切换选择器 | — |
+| `ComponentSelector` | Client | `components/configurator/` | 组件选择模态框 | — |
+| `ComponentDetailModal` | Client | `components/configurator/` | 组件详情展示 | `componentId` |
+| `RecommendedConfigs` | Client | `components/configurator/` | 推荐配置卡片 | — |
+| `ComparePanel` | Client | `components/configurator/` | 配置比较面板 | `configs` |
+| `SummaryPanel` | Client | `components/configurator/` | 汇总面板（价格/重量） | — |
+| `CostBreakdownChart` | Client | `components/configurator/` | 成本分解图表 | — |
+| `ShareModal` | Client | `components/configurator/` | 分享模态框 | — |
 
-### Shared 模块组件
+### Layout 模块组件
 
-| 组件 | 类型 | 路径 | 职责 | Inputs | Outputs |
-|------|------|------|------|--------|---------|
-| `SidebarComponent` | Presentational | `shared/components/` | 车型选择侧边栏 | `activeType` | `typeSelected` |
-| `ConfirmDialogComponent` | Smart | `shared/components/` | 确认对话框（服务驱动） | — | — |
-| `NotificationDisplayComponent` | Smart | `shared/components/` | 通知显示（服务驱动） | — | — |
-| `LoadingIndicatorComponent` | Presentational | `shared/components/` | 加载指示器 | `isLoading`, `message`, `wrapperClass` | — |
+| 组件 | 类型 | 路径 | 职责 | Props |
+|------|------|------|------|--------|
+| `Navbar` | Client | `components/layout/` | 导航栏（Logo、车型选择、主题切换、语言切换） | — |
+
+### UI 模块组件
+
+| 组件 | 类型 | 路径 | 职责 | Props |
+|------|------|------|------|--------|
+| `Button` | Shared | `components/ui/` | 按钮组件 | `variant`, `size`, `children` |
+| `Card` | Shared | `components/ui/` | 卡片组件 | `children`, `className` |
+| `Modal` | Client | `components/ui/` | 模态框组件 | `isOpen`, `onClose`, `children` |
+| `Toast` | Client | `components/ui/` | 通知组件 | `message`, `type`, `duration` |
+| `ThemeToggle` | Client | `components/ui/` | 主题切换按钮 | — |
+| `OnboardingGuide` | Client | `components/ui/` | 新手引导组件 | — |
+| `SupportModal` | Client | `components/ui/` | 支持/帮助模态框 | `isOpen`, `onClose` |
+| `ErrorBoundary` | Shared | `components/ui/` | 错误边界组件 | `children` |
 
 **说明**：
-- **服务驱动组件**：`ConfirmDialogComponent` 和 `NotificationDisplayComponent` 采用服务驱动模式，通过单例服务（`confirmDialogService`、`notificationService`）控制显示状态，无需 input/output。
-- **状态管理**：所有组件通过 `configStore` 读取状态，通过 `configService` 更新状态。
-- **BuildListComponent**：虽为 Presentational 组件，但包含编辑按钮触发 `edit` 事件，由父组件处理后调用 `configService.openComponentEditor()`。
+- **Client 组件**：使用 `use client` 指令，包含状态管理和交互逻辑
+- **Shared 组件**：纯展示组件，可用于 Server 和 Client 组件中
+- **状态管理**：所有组件通过 Zustand `useConfigStore` 读取/更新全局状态
 
 ---
 
