@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veloform - 自行车配置器</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #14b8a6;
+      --primary-light: #2dd4bf;
+      --primary-dark: #0d9488;
+      --background: #0a0a0b;
+      --surface: #141415;
+      --surface-hover: #1a1a1b;
+      --border: #27272a;
+      --foreground: #fafafa;
+      --foreground-muted: #a1a1aa;
+      --foreground-dim: #71717a;
+      --accent: #f59e0b;
+      --success: #22c55e;
+      --warning: #eab308;
+      --error: #ef4444;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+    }
+
+    .font-display {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .bg-gradient-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    }
+
+    .bg-gradient-header {
+      background: linear-gradient(180deg, rgba(10, 10, 11, 0.98) 0%, rgba(10, 10, 11, 0.95) 100%);
+    }
+
+    .glass-effect {
+      background: rgba(20, 20, 21, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-weight: 500;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px rgba(20, 184, 166, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(20, 184, 166, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--foreground);
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-weight: 500;
+      font-size: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 500;
+      background: rgba(20, 184, 166, 0.15);
+      color: var(--primary);
+    }
+
+    .chip-warning {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent);
+    }
+
+    .animate-counter {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .modal-enter {
+      animation: modalFadeIn 0.2s ease-out;
+    }
+
+    .modal-exit {
+      animation: modalFadeOut 0.2s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes modalFadeOut {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+    }
+
+    .slide-up {
+      animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .pulse-ring {
+      animation: pulseRing 1.5s ease-out infinite;
+    }
+
+    @keyframes pulseRing {
+      0% {
+        transform: scale(0.8);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.4);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="fixed top-0 left-0 right-0 z-50 glass-effect">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex items-center justify-between gap-4">
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-12 h-12 bg-gradient-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all duration-300">
+            <span class="text-2xl font-bold text-white">V</span>
+          </div>
+          <div>
+            <h1 class="text-xl font-display font-bold text-foreground group-hover:text-gradient transition-all duration-300">Veloform</h1>
+            <p class="text-xs text-foreground-dim">Bike Configurator</p>
+          </div>
+        </a>
+
+        <div class="hidden md:flex items-center gap-1 p-1 bg-surface rounded-xl">
+          <button class="px-4 py-2 rounded-lg text-sm font-medium text-primary bg-primary/10 transition-all duration-200" id="bike-type-road">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2">
+              <circle cx="12" cy="18" r="3"></circle>
+              <circle cx="18" cy="18" r="3"></circle>
+              <circle cx="6" cy="18" r="3"></circle>
+              <path d="M12 15c-3 0-6-1.5-6-4.5S9 3 12 3s6 1.5 6 4.5-3 4.5-6 4.5z"></path>
+            </svg>
+            Road
+          </button>
+          <button class="px-4 py-2 rounded-lg text-sm font-medium text-foreground-muted hover:text-foreground hover:bg-surface-hover transition-all duration-200" id="bike-type-mtb">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2">
+              <circle cx="6" cy="18" r="3"></circle>
+              <circle cx="18" cy="18" r="3"></circle>
+              <path d="M12 15c-4 0-8-2-8-5s4-7 8-7 8 2 8 7-4 5-8 5z"></path>
+              <path d="M8 10h8"></path>
+            </svg>
+            MTB
+          </button>
+          <button class="px-4 py-2 rounded-lg text-sm font-medium text-foreground-muted hover:text-foreground hover:bg-surface-hover transition-all duration-200" id="bike-type-fold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2">
+              <circle cx="12" cy="18" r="2"></circle>
+              <circle cx="6" cy="18" r="2"></circle>
+              <circle cx="18" cy="18" r="2"></circle>
+              <path d="M12 16V7a6 6 0 0 0-6-6H4a8 8 0 0 1 16 0h-2a6 6 0 0 0-6 6v9"></path>
+            </svg>
+            Fold
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button class="p-2 rounded-lg text-foreground-muted hover:text-foreground hover:bg-surface transition-all duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </button>
+          <button class="px-3 py-1.5 rounded-lg text-sm font-medium text-foreground-muted hover:text-foreground hover:bg-surface transition-all duration-200">
+            EN
+          </button>
+          <button class="p-2 rounded-lg text-foreground-muted hover:text-foreground hover:bg-surface transition-all duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </button>
+          <button class="p-2 rounded-lg text-foreground-muted hover:text-foreground hover:bg-surface transition-all duration-200" id="support-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="md:hidden mt-4 flex items-center gap-1 p-1 bg-surface rounded-xl">
+        <button class="flex-1 px-3 py-2 rounded-lg text-xs font-medium text-primary bg-primary/10 transition-all duration-200" id="mobile-road">Road</button>
+        <button class="flex-1 px-3 py-2 rounded-lg text-xs font-medium text-foreground-muted hover:text-foreground hover:bg-surface-hover transition-all duration-200" id="mobile-mtb">MTB</button>
+        <button class="flex-1 px-3 py-2 rounded-lg text-xs font-medium text-foreground-muted hover:text-foreground hover:bg-surface-hover transition-all duration-200" id="mobile-fold">Fold</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-24 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-8">
+          <section class="slide-up">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-2xl font-display font-bold text-foreground">Build List</h2>
+              <div class="flex items-center gap-2 text-foreground-dim text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span>5 Components</span>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div class="bg-surface rounded-2xl p-4 border border-border card-hover cursor-pointer" onclick="openComponentModal('frame')">
+                <div class="flex items-center gap-4">
+                  <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                      <path d="M12 2H2v20h20V10l-6-6Z"></path>
+                      <path d="M16 2 16 8 22 8"></path>
+                    </svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <span class="inline-block px-2 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider text-primary bg-primary/10">
+                      Frame
+                    </span>
+                    <h3 class="mt-2 font-semibold text-foreground truncate">Specialized Tarmac SL8 Pro</h3>
+                    <p class="text-xs text-foreground-dim mt-1">Carbon, Disc Brake, Size 56</p>
+                  </div>
+                  <div class="text-right flex-shrink-0">
+                    <p class="text-lg font-bold text-primary">¥2,100</p>
+                    <p class="text-sm text-foreground-dim">1.18 kg</p>
+                  </div>
+                  <button class="p-2 rounded-lg text-foreground-muted hover:text-foreground hover:bg-surface-hover transition-all duration-200 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
+                      <path d="m15 5 4 4"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="bg-surface rounded-2xl p-4 border border-border card-hover cursor-pointer" onclick="openComponentModal('drivetrain')">
+                <div class="flex items-center gap-4">
+                  <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                      <path d="M16 6h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h3"></path>
+                      <path d="m7.5 4.27 9 5.15"></path>
+                      <circle cx="17.5" cy="17.5" r="2.5"></circle>
+                      <circle cx="6.5" cy="17.5" r="2.5"></circle>
+                    </svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <span class="inline-block px-2 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider text-primary bg-primary/10">
+                      Drivetrain
+                    </span>
+                    <h3 class="mt-2 font-semibold text-foreground truncate">Shimano Dura-Ace Di2 R9200</h3>
+                    <p class="text-xs text-foreground-dim mt-1">12-speed, Wireless</p>
+                  </div>
+                  <div class="text-right flex-shrink-0">
+                    <p class="text-lg font-bold text-primary">¥4,200</p>
+                    <p class="text-sm text-foreground-dim">2.43 kg</p>
+                  </div>
+                  <button class="p-2 rounded-lg text-foreground-muted hover:text-foreground hover:bg-surface-hover transition-all duration-200 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
+                      <path d="m15 5 4 4"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="bg-surface rounded-2xl p-4 border border-border card-hover cursor-pointer" onclick="openComponentModal('wheelset')">
+                <div class="flex items-center gap-4">
+                  <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <circle cx="12" cy="12" r="3"></circle>
+                      <path d="M12 2v4M12 18v4M2 12h4M18 12h4"></path>
+                    </svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <span class="inline-block px-2 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider text-primary bg-primary/10">
+                      Wheelset
+                    </span>
+                    <h3 class="mt-2 font-semibold text-foreground truncate">Roval Rapide CLX II</h3>
+                    <p class="text-xs text-foreground-dim mt-1">Carbon, 650b, Tubeless Ready</p>
+                  </div>
+                  <div class="text-right flex-shrink-0">
+                    <p class="text-lg font-bold text-primary">¥2,800</p>
+                    <p class="text-sm text-foreground-dim">1.52 kg</p>
+                  </div>
+                  <button class="p-2 rounded-lg text-foreground-muted hover:text-foreground hover:bg-surface-hover transition-all duration-200 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
+                      <path d="m15 5 4 4"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="bg-surface rounded-2xl p-4 border border-border card-hover cursor-pointer" onclick="openComponentModal('cockpit')">
+                <div class="flex items-center gap-4">
+                  <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                      <path d="M20 13V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7m16 0H4"></path>
+                      <path d="M17 13h2a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h2"></path>
+                    </svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <span class="inline-block px-2 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider text-primary bg-primary/10">
+                      Cockpit
+                    </span>
+                    <h3 class="mt-2 font-semibold text-foreground truncate">Roval Rapide Cockpit</h3>
+                    <p class="text-xs text-foreground-dim mt-1">Integrated Handlebar/Stem</p>
+                  </div>
+                  <div class="text-right flex-shrink-0">
+                    <p class="text-lg font-bold text-primary">¥600</p>
+                    <p class="text-sm text-foreground-dim">0.31 kg</p>
+                  </div>
+                  <button class="p-2 rounded-lg text-foreground-muted hover:text-foreground hover:bg-surface-hover transition-all duration-200 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
+                      <path d="m15 5 4 4"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="bg-surface rounded-2xl p-4 border border-border card-hover cursor-pointer" onclick="openComponentModal('tires')">
+                <div class="flex items-center gap-4">
+                  <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M22 12a10 10 0 0 0-9.9-10"></path>
+                      <path d="M12 2a10 10 0 0 0-8.5 15"></path>
+                      <path d="M22 12a10 10 0 0 1-7 9.7"></path>
+                    </svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <span class="inline-block px-2 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider text-primary bg-primary/10">
+                      Tires
+                    </span>
+                    <h3 class="mt-2 font-semibold text-foreground truncate">Turbo Cotton 28mm</h3>
+                    <p class="text-xs text-foreground-dim mt-1">Clincher, Pair</p>
+                  </div>
+                  <div class="text-right flex-shrink-0">
+                    <p class="text-lg font-bold text-primary">¥180</p>
+                    <p class="text-sm text-foreground-dim">0.48 kg</p>
+                  </div>
+                  <button class="p-2 rounded-lg text-foreground-muted hover:text-foreground hover:bg-surface-hover transition-all duration-200 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
+                      <path d="m15 5 4 4"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="slide-up">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-2xl font-display font-bold text-foreground">Recommended Builds</h2>
+              <button class="text-sm text-primary hover:text-primary-light transition-colors flex items-center gap-1">
+                View All
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div class="bg-surface rounded-2xl overflow-hidden border border-border card-hover">
+                <div class="p-5">
+                  <div class="flex items-center gap-2 mb-3">
+                    <span class="chip">Recommended</span>
+                    <span class="chip">Lightweight</span>
+                  </div>
+                  <h3 class="text-lg font-semibold text-foreground mb-1">Pro Race Build</h3>
+                  <p class="text-sm text-foreground-muted mb-4">Professional racing setup for maximum speed</p>
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-xs text-foreground-dim">Total Cost</p>
+                      <p class="text-xl font-bold text-primary">¥9,780</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-xs text-foreground-dim">Weight</p>
+                      <p class="text-xl font-bold text-foreground">6.8 kg</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="px-5 py-3 bg-surface-hover border-t border-border">
+                  <button class="w-full btn-secondary">Load Configuration</button>
+                </div>
+              </div>
+
+              <div class="bg-surface rounded-2xl overflow-hidden border border-border card-hover">
+                <div class="p-5">
+                  <div class="flex items-center gap-2 mb-3">
+                    <span class="chip">Popular</span>
+                    <span class="chip">Value</span>
+                  </div>
+                  <h3 class="text-lg font-semibold text-foreground mb-1">All-Rounder Build</h3>
+                  <p class="text-sm text-foreground-muted mb-4">Versatile setup for all-day rides</p>
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-xs text-foreground-dim">Total Cost</p>
+                      <p class="text-xl font-bold text-primary">¥7,510</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-xs text-foreground-dim">Weight</p>
+                      <p class="text-xl font-bold text-foreground">7.2 kg</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="px-5 py-3 bg-surface-hover border-t border-border">
+                  <button class="w-full btn-secondary">Load Configuration</button>
+                </div>
+              </div>
+
+              <div class="bg-surface rounded-2xl overflow-hidden border border-border card-hover">
+                <div class="p-5">
+                  <div class="flex items-center gap-2 mb-3">
+                    <span class="chip">Premium</span>
+                  </div>
+                  <h3 class="text-lg font-semibold text-foreground mb-1">Ultimate Build</h3>
+                  <p class="text-sm text-foreground-muted mb-4">Top-tier components for serious cyclists</p>
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-xs text-foreground-dim">Total Cost</p>
+                      <p class="text-xl font-bold text-primary">¥12,400</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-xs text-foreground-dim">Weight</p>
+                      <p class="text-xl font-bold text-foreground">6.4 kg</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="px-5 py-3 bg-surface-hover border-t border-border">
+                  <button class="w-full btn-secondary">Load Configuration</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="space-y-6">
+          <section class="bg-surface rounded-2xl p-6 border border-border sticky top-24">
+            <h2 class="text-xl font-display font-bold text-foreground mb-6">Build Summary</h2>
+
+            <div class="space-y-6">
+              <div class="text-center py-4">
+                <p class="text-sm text-foreground-dim mb-2">Total Cost</p>
+                <p class="text-3xl font-display font-bold animate-counter">¥9,880</p>
+              </div>
+
+              <div class="text-center py-4 border-y border-border">
+                <p class="text-sm text-foreground-dim mb-2">Estimated Weight</p>
+                <p class="text-3xl font-display font-bold animate-counter">5.92 kg</p>
+              </div>
+
+              <div class="space-y-3">
+                <div class="flex justify-between text-sm">
+                  <span class="text-foreground-muted">Frame</span>
+                  <span class="text-foreground">¥2,100</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-foreground-muted">Drivetrain</span>
+                  <span class="text-foreground">¥4,200</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-foreground-muted">Wheelset</span>
+                  <span class="text-foreground">¥2,800</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-foreground-muted">Cockpit</span>
+                  <span class="text-foreground">¥600</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-foreground-muted">Tires</span>
+                  <span class="text-foreground">¥180</span>
+                </div>
+              </div>
+
+              <div class="space-y-3 pt-4">
+                <button class="w-full btn-primary flex items-center justify-center gap-2" id="save-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                  </svg>
+                  Save Configuration
+                </button>
+                <button class="w-full btn-secondary flex items-center justify-center gap-2" id="share-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 16v1a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                  </svg>
+                  Share Build
+                </button>
+                <button class="w-full btn-secondary flex items-center justify-center gap-2" id="compare-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                  </svg>
+                  Compare
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="bg-gradient-to-br from-primary/10 to-accent/5 rounded-2xl p-6 border border-primary/20">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                  <path d="M12 9v2m0 4h.01"></path>
+                  <path d="M5 21h14a2 2 0 0 0 1.84-2.75l-3.54-6.91a2 2 0 0 0-.31-1.76l-3.54-3.54a2 2 0 0 0-1.76-.31L6.75 3.16A2 2 0 0 0 4 5v14a2 2 0 0 0 2 2z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-semibold text-foreground mb-1">Pro Tip</h3>
+                <p class="text-sm text-foreground-muted">Upgrade to carbon wheels for a 15% weight reduction and better ride quality.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="bg-surface rounded-2xl p-6 border border-border">
+            <h3 class="font-semibold text-foreground mb-4">Build Stats</h3>
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between text-sm mb-2">
+                  <span class="text-foreground-muted">Value Index</span>
+                  <span class="text-foreground">8.7/10</span>
+                </div>
+                <div class="h-2 bg-surface-hover rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-primary rounded-full" style="width: 87%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-2">
+                  <span class="text-foreground-muted">Weight Score</span>
+                  <span class="text-foreground">9.2/10</span>
+                </div>
+                <div class="h-2 bg-surface-hover rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-primary rounded-full" style="width: 92%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-2">
+                  <span class="text-foreground-muted">Component Balance</span>
+                  <span class="text-foreground">7.9/10</span>
+                </div>
+                <div class="h-2 bg-surface-hover rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-primary rounded-full" style="width: 79%"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="md:hidden fixed bottom-0 left-0 right-0 glass-effect p-4 border-t border-border">
+    <div class="flex items-center gap-2">
+      <button class="flex-1 btn-primary">Save</button>
+      <button class="flex-1 btn-secondary">Share</button>
+    </div>
+  </div>
+
+  <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" id="component-modal">
+    <div class="bg-surface rounded-2xl w-full max-w-lg max-h-[80vh] overflow-hidden border border-border modal-enter">
+      <div class="flex items-center justify-between p-5 border-b border-border">
+        <div>
+          <h3 class="text-lg font-display font-semibold text-foreground" id="modal-title">Select Drivetrain</h3>
+          <p class="text-sm text-foreground-muted mt-1" id="modal-subtitle">Choose from available options</p>
+        </div>
+        <button class="p-2 rounded-lg text-foreground-muted hover:text-foreground hover:bg-surface-hover transition-all duration-200" onclick="closeModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="p-4 overflow-y-auto max-h-[60vh] space-y-3" id="modal-content">
+      </div>
+    </div>
+  </div>
+
+  <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" id="save-modal">
+    <div class="bg-surface rounded-2xl w-full max-w-md overflow-hidden border border-border modal-enter">
+      <div class="flex items-center justify-between p-5 border-b border-border">
+        <h3 class="text-lg font-display font-semibold text-foreground">Save Configuration</h3>
+        <button class="p-2 rounded-lg text-foreground-muted hover:text-foreground hover:bg-surface-hover transition-all duration-200" onclick="closeSaveModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="p-5 space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-foreground-muted mb-2">Configuration Name</label>
+          <input type="text" placeholder="Enter a name for your build" class="w-full px-4 py-3 rounded-xl bg-surface-hover border border-border text-foreground placeholder-foreground-dim focus:outline-none focus:border-primary transition-colors">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-foreground-muted mb-2">Description (optional)</label>
+          <textarea rows="3" placeholder="Add notes about this configuration..." class="w-full px-4 py-3 rounded-xl bg-surface-hover border border-border text-foreground placeholder-foreground-dim focus:outline-none focus:border-primary transition-colors resize-none"></textarea>
+        </div>
+        <button class="w-full btn-primary mt-4">Save to Library</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" id="share-modal">
+    <div class="bg-surface rounded-2xl w-full max-w-md overflow-hidden border border-border modal-enter">
+      <div class="flex items-center justify-between p-5 border-b border-border">
+        <h3 class="text-lg font-display font-semibold text-foreground">Share Build</h3>
+        <button class="p-2 rounded-lg text-foreground-muted hover:text-foreground hover:bg-surface-hover transition-all duration-200" onclick="closeShareModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="p-5 space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-foreground-muted mb-2">Share Link</label>
+          <div class="flex items-center gap-2">
+            <input type="text" value="https://veloform.app/build/abc123" readonly class="flex-1 px-4 py-3 rounded-xl bg-surface-hover border border-border text-foreground focus:outline-none focus:border-primary transition-colors">
+            <button class="p-3 rounded-xl bg-surface-hover border border-border hover:border-primary transition-colors" id="copy-link-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-foreground-muted">
+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="grid grid-cols-4 gap-3">
+          <button class="p-3 rounded-xl bg-surface-hover border border-border hover:border-primary transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-foreground-muted mx-auto">
+              <path d="M18 2h3v20h-3"></path>
+              <path d="M2 2h3v20H2"></path>
+              <path d="M13 8h-7v5h7"></path>
+              <path d="M13 16h-7"></path>
+            </svg>
+          </button>
+          <button class="p-3 rounded-xl bg-surface-hover border border-border hover:border-primary transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-foreground-muted mx-auto">
+              <path d="M22 4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h2"></path>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </button>
+          <button class="p-3 rounded-xl bg-surface-hover border border-border hover:border-primary transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-foreground-muted mx-auto">
+              <path d="M12 2a8 8 0 0 0-8 8c0 5.25 7.5 13 7.5 13s7.5-7.75 7.5-13a8 8 0 0 0-8-8Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </button>
+          <button class="p-3 rounded-xl bg-surface-hover border border-border hover:border-primary transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-foreground-muted mx-auto">
+              <path d="M22 17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12Z"></path>
+              <path d="m7.5 4.27 9 5.15"></path>
+              <circle cx="15.5" cy="17.5" r="1.5"></circle>
+              <circle cx="8.5" cy="17.5" r="1.5"></circle>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" id="support-modal">
+    <div class="bg-surface rounded-2xl w-full max-w-md overflow-hidden border border-border modal-enter">
+      <div class="flex items-center justify-between p-5 border-b border-border">
+        <h3 class="text-lg font-display font-semibold text-foreground">Support</h3>
+        <button class="p-2 rounded-lg text-foreground-muted hover:text-foreground hover:bg-surface-hover transition-all duration-200" onclick="closeSupportModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="p-5 space-y-4">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-semibold text-foreground">Live Chat</h4>
+            <p class="text-sm text-foreground-muted">Get instant help from our support team</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+              <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"></path>
+              <path d="m7.5 4.27 9 5.15"></path>
+              <circle cx="12" cy="14" r="2"></circle>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-semibold text-foreground">Email Support</h4>
+            <p class="text-sm text-foreground-muted">support@veloform.app</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+              <path d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10z"></path>
+              <path d="M8 12l3 3 5-5"></path>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-semibold text-foreground">Documentation</h4>
+            <p class="text-sm text-foreground-muted">View our help center and guides</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-surface border-t border-border py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center">
+            <span class="text-lg font-bold text-white">V</span>
+          </div>
+          <div>
+            <p class="font-display font-semibold text-foreground">Veloform</p>
+            <p class="text-xs text-foreground-dim">Advanced Bike Configurator</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="#" class="text-sm text-foreground-muted hover:text-foreground transition-colors">About</a>
+          <a href="#" class="text-sm text-foreground-muted hover:text-foreground transition-colors">Support</a>
+          <a href="#" class="text-sm text-foreground-muted hover:text-foreground transition-colors">Privacy</a>
+          <a href="#" class="text-sm text-foreground-muted hover:text-foreground transition-colors">Terms</a>
+        </div>
+        <p class="text-sm text-foreground-dim">2026 Veloform. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const componentData = {
+      frame: {
+        title: 'Select Frame',
+        subtitle: 'Choose your bike frame',
+        items: [
+          { id: 1, name: 'Specialized Tarmac SL8 Pro', desc: 'Carbon, Disc Brake, Size 56', price: '¥2,100', weight: '1.18 kg', icon: 'folder' },
+          { id: 2, name: 'Canyon Ultimate CF SLX', desc: 'Carbon, Disc Brake, Size 54', price: '¥2,800', weight: '1.05 kg', icon: 'folder' },
+          { id: 3, name: 'Trek Emonda SLR', desc: 'Carbon, Disc Brake, Size 56', price: '¥2,400', weight: '1.12 kg', icon: 'folder' },
+        ]
+      },
+      drivetrain: {
+        title: 'Select Drivetrain',
+        subtitle: 'Choose your drivetrain components',
+        items: [
+          { id: 1, name: 'Shimano Dura-Ace Di2 R9200', desc: '12-speed, Wireless', price: '¥4,200', weight: '2.43 kg', icon: 'settings' },
+          { id: 2, name: 'SRAM Red AXS', desc: '12-speed, Wireless', price: '¥4,000', weight: '2.38 kg', icon: 'settings' },
+          { id: 3, name: 'Campagnolo Super Record EPS', desc: '12-speed, Electronic', price: '¥4,500', weight: '2.45 kg', icon: 'settings' },
+        ]
+      },
+      wheelset: {
+        title: 'Select Wheelset',
+        subtitle: 'Choose your wheels',
+        items: [
+          { id: 1, name: 'Roval Rapide CLX II', desc: 'Carbon, 650b, Tubeless Ready', price: '¥2,800', weight: '1.52 kg', icon: 'circle' },
+          { id: 2, name: 'Zipp 454 NSW', desc: 'Carbon, 700c, Hookless', price: '¥3,200', weight: '1.45 kg', icon: 'circle' },
+          { id: 3, name: 'Enve SES 4.5', desc: 'Carbon, 700c, Tubeless', price: '¥3,500', weight: '1.38 kg', icon: 'circle' },
+        ]
+      },
+      cockpit: {
+        title: 'Select Cockpit',
+        subtitle: 'Choose handlebar and stem',
+        items: [
+          { id: 1, name: 'Roval Rapide Cockpit', desc: 'Integrated Handlebar/Stem', price: '¥600', weight: '0.31 kg', icon: 'monitor' },
+          { id: 2, name: 'Zipp SL Sprint', desc: 'Carbon Handlebar + Stem', price: '¥800', weight: '0.28 kg', icon: 'monitor' },
+          { id: 3, name: 'Enve Compact Road', desc: 'Carbon Handlebar + Stem', price: '¥750', weight: '0.30 kg', icon: 'monitor' },
+        ]
+      },
+      tires: {
+        title: 'Select Tires',
+        subtitle: 'Choose your tires',
+        items: [
+          { id: 1, name: 'Turbo Cotton 28mm', desc: 'Clincher, Pair', price: '¥180', weight: '0.48 kg', icon: 'circle' },
+          { id: 2, name: 'Continental GP5000', desc: 'Tubeless, Pair', price: '¥220', weight: '0.52 kg', icon: 'circle' },
+          { id: 3, name: 'Schwalbe Pro One', desc: 'Tubeless, Pair', price: '¥200', weight: '0.50 kg', icon: 'circle' },
+        ]
+      }
+    };
+
+    function openComponentModal(type) {
+      const data = componentData[type];
+      document.getElementById('modal-title').textContent = data.title;
+      document.getElementById('modal-subtitle').textContent = data.subtitle;
+      
+      const content = document.getElementById('modal-content');
+      content.innerHTML = data.items.map(item => `
+        <div class="bg-surface-hover rounded-xl p-4 border border-border cursor-pointer hover:border-primary/50 transition-all duration-200" onclick="selectComponent('${type}', ${item.id})">
+          <div class="flex items-center gap-4">
+            <div class="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                ${item.icon === 'folder' ? '<path d="M12 2H2v20h20V10l-6-6Z"/><path d="M16 2 16 8 22 8"/>' : ''}
+                ${item.icon === 'settings' ? '<path d="M16 6h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h3"/><path d="m7.5 4.27 9 5.15"/><circle cx="17.5" cy="17.5" r="2.5"/><circle cx="6.5" cy="17.5" r="2.5"/>' : ''}
+                ${item.icon === 'circle' ? '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>' : ''}
+                ${item.icon === 'monitor' ? '<path d="M20 13V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7m16 0H4"/><path d="M17 13h2a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h2"/>' : ''}
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-foreground">${item.name}</h4>
+              <p class="text-sm text-foreground-muted">${item.desc}</p>
+            </div>
+            <div class="text-right">
+              <p class="font-bold text-primary">${item.price}</p>
+              <p class="text-xs text-foreground-dim">${item.weight}</p>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      
+      document.getElementById('component-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('component-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function selectComponent(type, id) {
+      closeModal();
+    }
+
+    document.getElementById('save-btn').addEventListener('click', () => {
+      document.getElementById('save-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeSaveModal() {
+      document.getElementById('save-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('share-btn').addEventListener('click', () => {
+      document.getElementById('share-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeShareModal() {
+      document.getElementById('share-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('support-btn').addEventListener('click', () => {
+      document.getElementById('support-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeSupportModal() {
+      document.getElementById('support-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('copy-link-btn').addEventListener('click', () => {
+      const input = document.querySelector('#share-modal input');
+      input.select();
+      document.execCommand('copy');
+      alert('Link copied to clipboard!');
+    });
+
+    const bikeTypeButtons = ['bike-type-road', 'bike-type-mtb', 'bike-type-fold', 'mobile-road', 'mobile-mtb', 'mobile-fold'];
+    bikeTypeButtons.forEach(id => {
+      document.getElementById(id)?.addEventListener('click', function() {
+        const isMobile = id.startsWith('mobile');
+        const buttonGroup = isMobile 
+          ? ['mobile-road', 'mobile-mtb', 'mobile-fold']
+          : ['bike-type-road', 'bike-type-mtb', 'bike-type-fold'];
+        
+        buttonGroup.forEach(btnId => {
+          const btn = document.getElementById(btnId);
+          if (btnId === id) {
+            btn.classList.add('text-primary', 'bg-primary/10');
+            btn.classList.remove('text-foreground-muted', 'hover:text-foreground', 'hover:bg-surface-hover');
+          } else {
+            btn.classList.remove('text-primary', 'bg-primary/10');
+            btn.classList.add('text-foreground-muted', 'hover:text-foreground', 'hover:bg-surface-hover');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

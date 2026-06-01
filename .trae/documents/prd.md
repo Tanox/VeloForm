@@ -1,71 +1,67 @@
-## 1. Product Overview
-Veloform 自行车配置器是一款高级自行车定制工具，让用户可以自由搭配公路车、山地车和折叠车的组件，实时计算价格与重量，并通过 Firebase 云同步保存方案。
+# Veloform 自行车配置器原型 - 产品需求文档
 
-### 2. Core Features
+## 1. 产品概述
 
-### 2.1 User Roles
-| Role | Registration Method | Core Permissions |
-|------|---------------------|------------------|
-| Guest User | None | Browse and create configurations |
-| Logged-in User | Google/Firebase | Save, load, and manage configurations |
+Veloform 是一个高端自行车配置器原型，展示用户如何通过直观的界面定制公路车、山地车和折叠车。原型聚焦于深色主题美学、流畅动画和极致的用户体验。
 
-### 2.2 Feature Module
-1. **Configurator page**: Bike type selector, component picker, real-time price & weight calculation
-2. **Library page**: Saved configurations, cloud sync management
-3. **Preview page**: Visual summary of the current build
+## 2. 核心功能
 
-### 2.3 Page Details
-| Page Name | Module Name | Feature description |
-|-----------|-------------|---------------------|
-| Configurator | Bike Type Selector | Switch between Road, MTB, and Fold bikes instantly |
-| Configurator | Component Picker | Replace individual components by category (Frame, Drivetrain, etc.) |
-| Configurator | Price Calculator | Real-time total cost display |
-| Configurator | Weight Calculator | Real-time total weight display in kg |
-| Configurator | Save/Load | Persist configurations to Firebase cloud |
-| Library | Configuration List | Browse, edit, and delete saved configurations |
+### 2.1 车型切换
+- 公路车 (Road)、山地车 (MTB)、折叠车 (Fold) 三种车型
+- 平滑过渡动画
+- 视觉反馈
 
-## 3. Core Process
-1. User selects a bike type (Road/MTB/Fold) from the header
-2. System loads default components for that bike type
-3. User can click on any component category to replace it with alternatives
-4. Real-time calculations update price and weight as components change
-5. Logged-in users can save configurations to the cloud for later access
-6. Saved configurations are accessible from the library
+### 2.2 组件配置系统
+- 车架、传动系统、轮组、操控组件、轮胎等核心组件
+- 组件选择模态框
+- 价格和重量实时更新
 
-```mermaid
-flowchart LR
-  A[Select Bike Type] --> B[Load Default Components]
-  B --> C[Customize Components]
-  C --> D{Save?}
-  D -->|Yes| E[Login if needed]
-  E --> F[Save to Firebase]
-  D -->|No| G[Continue Customizing]
-  F --> H[Access from Library]
-  H --> C
-```
+### 2.3 配置管理
+- 添加/删除组件
+- 组件替换
+- 配置保存与重置
 
-## 4. User Interface Design
-### 4.1 Design Style
-- **Primary colors**: Deep charcoal (#0a0a0b), electric teal accent (#14b8a6)
-- **Button style**: Minimal pill-shaped with subtle micro-animations
-- **Fonts**: Inter for body, Space Grotesk for headings (2026 aesthetic)
-- **Layout style**: Card-based, clean grid, generous whitespace
-- **Icon style**: Lucide React icons with consistent stroke weight
+### 2.4 汇总面板
+- 总成本计算
+- 预估重量
+- 配置概览
 
-### 4.2 Page Design Overview
-| Page Name | Module Name | UI Elements |
-|-----------|-------------|-------------|
-| Configurator | Header | Dark gradient background, bold logo, type selector tabs |
-| Configurator | Build List | Left sidebar, stacked component cards with price/weight |
-| Configurator | Summary | Floating right panel, animated counters for total values |
-| Configurator | Component Picker | Modal with grid layout, filterable by category |
-| Library | Config Grid | Responsive card grid, hover effects, quick actions |
+## 3. UI/UX 设计
 
-### 4.3 Responsiveness
-Desktop-first responsive design with touch-optimized mobile layout (≥320px). All interactive targets ≥44px on mobile.
+### 3.1 视觉风格
+- 深色主题 (#09090b)
+- 渐变背景效果
+- 毛玻璃质感
+- 主色调 (#3b82f6)
+- 强调色 (#f97316)
 
-### 4.4 Visual Enhancement Guidance
-- **Motion**: Page transitions with Framer Motion, number count-up animations, hover elevations
-- **Background**: Subtle gradient mesh with noise texture for depth
-- **Spacing**: 4px grid system, section spacing in 16px increments
-- **Typography**: Clear hierarchy from H1 to caption, proper line heights
+### 3.2 字体选择
+- 标题：Space Grotesk
+- 正文：Inter
+
+### 3.3 动画效果
+- 页面加载动画
+- 组件选择动画
+- 价格变化动画
+- 悬停效果
+
+## 4. 响应式设计
+
+- 桌面端优先设计
+- 平板适配
+- 移动端友好
+
+## 5. 交互流程
+
+1. 用户进入首页 → 看到车型选择器
+2. 选择车型 → 加载对应组件
+3. 点击"选择组件" → 打开组件选择器
+4. 选择组件 → 更新配置和价格
+5. 查看汇总面板 → 完成配置
+
+## 6. 技术实现
+
+- 纯 HTML/CSS/JavaScript
+- CSS Grid 和 Flexbox 布局
+- CSS 动画和过渡
+- 原生 JavaScript 交互
