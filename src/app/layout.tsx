@@ -17,11 +17,24 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: 'Veloform Configurator — Build Your Dream Bike',
   description: 'Advanced bicycle configurator for Road, MTB, and Fold bikes. Customize components, estimate costs, and save builds.',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Veloform',
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  other: {
+    'mobile-web-app-capable': 'yes',
+  },
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  themeColor: '#0a0a0a',
 };
 
 export default function RootLayout({
