@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veloform - 自行车配置器</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #09090b;
+            --bg-secondary: #18181b;
+            --bg-tertiary: #27272a;
+            --bg-card: rgba(24, 24, 27, 0.8);
+            --bg-glass: rgba(39, 39, 42, 0.6);
+            --color-primary: #3b82f6;
+            --color-primary-light: #60a5fa;
+            --color-accent: #f97316;
+            --color-success: #22c55e;
+            --color-danger: #ef4444;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-mesh: radial-gradient(ellipse at top, #1e1e28 0%, #09090b 50%);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .noise-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .gradient-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-mesh);
+            z-index: -1;
+        }
+
+        .gradient-mesh::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 70%, rgba(249, 115, 22, 0.06) 0%, transparent 50%);
+            animation: meshMove 20s ease-in-out infinite;
+        }
+
+        @keyframes meshMove {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(2%, 2%) rotate(1deg); }
+            66% { transform: translate(-1%, 1%) rotate(-1deg); }
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(9, 9, 11, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .language-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .language-toggle:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--color-primary);
+        }
+
+        .btn-accent {
+            background: var(--color-accent);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            background: #ea580c;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        main {
+            padding-top: 120px;
+            padding-bottom: 4rem;
+            min-height: 100vh;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        /* Bike Type Selector */
+        .bike-types {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .bike-type-card {
+            position: relative;
+            padding: 2rem;
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .bike-type-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .bike-type-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .bike-type-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .bike-type-card.active {
+            border-color: var(--color-primary);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+        }
+
+        .bike-type-card.active::before {
+            transform: scaleX(1);
+        }
+
+        .bike-type-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .bike-type-card:nth-child(2) .bike-type-icon {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        }
+
+        .bike-type-card:nth-child(3) .bike-type-icon {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        }
+
+        .bike-type-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .bike-type-desc {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        /* Configuration Grid */
+        .config-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        /* Build List */
+        .build-section {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .component-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .component-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+
+        .component-item:hover {
+            border-color: var(--color-primary);
+            transform: translateX(4px);
+        }
+
+        .component-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .component-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-primary);
+        }
+
+        .component-details {
+            flex: 1;
+        }
+
+        .component-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .component-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .component-specs {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .component-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .component-price {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-right: 1rem;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-icon:hover {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .btn-icon.danger:hover {
+            background: var(--color-danger);
+            border-color: var(--color-danger);
+        }
+
+        /* Summary Panel */
+        .summary-panel {
+            position: sticky;
+            top: 100px;
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .summary-header {
+            margin-bottom: 2rem;
+        }
+
+        .summary-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            padding: 1.25rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 0.75rem;
+            background: var(--gradient-primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .stat-card:nth-child(2) .stat-icon {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-unit {
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        /* Cost Breakdown */
+        .cost-breakdown {
+            margin-bottom: 2rem;
+        }
+
+        .cost-breakdown-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cost-chart {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .cost-chart svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .cost-chart circle {
+            fill: none;
+            stroke-width: 30;
+            transition: stroke-dasharray 0.5s ease-out;
+        }
+
+        .cost-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.875rem;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            margin-right: 0.5rem;
+        }
+
+        .legend-label {
+            flex: 1;
+            color: var(--text-secondary);
+        }
+
+        .legend-value {
+            font-weight: 600;
+        }
+
+        /* Summary Actions */
+        .summary-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .summary-actions .btn {
+            width: 100%;
+            padding: 1rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            overflow: hidden;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: var(--color-danger);
+            color: white;
+            border-color: var(--color-danger);
+        }
+
+        .modal-body {
+            padding: 2rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .component-option {
+            padding: 1.25rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .component-option:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+        }
+
+        .component-option.selected {
+            border-color: var(--color-primary);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .option-name {
+            font-weight: 500;
+            font-size: 0.9375rem;
+        }
+
+        .option-price {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .option-specs {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .option-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .feature-tag {
+            padding: 0.25rem 0.5rem;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .toast {
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .toast.success {
+            border-color: var(--color-success);
+        }
+
+        .toast.error {
+            border-color: var(--color-danger);
+        }
+
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .toast.success .toast-icon {
+            color: var(--color-success);
+        }
+
+        .toast.error .toast-icon {
+            color: var(--color-danger);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .loading {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .bike-types {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .config-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-panel {
+                position: relative;
+                top: 0;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .bike-types {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .component-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .component-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .summary-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* Selection */
+        ::selection {
+            background: var(--color-primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="noise-bg"></div>
+    <div class="gradient-mesh"></div>
+
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i data-lucide="bike" style="width: 24px; height: 24px;"></i>
+                </div>
+                Veloform
+            </a>
+            <div class="header-actions">
+                <button class="language-toggle">
+                    <i data-lucide="globe" style="width: 16px; height: 16px;"></i>
+                    <span>EN / 中文</span>
+                </button>
+                <button class="btn btn-primary">
+                    <i data-lucide="user" style="width: 16px; height: 16px;"></i>
+                    登录
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="hero">
+                <h1>构建你的完美座驾</h1>
+                <p>从公路车到山地车，从传动系统到轮组，为你打造专属的高性能自行车配置方案</p>
+            </section>
+
+            <section class="bike-types" id="bikeTypeSelector">
+                <div class="bike-type-card active" data-type="road">
+                    <div class="bike-type-icon">
+                        <i data-lucide="zap" style="width: 40px; height: 40px;"></i>
+                    </div>
+                    <h3 class="bike-type-name">公路车</h3>
+                    <p class="bike-type-desc">专为速度和长距离骑行设计，轻量化车架和光滑轮胎，适合铺装路面竞速</p>
+                </div>
+                <div class="bike-type-card" data-type="mtb">
+                    <div class="bike-type-icon">
+                        <i data-lucide="mountain" style="width: 40px; height: 40px;"></i>
+                    </div>
+                    <h3 class="bike-type-name">山地车</h3>
+                    <p class="bike-type-desc">强劲的避震系统和抓地力，专为崎岖山路和林道探险而生</p>
+                </div>
+                <div class="bike-type-card" data-type="fold">
+                    <div class="bike-type-icon">
+                        <i data-lucide="box" style="width: 40px; height: 40px;"></i>
+                    </div>
+                    <h3 class="bike-type-name">折叠车</h3>
+                    <p class="bike-type-desc">便携折叠设计，轻松放入背包或汽车后备箱，城市通勤首选</p>
+                </div>
+            </section>
+
+            <section class="config-grid">
+                <div class="config-main">
+                    <div class="build-section">
+                        <div class="section-header">
+                            <h2 class="section-title">当前配置</h2>
+                            <button class="btn btn-secondary" onclick="openComponentSelector()">
+                                <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+                                添加组件
+                            </button>
+                        </div>
+                        <div class="component-list" id="componentList">
+                            <!-- Components will be dynamically inserted here -->
+                        </div>
+                    </div>
+
+                    <div class="build-section">
+                        <div class="section-header">
+                            <h2 class="section-title">推荐配置</h2>
+                        </div>
+                        <div class="component-list">
+                            <div class="component-item" style="cursor: pointer;">
+                                <div class="component-info">
+                                    <div class="component-icon">
+                                        <i data-lucide="trophy" style="width: 24px; height: 24px;"></i>
+                                    </div>
+                                    <div class="component-details">
+                                        <div class="component-category">专业竞速套装</div>
+                                        <div class="component-name">Pro Race Build</div>
+                                        <div class="component-specs">7,780 | 5.64 kg</div>
+                                    </div>
+                                </div>
+                                <div class="component-actions">
+                                    <button class="btn btn-accent">应用配置</button>
+                                </div>
+                            </div>
+                            <div class="component-item" style="cursor: pointer;">
+                                <div class="component-info">
+                                    <div class="component-icon">
+                                        <i data-lucide="star" style="width: 24px; height: 24px;"></i>
+                                    </div>
+                                    <div class="component-details">
+                                        <div class="component-category">全能之选</div>
+                                        <div class="component-name">All-Rounder Build</div>
+                                        <div class="component-specs">7,610 | 5.6 kg</div>
+                                    </div>
+                                </div>
+                                <div class="component-actions">
+                                    <button class="btn btn-secondary">应用配置</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="summary-panel">
+                    <div class="summary-header">
+                        <h2 class="summary-title">配置概览</h2>
+                        <p class="summary-subtitle">公路车 | 已选 4 个组件</p>
+                    </div>
+
+                    <div class="summary-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i data-lucide="trending-up" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <div class="stat-label">总成本</div>
+                            <div class="stat-value" id="totalCost">7,780</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i data-lucide="weight" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <div class="stat-label">预估重量</div>
+                            <div class="stat-value"><span id="totalWeight">5.64</span> <span class="stat-unit">kg</span></div>
+                        </div>
+                    </div>
+
+                    <div class="cost-breakdown">
+                        <h3 class="cost-breakdown-title">
+                            <i data-lucide="pie-chart" style="width: 16px; height: 16px;"></i>
+                            成本分布
+                        </h3>
+                        <div class="cost-chart" id="costChart">
+                            <svg viewBox="0 0 200 200">
+                                <circle cx="100" cy="100" r="70" stroke="#3b82f6" stroke-dasharray="220 220" stroke-dashoffset="0"></circle>
+                                <circle cx="100" cy="100" r="70" stroke="#f97316" stroke-dasharray="175 220" stroke-dashoffset="-220"></circle>
+                                <circle cx="100" cy="100" r="70" stroke="#22c55e" stroke-dasharray="38 220" stroke-dashoffset="-395"></circle>
+                                <circle cx="100" cy="100" r="70" stroke="#a855f7" stroke-dasharray="22 220" stroke-dashoffset="-433"></circle>
+                            </svg>
+                        </div>
+                        <div class="cost-legend">
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #3b82f6;"></span>
+                                <span class="legend-label">传动系统</span>
+                                <span class="legend-value" id="drivetrainCost">¥4,200</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #f97316;"></span>
+                                <span class="legend-label">轮组</span>
+                                <span class="legend-value" id="wheelsetCost">¥2,800</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #22c55e;"></span>
+                                <span class="legend-label">操控组件</span>
+                                <span class="legend-value" id="cockpitCost">¥600</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #a855f7;"></span>
+                                <span class="legend-label">轮胎</span>
+                                <span class="legend-value" id="tiresCost">¥180</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-actions">
+                        <button class="btn btn-accent" onclick="saveConfiguration()">
+                            <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+                            保存配置
+                        </button>
+                        <button class="btn btn-secondary" onclick="shareConfiguration()">
+                            <i data-lucide="share-2" style="width: 16px; height: 16px;"></i>
+                            分享配置
+                        </button>
+                        <button class="btn btn-ghost" onclick="resetConfiguration()">
+                            <i data-lucide="rotate-ccw" style="width: 16px; height: 16px;"></i>
+                            重置配置
+                        </button>
+                    </div>
+                </aside>
+            </section>
+        </div>
+    </main>
+
+    <!-- Component Selector Modal -->
+    <div class="modal-overlay" id="componentSelectorModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">选择组件</h2>
+                <button class="modal-close" onclick="closeComponentSelector()">
+                    <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="component-grid" id="componentOptions">
+                    <!-- Component options will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Bike configuration data
+        const bikeData = {
+            road: {
+                components: [
+                    {
+                        id: 'd1',
+                        category: 'Drivetrain',
+                        categoryLabel: '传动系统',
+                        name: 'Shimano Dura-Ace Di2 R9200',
+                        price: 4200,
+                        weight: 2430,
+                        specs: '电子变速 | 12速 | 245g',
+                        features: ['电子变速', '碳纤维', '专业竞赛']
+                    },
+                    {
+                        id: 'w1',
+                        category: 'Wheelset',
+                        categoryLabel: '轮组',
+                        name: 'Roval Rapide CLX II',
+                        price: 2800,
+                        weight: 1520,
+                        specs: '50mm框高 | 真空胎 | 1520g',
+                        features: ['碳纤维轮圈', '真空胎兼容', '空气动力学']
+                    },
+                    {
+                        id: 'c1',
+                        category: 'Cockpit',
+                        categoryLabel: '操控组件',
+                        name: 'Roval Rapide Cockpit',
+                        price: 600,
+                        weight: 310,
+                        specs: '碳纤维 | 宽度420mm | 310g',
+                        features: ['一体式设计', '碳纤维材质', '气动造型']
+                    },
+                    {
+                        id: 't1',
+                        category: 'Tires',
+                        categoryLabel: '轮胎',
+                        name: 'Turbo Cotton 28mm',
+                        price: 180,
+                        weight: 480,
+                        specs: '700x28c | 320 TPI | 480g',
+                        features: ['高性能胶料', '防刺穿', '低滚阻']
+                    }
+                ]
+            },
+            mttb: {
+                components: [
+                    {
+                        id: 'd2',
+                        category: 'Drivetrain',
+                        categoryLabel: '传动系统',
+                        name: 'SRAM XX1 Eagle AXS',
+                        price: 2500,
+                        weight: 1515,
+                        specs: '电子变速 | 12速 | 1515g',
+                        features: ['无线电子变速', '越野专用', '轻量化']
+                    },
+                    {
+                        id: 's1',
+                        category: 'Suspension',
+                        categoryLabel: '避震系统',
+                        name: 'Fox 34 Float Factory',
+                        price: 1050,
+                        weight: 1738,
+                        specs: '140mm行程 | 34mm管径 | 1738g',
+                        features: ['FIT4阻尼', '可调回弹', '轻量化']
+                    },
+                    {
+                        id: 'w2',
+                        category: 'Wheelset',
+                        categoryLabel: '轮组',
+                        name: 'Reserve 30|SL',
+                        price: 1800,
+                        weight: 1650,
+                        specs: '30mm内宽 | 碳纤维 | 1650g',
+                        features: ['宽圈设计', '无内胎', '耐冲击']
+                    },
+                    {
+                        id: 't2',
+                        category: 'Tires',
+                        categoryLabel: '轮胎',
+                        name: 'Maxxis Rekon 2.4',
+                        price: 160,
+                        weight: 1600,
+                        specs: '29x2.4 | Dual Compound | 1600g',
+                        features: ['越野胎面', '防刺穿', '抓地力强']
+                    }
+                ]
+            },
+            fold: {
+                components: [
+                    {
+                        id: 'd3',
+                        category: 'Drivetrain',
+                        categoryLabel: '传动系统',
+                        name: 'Brompton 6-Speed',
+                        price: 400,
+                        weight: 1200,
+                        specs: '6速 | 紧凑设计 | 1200g',
+                        features: ['多档位', '折叠兼容', '城市通勤']
+                    },
+                    {
+                        id: 'f1',
+                        category: 'Frame',
+                        categoryLabel: '车架',
+                        name: 'Titanium Main Frame',
+                        price: 2100,
+                        weight: 1800,
+                        specs: '钛合金 | 3:1折叠 | 1800g',
+                        features: ['钛合金材质', '耐用防腐', '轻量化']
+                    },
+                    {
+                        id: 'w3',
+                        category: 'Wheelset',
+                        categoryLabel: '轮组',
+                        name: 'Brompton Superlight',
+                        price: 800,
+                        weight: 1100,
+                        specs: '16寸 | 铝合金 | 1100g',
+                        features: ['轻量化轮组', '折叠兼容', '城市骑行']
+                    }
+                ]
+            }
+        };
+
+        // Alternative components for selector
+        const alternativeComponents = {
+            road: [
+                {
+                    id: 'd2',
+                    category: 'Drivetrain',
+                    categoryLabel: '传动系统',
+                    name: 'SRAM Red AXS',
+                    price: 4000,
+                    weight: 2380,
+                    specs: '无线电子变速 | 12速 | 2380g',
+                    features: ['无线设计', '功率计兼容', '竞赛级']
+                },
+                {
+                    id: 'd3',
+                    category: 'Drivetrain',
+                    categoryLabel: '传动系统',
+                    name: 'Campagnolo Super Record EPS',
+                    price: 4500,
+                    weight: 2450,
+                    specs: '电子变速 | 12速 | 2450g',
+                    features: ['意大利工艺', '精准变速', '顶级配置']
+                },
+                {
+                    id: 'w2',
+                    category: 'Wheelset',
+                    categoryLabel: '轮组',
+                    name: 'Enve SES 4.5',
+                    price: 2900,
+                    weight: 1550,
+                    specs: '45mm框高 | 碳纤维 | 1550g',
+                    features: ['空气动力学', '碳纤维轮圈', '全能型']
+                },
+                {
+                    id: 'w3',
+                    category: 'Wheelset',
+                    categoryLabel: '轮组',
+                    name: 'Zipp 454 NSW',
+                    price: 3200,
+                    weight: 1480,
+                    specs: '45mm框高 | NOS髋关节 | 1480g',
+                    features: ['Zipp专利技术', '极致空气动力', '轻量化']
+                },
+                {
+                    id: 'c2',
+                    category: 'Cockpit',
+                    categoryLabel: '操控组件',
+                    name: 'Enve SES AR',
+                    price: 550,
+                    weight: 320,
+                    specs: '碳纤维 | 宽型设计 | 320g',
+                    features: ['空气动力学', '舒适型', '碳纤维']
+                },
+                {
+                    id: 't2',
+                    category: 'Tires',
+                    categoryLabel: '轮胎',
+                    name: 'GP5000 S TR',
+                    price: 160,
+                    weight: 450,
+                    specs: '700x28c | TLR | 450g',
+                    features: ['真空胎', '低滚阻', '防刺穿']
+                }
+            ]
+        };
+
+        // Current state
+        let currentBikeType = 'road';
+        let currentComponents = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBikeComponents('road');
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Bike type selector
+            document.querySelectorAll('.bike-type-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const type = card.dataset.type;
+                    selectBikeType(type);
+                });
+            });
+        }
+
+        function selectBikeType(type) {
+            // Update UI
+            document.querySelectorAll('.bike-type-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+
+            // Load components
+            currentBikeType = type;
+            loadBikeComponents(type);
+
+            // Show toast
+            const typeNames = { road: '公路车', mttb: '山地车', fold: '折叠车' };
+            showToast(`已切换至 ${typeNames[type]} 配置`, 'success');
+        }
+
+        function loadBikeComponents(type) {
+            const data = bikeData[type];
+            if (!data) return;
+
+            currentComponents = [...data.components];
+            renderComponentList();
+            updateSummary();
+        }
+
+        function renderComponentList() {
+            const listEl = document.getElementById('componentList');
+            
+            if (currentComponents.length === 0) {
+                listEl.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                        <i data-lucide="package-x" style="width: 48px; height: 48px; margin-bottom: 1rem;"></i>
+                        <p>暂无配置组件</p>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">点击"添加组件"开始配置</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            listEl.innerHTML = currentComponents.map(component => `
+                <div class="component-item">
+                    <div class="component-info">
+                        <div class="component-icon">
+                            <i data-lucide="${getCategoryIcon(component.category)}" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="component-details">
+                            <div class="component-category">${component.categoryLabel}</div>
+                            <div class="component-name">${component.name}</div>
+                            <div class="component-specs">${component.specs}</div>
+                        </div>
+                    </div>
+                    <div class="component-actions">
+                        <span class="component-price">¥${component.price.toLocaleString()}</span>
+                        <button class="btn-icon" onclick="editComponent('${component.id}')" title="更换组件">
+                            <i data-lucide="edit-2" style="width: 16px; height: 16px;"></i>
+                        </button>
+                        <button class="btn-icon danger" onclick="removeComponent('${component.id}')" title="移除">
+                            <i data-lucide="trash-2" style="width: 16px; height: 16px;"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        function getCategoryIcon(category) {
+            const icons = {
+                'Drivetrain': 'settings',
+                'Wheelset': 'circle',
+                'Cockpit': 'move',
+                'Tires': 'circle-dot',
+                'Suspension': 'gauge',
+                'Frame': 'box'
+            };
+            return icons[category] || 'package';
+        }
+
+        function updateSummary() {
+            const totalCost = currentComponents.reduce((sum, c) => sum + c.price, 0);
+            const totalWeight = currentComponents.reduce((sum, c) => sum + c.weight, 0) / 1000;
+
+            document.getElementById('totalCost').textContent = totalCost.toLocaleString();
+            document.getElementById('totalWeight').textContent = totalWeight.toFixed(2);
+
+            // Update cost breakdown
+            const categories = {};
+            currentComponents.forEach(c => {
+                if (!categories[c.category]) {
+                    categories[c.category] = 0;
+                }
+                categories[c.category] += c.price;
+            });
+
+            const total = Object.values(categories).reduce((a, b) => a + b, 0);
+            let offset = 0;
+            const colors = ['#3b82f6', '#f97316', '#22c55e', '#a855f7', '#ec4899'];
+            let colorIndex = 0;
+
+            document.getElementById('costChart').innerHTML = `
+                <svg viewBox="0 0 200 200">
+                    ${Object.entries(categories).map(([cat, cost]) => {
+                        const dashArray = (cost / total) * 440;
+                        const dashOffset = -offset;
+                        offset += dashArray;
+                        const color = colors[colorIndex++ % colors.length];
+                        return `<circle cx="100" cy="100" r="70" stroke="${color}" stroke-dasharray="${dashArray} 440" stroke-dashoffset="${dashOffset}"></circle>`;
+                    }).join('')}
+                </svg>
+            `;
+
+            // Update legend
+            const legendItems = document.querySelectorAll('.legend-item');
+            legendItems.forEach((item, index) => {
+                const catLabels = {
+                    'Drivetrain': '传动系统',
+                    'Wheelset': '轮组',
+                    'Cockpit': '操控组件',
+                    'Tires': '轮胎',
+                    'Suspension': '避震系统',
+                    'Frame': '车架'
+                };
+                const cats = Object.keys(categories);
+                if (cats[index]) {
+                    item.querySelector('.legend-label').textContent = catLabels[cats[index]] || cats[index];
+                    item.querySelector('.legend-value').textContent = `¥${categories[cats[index]].toLocaleString()}`;
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function openComponentSelector() {
+            const modal = document.getElementById('componentSelectorModal');
+            const optionsEl = document.getElementById('componentOptions');
+
+            // Load alternatives
+            const alternatives = alternativeComponents[currentBikeType] || [];
+            
+            optionsEl.innerHTML = alternatives.map(comp => `
+                <div class="component-option" onclick="selectComponent('${comp.id}')">
+                    <div class="option-header">
+                        <span class="option-name">${comp.name}</span>
+                        <span class="option-price">¥${comp.price.toLocaleString()}</span>
+                    </div>
+                    <div class="option-specs">${comp.specs}</div>
+                    <div class="option-features">
+                        ${comp.features.map(f => `<span class="feature-tag">${f}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+
+            modal.classList.add('active');
+        }
+
+        function closeComponentSelector() {
+            document.getElementById('componentSelectorModal').classList.remove('active');
+        }
+
+        function selectComponent(componentId) {
+            const alternatives = alternativeComponents[currentBikeType] || [];
+            const component = alternatives.find(c => c.id === componentId);
+            
+            if (component) {
+                // Find first component in current list with same category
+                const index = currentComponents.findIndex(c => c.category === component.category);
+                if (index !== -1) {
+                    currentComponents[index] = component;
+                } else {
+                    currentComponents.push(component);
+                }
+
+                renderComponentList();
+                updateSummary();
+                closeComponentSelector();
+                showToast(`已选择 ${component.name}`, 'success');
+            }
+        }
+
+        function editComponent(componentId) {
+            openComponentSelector();
+        }
+
+        function removeComponent(componentId) {
+            currentComponents = currentComponents.filter(c => c.id !== componentId);
+            renderComponentList();
+            updateSummary();
+            showToast('组件已移除', 'success');
+        }
+
+        function saveConfiguration() {
+            showToast('配置已保存到云端', 'success');
+        }
+
+        function shareConfiguration() {
+            showToast('生成分享链接已复制到剪贴板', 'success');
+        }
+
+        function resetConfiguration() {
+            currentComponents = [];
+            loadBikeComponents(currentBikeType);
+            showToast('配置已重置', 'success');
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i data-lucide="${type === 'success' ? 'check-circle' : 'alert-circle'}" class="toast-icon"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.style.animation = 'slideInRight 0.3s ease-out reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Close modal on overlay click
+        document.getElementById('componentSelectorModal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                closeComponentSelector();
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeComponentSelector();
+            }
+        });
+    </script>
+</body>
+</html>
