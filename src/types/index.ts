@@ -73,14 +73,14 @@ export interface ConfigComponent<T extends ComponentCategory = ComponentCategory
 
 export interface Configuration {
   id: string;
-  userId: string;
+  userId?: string;
   bikeType: BikeType;
   name: string;
   components: ConfigComponent[];
   totalCost: number;
   estimatedWeight: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   description?: string;
   tags?: string[];
 }
