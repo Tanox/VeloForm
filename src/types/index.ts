@@ -42,7 +42,7 @@ export interface TireSpecs {
   tubeless?: boolean;
 }
 
-// Union type for component specs based on category
+// Union type for component specs based on category (for type-safe access)
 export type ComponentSpecsMap = {
   Drivetrain: DrivetrainSpecs;
   Wheelset: WheelsetSpecs;
@@ -52,6 +52,9 @@ export type ComponentSpecsMap = {
   Tires: TireSpecs;
 };
 
+// Generic specs type that allows any key-value pairs
+export type GenericSpecs = Record<string, string | number | boolean | string[]>;
+
 export interface ConfigComponent<T extends ComponentCategory = ComponentCategory> {
   id: string;
   category: T;
@@ -59,7 +62,7 @@ export interface ConfigComponent<T extends ComponentCategory = ComponentCategory
   price: number;
   weight: number;
   bikeType: BikeType;
-  specs?: ComponentSpecsMap[T];
+  specs?: GenericSpecs;
   brand?: string;
   model?: string;
   description?: string;
