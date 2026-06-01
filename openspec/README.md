@@ -1,8 +1,8 @@
 # Veloform 规范文档索引
 
 > **路径**: `/openspec/README.md`  
-> **版本**: v3.4.1  
-> **更新日期**: 2026-05-05
+> **版本**: v3.5.0  
+> **更新日期**: 2026-06-01
 
 ## 概述
 
@@ -19,7 +19,7 @@
 | 文档 | 说明 | 适用场景 |
 |------|------|----------|
 | [架构概览](./architecture/overview.md) | 项目概述、技术栈、核心架构原则、目录结构 | 了解项目整体架构 |
-| [数据流设计](./architecture/data-flow.md) | 状态管理、组件通信、副作用处理、持久化流程 | 理解数据如何在系统中流动 |
+| [数据流设计](./architecture/data-flow.md) | Zustand 状态管理、组件通信、副作用处理、持久化流程 | 理解数据如何在系统中流动 |
 | [状态管理](./architecture/state-management.md) | React 状态管理方案、Context、Zustand、Server State | 选择合适的状态管理方案 |
 | [组件模式](./architecture/component-patterns.md) | React 组件设计模式、Hooks 最佳实践、性能优化 | 开发可复用组件时参考 |
 | [组件设计规范](./architecture/component-design.md) | 组件分类、命名规范、Props 定义、可访问性 | 开发新组件时参考 |
@@ -39,6 +39,7 @@
 |------|------|----------|
 | [编码规范](./development/coding-standards.md) | TypeScript、React/Next.js、样式、Git 工作流、性能优化 | 编写代码时遵循 |
 | [测试规范](./development/testing.md) | 测试策略、框架使用、覆盖率要求、最佳实践 | 编写测试时参考 |
+| [国际化规范](./development/i18n-guidelines.md) | i18n 实现、翻译文件结构、语言切换、测试 | 开发多语言功能时参考 |
 
 ### 部署规范
 
@@ -59,6 +60,12 @@
 |------|------|----------|
 | [性能优化](./performance/optimization.md) | Bundle 优化、React 性能、3D 渲染优化、监控 | 优化应用性能 |
 
+### 原型与设计
+
+| 文档 | 说明 | 适用场景 |
+|------|------|----------|
+| [原型图说明](../prototype-guide.md) | 高拟真原型图功能说明、与实际项目映射关系 | 理解 UI 设计和交互流程 |
+
 ---
 
 ## 快速导航
@@ -75,7 +82,8 @@
 1. 查看 [组件模式](./architecture/component-patterns.md) 了解 React 组件开发模式
 2. 参考 [状态管理](./architecture/state-management.md) 选择合适的状态管理方案
 3. 如需调用后端，查阅 [Firestore API](./api/firestore.md)
-4. 完成后按照 [测试规范](./development/testing.md) 编写测试
+4. 如需多语言支持，参考 [国际化规范](./development/i18n-guidelines.md)
+5. 完成后按照 [测试规范](./development/testing.md) 编写测试
 
 ### 修复 Bug
 
@@ -117,6 +125,7 @@
 - [ ] 公共 API 有 JSDoc 注释
 - [ ] 复杂逻辑有清晰的注释
 - [ ] 更新了相关规范文档（如需要）
+- [ ] 多语言文本已添加到翻译文件
 
 ### Git 提交
 
@@ -137,6 +146,7 @@
 | 开发规范 | 季度审查 | 每季度 |
 | 部署文档 | 部署流程变化时 | 按需 |
 | 安全规范 | 安全策略调整时 | 每半年 |
+| 国际化规范 | 新增语言或翻译变更时 | 变更时 |
 
 ### 贡献流程
 
@@ -154,6 +164,7 @@
 
 | 规范版本 | 项目版本 | 更新日期 | 主要变更 |
 |---------|---------|---------|---------|
+| v3.5.0 | 3.4.0 | 2026-06-01 | 清理 data-flow.md 中 Angular 残留代码，新增国际化规范文档，完善原型图说明 |
 | v3.4.1 | 3.4.0 | 2026-05-26 | 技术栈迁移至 Next.js：更新文档索引结构、添加 React 组件模式和状态管理规范、更新开发规范为 Next.js 标准 |
 | v3.3.0 | 3.3.0 | 2026-05-11 | 完整架构重构，引入 Feature-Based 分层结构（Core/Features/Shared），修复 UI Bug |
 | v3.2.0 | 3.2.0 | 2026-05-01 | 新增组件编辑、路由系统、通知系统、确认对话框 |
@@ -169,8 +180,9 @@
 - [英文 README](../README_EN.md) - 英文版项目说明
 - [改进记录](../IMPROVEMENTS_SUMMARY.md) - 近期改进总结
 - [变更日志](../CHANGELOG.md) - 版本历史
+- [原型图](../prototype.html) - 高拟真静态设计稿
 
 ---
 
-**最后更新**: 2026-05-26  
-**版本**: v3.4.1
+**最后更新**: 2026-06-01  
+**版本**: v3.5.0

@@ -1,8 +1,8 @@
 # 数据流设计
 
 > **路径**: `/openspec/architecture/data-flow.md`  
-> **版本**: v3.4.1  
-> **更新日期**: 2026-05-05
+> **版本**: v3.5.0  
+> **更新日期**: 2026-06-01
 
 ## 概述
 
@@ -12,7 +12,7 @@
 
 ## 状态管理架构
 
-Veloform 采用基于 Zustand 的单向数据流架构，使用 **useConfigStore** 实现中心化状态管理，确保状态变更的可预测性和可追踪性。
+Veloform 采用基于 Zustand 的单向数据流架构，通过自定义 Hook (`useConfigStore`) 实现中心化状态管理。所有状态变更通过 Actions 触发，计算属性通过 Selector 派生，确保数据流的清晰性和可维护性。
 
 ---
 
@@ -87,7 +87,7 @@ totalWeight = computed(() => {
 
 ### 状态分发流程
 
-```mermaid
+``mermaid
 graph TD
     A[ConfigStore] -->|signals| B[app.ts]
     B -->|input: activeType| C[SidebarComponent]
@@ -261,7 +261,7 @@ useEffect(() => {
 
 ### 保存配置流程
 
-```mermaid
+``mermaid
 sequenceDiagram
     participant User
     participant BuildList as BuildListComponent
@@ -282,7 +282,7 @@ sequenceDiagram
 
 ### 加载配置流程
 
-```mermaid
+``mermaid
 sequenceDiagram
     participant User
     participant Garage as Garage Modal
