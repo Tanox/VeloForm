@@ -58,7 +58,7 @@ export default function LibraryPage() {
                       <h3 className="font-display font-semibold text-foreground truncate">
                         {config.name}
                       </h3>
-                      <p className="text-xs sm:text-sm text-muted">{config.bikeType}</p>
+                      <p className="text-xs sm:text-sm text-muted">{t('library.bikeType')}: {config.bikeType}</p>
                     </div>
                     
                     <div className="flex justify-between text-xs sm:text-sm">
@@ -108,6 +108,8 @@ export default function LibraryPage() {
           </div>
         )}
       </main>
+      
+      <ComparePanel />
     </div>
   );
 }
