@@ -35,7 +35,14 @@ export function ComponentSelector() {
   }, [showComponentSelector, currentComponent, toggleComponentSelector]);
 
   const handleSelect = (component: ConfigComponent) => {
-    replaceComponent(component);
+    // 如果是促销组件的话，应用折扣价格
+    const finalComponent = { ...component };
+    if (promotionalComponents[component.id]) {
+      finalComponent.price = Math.round(
+        promotionalComponents[component.id].originalPrice * (1 - promotionalComponents[component.id].discount / 100)
+      );
+    }
+    replaceComponent(finalComponent);
     toggleComponentSelector();
   };
 
@@ -105,11 +112,17 @@ export function ComponentSelector() {
                   <div className="flex items-center gap-4">
                     <div className="text-right">
                       <div className="flex items-center gap-2">
-                        <p className="text-primary font-semibold">{formatCurrency(component.price)}</p>
-                        {promotionalComponents[component.id] && (
-                          <p className="text-sm text-muted line-through">
-                            {formatCurrency(promotionalComponents[component.id].originalPrice)}
-                          </p>
+                        {promotionalComponents[component.id] ? (
+                          <>
+                            <p className="text-red-500 font-semibold">
+                              {formatCurrency(Math.round(promotionalComponents[component.id].originalPrice * (1 - promotionalComponents[component.id].discount / 100)))}
+                            </p>
+                            <p className="text-sm text-muted line-through">
+                              {formatCurrency(promotionalComponents[component.id].originalPrice)}
+                            </p>
+                          </>
+                        ) : (
+                          <p className="text-primary font-semibold">{formatCurrency(component.price)}</p>
                         )}
                       </div>
                       <p className="text-sm text-muted">{formatWeight(component.weight / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR)}</p>
