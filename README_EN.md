@@ -65,7 +65,6 @@ src/
 │   ├── store.ts                 # Zustand state management
 │   ├── utils.ts                 # Utility functions
 │   ├── toast.ts                 # Toast notifications
-│   ├── mock-data.ts             # Mock data (deprecated, use data/)
 │   ├── recommended-configs.ts    # Recommended configurations
 │   ├── data/                    # Modular data
 │   │   ├── index.ts

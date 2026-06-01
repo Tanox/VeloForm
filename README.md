@@ -65,7 +65,6 @@ src/
 │   ├── store.ts                  # Zustand 状态管理
 │   ├── utils.ts                  # 工具函数
 │   ├── toast.ts                  # Toast 通知
-│   ├── mock-data.ts              # 模拟数据（已废弃，使用 data/）
 │   ├── recommended-configs.ts    # 推荐配置
 │   ├── data/                     # 模块化数据
 │   │   ├── index.ts

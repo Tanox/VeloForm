@@ -1,7 +1,7 @@
 # 组件设计规范
 
 > **路径**: `/openspec/architecture/component-design.md`  
-> **版本**: v3.4.1  
+> **版本**: v3.5.1  
 > **更新日期**: 2026-06-01
 
 ## 概述
@@ -47,23 +47,25 @@ export function Navbar() {
 
 ### 2. 服务端组件 (Server Components)
 
-无需 `use client` 指令，默认服务端渲染，负责数据获取和静态内容渲染。
+默认在服务端渲染，无需 `use client` 指令。在 Next.js App Router 中，所有组件默认为 Server Component，除非显式添加 `'use client'` 指令。
 
-**示例**：`page.tsx` (`app/`)
+**示例**：`app/page.tsx`
 
 ```typescript
+// app/page.tsx - 默认为 Server Component
 import { Navbar } from '@/components/layout/Navbar';
 import { BuildList } from '@/components/configurator/BuildList';
 
-export default async function Home() {
-  // Server-side data fetching
-  const initialData = await fetchInitialConfig();
+export default function Home() {
+  // 可以在此处进行服务端数据获取
+  // const initialData = await fetchInitialConfig();
   
   return (
     <div className="min-h-screen">
       <Navbar />
       <main>
-        <BuildList initialData={initialData} />
+        {/* Client Components */}
+        <BuildList />
       </main>
     </div>
   );
@@ -71,10 +73,12 @@ export default async function Home() {
 ```
 
 **职责**：
-- 服务端数据获取
+- 服务端数据获取（如需）
 - 静态内容渲染
-- 传递 props 给客户端组件
-- 优化首屏加载性能
+- SEO 优化
+- 减少客户端 JavaScript bundle 大小
+
+**注意**：由于 Veloform 是纯客户端应用（自行车配置器），大部分页面逻辑都在客户端执行，因此大多数组件都是 Client Components。
 
 ---
 
@@ -459,41 +463,42 @@ export function FadeInCard({ children }) {
 
 ### Configurator 模块组件
 
-| 组件 | 类型 | 路径 | 职责 | Props |
-|------|------|------|------|--------|
-| `BuildList` | Client | `components/configurator/` | 组件列表展示和编辑 | `components`, `isSaving` |
-| `BikeTypeSelector` | Client | `components/configurator/` | 车型切换选择器 | — |
-| `ComponentSelector` | Client | `components/configurator/` | 组件选择模态框 | — |
-| `ComponentDetailModal` | Client | `components/configurator/` | 组件详情展示 | `componentId` |
-| `RecommendedConfigs` | Client | `components/configurator/` | 推荐配置卡片 | — |
-| `ComparePanel` | Client | `components/configurator/` | 配置比较面板 | `configs` |
-| `SummaryPanel` | Client | `components/configurator/` | 汇总面板（价格/重量） | — |
-| `CostBreakdownChart` | Client | `components/configurator/` | 成本分解图表 | — |
-| `ShareModal` | Client | `components/configurator/` | 分享模态框 | — |
+| 组件 | 类型 | 路径 | 职责 | 状态来源 |
+|------|------|------|------|----------|
+| `BuildList` | Client | `components/configurator/` | 组件列表展示和编辑 | `useConfigStore` |
+| `BikeTypeSelector` | Client | `components/configurator/` | 车型切换选择器 | `useConfigStore` |
+| `ComponentSelector` | Client | `components/configurator/` | 组件选择模态框 | `useConfigStore` |
+| `ComponentDetailModal` | Client | `components/configurator/` | 组件详情展示 | Props + `useConfigStore` |
+| `RecommendedConfigs` | Client | `components/configurator/` | 推荐配置卡片 | 静态数据 |
+| `ComparePanel` | Client | `components/configurator/` | 配置比较面板 | Local state |
+| `SummaryPanel` | Client | `components/configurator/` | 汇总面板（价格/重量） | `useConfigStore` |
+| `CostBreakdownChart` | Client | `components/configurator/` | 成本分解图表 | `useConfigStore` |
+| `ShareModal` | Client | `components/configurator/` | 分享模态框 | Local state |
 
 ### Layout 模块组件
 
-| 组件 | 类型 | 路径 | 职责 | Props |
-|------|------|------|------|--------|
-| `Navbar` | Client | `components/layout/` | 导航栏（Logo、车型选择、主题切换、语言切换） | — |
+| 组件 | 类型 | 路径 | 职责 | 状态来源 |
+|------|------|------|------|----------|
+| `Navbar` | Client | `components/layout/` | 导航栏（Logo、主题切换、语言切换） | `useConfigStore`, `useAuthStore` |
 
 ### UI 模块组件
 
 | 组件 | 类型 | 路径 | 职责 | Props |
 |------|------|------|------|--------|
-| `Button` | Shared | `components/ui/` | 按钮组件 | `variant`, `size`, `children` |
-| `Card` | Shared | `components/ui/` | 卡片组件 | `children`, `className` |
-| `Modal` | Client | `components/ui/` | 模态框组件 | `isOpen`, `onClose`, `children` |
-| `Toast` | Client | `components/ui/` | 通知组件 | `message`, `type`, `duration` |
+| `Button` | Shared | `components/ui/` | 按钮组件 | `variant`, `size`, `children`, `onClick` |
+| `Card` | Shared | `components/ui/` | 卡片容器 | `children`, `className` |
+| `Modal` | Client | `components/ui/` | 模态框基础组件 | `isOpen`, `onClose`, `children`, `title` |
+| `Toast` | Client | `components/ui/` | Toast 通知容器 | — |
 | `ThemeToggle` | Client | `components/ui/` | 主题切换按钮 | — |
-| `OnboardingGuide` | Client | `components/ui/` | 新手引导组件 | — |
+| `OnboardingGuide` | Client | `components/ui/` | 新手引导组件 | Local state |
 | `SupportModal` | Client | `components/ui/` | 支持/帮助模态框 | `isOpen`, `onClose` |
 | `ErrorBoundary` | Shared | `components/ui/` | 错误边界组件 | `children` |
 
 **说明**：
-- **Client 组件**：使用 `use client` 指令，包含状态管理和交互逻辑
-- **Shared 组件**：纯展示组件，可用于 Server 和 Client 组件中
-- **状态管理**：所有组件通过 Zustand `useConfigStore` 读取/更新全局状态
+- **Client 组件**：使用 `'use client'` 指令，包含状态管理和交互逻辑
+- **Shared 组件**：纯展示组件或工具组件，可用于 Server 和 Client 组件中
+- **状态管理**：业务组件通过 Zustand stores (`useConfigStore`, `useAuthStore`) 读取/更新全局状态
+- **Props 传递**：部分组件接收 props，但大多数直接从 store 读取状态
 
 ---
 
@@ -501,9 +506,11 @@ export function FadeInCard({ children }) {
 
 - [架构概览](./overview.md)
 - [数据流设计](./data-flow.md)
+- [状态管理](./state-management.md)
 - [开发规范](../development/coding-standards.md)
 
 ---
 
-**最后更新**: 2026-05-05
-**版本**: v3.4.1
+**文档路径**: `/openspec/architecture/component-design.md`  
+**最后更新**: 2026-06-01  
+**版本**: v3.5.1
