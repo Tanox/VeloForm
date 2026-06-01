@@ -1,8 +1,8 @@
-import { ConfigComponent } from '@/types';
+import { ConfigComponent, ComponentSpecsMap } from '@/types';
 
 export interface ComponentDetail extends ConfigComponent {
   description?: string;
-  specs?: Record<string, string | number>;
+  specs?: ComponentSpecsMap[ConfigComponent['category']];
   features?: string[];
   rating?: number;
   reviewCount?: number;

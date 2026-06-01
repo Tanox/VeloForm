@@ -18,7 +18,7 @@ type FirestoreConfigData = {
   tags?: string[];
 };
 
-function isFirebaseConfigured(): boolean {
+export function isFirebaseConfigured(): boolean {
   const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
   return !!(projectId && projectId !== 'YOUR_PROJECT_ID');
 }
