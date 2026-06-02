@@ -1,7 +1,14 @@
 export const translations = {
+  app: {
+    name: 'Veloform',
+    tagline: '高级自行车配置器',
+  },
   nav: {
     home: '首页',
     library: '配置库',
+    support: '支持',
+    login: '登录',
+    logout: '登出',
   },
   configurator: {
     buildList: '配置清单',

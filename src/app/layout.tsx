@@ -3,6 +3,14 @@ import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
 import { Toaster } from '@/components/ui/Toast';
+import { SyncProvider } from '@/components/SyncProvider';
+
+// Validate environment variables in development mode
+if (process.env.NODE_ENV === 'development') {
+  import('@/lib/env').catch((error) => {
+    console.warn('Environment validation warning:', error);
+  });
+}
 
 const inter = Inter({
   subsets: ['latin'],
@@ -46,7 +54,9 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
       <body className="min-h-screen bg-background gradient-mesh noise-bg font-sans antialiased">
         <Providers>
-          {children}
+          <SyncProvider>
+            {children}
+          </SyncProvider>
           <Toaster />
         </Providers>
       </body>

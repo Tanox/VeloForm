@@ -137,7 +137,8 @@ export const useConfigStore = create<ConfigStore>()(
 
         try {
           const config: Configuration = {
-            id: state.configId || undefined,
+            id: state.configId || `config_${Date.now()}`,
+            userId: state.userId || 'anonymous',
             bikeType: state.activeType,
             name: state.manualConfigName || `${state.activeType} Build`,
             components: [...state.components],
@@ -147,14 +148,26 @@ export const useConfigStore = create<ConfigStore>()(
             updatedAt: new Date(),
           };
 
+          // Try to save to Firebase with detailed error handling
           try {
-            const { saveConfigurationToFirebase } = await import('./firebase-service');
-            const savedId = await saveConfigurationToFirebase(config, state.userId || undefined);
-            config.id = savedId;
-          } catch (error) {
-            console.warn('Firebase save failed, using local only:', error);
-            if (!config.id) {
-              config.id = `config_${Date.now()}`;
+            const { saveConfigurationToFirebase, isFirebaseConfigured } = await import('./firebase-service');
+            
+            if (!isFirebaseConfigured()) {
+              toast('warning', 'Cloud sync unavailable, saving locally');
+            } else {
+              const savedId = await saveConfigurationToFirebase(config, state.userId || undefined);
+              config.id = savedId;
+              toast('success', 'Configuration saved to cloud');
+            }
+          } catch (firebaseError: any) {
+            // Detailed error classification
+            if (firebaseError.code === 'permission-denied') {
+              toast('error', 'Permission denied. Please log in.');
+            } else if (firebaseError.code === 'unavailable') {
+              toast('warning', 'Cloud service unavailable, saved locally');
+            } else {
+              console.error('Firebase error:', firebaseError);
+              toast('error', 'Failed to sync with cloud, saved locally');
             }
           }
 
@@ -163,10 +176,8 @@ export const useConfigStore = create<ConfigStore>()(
             if (existingIndex >= 0) {
               const updated = [...prevState.myConfigs];
               updated[existingIndex] = config;
-              toast('success', 'Configuration updated successfully!');
               return { myConfigs: updated, configId: config.id || null, isSaving: false };
             }
-            toast('success', 'Configuration saved successfully!');
             return {
               myConfigs: [...prevState.myConfigs, config],
               configId: config.id || null,
@@ -174,7 +185,7 @@ export const useConfigStore = create<ConfigStore>()(
             };
           });
         } catch (error) {
-          console.error('Failed to save configuration:', error);
+          console.error('Critical save error:', error);
           toast('error', 'Failed to save configuration');
           set({ isSaving: false });
         }
@@ -182,10 +193,15 @@ export const useConfigStore = create<ConfigStore>()(
 
       deleteConfiguration: async (configId: string) => {
         try {
-          const { deleteConfigurationFromFirebase } = await import('./firebase-service');
-          await deleteConfigurationFromFirebase(configId);
+          const { deleteConfigurationFromFirebase, isFirebaseConfigured } = await import('./firebase-service');
+          
+          if (isFirebaseConfigured()) {
+            await deleteConfigurationFromFirebase(configId);
+            toast('info', 'Configuration deleted from cloud');
+          }
         } catch (error) {
           console.warn('Failed to delete from Firebase:', error);
+          toast('warning', 'Deleted locally but may still exist in cloud');
         }
 
         set((state) => ({
@@ -193,7 +209,6 @@ export const useConfigStore = create<ConfigStore>()(
           configId: state.configId === configId ? null : state.configId,
           comparingConfigIds: state.comparingConfigIds.filter((id) => id !== configId),
         }));
-        toast('info', 'Configuration deleted');
       },
 
       toggleCompare: (configId: string) => {
@@ -228,3 +243,22 @@ export const useConfigStore = create<ConfigStore>()(
     }
   )
 );
+
+// Performance-optimized selective hooks
+export const useTotalCost = () => 
+  useConfigStore((state) => 
+    state.components.reduce((sum, comp) => sum + comp.price, 0)
+  );
+
+export const useTotalWeight = () => 
+  useConfigStore((state) => {
+    const baseWeight = APP_CONSTANTS.BASE_WEIGHTS[state.activeType];
+    const componentWeight = state.components.reduce((sum, comp) => sum + comp.weight, 0);
+    return (baseWeight + componentWeight) / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR;
+  });
+
+export const useActiveType = () => useConfigStore((state) => state.activeType);
+export const useComponents = () => useConfigStore((state) => state.components);
+export const useMyConfigs = () => useConfigStore((state) => state.myConfigs);
+export const useIsSaving = () => useConfigStore((state) => state.isSaving);
+export const useUserId = () => useConfigStore((state) => state.userId);

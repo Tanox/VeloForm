@@ -1,7 +1,14 @@
 export const translations = {
+  app: {
+    name: 'Veloform',
+    tagline: 'Premium Bike Configurator',
+  },
   nav: {
     home: 'Home',
     library: 'Library',
+    support: 'Support',
+    login: 'Login',
+    logout: 'Logout',
   },
   configurator: {
     buildList: 'Build List',

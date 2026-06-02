@@ -1,8 +1,8 @@
-import { ConfigComponent } from '@/types';
+import { ConfigComponent, GenericSpecs } from '@/types';
 
 export interface ComponentDetail extends ConfigComponent {
   description?: string;
-  specs?: Record<string, string | number>;
+  specs?: GenericSpecs;
   features?: string[];
   rating?: number;
   reviewCount?: number;
@@ -12,7 +12,7 @@ export interface ComponentDetail extends ConfigComponent {
 export const mockComponentDetails: Record<string, ComponentDetail> = {
   'd1': {
     id: 'd1',
-    category: 'Drivetrain',
+    category: 'Drivetrain', bikeType: "Road",
     name: 'Shimano Dura-Ace Di2 R9200',
     price: 4200,
     weight: 2430,
@@ -33,7 +33,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   'd2': {
     id: 'd2',
-    category: 'Drivetrain',
+    category: 'Drivetrain', bikeType: "Road",
     name: 'SRAM Red AXS',
     price: 4000,
     weight: 2380,
@@ -54,7 +54,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   'd3': {
     id: 'd3',
-    category: 'Drivetrain',
+    category: 'Drivetrain', bikeType: "Road",
     name: 'Campagnolo Super Record EPS',
     price: 4500,
     weight: 2450,
@@ -75,7 +75,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   'w1': {
     id: 'w1',
-    category: 'Wheelset',
+    category: 'Wheelset', bikeType: "Road",
     name: 'Roval Rapide CLX II',
     price: 2800,
     weight: 1520,
@@ -96,7 +96,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   'w2': {
     id: 'w2',
-    category: 'Wheelset',
+    category: 'Wheelset', bikeType: "Road",
     name: 'Zipp 454 NSW',
     price: 3200,
     weight: 1480,
@@ -117,7 +117,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   'w3': {
     id: 'w3',
-    category: 'Wheelset',
+    category: 'Wheelset', bikeType: "Road",
     name: 'Enve SES 4.5',
     price: 2900,
     weight: 1550,
@@ -138,7 +138,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   'c1': {
     id: 'c1',
-    category: 'Cockpit',
+    category: 'Cockpit', bikeType: "Road",
     name: 'Roval Rapide Cockpit',
     price: 600,
     weight: 310,
@@ -159,7 +159,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   'c2': {
     id: 'c2',
-    category: 'Cockpit',
+    category: 'Cockpit', bikeType: "Road",
     name: 'Enve SES AR',
     price: 550,
     weight: 320,
@@ -180,7 +180,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   't1': {
     id: 't1',
-    category: 'Tires',
+    category: 'Tires', bikeType: "Road",
     name: 'Turbo Cotton 28mm',
     price: 180,
     weight: 480,
@@ -201,7 +201,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   't2': {
     id: 't2',
-    category: 'Tires',
+    category: 'Tires', bikeType: "Road",
     name: 'GP5000 S TR',
     price: 160,
     weight: 450,
@@ -222,7 +222,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   's1': {
     id: 's1',
-    category: 'Suspension',
+    category: 'Suspension', bikeType: "MTB",
     name: 'Fox 34 Float Factory',
     price: 1050,
     weight: 1738,
@@ -243,7 +243,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   's2': {
     id: 's2',
-    category: 'Suspension',
+    category: 'Suspension', bikeType: "MTB",
     name: 'RockShox SID Ultimate',
     price: 950,
     weight: 1650,
@@ -264,7 +264,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   's3': {
     id: 's3',
-    category: 'Suspension',
+    category: 'Suspension', bikeType: "MTB",
     name: 'Fox 32 Step-Cast Factory',
     price: 1100,
     weight: 1580,
@@ -285,7 +285,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   'f1': {
     id: 'f1',
-    category: 'Frame',
+    category: 'Frame', bikeType: "Fold",
     name: 'Titanium Main Frame',
     price: 2100,
     weight: 1800,
@@ -306,7 +306,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   'f2': {
     id: 'f2',
-    category: 'Frame',
+    category: 'Frame', bikeType: "Fold",
     name: 'Carbon Front Triangle',
     price: 1800,
     weight: 1450,
@@ -327,7 +327,7 @@ export const mockComponentDetails: Record<string, ComponentDetail> = {
   },
   'f3': {
     id: 'f3',
-    category: 'Frame',
+    category: 'Frame', bikeType: "Fold",
     name: 'Steel Classic Frame',
     price: 1200,
     weight: 2100,
