@@ -6,6 +6,15 @@ const nextConfig = {
   webpack: (config, { isServer }) => {
     if (isServer) {
       config.externals = [...(config.externals || []), 'firebase', 'firebase-admin'];
+    } else {
+      // 防止 undici 和其他 Node.js 库被打包到客户端
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        undici: false,
+        fs: false,
+        net: false,
+        tls: false,
+      };
     }
     return config;
   },
