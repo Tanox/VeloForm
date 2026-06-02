@@ -28,6 +28,8 @@ Veloform is an advanced bicycle configurator built with Next.js, Tailwind CSS, a
 
 ## Tech Stack
 
+For complete tech stack documentation, see [Architecture Overview](./openspec/architecture/overview.md).
+
 | Technology | Version | Purpose |
 |------------|---------|---------|
 | Next.js | v14.1.0 | App Router architecture, React Server Components |
@@ -37,8 +39,6 @@ Veloform is an advanced bicycle configurator built with Next.js, Tailwind CSS, a
 | Firebase | v10.0.0 | Firestore database and Auth authentication |
 | Framer Motion | v10.16.4 | Animation effects |
 | Lucide React | v0.294.0 | Icon library |
-
-For complete tech stack documentation, see [Architecture Overview](./openspec/architecture/overview.md).
 
 ---
 
@@ -75,7 +75,9 @@ src/
 │       ├── ThemeToggle.tsx       # Theme toggle
 │       └── Toast.tsx             # Toast notification
 ├── lib/                          # Utility library
+│   ├── auth.ts                   # Firebase auth service
 │   ├── constants.ts              # App constants
+│   ├── env.ts                    # Environment variable validation
 │   ├── firebase-service.ts       # Firebase services
 │   ├── firebase.ts               # Firebase configuration
 │   ├── store.ts                  # Zustand state management
@@ -91,7 +93,7 @@ src/
 │       ├── en.ts
 │       └── zh-CN.ts
 └── types/                        # TypeScript type definitions
-    └── index.ts
+    └── index.ts                  # Enhanced type definitions (including component specs)
 ```
 
 For detailed development guidelines, see [openspec/PROJECT_GUIDELINES.md](openspec/PROJECT_GUIDELINES.md).
