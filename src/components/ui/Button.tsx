@@ -2,10 +2,14 @@
 
 import { ButtonHTMLAttributes, ReactNode, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { motion, MotionProps } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+type ConflictingProps = 'onAnimationStart' | 'onDragStart' | 'onDragEnd' | 'onDrag';
+
+type SafeButtonHTMLAttributes = Omit<ButtonHTMLAttributes<HTMLButtonElement>, ConflictingProps>;
+
+interface ButtonProps extends SafeButtonHTMLAttributes {
   variant?: 'primary' | 'secondary' | 'accent' | 'outline' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg' | 'icon';
   children: ReactNode;
@@ -49,7 +53,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || isLoading}
         aria-disabled={disabled || isLoading}
         aria-busy={isLoading}
-        {...props}
+        {...(props as MotionProps & SafeButtonHTMLAttributes)}
       >
         {isLoading && (
           <motion.span
