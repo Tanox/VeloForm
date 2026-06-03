@@ -1,7 +1,14 @@
 export const translations = {
+  app: {
+    name: 'Veloform',
+    tagline: 'Premium Bike Configurator',
+  },
   nav: {
     home: 'Home',
     library: 'Library',
+    support: 'Support',
+    login: 'Login',
+    logout: 'Logout',
   },
   configurator: {
     buildList: 'Build List',
@@ -35,6 +42,7 @@ export const translations = {
     cost: 'Cost',
     weight: 'Weight',
     backToConfigurator: 'Back to Configurator',
+    bikeType: 'Bike Type',
   },
   recommended: {
     title: 'Recommended Builds',
@@ -103,5 +111,14 @@ export const translations = {
     delete: 'Delete',
     edit: 'Edit',
     close: 'Close',
+    components: 'components',
+  },
+  componentDetail: {
+    technicalSpecs: 'Technical Specifications',
+    keyFeatures: 'Key Features',
+    selectComponent: 'Select this component',
+    price: 'Price',
+    weight: 'Weight',
+    reviews: 'reviews',
   },
 } as const;

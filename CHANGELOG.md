@@ -5,6 +5,50 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.0]
+### Added
+- Created modular prototype architecture in `prototype/` directory
+- Created CSS module files: `variables.css`, `animations.css`, `components.css`, `main.css`
+- Created JavaScript module files: `data.js`, `utils.js`, `state.js`, `components.js`, `main.js`
+- Created `assets/` directory for static resources
+
+### Changed
+- Refactored monolithic `prototype.html` (1583 lines) into modular structure:
+  - `prototype/index.html` - HTML structure only (586 lines)
+  - 4 CSS module files (separation of concerns)
+  - 5 JavaScript module files (modular architecture)
+- Improved maintainability through separation of concerns
+- Enhanced code organization with clear module boundaries:
+  - Data layer: component catalog and configuration data
+  - State layer: configuration state management and business logic
+  - Component layer: modal interactions and UI logic
+  - Initialization layer: event binding and application startup
+
+## [3.4.1]
+### Added
+- Added component detail modal with i18n support
+- Added new translation keys for component details and reviews
+- Created modular data structure in `src/lib/data/` directory
+
+### Changed
+- Refactored `mock-data.ts` into modular structure:
+  - `src/lib/data/component-details.ts` - Detailed component information
+  - `src/lib/data/component-alternatives.ts` - Component alternatives
+  - `src/lib/data/index.ts` - Exports
+- Updated `ComponentDetailModal.tsx` to use i18n translations
+- Updated `BuildList.tsx` to use i18n translations
+- Fixed TypeScript type issues in `firebase-service.ts` (replaced `any` with proper types)
+- Updated `README.md` and `README_EN.md` directory structure documentation
+- Updated `openspec/SPEC.md` to reflect current project structure
+- Updated `openspec/PROJECT_GUIDELINES.md` (removed Angular references)
+- Updated `openspec/architecture/data-flow.md` (removed Angular references)
+- Updated UI component inventory in `openspec/SPEC.md`
+
+### Fixed
+- Removed hardcoded English text from `ComponentDetailModal.tsx`
+- Added missing i18n translation keys for component detail page
+- Fixed `any` type usage in `firebase-service.ts` for better type safety
+
 ## [3.4.0]
 ### Changed
 - Unified version numbers across all code files to v3.4.0.

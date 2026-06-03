@@ -1,7 +1,14 @@
 export const translations = {
+  app: {
+    name: 'Veloform',
+    tagline: '高级自行车配置器',
+  },
   nav: {
     home: '首页',
     library: '配置库',
+    support: '支持',
+    login: '登录',
+    logout: '登出',
   },
   configurator: {
     buildList: '配置清单',
@@ -35,6 +42,7 @@ export const translations = {
     cost: '价格',
     weight: '重量',
     backToConfigurator: '返回配置器',
+    bikeType: '车型',
   },
   recommended: {
     title: '推荐配置',
@@ -103,5 +111,14 @@ export const translations = {
     delete: '删除',
     edit: '编辑',
     close: '关闭',
+    components: '个组件',
+  },
+  componentDetail: {
+    technicalSpecs: '技术规格',
+    keyFeatures: '关键特性',
+    selectComponent: '选择此组件',
+    price: '价格',
+    weight: '重量',
+    reviews: '条评价',
   },
 } as const;

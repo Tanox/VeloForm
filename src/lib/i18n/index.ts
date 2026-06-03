@@ -1,3 +1,4 @@
+// src/lib/i18n/index.ts v0.1.1
 'use client';
 
 import { create } from 'zustand';
@@ -7,7 +8,10 @@ import { translations as zhCNTranslations } from './zh-CN';
 
 type Language = 'en' | 'zh-CN';
 
-type TranslationValue = string | Record<string, TranslationValue>;
+interface TranslationObject { [key: string]: TranslationValue; }
+
+type TranslationValue = string | TranslationObject;
+
 type Translations = Record<string, TranslationValue>;
 
 const translations: Record<Language, Translations> = {
@@ -51,11 +55,10 @@ export const useI18nStore = create<I18nStore>((set, get) => ({
 }));
 
 export function useTranslation() {
-  const language = useI18nStore((state) => state.language);
   const t = useI18nStore((state) => state.t);
   return useCallback((key: string, params?: Record<string, string | number>) => {
     return t(key, params);
-  }, [language, t]);
+  }, [t]);
 }
 
 export function useLanguage() {

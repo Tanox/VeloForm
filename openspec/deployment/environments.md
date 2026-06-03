@@ -1,7 +1,7 @@
 # 部署与环境配置规范
 
 > **路径**: `/openspec/deployment/environments.md`  
-> **版本**: v3.4.0  
+> **版本**: v3.4.1  
 > **更新日期**: 2026-05-05
 
 ## 概述
@@ -505,4 +505,4 @@ export const config: ApplicationConfig = {
 
 **文档路径**: `/openspec/deployment/environments.md`  
 **最后更新**: 2026-05-05  
-**版本**: v3.4.0
+**版本**: v3.4.1

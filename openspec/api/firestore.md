@@ -1,4 +1,4 @@
-# Firestore API 接口规范 (v3.4.0)
+# Firestore API 接口规范 (v3.4.1)
 
 ## 概述
 
@@ -586,4 +586,4 @@ NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id
 ---
 
 **最后更新**: 2026-05-26
-**版本**: v3.4.0
+**版本**: v3.4.1
