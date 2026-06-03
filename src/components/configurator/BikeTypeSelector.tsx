@@ -18,73 +18,53 @@ export function BikeTypeSelector() {
     return translated === key ? type : translated;
   };
 
-  const getTypeDescription = (type: BikeType) => {
-    const descriptions = {
-      Road: 'Speed & Distance',
-      MTB: 'Trail & Adventure',
-      Fold: 'Urban & Portable',
-    };
-    return descriptions[type];
+  const getTypeIcon = (type: BikeType) => {
+    if (type === 'Road') {
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="5.5" cy="17.5" r="3.5"/>
+          <circle cx="18.5" cy="17.5" r="3.5"/>
+          <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/>
+        </svg>
+      );
+    } else if (type === 'MTB') {
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="5.5" cy="17.5" r="3.5"/>
+          <circle cx="18.5" cy="17.5" r="3.5"/>
+          <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/>
+          <path d="m14.5 10-2.5 2.5"/>
+        </svg>
+      );
+    } else {
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="5.5" cy="17.5" r="2.5"/>
+          <circle cx="18.5" cy="17.5" r="2.5"/>
+          <path d="M12 15V7a4 4 0 0 0-4-4H6a6 6 0 0 1 12 0h-2a4 4 0 0 0-4 4v8"/>
+        </svg>
+      );
+    }
   };
 
   return (
-    <div 
-      className="flex gap-1.5 p-1.5 bg-zinc-900/50 backdrop-blur-sm rounded-full border border-zinc-800/50"
-      role="tablist"
-      aria-label="选择自行车类型"
-    >
-      {types.map((type, index) => {
+    <div className="flex gap-1 p-1 bg-secondary rounded-xl flex-1">
+      {types.map((type) => {
         const isActive = activeType === type;
         return (
-          <motion.button
+          <button
             key={type}
-            role="tab"
-            aria-selected={isActive}
-            aria-label={`${getTypeLabel(type)} - ${getTypeDescription(type)}`}
             onClick={() => setActiveType(type)}
             className={cn(
-              'relative px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 min-h-[44px]',
-              'focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background',
-              'flex items-center justify-center gap-2',
+              'flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all',
               isActive
-                ? 'text-white'
-                : 'text-muted hover:text-foreground hover:bg-zinc-800/50'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted hover:text-foreground hover:bg-background/50'
             )}
-            whileHover={{ scale: isActive ? 1.02 : 1.05 }}
-            whileTap={{ scale: 0.96 }}
-            transition={{ 
-              duration: 0.2,
-              type: 'spring',
-              stiffness: 400,
-              damping: 25,
-            }}
           >
-            {isActive && (
-              <motion.div
-                layoutId="activeType"
-                className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-accent rounded-full shadow-lg shadow-primary/25"
-                transition={{ 
-                  type: 'spring', 
-                  bounce: 0.2, 
-                  duration: 0.5,
-                  stiffness: 300,
-                  damping: 30,
-                }}
-              />
-            )}
-            <span className="relative z-10 flex items-center gap-2">
-              <span>{getTypeLabel(type)}</span>
-              {isActive && (
-                <motion.span
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="text-xs opacity-80"
-                >
-                  {getTypeDescription(type)}
-                </motion.span>
-              )}
-            </span>
-          </motion.button>
+            {getTypeIcon(type)}
+            {getTypeLabel(type)}
+          </button>
         );
       })}
     </div>
