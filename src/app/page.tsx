@@ -1,6 +1,7 @@
 'use client';
 
 import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
 import { BuildList } from '@/components/configurator/BuildList';
 import { SummaryPanel } from '@/components/configurator/SummaryPanel';
 import { ComponentSelector } from '@/components/configurator/ComponentSelector';
@@ -73,6 +74,7 @@ export default function Home() {
       <ComponentSelector />
       <OnboardingGuide />
       <ComparePanel />
+      <Footer />
     </div>
   );
 }

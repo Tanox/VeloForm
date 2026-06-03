@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.0]
+### Added
+- Added Footer component with version number display
+- Added complete light/dark mode theming support
+- Added CSS variables for theming system
+- Added dark mode gradient mesh background
+
+### Changed
+- Updated Tailwind config with darkMode: 'class' for next-themes compatibility
+- Refactored color system to use CSS variables for theme switching
+- Updated gradient-mesh and noise-bg utilities for light mode compatibility
+- Updated Navbar styling for better dark mode support
+- Updated providers.tsx to use next-themes ThemeProvider
+- Updated openspec documentation to reflect latest changes
+
+### Fixed
+- Fixed light/dark mode toggle not working properly
+- Fixed color inconsistencies between light and dark modes
+
 ## [3.4.1]
 ### Added
 - Added component detail modal with i18n support
