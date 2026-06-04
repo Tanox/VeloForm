@@ -1,8 +1,8 @@
 # Veloform 规范概览
 
 > **路径**: `/openspec/SPEC.md`  
-> **版本**: v3.4.1  
-> **更新日期**: 2026-05-05
+> **版本**: v3.5.0  
+> **更新日期**: 2026-06-04
 
 ## 概述
 
@@ -72,16 +72,18 @@ src/
 │   │   ├── ShareModal.tsx
 │   │   └── SummaryPanel.tsx
 │   ├── layout/                  # 布局组件
-│   │   └── Navbar.tsx
-│   └── ui/                      # 通用 UI 组件
-│       ├── Button.tsx
-│       ├── Card.tsx
-│       ├── ErrorBoundary.tsx
-│       ├── Modal.tsx
-│       ├── OnboardingGuide.tsx
-│       ├── SupportModal.tsx
-│       ├── ThemeToggle.tsx
-│       └── Toast.tsx
+│   │   ├── Navbar.tsx
+│   │   └── Footer.tsx
+│   ├── ui/                      # 通用 UI 组件
+│   │   ├── Button.tsx
+│   │   ├── Card.tsx
+│   │   ├── ErrorBoundary.tsx
+│   │   ├── Modal.tsx
+│   │   ├── OnboardingGuide.tsx
+│   │   ├── SupportModal.tsx
+│   │   ├── ThemeToggle.tsx
+│   │   └── Toast.tsx
+│   └── SyncProvider.tsx          # Firebase 同步提供者
 │
 ├── lib/                         # 核心功能
 │   ├── i18n/                   # 国际化
@@ -169,6 +171,7 @@ src/
 | 组件 | 说明 | 状态 |
 |------|------|------|
 | `Navbar` | 顶部导航栏，含语言切换 | ✅ |
+| `Footer` | 页脚，含版本信息和链接 | ✅ |
 | `BikeTypeSelector` | 自行车类型选择器 | ✅ |
 | `BuildList` | 配置清单 | ✅ |
 | `ComponentSelector` | 组件选择模态框 | ✅ |
@@ -183,6 +186,10 @@ src/
 | `ErrorBoundary` | 错误边界 | ✅ |
 | `ThemeToggle` | 主题切换按钮 | ✅ |
 | `Toast` | Toast 通知组件 | ✅ |
+| `Button` | 通用按钮组件 | ✅ |
+| `Card` | 通用卡片组件 | ✅ |
+| `Modal` | 通用模态框组件 | ✅ |
+| `SyncProvider` | Firebase 同步提供者 | ✅ |
 
 ---
 
@@ -213,6 +220,7 @@ src/
 
 | 规范版本 | 项目版本 | 更新日期 | 说明 |
 |---------|---------|---------|------|
+| v3.5.0 | 3.5.0 | 2026-06-04 | 统一版本号、清理冗余文件、整理目录结构 |
 | v3.4.1 | 3.4.0 | 2026-05-26 | 更新规范文档为 Next.js 项目、添加 i18n 系统、错误边界处理、完整项目重构 |
 | v3.4.1 | 3.4.0 | 2026-05-05 | 文档体系标准化：统一所有文档版本号至 v3.4.1、完善 OpenSpec 规范格式、规范化文档结构 |
 | v3.3.2 | 3.3.2 | 2026-05-20 | WebGL 检测与降级方案、部署配置修复、版本号统一 |
@@ -223,5 +231,5 @@ src/
 
 ---
 
-**最后更新**: 2026-05-26  
-**版本**: v3.4.1
+**最后更新**: 2026-06-04  
+**版本**: v3.5.0
