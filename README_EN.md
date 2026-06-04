@@ -1,6 +1,6 @@
 # Veloform Bike Configurator
 
-[中文版本 (Chinese Version)](./README.md) | [Project Specs](./openspec/README.md) | [Prototype](./prototype.html)
+[中文版本 (Chinese Version)](./README.md) | [Project Specs](./openspec/README.md) | [Prototype Guide](./openspec/prototype-guide.md)
 
 ---
 
@@ -168,7 +168,8 @@ For development conventions, branch and commit rules, testing requirements, and 
 - **[openspec/README.md](./openspec/README.md)** - Specifications index (start here)
 - **[openspec/PROJECT_GUIDELINES.md](./openspec/PROJECT_GUIDELINES.md)** - Project development guidelines
 - **[openspec/design/ui-design-system.md](./openspec/design/ui-design-system.md)** - UI Design System
-- **[prototype-guide.md](./prototype-guide.md)** - Prototype documentation
+- **[openspec/prototype-guide.md](./openspec/prototype-guide.md)** - Prototype documentation
+- **[openspec/design/design-review.md](./openspec/design/design-review.md)** - Design Review &amp; Optimization Suggestions
 
 ---
 

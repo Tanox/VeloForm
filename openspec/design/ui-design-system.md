@@ -958,7 +958,8 @@ export function Footer() {
 
 ## 相关文档
 
-- [原型图说明](../../prototype-guide.md)
+- [原型图说明](../prototype-guide.md)
+- [设计审查与优化建议](./design-review.md)
 - [组件设计规范](../architecture/component-design.md)
 - [编码规范](../development/coding-standards.md)
 

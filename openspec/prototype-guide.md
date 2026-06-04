@@ -1,7 +1,7 @@
 # Veloform 自行车配置器 - 原型与设计系统
 
-> **路径**: `/prototype-guide.md`  
-> **版本**: v2.1.0  
+> **路径**: `/openspec/prototype-guide.md`  
+> **版本**: v2.2.0  
 > **更新日期**: 2026-06-04
 
 ## 概述
@@ -473,19 +473,11 @@ graph LR
 
 ---
 
-## 相关文档
-
-- [openspec/SPEC.md](./openspec/SPEC.md) - 项目规范概览
-- [openspec/architecture/component-design.md](./openspec/architecture/component-design.md) - 组件设计规范
-- [openspec/architecture/data-flow.md](./openspec/architecture/data-flow.md) - 数据流设计
-- [openspec/development/coding-standards.md](./openspec/development/coding-standards.md) - 编码规范
-
----
-
 ## 版本历史
 
 | 版本 | 日期 | 变更内容 |
 |------|------|---------|
+| v2.2.0 | 2026-06-04 | 文档移至 openspec 目录，更新所有引用路径 |
 | v2.1.0 | 2026-06-04 | 更新文档反映原型文件已删除的情况，新增页脚组件、视觉效果说明，完善版本历史 |
 | v2.0.0 | 2026-06-01 | 建立原型与实际项目映射关系，更新设计系统文档 |
 
@@ -493,16 +485,16 @@ graph LR
 
 ## 相关文档
 
-- [openspec/README.md](./openspec/README.md) - 规范文档索引
-- [openspec/SPEC.md](./openspec/SPEC.md) - 项目规范概览
-- [openspec/design/ui-design-system.md](./openspec/design/ui-design-system.md) - UI 设计系统规范
-- [design-review.md](./design-review.md) - 设计审查与优化建议
-- [openspec/architecture/component-design.md](./openspec/architecture/component-design.md) - 组件设计规范
-- [openspec/architecture/data-flow.md](./openspec/architecture/data-flow.md) - 数据流设计
-- [openspec/development/coding-standards.md](./openspec/development/coding-standards.md) - 编码规范
+- [openspec/README.md](./README.md) - 规范文档索引
+- [openspec/SPEC.md](./SPEC.md) - 项目规范概览
+- [openspec/design/ui-design-system.md](./design/ui-design-system.md) - UI 设计系统规范
+- [openspec/design/design-review.md](./design/design-review.md) - 设计审查与优化建议
+- [openspec/architecture/component-design.md](./architecture/component-design.md) - 组件设计规范
+- [openspec/architecture/data-flow.md](./architecture/data-flow.md) - 数据流设计
+- [openspec/development/coding-standards.md](./development/coding-standards.md) - 编码规范
 
 ---
 
-**文档路径**: `/prototype-guide.md`  
+**文档路径**: `/openspec/prototype-guide.md`  
 **最后更新**: 2026-06-04  
-**版本**: v2.1.0
+**版本**: v2.2.0
