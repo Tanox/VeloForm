@@ -2,9 +2,13 @@
 
 import { ReactNode, HTMLAttributes, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { motion, MotionProps } from 'framer-motion';
 
-interface CardProps extends HTMLAttributes<HTMLDivElement> {
+type ConflictingProps = 'onAnimationStart' | 'onDragStart' | 'onDragEnd' | 'onDrag';
+
+type SafeHTMLAttributes = Omit<HTMLAttributes<HTMLDivElement>, ConflictingProps>;
+
+interface CardProps extends SafeHTMLAttributes {
   children: ReactNode;
   variant?: 'default' | 'stat' | 'component' | 'glass';
   hover?: boolean;
@@ -40,7 +44,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
           hover && 'hover:shadow-xl hover:shadow-primary/5',
           className
         )}
-        {...props}
+        {...(props as MotionProps & SafeHTMLAttributes)}
       >
         {children}
       </motion.div>

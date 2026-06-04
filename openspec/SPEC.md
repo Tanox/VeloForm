@@ -171,10 +171,7 @@ src/
 | 组件 | 说明 | 状态 |
 |------|------|------|
 | `Navbar` | 顶部导航栏，含语言切换 | ✅ |
-<<<<<<< HEAD
 | `Footer` | 页脚，含版本信息和链接 | ✅ |
-=======
->>>>>>> origin/main
 | `BikeTypeSelector` | 自行车类型选择器 | ✅ |
 | `BuildList` | 配置清单 | ✅ |
 | `ComponentSelector` | 组件选择模态框 | ✅ |

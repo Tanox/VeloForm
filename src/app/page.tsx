@@ -29,6 +29,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
+                className="animate-slide-up"
               >
                 <BuildList />
               </motion.div>
@@ -38,26 +39,27 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1, duration: 0.5 }}
                 style={{ animationDelay: '0.1s' }}
+                className="animate-slide-up"
               >
                 <RecommendedConfigs />
               </motion.div>
             </div>
 
             <div className="lg:col-span-1">
+              <SummaryPanel />
+              
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.15, duration: 0.5 }}
-                className="sticky top-24 space-y-6"
+                className="space-y-6 mt-6"
               >
-                <SummaryPanel />
-                
                 <div className="card p-6 bg-gradient-to-br from-primary/10 to-accent/5 border-primary/20">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
-                        <path d="M12 9v2m0 4h.01"/>
-                        <path d="M5 21h14a2 2 0 0 0 1.84-2.75l-3.54-6.91a2 2 0 0 0-.31-1.76l-3.54-3.54a2 2 0 0 0-1.76-.31L6.75 3.16A2 2 0 0 0 4 5v14a2 2 0 0 0 2 2z"/>
+                        <path d="M12 9v2m0 4h.01" />
+                        <path d="M5 21h14a2 2 0 0 0 1.84-2.75l-3.54-6.91a2 2 0 0 0-.31-1.76l-3.54-3.54a2 2 0 0 0-1.76-.31L6.75 3.16A2 2 0 0 0 4 5v14a2 2 0 0 0 2 2z" />
                       </svg>
                     </div>
                     <div>
