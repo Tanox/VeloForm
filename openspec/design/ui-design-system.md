@@ -602,6 +602,12 @@ Veloform 定义了若干通用组件类，可直接在 CSS 中使用：
 // Secondary - 次要操作
 <Button variant="secondary">取消</Button>
 
+// Accent - 强调操作
+<Button variant="accent">强调</Button>
+
+// Outline - 轮廓按钮
+<Button variant="outline">轮廓</Button>
+
 // Ghost - 轻量操作
 <Button variant="ghost">查看更多</Button>
 
@@ -612,23 +618,32 @@ Veloform 定义了若干通用组件类，可直接在 CSS 中使用：
 #### 尺寸
 
 ```tsx
-<Button size="sm">小按钮</Button>   // px-3 py-1.5 text-sm
-<Button size="md">默认按钮</Button> // px-4 py-2 text-base
-<Button size="lg">大按钮</Button>   // px-6 py-3 text-lg
+<Button size="sm">小按钮</Button>   // px-4 py-2 text-sm min-h-[36px]
+<Button size="md">默认按钮</Button> // px-6 py-2.5 text-base min-h-[44px]
+<Button size="lg">大按钮</Button>   // px-8 py-3.5 text-lg min-h-[52px]
+<Button size="icon">图标按钮</Button> // p-2.5 min-w-[44px] min-h-[44px]
 ```
 
 #### 状态
 
 ```tsx
 <Button disabled>禁用</Button>
-<Button loading>加载中...</Button>
-<Button icon={<SaveIcon />}>带图标</Button>
+<Button isLoading>加载中...</Button>
+<Button leftIcon={<SaveIcon />}>带左侧图标</Button>
+<Button rightIcon={<ArrowRight />}>带右侧图标</Button>
 ```
+
+**样式特征**：
+- 圆角：`rounded-full`（胶囊形状）
+- 字体：`font-semibold`
+- 动画：悬停缩放 `scale: 1.02`，点击缩放 `scale: 0.96`
+- 过渡：`duration-300`
+- 焦点：`focus:ring-2 focus:ring-primary/50 focus:ring-offset-2`
 
 ### 卡片 (Card)
 
 ```tsx
-<Card>
+<Card variant="default" hover={true} padding="md">
   <CardHeader>
     <CardTitle>标题</CardTitle>
     <CardDescription>描述文字</CardDescription>
@@ -642,12 +657,36 @@ Veloform 定义了若干通用组件类，可直接在 CSS 中使用：
 </Card>
 ```
 
+#### 变体
+
+```tsx
+// Default - 默认卡片
+<Card variant="default">默认卡片</Card>
+
+// Stat - 统计卡片
+<Card variant="stat">统计卡片</Card>
+
+// Component - 组件卡片
+<Card variant="component">组件卡片</Card>
+
+// Glass - 玻璃态卡片
+<Card variant="glass">玻璃态卡片</Card>
+```
+
+#### 内边距
+
+```tsx
+<Card padding="none">无内边距</Card>
+<Card padding="sm">小内边距</Card>  // p-4
+<Card padding="md">中内边距</Card>  // p-5
+<Card padding="lg">大内边距</Card>  // p-6
+```
+
 **样式特征**：
-- 背景：`bg-surface`
-- 边框：`border border-border`
-- 圆角：`rounded-xl`
-- 内边距：`p-4` 或 `p-6`
-- 悬停：`hover:shadow-lg hover:-translate-y-0.5`
+- 圆角：`rounded-2xl`
+- 动画：悬停 `scale: 1.02, y: -2`
+- 过渡：`duration-300`
+- 阴影：悬停时 `hover:shadow-xl hover:shadow-primary/5`
 
 ### 模态框 (Modal)
 
@@ -935,24 +974,68 @@ export function ThemeToggle() {
 
 ### 页脚组件 (Footer)
 
-新增的页脚组件包含版本号显示，适配深色/浅色主题：
+页脚组件包含品牌信息、导航链接、社交链接和版本号显示，适配深色/浅色主题：
 
 ```tsx
 export function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="border-t border-border py-6 mt-auto">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="text-muted text-sm">
-          © 2026 Veloform. All rights reserved.
+    <footer className="bg-surface border-t border-border py-6 sm:py-8 mt-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          {/* 品牌标识 */}
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-primary via-primary to-accent rounded-xl sm:rounded-2xl flex items-center justify-center">
+              <span className="text-sm sm:text-lg font-bold text-white">V</span>
+            </div>
+            <div>
+              <p className="font-display font-semibold text-foreground text-sm sm:text-base">
+                {APP_CONSTANTS.APP_INFO.name}
+              </p>
+              <p className="text-xs text-muted hidden sm:block">
+                {APP_CONSTANTS.APP_INFO.tagline}
+              </p>
+            </div>
+          </div>
+
+          {/* 导航链接 */}
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="https://github.com/sutchan/Veloform" target="_blank" rel="noopener noreferrer">
+              <Github className="w-5 h-5" />
+            </Link>
+            <span className="text-sm text-muted">|</span>
+            <Link href="#">About</Link>
+            <Link href="#">Support</Link>
+            <Link href="#">Privacy</Link>
+          </div>
+
+          {/* 版权信息 */}
+          <p className="text-xs sm:text-sm text-muted flex items-center gap-1">
+            © {currentYear} {APP_CONSTANTS.APP_INFO.name}. Built with{' '}
+            <Heart className="w-3 h-3 text-primary inline" />.
+            <span className="hidden sm:inline ml-2">v{APP_CONSTANTS.APP_INFO.version}</span>
+          </p>
         </div>
-        <div className="text-muted text-sm">
-          Version {process.env.NEXT_PUBLIC_VERSION || '3.5.0'}
+
+        {/* 版本号 */}
+        <div className="mt-4 pt-4 border-t border-border/50 text-center">
+          <p className="text-xs text-muted">
+            Version {APP_CONSTANTS.APP_INFO.version}
+          </p>
         </div>
       </div>
     </footer>
   );
 }
 ```
+
+**样式特征**：
+- 背景：`bg-surface`
+- 边框：`border-t border-border`
+- 间距：`py-6 sm:py-8`
+- 动画：链接悬停 `hover:text-foreground transition-colors`
+- 响应式：移动端单列，桌面端三列布局
 
 ---
 
@@ -969,6 +1052,7 @@ export function Footer() {
 
 | 版本 | 日期 | 变更内容 |
 |------|------|---------|
+| v1.3.0 | 2026-06-04 | 更新 Button、Card、Footer 组件文档与实际代码完全对齐，完善样式特征描述 |
 | v1.2.0 | 2026-06-04 | 更新主题系统实现细节，新增通用组件类、背景效果、文字效果规范，补充页脚组件文档 |
 | v1.0.0 | 2026-06-01 | 初始版本，建立完整 UI 设计系统规范 |
 
@@ -976,4 +1060,4 @@ export function Footer() {
 
 **文档路径**: `/openspec/design/ui-design-system.md`  
 **最后更新**: 2026-06-04  
-**版本**: v1.2.0
+**版本**: v1.3.0
