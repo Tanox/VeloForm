@@ -72,7 +72,8 @@ src/
 │   │   ├── ShareModal.tsx
 │   │   └── SummaryPanel.tsx
 │   ├── layout/                  # 布局组件
-│   │   └── Navbar.tsx
+│   │   ├── Navbar.tsx
+│   │   └── Footer.tsx
 │   └── ui/                      # 通用 UI 组件
 │       ├── Button.tsx
 │       ├── Card.tsx
