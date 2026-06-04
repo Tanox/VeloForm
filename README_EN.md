@@ -1,6 +1,6 @@
 # Veloform Bike Configurator
 
-[中文版本 (Chinese Version)](./README.md) | [Project Specs](./openspec/README.md) | [Prototype](./prototype.html)
+[中文版本 (Chinese Version)](./README.md) | [Project Specs](./openspec/README.md) | [Prototype](./prototype/index.html)
 
 ---
 

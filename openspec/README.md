@@ -64,7 +64,7 @@
 
 | 文档 | 说明 | 适用场景 |
 |------|------|----------|
-| [原型图说明](../prototype-guide.md) | 高拟真原型图功能说明、与实际项目映射关系 | 理解 UI 设计和交互流程 |
+| [原型图说明](../prototype/UI_UX_REVIEW.md) | 高拟真原型图功能说明、与实际项目映射关系 | 理解 UI 设计和交互流程 |
 
 ---
 
@@ -178,9 +178,8 @@
 
 - [项目 README](../README.md) - 项目概述和快速开始
 - [英文 README](../README_EN.md) - 英文版项目说明
-- [改进记录](../IMPROVEMENTS_SUMMARY.md) - 近期改进总结
 - [变更日志](../CHANGELOG.md) - 版本历史
-- [原型图](./prototype.html) - 高拟真静态设计稿
+- [原型图](../prototype/index.html) - 高拟真静态设计稿
 
 ---
 

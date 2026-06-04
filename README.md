@@ -1,6 +1,6 @@
 # Veloform 自行车装车配置器
 
-[English Version](./README_EN.md) | [项目规范](./openspec/README.md) | [原型图](./prototype.html)
+[English Version](./README_EN.md) | [项目规范](./openspec/README.md) | [原型图](./prototype/index.html)
 
 ---
 
