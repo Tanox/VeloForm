@@ -1,6 +1,7 @@
 'use client';
 
 import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
 import { BuildList } from '@/components/configurator/BuildList';
 import { SummaryPanel } from '@/components/configurator/SummaryPanel';
 import { ComponentSelector } from '@/components/configurator/ComponentSelector';
@@ -8,7 +9,6 @@ import { RecommendedConfigs } from '@/components/configurator/RecommendedConfigs
 import { BikeTypeSelector } from '@/components/configurator/BikeTypeSelector';
 import { ComparePanel } from '@/components/configurator/ComparePanel';
 import { OnboardingGuide } from '@/components/ui/OnboardingGuide';
-import { Footer } from '@/components/layout/Footer';
 import { motion } from 'framer-motion';
 import { useTranslation } from '@/lib/i18n';
 

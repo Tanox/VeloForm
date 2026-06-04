@@ -1,24 +1,24 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: "class",
   theme: {
     extend: {
       colors: {
         background: {
-          DEFAULT: "#09090b",
-          dark: "#09090b",
-          light: "#fafafa",
+          DEFAULT: 'var(--background)',
+          dark: '#09090b',
+          light: '#fafafa',
         },
         foreground: {
-          DEFAULT: "#fafafa",
-          dark: "#fafafa",
-          light: "#09090b",
+          DEFAULT: 'var(--foreground)',
+          dark: '#fafafa',
+          light: '#09090b',
         },
         primary: {
           50: "#f0fdfa",
@@ -41,19 +41,19 @@ const config: Config = {
           light: "#f4f4f5",
         },
         surface: {
-          DEFAULT: "#18181b",
-          dark: "#18181b",
-          light: "#ffffff",
+          DEFAULT: 'var(--surface)',
+          dark: '#18181b',
+          light: '#ffffff',
         },
         border: {
-          DEFAULT: "#27272a",
-          dark: "#27272a",
-          light: "#e4e4e7",
+          DEFAULT: 'var(--border)',
+          dark: '#27272a',
+          light: '#e4e4e7',
         },
         muted: {
-          DEFAULT: "#71717a",
-          dark: "#71717a",
-          light: "#a1a1aa",
+          DEFAULT: 'var(--muted)',
+          dark: '#71717a',
+          light: '#a1a1aa',
         },
         accent: {
           DEFAULT: "#f59e0b",

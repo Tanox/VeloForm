@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Created CSS module files: `variables.css`, `animations.css`, `components.css`, `main.css`
 - Created JavaScript module files: `data.js`, `utils.js`, `state.js`, `components.js`, `main.js`
 - Created `assets/` directory for static resources
+- Added Footer component with version number display
+- Added complete light/dark mode theming support
+- Added CSS variables for theming system
+- Added dark mode gradient mesh background
 
 ### Changed
 - Refactored monolithic `prototype.html` (1583 lines) into modular structure:
@@ -23,6 +27,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - State layer: configuration state management and business logic
   - Component layer: modal interactions and UI logic
   - Initialization layer: event binding and application startup
+- Updated Tailwind config with darkMode: 'class' for next-themes compatibility
+- Refactored color system to use CSS variables for theme switching
+- Updated gradient-mesh and noise-bg utilities for light mode compatibility
+- Updated Navbar styling for better dark mode support
+- Updated providers.tsx to use next-themes ThemeProvider
+- Updated openspec documentation to reflect latest changes
+
+### Fixed
+- Fixed light/dark mode toggle not working properly
+- Fixed color inconsistencies between light and dark modes
 
 ## [3.4.1]
 ### Added

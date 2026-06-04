@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Veloform - 高端自行车配置器</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #09090b;
+      --bg-secondary: #18181b;
+      --bg-tertiary: #27272a;
+      --color-primary: #3b82f6;
+      --color-primary-light: #60a5fa;
+      --color-primary-dark: #2563eb;
+      --color-accent: #f97316;
+      --color-accent-light: #fb923c;
+      --color-success: #22c55e;
+      --color-danger: #ef4444;
+      --text-primary: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .font-display {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Gradient Mesh Background */
+    .gradient-mesh {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      opacity: 0.4;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(249, 115, 22, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Noise Texture Overlay */
+    .noise-bg::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* Glass Effect */
+    .glass {
+      background: rgba(24, 24, 27, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--border-color);
+    }
+
+    /* Card Styles */
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      transition: all var(--transition-base);
+    }
+
+    .card:hover {
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: var(--shadow-glow);
+      transform: translateY(-2px);
+    }
+
+    .card-active {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 1px var(--color-primary), var(--shadow-glow);
+    }
+
+    /* Button Styles */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all var(--transition-base);
+      cursor: pointer;
+      border: none;
+      outline: none;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, var(--color-accent) 0%, #ea580c 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+    }
+
+    .btn-accent:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+    }
+
+    /* Bike Type Selector */
+    .bike-type-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      font-weight: 500;
+      font-size: 14px;
+      transition: all var(--transition-base);
+      cursor: pointer;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+    }
+
+    .bike-type-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+    }
+
+    .bike-type-btn.active {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--color-primary);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    /* Component Item */
+    .component-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .component-item:hover {
+      border-color: rgba(59, 130, 246, 0.3);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .component-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-md);
+      background: rgba(59, 130, 246, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .component-icon svg {
+      width: 28px;
+      height: 28px;
+      color: var(--color-primary);
+    }
+
+    /* Chip/Badge */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 500;
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--color-primary);
+    }
+
+    .chip-accent {
+      background: rgba(249, 115, 22, 0.15);
+      color: var(--color-accent);
+    }
+
+    .chip-success {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--color-success);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-base);
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      max-width: 600px;
+      width: 100%;
+      max-height: 80vh;
+      overflow: hidden;
+      transform: scale(0.95) translateY(10px);
+      transition: transform var(--transition-slow);
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @keyframes counter {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .animate-slide-up {
+      animation: slideUp 0.4s ease-out;
+    }
+
+    .animate-slide-in-right {
+      animation: slideInRight 0.4s ease-out;
+    }
+
+    .animate-counter {
+      animation: counter 0.5s ease-out;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Scrollbar Hide */
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Price Animation */
+    .price-update {
+      animation: pulse 0.3s ease-out;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all var(--transition-base);
+      z-index: 200;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-success {
+      border-left: 3px solid var(--color-success);
+    }
+
+    .toast-error {
+      border-left: 3px solid var(--color-danger);
+    }
+
+    /* Mobile Bottom Bar */
+    .mobile-bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(24, 24, 27, 0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border-color);
+      padding: 12px 16px;
+      z-index: 50;
+      transform: translateY(100%);
+      transition: transform var(--transition-base);
+    }
+
+    .mobile-bottom-bar.visible {
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .desktop-only {
+        display: none !important;
+      }
+    }
+
+    @media (min-width: 1025px) {
+      .mobile-only {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        border-radius: var(--radius-md);
+      }
+      
+      .modal-content {
+        max-height: 90vh;
+        border-radius: var(--radius-lg);
+      }
+    }
+
+    /* Loading State */
+    .skeleton {
+      background: linear-gradient(90deg, var(--bg-tertiary) 25%, rgba(255,255,255,0.05) 50%, var(--bg-tertiary) 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Focus Visible */
+    *:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    /* Selection Color */
+    ::selection {
+      background: rgba(59, 130, 246, 0.3);
+      color: var(--text-primary);
+    }
+  </style>
+</head>
+<body class="noise-bg">
+  <!-- Gradient Mesh Background -->
+  <div class="gradient-mesh"></div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-all duration-300">
+            <span class="text-xl font-bold text-white font-display">V</span>
+          </div>
+          <div class="hidden sm:block">
+            <h1 class="text-lg font-display font-bold text-primary group-hover:text-blue-400 transition-colors">Veloform</h1>
+            <p class="text-xs text-muted">Bike Configurator</p>
+          </div>
+        </a>
+
+        <!-- Desktop Bike Type Selector -->
+        <div class="hidden lg:flex items-center gap-1 p-1 bg-secondary rounded-xl">
+          <button class="bike-type-btn active" data-type="road">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="5.5" cy="17.5" r="3.5"/>
+              <circle cx="18.5" cy="17.5" r="3.5"/>
+              <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/>
+            </svg>
+            Road
+          </button>
+          <button class="bike-type-btn" data-type="mtb">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="5.5" cy="17.5" r="3.5"/>
+              <circle cx="18.5" cy="17.5" r="3.5"/>
+              <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/>
+              <path d="m14.5 10-2.5 2.5"/>
+            </svg>
+            MTB
+          </button>
+          <button class="bike-type-btn" data-type="fold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="5.5" cy="17.5" r="2.5"/>
+              <circle cx="18.5" cy="17.5" r="2.5"/>
+              <path d="M12 15V7a4 4 0 0 0-4-4H6a6 6 0 0 1 12 0h-2a4 4 0 0 0-4 4v8"/>
+            </svg>
+            Fold
+          </button>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-2">
+          <button class="btn btn-ghost p-2" id="lang-btn">
+            <span class="text-sm font-medium">EN</span>
+          </button>
+          <button class="btn btn-ghost p-2" id="help-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+              <path d="M12 17h.01"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Bike Type Selector -->
+      <div class="lg:hidden pb-3">
+        <div class="flex items-center gap-1 p-1 bg-secondary rounded-xl">
+          <button class="bike-type-btn active flex-1 justify-center text-sm" data-type="road" data-mobile>
+            Road
+          </button>
+          <button class="bike-type-btn flex-1 justify-center text-sm" data-type="mtb" data-mobile>
+            MTB
+          </button>
+          <button class="bike-type-btn flex-1 justify-center text-sm" data-type="fold" data-mobile>
+            Fold
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="pt-20 lg:pt-24 pb-24 lg:pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        
+        <!-- Left Column: Build List & Recommendations -->
+        <div class="lg:col-span-2 space-y-6 lg:space-y-8">
+          
+          <!-- Build List Section -->
+          <section class="animate-slide-up">
+            <div class="flex items-center justify-between mb-5">
+              <div>
+                <h2 class="text-xl lg:text-2xl font-display font-bold text-primary">Build List</h2>
+                <p class="text-sm text-secondary mt-1">Configure your dream bike</p>
+              </div>
+              <div class="flex items-center gap-2 text-muted text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <span id="component-count">5 Components</span>
+              </div>
+            </div>
+
+            <div class="space-y-3" id="build-list">
+              <!-- Frame -->
+              <div class="component-item" data-category="frame" onclick="openComponentModal('frame')">
+                <div class="component-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2H2v20h20V10l-6-6Z"/>
+                    <path d="M16 2 16 8 22 8"/>
+                  </svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="chip mb-2">Frame</span>
+                  <h3 class="font-semibold text-primary truncate" id="frame-name">Specialized Tarmac SL8 Pro</h3>
+                  <p class="text-xs text-secondary mt-1" id="frame-desc">Carbon, Disc Brake, Size 56</p>
+                </div>
+                <div class="text-right flex-shrink-0">
+                  <p class="text-lg font-bold text-primary animate-counter" id="frame-price">¥2,100</p>
+                  <p class="text-sm text-muted" id="frame-weight">1.18 kg</p>
+                </div>
+                <button class="p-2 rounded-lg text-secondary hover:text-primary hover:bg-white/5 transition-all">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                    <path d="m15 5 4 4"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Drivetrain -->
+              <div class="component-item" data-category="drivetrain" onclick="openComponentModal('drivetrain')">
+                <div class="component-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 6h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h3"/>
+                    <path d="m7.5 4.27 9 5.15"/>
+                    <circle cx="17.5" cy="17.5" r="2.5"/>
+                    <circle cx="6.5" cy="17.5" r="2.5"/>
+                  </svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="chip mb-2">Drivetrain</span>
+                  <h3 class="font-semibold text-primary truncate" id="drivetrain-name">Shimano Dura-Ace Di2 R9200</h3>
+                  <p class="text-xs text-secondary mt-1" id="drivetrain-desc">12-speed, Wireless</p>
+                </div>
+                <div class="text-right flex-shrink-0">
+                  <p class="text-lg font-bold text-primary animate-counter" id="drivetrain-price">¥4,200</p>
+                  <p class="text-sm text-muted" id="drivetrain-weight">2.43 kg</p>
+                </div>
+                <button class="p-2 rounded-lg text-secondary hover:text-primary hover:bg-white/5 transition-all">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                    <path d="m15 5 4 4"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Wheelset -->
+              <div class="component-item" data-category="wheelset" onclick="openComponentModal('wheelset')">
+                <div class="component-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+                  </svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="chip mb-2">Wheelset</span>
+                  <h3 class="font-semibold text-primary truncate" id="wheelset-name">Roval Rapide CLX II</h3>
+                  <p class="text-xs text-secondary mt-1" id="wheelset-desc">Carbon, 650b, Tubeless Ready</p>
+                </div>
+                <div class="text-right flex-shrink-0">
+                  <p class="text-lg font-bold text-primary animate-counter" id="wheelset-price">¥2,800</p>
+                  <p class="text-sm text-muted" id="wheelset-weight">1.52 kg</p>
+                </div>
+                <button class="p-2 rounded-lg text-secondary hover:text-primary hover:bg-white/5 transition-all">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                    <path d="m15 5 4 4"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Cockpit -->
+              <div class="component-item" data-category="cockpit" onclick="openComponentModal('cockpit')">
+                <div class="component-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 13V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7m16 0H4"/>
+                    <path d="M17 13h2a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h2"/>
+                  </svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="chip mb-2">Cockpit</span>
+                  <h3 class="font-semibold text-primary truncate" id="cockpit-name">Roval Rapide Cockpit</h3>
+                  <p class="text-xs text-secondary mt-1" id="cockpit-desc">Integrated Handlebar/Stem</p>
+                </div>
+                <div class="text-right flex-shrink-0">
+                  <p class="text-lg font-bold text-primary animate-counter" id="cockpit-price">¥600</p>
+                  <p class="text-sm text-muted" id="cockpit-weight">0.31 kg</p>
+                </div>
+                <button class="p-2 rounded-lg text-secondary hover:text-primary hover:bg-white/5 transition-all">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                    <path d="m15 5 4 4"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Tires -->
+              <div class="component-item" data-category="tires" onclick="openComponentModal('tires')">
+                <div class="component-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M22 12a10 10 0 0 0-9.9-10"/>
+                    <path d="M12 2a10 10 0 0 0-8.5 15"/>
+                    <path d="M22 12a10 10 0 0 1-7 9.7"/>
+                  </svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="chip mb-2">Tires</span>
+                  <h3 class="font-semibold text-primary truncate" id="tires-name">Turbo Cotton 28mm</h3>
+                  <p class="text-xs text-secondary mt-1" id="tires-desc">Clincher, Pair</p>
+                </div>
+                <div class="text-right flex-shrink-0">
+                  <p class="text-lg font-bold text-primary animate-counter" id="tires-price">¥180</p>
+                  <p class="text-sm text-muted" id="tires-weight">0.48 kg</p>
+                </div>
+                <button class="p-2 rounded-lg text-secondary hover:text-primary hover:bg-white/5 transition-all">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                    <path d="m15 5 4 4"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Recommended Builds Section -->
+          <section class="animate-slide-up" style="animation-delay: 0.1s;">
+            <div class="flex items-center justify-between mb-5">
+              <div>
+                <h2 class="text-xl lg:text-2xl font-display font-bold text-primary">Recommended Builds</h2>
+                <p class="text-sm text-secondary mt-1">Curated configurations for inspiration</p>
+              </div>
+              <button class="text-sm text-primary hover:text-primary-light transition-colors flex items-center gap-1">
+                View All
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <!-- Pro Race Build -->
+              <div class="card p-5">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="chip chip-success">Pro</span>
+                  <span class="chip">Lightweight</span>
+                </div>
+                <h3 class="text-lg font-semibold text-primary mb-1">Pro Race Build</h3>
+                <p class="text-sm text-secondary mb-4">Professional racing setup optimized for maximum speed and minimal weight</p>
+                <div class="flex items-center justify-between pt-4 border-t border-border">
+                  <div>
+                    <p class="text-xs text-muted mb-1">Total Cost</p>
+                    <p class="text-xl font-bold text-primary">¥9,780</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-xs text-muted mb-1">Weight</p>
+                    <p class="text-xl font-bold text-primary">6.8 kg</p>
+                  </div>
+                </div>
+                <button class="btn btn-secondary w-full mt-4" onclick="loadPreset('pro-race')">
+                  Load Configuration
+                </button>
+              </div>
+
+              <!-- All-Rounder Build -->
+              <div class="card p-5">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="chip chip-accent">Popular</span>
+                  <span class="chip">Value</span>
+                </div>
+                <h3 class="text-lg font-semibold text-primary mb-1">All-Rounder Build</h3>
+                <p class="text-sm text-secondary mb-4">Versatile setup perfect for all-day rides and mixed terrain</p>
+                <div class="flex items-center justify-between pt-4 border-t border-border">
+                  <div>
+                    <p class="text-xs text-muted mb-1">Total Cost</p>
+                    <p class="text-xl font-bold text-primary">¥7,510</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-xs text-muted mb-1">Weight</p>
+                    <p class="text-xl font-bold text-primary">7.2 kg</p>
+                  </div>
+                </div>
+                <button class="btn btn-secondary w-full mt-4" onclick="loadPreset('all-rounder')">
+                  Load Configuration
+                </button>
+              </div>
+
+              <!-- Ultimate Build -->
+              <div class="card p-5">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="chip">Premium</span>
+                </div>
+                <h3 class="text-lg font-semibold text-primary mb-1">Ultimate Build</h3>
+                <p class="text-sm text-secondary mb-4">Top-tier components for serious cyclists who demand the best</p>
+                <div class="flex items-center justify-between pt-4 border-t border-border">
+                  <div>
+                    <p class="text-xs text-muted mb-1">Total Cost</p>
+                    <p class="text-xl font-bold text-primary">¥12,400</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-xs text-muted mb-1">Weight</p>
+                    <p class="text-xl font-bold text-primary">6.4 kg</p>
+                  </div>
+                </div>
+                <button class="btn btn-secondary w-full mt-4" onclick="loadPreset('ultimate')">
+                  Load Configuration
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Right Column: Summary Panel -->
+        <div class="lg:col-span-1">
+          <div class="sticky top-24 space-y-6">
+            
+            <!-- Summary Card -->
+            <div class="card p-6 animate-slide-in-right">
+              <h2 class="text-xl font-display font-bold text-primary mb-6">Build Summary</h2>
+
+              <!-- Total Cost -->
+              <div class="text-center py-4 mb-4 bg-secondary/50 rounded-xl">
+                <p class="text-sm text-secondary mb-2">Total Cost</p>
+                <p class="text-4xl font-display font-bold text-primary animate-counter" id="total-cost">¥9,880</p>
+              </div>
+
+              <!-- Estimated Weight -->
+              <div class="text-center py-4 mb-6 bg-secondary/50 rounded-xl">
+                <p class="text-sm text-secondary mb-2">Estimated Weight</p>
+                <p class="text-4xl font-display font-bold text-primary animate-counter" id="total-weight">5.92 kg</p>
+              </div>
+
+              <!-- Cost Breakdown -->
+              <div class="space-y-3 mb-6">
+                <div class="flex justify-between text-sm py-2 border-b border-border">
+                  <span class="text-secondary">Frame</span>
+                  <span class="text-primary font-medium" id="summary-frame">¥2,100</span>
+                </div>
+                <div class="flex justify-between text-sm py-2 border-b border-border">
+                  <span class="text-secondary">Drivetrain</span>
+                  <span class="text-primary font-medium" id="summary-drivetrain">¥4,200</span>
+                </div>
+                <div class="flex justify-between text-sm py-2 border-b border-border">
+                  <span class="text-secondary">Wheelset</span>
+                  <span class="text-primary font-medium" id="summary-wheelset">¥2,800</span>
+                </div>
+                <div class="flex justify-between text-sm py-2 border-b border-border">
+                  <span class="text-secondary">Cockpit</span>
+                  <span class="text-primary font-medium" id="summary-cockpit">¥600</span>
+                </div>
+                <div class="flex justify-between text-sm py-2">
+                  <span class="text-secondary">Tires</span>
+                  <span class="text-primary font-medium" id="summary-tires">¥180</span>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="space-y-3">
+                <button class="btn btn-primary w-full" id="save-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                  </svg>
+                  Save Configuration
+                </button>
+                <button class="btn btn-secondary w-full" id="share-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 16v1a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1"/>
+                    <path d="m8 12-4 4 4 4"/>
+                    <path d="M12 4v12"/>
+                  </svg>
+                  Share Build
+                </button>
+                <button class="btn btn-secondary w-full" id="reset-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                    <path d="M3 3v5h5"/>
+                  </svg>
+                  Reset to Default
+                </button>
+              </div>
+            </div>
+
+            <!-- Pro Tip Card -->
+            <div class="card p-6 bg-gradient-to-br from-blue-500/10 to-orange-500/5 border-blue-500/20">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400">
+                    <path d="M12 9v2m0 4h.01"/>
+                    <path d="M5 21h14a2 2 0 0 0 1.84-2.75l-3.54-6.91a2 2 0 0 0-.31-1.76l-3.54-3.54a2 2 0 0 0-1.76-.31L6.75 3.16A2 2 0 0 0 4 5v14a2 2 0 0 0 2 2z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-primary mb-1">Pro Tip</h3>
+                  <p class="text-sm text-secondary">Upgrade to carbon wheels for a 15% weight reduction and significantly better ride quality.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Build Stats -->
+            <div class="card p-6">
+              <h3 class="font-semibold text-primary mb-4">Build Stats</h3>
+              <div class="space-y-4">
+                <div>
+                  <div class="flex justify-between text-sm mb-2">
+                    <span class="text-secondary">Value Index</span>
+                    <span class="text-primary font-medium">8.7/10</span>
+                  </div>
+                  <div class="h-2 bg-secondary rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-500" style="width: 87%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-sm mb-2">
+                    <span class="text-secondary">Weight Score</span>
+                    <span class="text-primary font-medium">9.2/10</span>
+                  </div>
+                  <div class="h-2 bg-secondary rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-500" style="width: 92%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-sm mb-2">
+                    <span class="text-secondary">Component Balance</span>
+                    <span class="text-primary font-medium">7.9/10</span>
+                  </div>
+                  <div class="h-2 bg-secondary rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-500" style="width: 79%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Mobile Bottom Bar -->
+  <div class="mobile-bottom-bar mobile-only" id="mobile-bottom-bar">
+    <div class="flex items-center gap-3">
+      <button class="btn btn-primary flex-1" id="mobile-save-btn">Save</button>
+      <button class="btn btn-secondary flex-1" id="mobile-share-btn">Share</button>
+    </div>
+  </div>
+
+  <!-- Component Selection Modal -->
+  <div class="modal-overlay" id="component-modal">
+    <div class="modal-content">
+      <div class="flex items-center justify-between p-5 border-b border-border">
+        <div>
+          <h3 class="text-lg font-display font-semibold text-primary" id="modal-title">Select Component</h3>
+          <p class="text-sm text-secondary mt-1" id="modal-subtitle">Choose from available options</p>
+        </div>
+        <button class="p-2 rounded-lg text-secondary hover:text-primary hover:bg-white/5 transition-all" onclick="closeModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"/>
+            <path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="p-4 overflow-y-auto max-h-[60vh] space-y-3" id="modal-content">
+        <!-- Dynamic content will be inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Save Modal -->
+  <div class="modal-overlay" id="save-modal">
+    <div class="modal-content max-w-md">
+      <div class="flex items-center justify-between p-5 border-b border-border">
+        <h3 class="text-lg font-display font-semibold text-primary">Save Configuration</h3>
+        <button class="p-2 rounded-lg text-secondary hover:text-primary hover:bg-white/5 transition-all" onclick="closeSaveModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"/>
+            <path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="p-5 space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-secondary mb-2">Configuration Name</label>
+          <input type="text" placeholder="Enter a name for your build" class="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-primary placeholder-muted focus:outline-none focus:border-blue-500 transition-colors">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-secondary mb-2">Description (optional)</label>
+          <textarea rows="3" placeholder="Add notes about this configuration..." class="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-primary placeholder-muted focus:outline-none focus:border-blue-500 transition-colors resize-none"></textarea>
+        </div>
+        <button class="btn btn-primary w-full mt-4" onclick="saveConfiguration()">Save to Library</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Modal -->
+  <div class="modal-overlay" id="share-modal">
+    <div class="modal-content max-w-md">
+      <div class="flex items-center justify-between p-5 border-b border-border">
+        <h3 class="text-lg font-display font-semibold text-primary">Share Build</h3>
+        <button class="p-2 rounded-lg text-secondary hover:text-primary hover:bg-white/5 transition-all" onclick="closeShareModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"/>
+            <path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="p-5 space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-secondary mb-2">Share Link</label>
+          <div class="flex items-center gap-2">
+            <input type="text" value="https://veloform.app/build/abc123" readonly class="flex-1 px-4 py-3 rounded-xl bg-secondary border border-border text-primary focus:outline-none focus:border-blue-500 transition-colors">
+            <button class="p-3 rounded-xl bg-secondary border border-border hover:border-blue-500 transition-colors" id="copy-link-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary">
+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="grid grid-cols-4 gap-3">
+          <button class="p-3 rounded-xl bg-secondary border border-border hover:border-blue-500 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary mx-auto">
+              <path d="M18 2h3v20h-3"/>
+              <path d="M2 2h3v20H2"/>
+              <path d="M13 8h-7v5h7"/>
+              <path d="M13 16h-7"/>
+            </svg>
+          </button>
+          <button class="p-3 rounded-xl bg-secondary border border-border hover:border-blue-500 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary mx-auto">
+              <path d="M22 4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h2"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </button>
+          <button class="p-3 rounded-xl bg-secondary border border-border hover:border-blue-500 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary mx-auto">
+              <path d="M12 2a8 8 0 0 0-8 8c0 5.25 7.5 13 7.5 13s7.5-7.75 7.5-13a8 8 0 0 0-8-8Z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </button>
+          <button class="p-3 rounded-xl bg-secondary border border-border hover:border-blue-500 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary mx-auto">
+              <path d="M22 17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12Z"/>
+              <path d="m7.5 4.27 9 5.15"/>
+              <circle cx="15.5" cy="17.5" r="1.5"/>
+              <circle cx="8.5" cy="17.5" r="1.5"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast toast-success" id="toast">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-500">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+      <polyline points="22 4 12 14.01 9 11.01"/>
+    </svg>
+    <span id="toast-message">Configuration saved successfully!</span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-secondary border-t border-border py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+            <span class="text-lg font-bold text-white font-display">V</span>
+          </div>
+          <div>
+            <p class="font-display font-semibold text-primary">Veloform</p>
+            <p class="text-xs text-muted">Advanced Bike Configurator</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="#" class="text-sm text-secondary hover:text-primary transition-colors">About</a>
+          <a href="#" class="text-sm text-secondary hover:text-primary transition-colors">Support</a>
+          <a href="#" class="text-sm text-secondary hover:text-primary transition-colors">Privacy</a>
+          <a href="#" class="text-sm text-secondary hover:text-primary transition-colors">Terms</a>
+        </div>
+        <p class="text-sm text-muted">© 2026 Veloform. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Component Data by Bike Type
+    const componentData = {
+      road: {
+        frame: [
+          { id: 'frame-1', name: 'Specialized Tarmac SL8 Pro', desc: 'Carbon, Disc Brake, Size 56', price: 2100, weight: 1.18 },
+          { id: 'frame-2', name: 'Canyon Ultimate CF SLX', desc: 'Carbon, Disc Brake, Size 54', price: 2800, weight: 1.05 },
+          { id: 'frame-3', name: 'Trek Emonda SLR', desc: 'Carbon, Disc Brake, Size 56', price: 2400, weight: 1.12 },
+        ],
+        drivetrain: [
+          { id: 'drive-1', name: 'Shimano Dura-Ace Di2 R9200', desc: '12-speed, Wireless', price: 4200, weight: 2.43 },
+          { id: 'drive-2', name: 'SRAM Red AXS', desc: '12-speed, Wireless', price: 4000, weight: 2.38 },
+          { id: 'drive-3', name: 'Campagnolo Super Record EPS', desc: '12-speed, Electronic', price: 4500, weight: 2.45 },
+        ],
+        wheelset: [
+          { id: 'wheel-1', name: 'Roval Rapide CLX II', desc: 'Carbon, 650b, Tubeless Ready', price: 2800, weight: 1.52 },
+          { id: 'wheel-2', name: 'Zipp 454 NSW', desc: 'Carbon, 700c, Hookless', price: 3200, weight: 1.45 },
+          { id: 'wheel-3', name: 'Enve SES 4.5', desc: 'Carbon, 700c, Tubeless', price: 3500, weight: 1.38 },
+        ],
+        cockpit: [
+          { id: 'cock-1', name: 'Roval Rapide Cockpit', desc: 'Integrated Handlebar/Stem', price: 600, weight: 0.31 },
+          { id: 'cock-2', name: 'Zipp SL Sprint', desc: 'Carbon Handlebar + Stem', price: 800, weight: 0.28 },
+          { id: 'cock-3', name: 'Enve Compact Road', desc: 'Carbon Handlebar + Stem', price: 750, weight: 0.30 },
+        ],
+        tires: [
+          { id: 'tire-1', name: 'Turbo Cotton 28mm', desc: 'Clincher, Pair', price: 180, weight: 0.48 },
+          { id: 'tire-2', name: 'Continental GP5000', desc: 'Tubeless, Pair', price: 220, weight: 0.52 },
+          { id: 'tire-3', name: 'Schwalbe Pro One', desc: 'Tubeless, Pair', price: 200, weight: 0.50 },
+        ]
+      },
+      mtb: {
+        frame: [
+          { id: 'mtb-frame-1', name: 'Santa Cruz Hightower CC', desc: 'Carbon, 29er, Size L', price: 3200, weight: 2.45 },
+          { id: 'mtb-frame-2', name: 'Yeti SB140 Carbon', desc: 'Carbon, 27.5", Size L', price: 3500, weight: 2.38 },
+          { id: 'mtb-frame-3', name: 'Pivot Switchblade', desc: 'Carbon, 29er, Size L', price: 3100, weight: 2.52 },
+        ],
+        drivetrain: [
+          { id: 'mtb-drive-1', name: 'SRAM XX1 Eagle AXS', desc: '12-speed, Wireless', price: 3800, weight: 2.65 },
+          { id: 'mtb-drive-2', name: 'Shimano XTR Di2', desc: '12-speed, Electronic', price: 3600, weight: 2.58 },
+          { id: 'mtb-drive-3', name: 'SRAM GX Eagle', desc: '12-speed, Mechanical', price: 1200, weight: 2.85 },
+        ],
+        wheelset: [
+          { id: 'mtb-wheel-1', name: 'Enve M730', desc: 'Carbon, 29er, Tubeless', price: 2900, weight: 1.68 },
+          { id: 'mtb-wheel-2', name: 'Reserve 30|HD', desc: 'Carbon, 27.5", Tubeless', price: 2600, weight: 1.72 },
+          { id: 'mtb-wheel-3', name: 'DT Swiss XM 1700', desc: 'Alloy, 29er, Tubeless', price: 1200, weight: 1.95 },
+        ],
+        suspension: [
+          { id: 'mtb-susp-1', name: 'Fox 34 Float Factory', desc: '140mm Travel, FIT4', price: 1800, weight: 1.85 },
+          { id: 'mtb-susp-2', name: 'RockShox Pike Ultimate', desc: '140mm Travel, Charger 3', price: 1600, weight: 1.92 },
+          { id: 'mtb-susp-3', name: 'Fox 36 Float Factory', desc: '160mm Travel, FIT4', price: 1900, weight: 2.05 },
+        ],
+        tires: [
+          { id: 'mtb-tire-1', name: 'Maxxis Rekon 2.4', desc: 'EXO, Tubeless, Pair', price: 240, weight: 1.25 },
+          { id: 'mtb-tire-2', name: 'Schwalbe Hans Dampf', desc: 'Super Trail, Pair', price: 220, weight: 1.32 },
+          { id: 'mtb-tire-3', name: 'Continental Der Baron', desc: 'Protection, Pair', price: 200, weight: 1.28 },
+        ]
+      },
+      fold: {
+        frame: [
+          { id: 'fold-frame-1', name: 'Brompton C Line Explore', desc: 'Steel, 16", 3-Speed', price: 2800, weight: 9.8 },
+          { id: 'fold-frame-2', name: 'Tern Vektron S10', desc: 'Aluminum, 20", E-Bike', price: 4200, weight: 18.5 },
+          { id: 'fold-frame-3', name: 'Birdy Street', desc: 'Aluminum, 18", 9-Speed', price: 3500, weight: 10.2 },
+        ],
+        drivetrain: [
+          { id: 'fold-drive-1', name: 'Brompton 6-Speed', desc: 'Internal Hub, 3-Speed', price: 800, weight: 1.2 },
+          { id: 'fold-drive-2', name: 'Shimano Nexus 7', desc: 'Internal Hub, 7-Speed', price: 1200, weight: 1.5 },
+          { id: 'fold-drive-3', name: 'Sturmey Archer 8', desc: 'Internal Hub, 8-Speed', price: 1000, weight: 1.4 },
+        ],
+        wheelset: [
+          { id: 'fold-wheel-1', name: 'Brompton Standard', desc: 'Alloy, 16", Standard', price: 600, weight: 1.2 },
+          { id: 'fold-wheel-2', name: 'Schmolke Carbon', desc: 'Carbon, 16", Lightweight', price: 1800, weight: 0.85 },
+          { id: 'fold-wheel-3', name: 'Tern Post', desc: 'Alloy, 20", E-Bike', price: 800, weight: 1.5 },
+        ],
+        accessories: [
+          { id: 'fold-acc-1', name: 'Brompton Luggage Block', desc: 'Front Carrier Block', price: 180, weight: 0.15 },
+          { id: 'fold-acc-2', name: 'Tern Deck', desc: 'Rear Rack', price: 220, weight: 0.45 },
+          { id: 'fold-acc-3', name: 'Brompton Mudguard', desc: 'Full Coverage', price: 280, weight: 0.35 },
+        ],
+        tires: [
+          { id: 'fold-tire-1', name: 'Schwalbe Marathon', desc: '16", Puncture Resistant', price: 120, weight: 0.42 },
+          { id: 'fold-tire-2', name: 'Continental Contact', desc: '16", Urban', price: 100, weight: 0.38 },
+          { id: 'fold-tire-3', name: 'Kojak', desc: '16", Lightweight', price: 140, weight: 0.32 },
+        ]
+      }
+    };
+
+    // Current Configuration State
+    let currentBikeType = 'road';
+    let currentConfig = {
+      road: {
+        frame: componentData.road.frame[0],
+        drivetrain: componentData.road.drivetrain[0],
+        wheelset: componentData.road.wheelset[0],
+        cockpit: componentData.road.cockpit[0],
+        tires: componentData.road.tires[0],
+      },
+      mtb: {
+        frame: componentData.mtb.frame[0],
+        drivetrain: componentData.mtb.drivetrain[0],
+        wheelset: componentData.mtb.wheelset[0],
+        suspension: componentData.mtb.suspension[0],
+        tires: componentData.mtb.tires[0],
+      },
+      fold: {
+        frame: componentData.fold.frame[0],
+        drivetrain: componentData.fold.drivetrain[0],
+        wheelset: componentData.fold.wheelset[0],
+        accessories: componentData.fold.accessories[0],
+        tires: componentData.fold.tires[0],
+      }
+    };
+
+    // Calculate totals
+    function calculateTotals() {
+      const config = currentConfig[currentBikeType];
+      let totalCost = 0;
+      let totalWeight = 0;
+
+      Object.values(config).forEach(comp => {
+        totalCost += comp.price;
+        totalWeight += comp.weight;
+      });
+
+      return { cost: totalCost, weight: totalWeight.toFixed(2) };
+    }
+
+    // Update UI
+    function updateUI() {
+      const config = currentConfig[currentBikeType];
+      const totals = calculateTotals();
+
+      // Update component displays
+      if (config.frame) {
+        document.getElementById('frame-name').textContent = config.frame.name;
+        document.getElementById('frame-desc').textContent = config.frame.desc;
+        document.getElementById('frame-price').textContent = `¥${config.frame.price.toLocaleString()}`;
+        document.getElementById('frame-weight').textContent = `${config.frame.weight} kg`;
+        document.getElementById('summary-frame').textContent = `¥${config.frame.price.toLocaleString()}`;
+      }
+
+      if (config.drivetrain) {
+        document.getElementById('drivetrain-name').textContent = config.drivetrain.name;
+        document.getElementById('drivetrain-desc').textContent = config.drivetrain.desc;
+        document.getElementById('drivetrain-price').textContent = `¥${config.drivetrain.price.toLocaleString()}`;
+        document.getElementById('drivetrain-weight').textContent = `${config.drivetrain.weight} kg`;
+        document.getElementById('summary-drivetrain').textContent = `¥${config.drivetrain.price.toLocaleString()}`;
+      }
+
+      if (config.wheelset) {
+        document.getElementById('wheelset-name').textContent = config.wheelset.name;
+        document.getElementById('wheelset-desc').textContent = config.wheelset.desc;
+        document.getElementById('wheelset-price').textContent = `¥${config.wheelset.price.toLocaleString()}`;
+        document.getElementById('wheelset-weight').textContent = `${config.wheelset.weight} kg`;
+        document.getElementById('summary-wheelset').textContent = `¥${config.wheelset.price.toLocaleString()}`;
+      }
+
+      if (config.cockpit) {
+        document.getElementById('cockpit-name').textContent = config.cockpit.name;
+        document.getElementById('cockpit-desc').textContent = config.cockpit.desc;
+        document.getElementById('cockpit-price').textContent = `¥${config.cockpit.price.toLocaleString()}`;
+        document.getElementById('cockpit-weight').textContent = `${config.cockpit.weight} kg`;
+        document.getElementById('summary-cockpit').textContent = `¥${config.cockpit.price.toLocaleString()}`;
+      }
+
+      if (config.suspension) {
+        document.getElementById('cockpit-name').textContent = config.suspension.name;
+        document.getElementById('cockpit-desc').textContent = config.suspension.desc;
+        document.getElementById('cockpit-price').textContent = `¥${config.suspension.price.toLocaleString()}`;
+        document.getElementById('cockpit-weight').textContent = `${config.suspension.weight} kg`;
+        document.getElementById('summary-cockpit').textContent = `¥${config.suspension.price.toLocaleString()}`;
+      }
+
+      if (config.accessories) {
+        document.getElementById('cockpit-name').textContent = config.accessories.name;
+        document.getElementById('cockpit-desc').textContent = config.accessories.desc;
+        document.getElementById('cockpit-price').textContent = `¥${config.accessories.price.toLocaleString()}`;
+        document.getElementById('cockpit-weight').textContent = `${config.accessories.weight} kg`;
+        document.getElementById('summary-cockpit').textContent = `¥${config.accessories.price.toLocaleString()}`;
+      }
+
+      if (config.tires) {
+        document.getElementById('tires-name').textContent = config.tires.name;
+        document.getElementById('tires-desc').textContent = config.tires.desc;
+        document.getElementById('tires-price').textContent = `¥${config.tires.price.toLocaleString()}`;
+        document.getElementById('tires-weight').textContent = `${config.tires.weight} kg`;
+        document.getElementById('summary-tires').textContent = `¥${config.tires.price.toLocaleString()}`;
+      }
+
+      // Update totals with animation
+      const costEl = document.getElementById('total-cost');
+      const weightEl = document.getElementById('total-weight');
+      
+      costEl.textContent = `¥${totals.cost.toLocaleString()}`;
+      weightEl.textContent = `${totals.weight} kg`;
+      
+      costEl.classList.remove('animate-counter');
+      weightEl.classList.remove('animate-counter');
+      void costEl.offsetWidth; // Trigger reflow
+      void weightEl.offsetWidth;
+      costEl.classList.add('animate-counter');
+      weightEl.classList.add('animate-counter');
+
+      // Update component count
+      const componentCount = Object.keys(config).length;
+      document.getElementById('component-count').textContent = `${componentCount} Components`;
+    }
+
+    // Bike Type Switching
+    document.querySelectorAll('.bike-type-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const type = this.dataset.type;
+        
+        // Update active state
+        document.querySelectorAll(`.bike-type-btn[data-type="${type}"]`).forEach(b => {
+          b.classList.add('active');
+        });
+        document.querySelectorAll(`.bike-type-btn:not([data-type="${type}"])`).forEach(b => {
+          b.classList.remove('active');
+        });
+
+        // Switch bike type
+        currentBikeType = type;
+        updateUI();
+        showToast(`${type.toUpperCase()} configuration loaded`, 'success');
+      });
+    });
+
+    // Modal Functions
+    let currentModalCategory = null;
+
+    function openComponentModal(category) {
+      currentModalCategory = category;
+      const data = componentData[currentBikeType][category];
+      
+      if (!data) return;
+
+      document.getElementById('modal-title').textContent = `Select ${category.charAt(0).toUpperCase() + category.slice(1)}`;
+      document.getElementById('modal-subtitle').textContent = `Choose from ${data.length} available options`;
+      
+      const content = document.getElementById('modal-content');
+      content.innerHTML = data.map(item => `
+        <div class="component-item" onclick="selectComponent('${category}', '${item.id}')">
+          <div class="component-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              ${getIconForCategory(category)}
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-primary">${item.name}</h4>
+            <p class="text-sm text-secondary">${item.desc}</p>
+          </div>
+          <div class="text-right">
+            <p class="font-bold text-primary">¥${item.price.toLocaleString()}</p>
+            <p class="text-xs text-muted">${item.weight} kg</p>
+          </div>
+        </div>
+      `).join('');
+      
+      document.getElementById('component-modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function getIconForCategory(category) {
+      const icons = {
+        frame: '<path d="M12 2H2v20h20V10l-6-6Z"/><path d="M16 2 16 8 22 8"/>',
+        drivetrain: '<path d="M16 6h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h3"/><path d="m7.5 4.27 9 5.15"/><circle cx="17.5" cy="17.5" r="2.5"/><circle cx="6.5" cy="17.5" r="2.5"/>',
+        wheelset: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>',
+        cockpit: '<path d="M20 13V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7m16 0H4"/><path d="M17 13h2a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h2"/>',
+        suspension: '<path d="M12 2v20"/><path d="M8 6h8"/><path d="M8 18h8"/><circle cx="12" cy="12" r="2"/>',
+        tires: '<circle cx="12" cy="12" r="10"/><path d="M22 12a10 10 0 0 0-9.9-10"/><path d="M12 2a10 10 0 0 0-8.5 15"/><path d="M22 12a10 10 0 0 1-7 9.7"/>',
+        accessories: '<path d="M20 7h-3a2 2 0 0 1-2-2V2"/><path d="M9 18v-1a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h3a2 2 0 0 0 2-2Z"/><path d="M15 2H9a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z"/>'
+      };
+      return icons[category] || icons.frame;
+    }
+
+    function closeModal() {
+      document.getElementById('component-modal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function selectComponent(category, itemId) {
+      const items = componentData[currentBikeType][category];
+      const selectedItem = items.find(item => item.id === itemId);
+      
+      if (selectedItem) {
+        currentConfig[currentBikeType][category] = selectedItem;
+        updateUI();
+        closeModal();
+        showToast(`${selectedItem.name} selected`, 'success');
+      }
+    }
+
+    // Save Modal
+    document.getElementById('save-btn')?.addEventListener('click', () => {
+      document.getElementById('save-modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    document.getElementById('mobile-save-btn')?.addEventListener('click', () => {
+      document.getElementById('save-modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeSaveModal() {
+      document.getElementById('save-modal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function saveConfiguration() {
+      closeSaveModal();
+      showToast('Configuration saved successfully!', 'success');
+    }
+
+    // Share Modal
+    document.getElementById('share-btn')?.addEventListener('click', () => {
+      document.getElementById('share-modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    document.getElementById('mobile-share-btn')?.addEventListener('click', () => {
+      document.getElementById('share-modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeShareModal() {
+      document.getElementById('share-modal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('copy-link-btn')?.addEventListener('click', () => {
+      const input = document.querySelector('#share-modal input');
+      input.select();
+      document.execCommand('copy');
+      showToast('Link copied to clipboard!', 'success');
+    });
+
+    // Reset Button
+    document.getElementById('reset-btn')?.addEventListener('click', () => {
+      if (confirm('Are you sure you want to reset to default configuration?')) {
+        // Reset to first item in each category
+        const categories = Object.keys(componentData[currentBikeType]);
+        categories.forEach(cat => {
+          currentConfig[currentBikeType][cat] = componentData[currentBikeType][cat][0];
+        });
+        updateUI();
+        showToast('Configuration reset to default', 'success');
+      }
+    });
+
+    // Load Preset
+    function loadPreset(preset) {
+      showToast(`${preset.replace('-', ' ')} configuration loaded`, 'success');
+    }
+
+    // Toast Notification
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      
+      toastMessage.textContent = message;
+      toast.className = `toast toast-${type} show`;
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Mobile Bottom Bar Visibility
+    function handleScroll() {
+      const bottomBar = document.getElementById('mobile-bottom-bar');
+      if (window.scrollY > 100) {
+        bottomBar.classList.add('visible');
+      } else {
+        bottomBar.classList.remove('visible');
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Close modals on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+          modal.classList.remove('active');
+        });
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Initialize
+    updateUI();
+  </script>
+</body>
+</html>

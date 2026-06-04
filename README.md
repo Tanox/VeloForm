@@ -208,12 +208,12 @@ src/
 本次更新对代码架构进行了全面优化：
 
 ### 核心改进
-- **Firebase 认证集成**: 新增 `src/lib/auth.ts`，支持 Google OAuth 登录
-- **自动云同步**: 新增 `SyncProvider` 组件，用户登录后自动加载云端配置
-- **强化类型系统**: 为不同组件类别定义专用规格接口（DrivetrainSpecs、WheelsetSpecs 等）
-- **选择性状态订阅**: 导出 `useTotalCost`、`useTotalWeight` 等 hooks，避免不必要的重渲染
-- **环境验证**: 新增 `src/lib/env.ts`，开发时自动检查必需的环境变量
-- **错误处理优化**: Firebase 操作失败时提供分类错误提示（权限拒绝、服务不可用等）
+- **Firebase 认证集成** - 新增 `src/lib/auth.ts`，支持 Google OAuth 登录
+- **自动云同步** - 新增 `SyncProvider` 组件，用户登录后自动加载云端配置
+- **强化类型系统** - 为不同组件类别定义专用规格接口（DrivetrainSpecs、WheelsetSpecs 等）
+- **选择性状态订阅** - 导出 `useTotalCost`、`useTotalWeight` 等 hooks，避免不必要的重渲染
+- **环境验证** - 新增 `src/lib/env.ts`，开发时自动检查必需的环境变量
+- **错误处理优化** - Firebase 操作失败时提供分类错误提示（权限拒绝、服务不可用等）
 
 ### 新增文件
 - `src/lib/auth.ts` - Firebase 认证服务
@@ -236,6 +236,6 @@ MIT License
 ## 版本信息
 
 当前版本：**v3.5.0**  
-最后更新：2026-06-01
+最后更新：2026-06-04
 
 详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)。

@@ -1,31 +1,72 @@
 'use client';
 
 import { APP_CONSTANTS } from '@/lib/constants';
+import { Github, Heart } from 'lucide-react';
+import Link from 'next/link';
 
 export function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-secondary border-t border-border py-8 mt-12">
+    <footer className="bg-surface border-t border-border py-6 sm:py-8 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center">
-              <span className="text-lg font-bold text-white font-display">V</span>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-primary via-primary to-accent rounded-xl sm:rounded-2xl flex items-center justify-center">
+              <span className="text-sm sm:text-lg font-bold text-white">V</span>
             </div>
             <div>
-              <p className="font-display font-semibold text-foreground">{APP_CONSTANTS.APP_INFO.name}</p>
-              <p className="text-xs text-muted">Advanced Bike Configurator</p>
+              <p className="font-display font-semibold text-foreground text-sm sm:text-base">
+                {APP_CONSTANTS.APP_INFO.name}
+              </p>
+              <p className="text-xs text-muted hidden sm:block">
+                {APP_CONSTANTS.APP_INFO.tagline}
+              </p>
             </div>
           </div>
-          <div className="flex items-center gap-6">
-            <a href="#" className="text-sm text-muted hover:text-foreground transition-colors">About</a>
-            <a href="#" className="text-sm text-muted hover:text-foreground transition-colors">Support</a>
-            <a href="#" className="text-sm text-muted hover:text-foreground transition-colors">Privacy</a>
-            <a href="#" className="text-sm text-muted hover:text-foreground transition-colors">Terms</a>
+
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link
+              href="https://github.com/sutchan/Veloform"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-muted hover:text-foreground transition-colors"
+              aria-label="GitHub"
+            >
+              <Github className="w-5 h-5" />
+            </Link>
+            <span className="text-sm text-muted">|</span>
+            <Link
+              href="#"
+              className="text-sm text-muted hover:text-foreground transition-colors"
+            >
+              About
+            </Link>
+            <Link
+              href="#"
+              className="text-sm text-muted hover:text-foreground transition-colors"
+            >
+              Support
+            </Link>
+            <Link
+              href="#"
+              className="text-sm text-muted hover:text-foreground transition-colors"
+            >
+              Privacy
+            </Link>
           </div>
-          <div className="flex items-center gap-4">
-            <p className="text-sm text-muted">v{APP_CONSTANTS.APP_INFO.version}</p>
-            <p className="text-sm text-muted">© 2026 {APP_CONSTANTS.APP_INFO.name}. All rights reserved.</p>
-          </div>
+
+          <p className="text-xs sm:text-sm text-muted flex items-center gap-1">
+            © {currentYear} {APP_CONSTANTS.APP_INFO.name}. Built with{' '}
+            <Heart className="w-3 h-3 text-primary inline" />.
+            <span className="hidden sm:inline ml-2">v{APP_CONSTANTS.APP_INFO.version}</span>
+          </p>
+        </div>
+
+        <div className="mt-4 pt-4 border-t border-border/50 text-center">
+          <p className="text-xs text-muted">
+            Version {APP_CONSTANTS.APP_INFO.version}
+          </p>
         </div>
       </div>
     </footer>
