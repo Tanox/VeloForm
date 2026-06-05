@@ -3,6 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Veloform - Premium Bike Configurator. Build your dream bicycle with precision.">
+  <meta name="theme-color" content="#050505">
+  <meta property="og:title" content="Veloform - Premium Bike Configurator">
+  <meta property="og:description" content="Configure your perfect bicycle with precision. Choose from premium components, compare specifications.">
+  <meta property="og:type" content="website">
+  <meta name="description" content="Veloform - Premium Bike Configurator. Build your dream bicycle with precision.">
+  <meta name="theme-color" content="#050505">
+  <meta property="og:title" content="Veloform - Premium Bike Configurator">
+  <meta property="og:description" content="Configure your perfect bicycle with precision. Choose from premium components, compare specifications.">
+  <meta property="og:type" content="website">
   <title>Veloform - Premium Bike Configurator v2.0</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
@@ -359,6 +369,37 @@
     .stagger-6 { animation-delay: 0.3s; }
 
     .animate-slide-up, .animate-slide-in-left, .animate-slide-in-right { opacity: 0; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+
+    /* Cursor effects */
+    button, a, [role="button"] { cursor: pointer; }
+    button:disabled, a[href="#"] { cursor: not-allowed; opacity: 0.6; }
+    
+    /* Loading skeleton animation */
+    .skeleton-pulse {
+      animation: skeletonPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes skeletonPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+    
+    /* Smooth scroll for anchor links */
+    html { scroll-behavior: smooth; }
+    
+    /* Active state for buttons */
+    .btn:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+
   </style>
 </head>
 <body>
@@ -369,7 +410,7 @@
   </div>
   <div class="grain-overlay"></div>
 
-  <nav class="fixed top-0 left-0 right-0 z-50 glass">
+  <nav class="fixed top-0 left-0 right-0 z-50 glass" role="navigation" aria-label="Main navigation">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16 sm:h-20">
         <a href="#" class="flex items-center gap-3 group">
@@ -407,14 +448,14 @@
         </div>
 
         <div class="flex items-center gap-1 sm:gap-2">
-          <button class="btn-ghost rounded-xl" id="theme-btn" onclick="toggleTheme()">
+          <button class="btn-ghost rounded-xl" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle dark mode">
             <i data-lucide="moon" class="w-5 h-5"></i>
           </button>
           <button class="btn-ghost rounded-xl hidden sm:flex items-center gap-2" onclick="toggleLanguage()">
             <i data-lucide="globe" class="w-4 h-4"></i>
             <span class="text-sm font-medium" id="lang-text">EN</span>
           </button>
-          <button class="btn-ghost rounded-xl" id="help-btn" onclick="openHelpModal()">
+          <button class="btn-ghost rounded-xl" id="help-btn" onclick="openHelpModal()" aria-label="Open help">
             <i data-lucide="help-circle" class="w-5 h-5"></i>
           </button>
         </div>
@@ -445,7 +486,7 @@
     </div>
   </nav>
 
-  <main class="pt-24 sm:pt-28 lg:pt-32 pb-28 lg:pb-12">
+  <main class="pt-24 sm:pt-28 lg:pt-32 pb-28 lg:pb-12" role="main" aria-label="Main content">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="mb-10 lg:mb-14 animate-slide-up">
@@ -815,16 +856,16 @@
                   </div>
 
                   <div class="space-y-3">
-                    <button class="btn btn-primary w-full" id="save-btn" onclick="saveBuild()">
+                    <button class="btn btn-primary w-full" id="save-btn" onclick="saveBuild()" aria-label="Save configuration">
                       <i data-lucide="heart" class="w-4 h-4"></i>
                       Save Configuration
                     </button>
                     <div class="grid grid-cols-2 gap-3">
-                      <button class="btn btn-secondary" id="share-btn" onclick="shareBuild()">
+                      <button class="btn btn-secondary" id="share-btn" onclick="shareBuild()" aria-label="Share configuration">
                         <i data-lucide="share-2" class="w-4 h-4"></i>
                         Share
                       </button>
-                      <button class="btn btn-secondary" id="reset-btn" onclick="resetBuild()">
+                      <button class="btn btn-secondary" id="reset-btn" onclick="resetBuild()" aria-label="Reset configuration">
                         <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
                         Reset
                       </button>
@@ -893,7 +934,7 @@
     </div>
   </main>
 
-  <footer class="border-t border-zinc-800/50 py-8">
+  <footer class="border-t border-zinc-800/50 py-8" role="contentinfo">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div class="md:col-span-2">
@@ -1004,6 +1045,23 @@
         setTimeout(() => toast.remove(), 300);
       }, 3000);
     }
+
+    
+    // Keyboard navigation support
+    document.addEventListener('keydown', (e) => {
+      // ESC to close modals
+      if (e.key === 'Escape') {
+        const activeModals = document.querySelectorAll('.modal-overlay.active');
+        activeModals.forEach(modal => {
+          modal.classList.remove('active');
+        });
+      }
+      
+      // ? to show keyboard shortcuts
+      if (e.key === '?' && e.shiftKey) {
+        showToast('Keyboard shortcuts: ESC to close, Tab to navigate', 'info');
+      }
+    });
 
     document.addEventListener('DOMContentLoaded', () => {
       initializeLucide();
