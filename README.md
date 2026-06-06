@@ -1,6 +1,6 @@
 # Veloform 自行车装车配置器
 
-[English Version](./README_EN.md) | [项目规范](./openspec/README.md) | [原型图](./prototype/index.html)
+[English Version](./README_EN.md) | [项目规范](./openspec/README.md) | [原型图说明](./openspec/prototype-guide.md)
 
 ---
 
@@ -171,7 +171,8 @@ src/
 - **[openspec/README.md](./openspec/README.md)** - 规范文档索引（推荐从这里开始）
 - **[openspec/PROJECT_GUIDELINES.md](./openspec/PROJECT_GUIDELINES.md)** - 项目开发指南
 - **[openspec/design/ui-design-system.md](./openspec/design/ui-design-system.md)** - UI 设计系统
-- **[prototype-guide.md](./prototype-guide.md)** - 原型图说明
+- **[openspec/prototype-guide.md](./openspec/prototype-guide.md)** - 原型图说明
+- **[openspec/design/design-review.md](./openspec/design/design-review.md)** - 设计审查与优化建议
 
 ---
 
@@ -203,7 +204,7 @@ src/
 
 ---
 
-## 架构改进（v3.5.0）
+## 架构改进 (v3.6.1)
 
 本次更新对代码架构进行了全面优化：
 
@@ -223,7 +224,7 @@ src/
 - `src/lib/auth.test.ts` - 认证服务测试
 - `src/lib/env.test.ts` - 环境验证测试
 
-详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)。
+详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)
 
 ---
 
@@ -235,7 +236,7 @@ MIT License
 
 ## 版本信息
 
-当前版本：**v3.5.0**  
+当前版本：**v3.6.1**
 最后更新：2026-06-04
 
 详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)。

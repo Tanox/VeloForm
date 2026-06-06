@@ -1,12 +1,10 @@
 'use client';
 
-import { ReactNode, HTMLAttributes, forwardRef } from 'react';
+import { ReactNode, forwardRef, ComponentProps, HTMLAttributes } from 'react';
 import { cn } from '@/lib/utils';
 import { motion, MotionProps } from 'framer-motion';
 
-type ConflictingProps = 'onAnimationStart' | 'onDragStart' | 'onDragEnd' | 'onDrag';
-
-type SafeHTMLAttributes = Omit<HTMLAttributes<HTMLDivElement>, ConflictingProps>;
+type SafeHTMLAttributes = Omit<HTMLAttributes<HTMLDivElement>, keyof MotionProps>;
 
 interface CardProps extends SafeHTMLAttributes {
   children: ReactNode;
@@ -44,7 +42,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
           hover && 'hover:shadow-xl hover:shadow-primary/5',
           className
         )}
-        {...(props as MotionProps & SafeHTMLAttributes)}
+        {...(props as unknown as MotionProps & React.HTMLAttributes<HTMLDivElement>)}
       >
         {children}
       </motion.div>

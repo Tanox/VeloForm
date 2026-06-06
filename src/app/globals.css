@@ -117,6 +117,7 @@
       radial-gradient(at 50% 50%, rgba(20, 184, 166, 0.02) 0px, transparent 70%);
     opacity: 0.6;
   }
+
   .noise-bg {
     position: relative;
     overflow: hidden;

@@ -13,22 +13,22 @@ export interface Toast {
 
 interface ToastStore {
   toasts: Toast[];
-  addToast: (type: ToastType, message: string) => void;
+  addToast: (type: ToastType, message: string, duration?: number) => void;
   removeToast: (id: string) => void;
 }
 
 export const useToastStore = create<ToastStore>((set) => ({
   toasts: [],
-  addToast: (type: ToastType, message: string) => {
+  addToast: (type: ToastType, message: string, duration = 4000) => {
     const id = Date.now().toString();
     set((state) => ({
-      toasts: [...state.toasts, { id, type, message }],
+      toasts: [...state.toasts, { id, type, message, duration }],
     }));
     setTimeout(() => {
       set((state) => ({
         toasts: state.toasts.filter((toast) => toast.id !== id),
       }));
-    }, 4000);
+    }, duration);
   },
   removeToast: (id: string) => {
     set((state) => ({
@@ -37,6 +37,6 @@ export const useToastStore = create<ToastStore>((set) => ({
   },
 }));
 
-export function toast(type: ToastType, message: string) {
-  useToastStore.getState().addToast(type, message);
+export function toast(type: ToastType, message: string, duration?: number) {
+  useToastStore.getState().addToast(type, message, duration);
 }
