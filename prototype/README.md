@@ -32,7 +32,7 @@ prototype/
 - [项目规范](../openspec/README.md)
 - [UI 设计系统](../openspec/design/ui-design-system.md)
 - [设计审查](../openspec/design/design-review.md)
-- [原型说明](../openspec/prototype-guide.md)
+- [原型说明](./prototype-guide.md)
 
 ---
 
