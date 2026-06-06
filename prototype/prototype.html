@@ -126,6 +126,7 @@
             color: var(--foreground-muted);
             text-decoration: none;
             transition: color 0.2s;
+            font-size: 0.9rem;
         }
 
         .nav-links a:hover {
@@ -164,6 +165,22 @@
         .btn-secondary:hover {
             background: var(--surface-hover);
             border-color: var(--primary);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--foreground);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
         }
 
         .hero {
@@ -247,6 +264,12 @@
         .card-description {
             color: var(--foreground-muted);
             font-size: 0.9rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
         }
 
         .bike-selector {
@@ -398,10 +421,59 @@
             justify-content: center;
         }
 
-        .section-title {
-            font-size: 1.75rem;
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
             font-weight: 600;
-            margin-bottom: 1.5rem;
+        }
+
+        .badge-success {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: rgba(234, 179, 8, 0.15);
+            color: var(--warning);
+        }
+
+        .badge-info {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--info);
+        }
+
+        .feature-grid {
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(20, 184, 166, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            color: var(--foreground-muted);
+            font-size: 0.9rem;
         }
 
         .modal-overlay {
@@ -611,56 +683,6 @@
             color: var(--foreground-dim);
         }
 
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .badge-success {
-            background: rgba(34, 197, 94, 0.15);
-            color: var(--success);
-        }
-
-        .badge-warning {
-            background: rgba(234, 179, 8, 0.15);
-            color: var(--warning);
-        }
-
-        .feature-grid {
-            margin-top: 4rem;
-        }
-
-        .feature-card {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .feature-icon {
-            width: 64px;
-            height: 64px;
-            background: rgba(20, 184, 166, 0.1);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin: 0 auto 1rem;
-        }
-
-        .feature-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .feature-desc {
-            color: var(--foreground-muted);
-            font-size: 0.9rem;
-        }
-
         @media (max-width: 768px) {
             .hero-title {
                 font-size: 2.5rem;
@@ -673,6 +695,87 @@
             .summary-panel {
                 position: static;
             }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card {
+            background: var(--background);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-card-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-card-label {
+            font-size: 0.8rem;
+            color: var(--foreground-muted);
+            margin-top: 0.25rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .tab {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--foreground-muted);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            color: var(--foreground);
+            background: var(--surface-hover);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        .cost-breakdown {
+            margin-top: 1rem;
+        }
+
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .cost-item:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .cost-item-label {
+            color: var(--foreground-muted);
+        }
+
+        .cost-item-value {
+            font-weight: 500;
         }
     </style>
 </head>
@@ -690,7 +793,7 @@
                     <a href="#configurator">配置器</a>
                     <a href="#features">功能</a>
                     <a href="#about">关于</a>
-                    <button class="btn btn-secondary">登录</button>
+                    <button class="btn btn-secondary btn-sm">登录</button>
                 </div>
             </nav>
         </div>
@@ -789,26 +892,65 @@
                         <div class="card-header">
                             <h3 class="card-title font-display">配置汇总</h3>
                         </div>
-                        <div class="price-display">¥92,960</div>
-                        <div class="stat-row">
-                            <span class="stat-label">总重量</span>
-                            <span class="stat-value">6.8 kg</span>
+                        
+                        <div class="tabs">
+                            <button class="tab active" onclick="switchTab('summary')">摘要</button>
+                            <button class="tab" onclick="switchTab('cost')">成本</button>
                         </div>
-                        <div class="stat-row">
-                            <span class="stat-label">价格区间</span>
-                            <span class="stat-value badge badge-warning">高端</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">性价比</span>
-                            <span class="stat-value">⭐⭐⭐☆☆</span>
-                        </div>
-                        <div style="margin-top: 1rem;">
-                            <span class="stat-label">预算进度</span>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 93%;"></div>
+
+                        <div id="tab-summary">
+                            <div class="price-display">¥92,960</div>
+                            
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-card-value">6.8 kg</div>
+                                    <div class="stat-card-label">总重量</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-card-value">高端</div>
+                                    <div class="stat-card-label">配置等级</div>
+                                </div>
                             </div>
-                            <span style="font-size: 0.8rem; color: var(--foreground-muted);">¥92,960 / ¥100,000</span>
+
+                            <div class="stat-row">
+                                <span class="stat-label">性价比评分</span>
+                                <span class="stat-value">⭐⭐⭐☆☆</span>
+                            </div>
+                            
+                            <div style="margin-top: 1rem;">
+                                <span class="stat-label">预算进度</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 93%;"></div>
+                                </div>
+                                <span style="font-size: 0.8rem; color: var(--foreground-muted);">¥92,960 / ¥100,000</span>
+                            </div>
                         </div>
+
+                        <div id="tab-cost" style="display: none;">
+                            <div class="cost-breakdown">
+                                <div class="cost-item">
+                                    <span class="cost-item-label">车架</span>
+                                    <span class="cost-item-value">¥32,990</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span class="cost-item-label">套件</span>
+                                    <span class="cost-item-value">¥28,500</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span class="cost-item-label">轮组</span>
+                                    <span class="cost-item-value">¥25,800</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span class="cost-item-label">其他组件</span>
+                                    <span class="cost-item-value">¥5,670</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span class="cost-item-label">总计</span>
+                                    <span class="cost-item-value">¥92,960</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="btn-group">
                             <button class="btn btn-primary" onclick="showToast('配置已保存！', 'success')">
                                 💾 保存配置
@@ -838,6 +980,21 @@
                         <div class="feature-icon">💾</div>
                         <h3 class="feature-title font-display">云端保存</h3>
                         <p class="feature-desc">所有配置自动保存到云端，随时访问</p>
+                    </div>
+                    <div class="card feature-card">
+                        <div class="feature-icon">🔄</div>
+                        <h3 class="feature-title font-display">配置对比</h3>
+                        <p class="feature-desc">对比不同配置，找到最适合你的组合</p>
+                    </div>
+                    <div class="card feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3 class="feature-title font-display">成本分析</h3>
+                        <p class="feature-desc">详细的成本分解，了解每一分钱的去向</p>
+                    </div>
+                    <div class="card feature-card">
+                        <div class="feature-icon">🌍</div>
+                        <h3 class="feature-title font-display">多语言支持</h3>
+                        <p class="feature-desc">支持中英文双语，服务全球用户</p>
                     </div>
                 </div>
             </div>
@@ -925,6 +1082,7 @@
         };
 
         let currentBikeType = 'road';
+        let currentTab = 'summary';
         let toastId = 0;
 
         function selectBikeType(type) {
@@ -950,7 +1108,7 @@
             const content = document.getElementById('modal-content');
             content.innerHTML = data.options.map((option, index) => `
                 <div class="option-card ${option.selected ? 'selected' : ''}" 
-                     onclick="selectOption(${componentType}, ${index})">
+                     onclick="selectOption('${componentType}', ${index})">
                     <div class="option-header">
                         <div class="option-name">${option.name}</div>
                         <div class="option-price">¥${option.price.toLocaleString()}</div>
@@ -997,6 +1155,16 @@
 
         function scrollToConfigurator() {
             document.getElementById('configurator').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('tab-summary').style.display = tab === 'summary' ? 'block' : 'none';
+            document.getElementById('tab-cost').style.display = tab === 'cost' ? 'block' : 'none';
         }
 
         document.addEventListener('keydown', (e) => {
