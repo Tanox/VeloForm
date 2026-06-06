@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veloform - 自行车配置器</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #14b8a6;
+            --primary-light: #2dd4bf;
+            --primary-dark: #0d9488;
+            --background: #09090b;
+            --surface: #18181b;
+            --surface-hover: #27272a;
+            --border: #27272a;
+            --foreground: #fafafa;
+            --foreground-muted: #a1a1aa;
+            --foreground-dim: #71717a;
+            --accent: #f59e0b;
+            --success: #22c55e;
+            --warning: #eab308;
+            --error: #ef4444;
+            --info: #3b82f6;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .gradient-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            opacity: 0.4;
+            background-image: 
+                radial-gradient(at 20% 30%, rgba(20, 184, 166, 0.08) 0px, transparent 50%),
+                radial-gradient(at 80% 70%, rgba(245, 158, 11, 0.06) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(20, 184, 166, 0.04) 0px, transparent 70%);
+            pointer-events: none;
+        }
+
+        .noise-bg::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(9, 9, 11, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--foreground-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--foreground);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(20, 184, 166, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--foreground);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface-hover);
+            border-color: var(--primary);
+        }
+
+        .hero {
+            padding: 5rem 0 3rem;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--foreground), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--foreground-muted);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .main-content {
+            padding: 3rem 0;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+        @media (min-width: 768px) {
+            .grid-cols-md-2 { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (min-width: 1024px) {
+            .grid-cols-lg-3 { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(20, 184, 166, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .card-description {
+            color: var(--foreground-muted);
+            font-size: 0.9rem;
+        }
+
+        .bike-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .bike-option {
+            padding: 1rem 1.5rem;
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .bike-option:hover {
+            border-color: var(--primary);
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        .bike-option.active {
+            border-color: var(--primary);
+            background: rgba(20, 184, 166, 0.15);
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+
+        .bike-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .bike-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .components-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .component-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .component-item:hover {
+            border-color: rgba(20, 184, 166, 0.3);
+            background: rgba(39, 39, 42, 0.5);
+        }
+
+        .component-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(20, 184, 166, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .component-info {
+            flex: 1;
+        }
+
+        .component-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .component-brand {
+            font-size: 0.8rem;
+            color: var(--foreground-muted);
+        }
+
+        .component-price {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .summary-panel {
+            position: sticky;
+            top: 100px;
+        }
+
+        .price-display {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 1rem 0;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: var(--foreground-muted);
+        }
+
+        .stat-value {
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--surface-hover);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-group .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: scale(0.95);
+            transition: transform 0.3s;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--surface-hover);
+            border: none;
+            color: var(--foreground);
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--border);
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .option-card {
+            padding: 1.25rem;
+            background: var(--background);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-card:hover {
+            border-color: rgba(20, 184, 166, 0.3);
+        }
+
+        .option-card.selected {
+            border-color: var(--primary);
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        .option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .option-name {
+            font-weight: 600;
+        }
+
+        .option-price {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .option-brand {
+            font-size: 0.85rem;
+            color: var(--foreground-muted);
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .toast {
+            padding: 1rem 1.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--error);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--info);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .toast-icon {
+            font-size: 1.25rem;
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .footer-links a {
+            color: var(--foreground-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--foreground);
+        }
+
+        .version {
+            font-size: 0.85rem;
+            color: var(--foreground-dim);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: rgba(234, 179, 8, 0.15);
+            color: var(--warning);
+        }
+
+        .feature-grid {
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(20, 184, 166, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            color: var(--foreground-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .summary-panel {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body class="noise-bg">
+    <div class="gradient-mesh"></div>
+    
+    <header>
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <div class="logo-icon">V</div>
+                    <span class="logo-text font-display">Veloform</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#configurator">配置器</a>
+                    <a href="#features">功能</a>
+                    <a href="#about">关于</a>
+                    <button class="btn btn-secondary">登录</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title font-display">自定义你的梦想自行车</h1>
+            <p class="hero-subtitle">
+                从车架到轮组，全方位配置你的专属自行车。实时计算价格和重量，
+                保存配置并分享给朋友。
+            </p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="scrollToConfigurator()">
+                    🚲 开始配置
+                </button>
+                <button class="btn btn-secondary">
+                    查看示例
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="main-content" id="configurator">
+        <div class="container">
+            <h2 class="section-title font-display">选择车型</h2>
+            <div class="bike-selector">
+                <div class="bike-option active" data-type="road" onclick="selectBikeType('road')">
+                    <div class="bike-icon">🚴</div>
+                    <div class="bike-name">公路车</div>
+                </div>
+                <div class="bike-option" data-type="mtb" onclick="selectBikeType('mtb')">
+                    <div class="bike-icon">🏔️</div>
+                    <div class="bike-name">山地车</div>
+                </div>
+                <div class="bike-option" data-type="gravel" onclick="selectBikeType('gravel')">
+                    <div class="bike-icon">🌾</div>
+                    <div class="bike-name">Gravel</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 grid-cols-md-2 grid-cols-lg-3">
+                <div class="lg:col-span-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title font-display">当前配置</h3>
+                            <span class="badge badge-success">10 个组件</span>
+                        </div>
+                        <div class="components-list">
+                            <div class="component-item" onclick="openModal('frame')">
+                                <div class="component-icon">📐</div>
+                                <div class="component-info">
+                                    <div class="component-name">车架</div>
+                                    <div class="component-brand">Specialized Tarmac SL8</div>
+                                </div>
+                                <div class="component-price">¥32,990</div>
+                            </div>
+                            <div class="component-item" onclick="openModal('groupset')">
+                                <div class="component-icon">⚙️</div>
+                                <div class="component-info">
+                                    <div class="component-name">套件</div>
+                                    <div class="component-brand">Shimano Dura-Ace R9270 Di2</div>
+                                </div>
+                                <div class="component-price">¥28,500</div>
+                            </div>
+                            <div class="component-item" onclick="openModal('wheels')">
+                                <div class="component-icon">🔘</div>
+                                <div class="component-info">
+                                    <div class="component-name">轮组</div>
+                                    <div class="component-brand">Zipp 454 NSW</div>
+                                </div>
+                                <div class="component-price">¥25,800</div>
+                            </div>
+                            <div class="component-item" onclick="openModal('handlebar')">
+                                <div class="component-icon">🚲</div>
+                                <div class="component-info">
+                                    <div class="component-name">车把</div>
+                                    <div class="component-brand">ENVE Aero SES</div>
+                                </div>
+                                <div class="component-price">¥4,280</div>
+                            </div>
+                            <div class="component-item" onclick="openModal('saddle')">
+                                <div class="component-icon">🪑</div>
+                                <div class="component-info">
+                                    <div class="component-name">坐垫</div>
+                                    <div class="component-brand">Fizik Arione R1</div>
+                                </div>
+                                <div class="component-price">¥1,390</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card summary-panel">
+                        <div class="card-header">
+                            <h3 class="card-title font-display">配置汇总</h3>
+                        </div>
+                        <div class="price-display">¥92,960</div>
+                        <div class="stat-row">
+                            <span class="stat-label">总重量</span>
+                            <span class="stat-value">6.8 kg</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">价格区间</span>
+                            <span class="stat-value badge badge-warning">高端</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">性价比</span>
+                            <span class="stat-value">⭐⭐⭐☆☆</span>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <span class="stat-label">预算进度</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 93%;"></div>
+                            </div>
+                            <span style="font-size: 0.8rem; color: var(--foreground-muted);">¥92,960 / ¥100,000</span>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" onclick="showToast('配置已保存！', 'success')">
+                                💾 保存配置
+                            </button>
+                            <button class="btn btn-secondary" onclick="showToast('分享链接已复制！', 'info')">
+                                📤 分享
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-grid" id="features">
+                <h2 class="section-title font-display" style="margin-top: 4rem;">为什么选择 Veloform？</h2>
+                <div class="grid grid-cols-1 grid-cols-md-2 grid-cols-lg-3">
+                    <div class="card feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3 class="feature-title font-display">完全自定义</h3>
+                        <p class="feature-desc">从数百个组件中选择，构建独一无二的自行车</p>
+                    </div>
+                    <div class="card feature-card">
+                        <div class="feature-icon">⚖️</div>
+                        <h3 class="feature-title font-display">实时计算</h3>
+                        <p class="feature-desc">价格和重量实时更新，预算管理更轻松</p>
+                    </div>
+                    <div class="card feature-card">
+                        <div class="feature-icon">💾</div>
+                        <h3 class="feature-title font-display">云端保存</h3>
+                        <p class="feature-desc">所有配置自动保存到云端，随时访问</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">
+                    <div class="logo-icon">V</div>
+                    <span class="logo-text font-display">Veloform</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#">GitHub</a>
+                    <span style="color: var(--foreground-dim);">|</span>
+                    <a href="#">关于</a>
+                    <a href="#">支持</a>
+                    <a href="#">隐私</a>
+                </div>
+                <div class="version">v3.6.0</div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 class="modal-title font-display" id="modal-title">选择组件</h3>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="options-grid" id="modal-content"></div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        const componentData = {
+            frame: {
+                title: '选择车架',
+                options: [
+                    { name: 'Specialized Tarmac SL8', brand: 'Specialized', price: 32990, selected: true },
+                    { name: 'Canyon Ultimate CF SLX', brand: 'Canyon', price: 26800 },
+                    { name: 'Trek Emonda SLR', brand: 'Trek', price: 29800 },
+                    { name: 'Giant TCR Advanced SL', brand: 'Giant', price: 23500 }
+                ]
+            },
+            groupset: {
+                title: '选择套件',
+                options: [
+                    { name: 'Shimano Dura-Ace R9270 Di2', brand: 'Shimano', price: 28500, selected: true },
+                    { name: 'SRAM Red AXS', brand: 'SRAM', price: 26800 },
+                    { name: 'Shimano Ultegra R8170 Di2', brand: 'Shimano', price: 15800 },
+                    { name: 'SRAM Force AXS', brand: 'SRAM', price: 14500 }
+                ]
+            },
+            wheels: {
+                title: '选择轮组',
+                options: [
+                    { name: 'Zipp 454 NSW', brand: 'Zipp', price: 25800, selected: true },
+                    { name: 'ENVE SES 4.5', brand: 'ENVE', price: 22000 },
+                    { name: 'Roval Rapide CLX', brand: 'Roval', price: 19800 },
+                    { name: 'DT Swiss ARC 1400', brand: 'DT Swiss', price: 12800 }
+                ]
+            },
+            handlebar: {
+                title: '选择车把',
+                options: [
+                    { name: 'ENVE Aero SES', brand: 'ENVE', price: 4280, selected: true },
+                    { name: 'Zipp SL-70', brand: 'Zipp', price: 3200 },
+                    { name: 'Roval Rapide', brand: 'Roval', price: 2800 },
+                    { name: 'Deda Superzero', brand: 'Deda', price: 1800 }
+                ]
+            },
+            saddle: {
+                title: '选择坐垫',
+                options: [
+                    { name: 'Fizik Arione R1', brand: 'Fizik', price: 1390, selected: true },
+                    { name: 'S-Works Power', brand: 'Specialized', price: 1690 },
+                    { name: 'Prologo Dimension', brand: 'Prologo', price: 980 },
+                    { name: 'Bontrager Aeolus', brand: 'Bontrager', price: 890 }
+                ]
+            }
+        };
+
+        let currentBikeType = 'road';
+        let toastId = 0;
+
+        function selectBikeType(type) {
+            currentBikeType = type;
+            document.querySelectorAll('.bike-option').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            showToast(`已切换至${getTypeName(type)}配置`, 'info');
+        }
+
+        function getTypeName(type) {
+            const names = { road: '公路车', mtb: '山地车', gravel: 'Gravel' };
+            return names[type] || type;
+        }
+
+        function openModal(componentType) {
+            const data = componentData[componentType];
+            if (!data) return;
+            
+            document.getElementById('modal-title').textContent = data.title;
+            
+            const content = document.getElementById('modal-content');
+            content.innerHTML = data.options.map((option, index) => `
+                <div class="option-card ${option.selected ? 'selected' : ''}" 
+                     onclick="selectOption(${componentType}, ${index})">
+                    <div class="option-header">
+                        <div class="option-name">${option.name}</div>
+                        <div class="option-price">¥${option.price.toLocaleString()}</div>
+                    </div>
+                    <div class="option-brand">${option.brand}</div>
+                </div>
+            `).join('');
+            
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function selectOption(componentType, index) {
+            componentData[componentType].options.forEach((opt, i) => {
+                opt.selected = i === index;
+            });
+            openModal(componentType);
+            showToast('组件已更新！', 'success');
+        }
+
+        function closeModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.id = `toast-${++toastId}`;
+            
+            const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type]}</span>
+                <span>${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideInRight 0.3s ease-out reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function scrollToConfigurator() {
+            document.getElementById('configurator').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
