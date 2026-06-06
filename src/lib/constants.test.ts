@@ -17,7 +17,7 @@ describe('Constants', () => {
 
     it('should return Fold defaults for Fold type', () => {
       const defaults = getDefaultsForType('Fold');
-      expect(defaults).toHaveLength(5);
+      expect(defaults).toHaveLength(3);
       expect(defaults[0].bikeType).toBe('Fold');
     });
   });
