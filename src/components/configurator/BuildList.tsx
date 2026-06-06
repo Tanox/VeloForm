@@ -6,7 +6,7 @@ import { APP_CONSTANTS } from '@/lib/constants';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { useTranslation } from '@/lib/i18n';
-import { Edit3, Settings, Package } from 'lucide-react';
+import { Edit3, Eye, Zap, Package, Settings, Heart, Car, ArrowRight, Cog, CircleDashed, Wrench, Fan } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 
@@ -22,6 +22,17 @@ export function BuildList() {
     return translated === key ? category : translated;
   };
 
+  const getCategoryIcon = (category: string) => {
+    const icons: Record<string, any> = {
+      'Frame': Settings,
+      'Drivetrain': Wrench,
+      'Wheelset': CircleDashed,
+      'Cockpit': Zap,
+      'Tires': Fan,
+    };
+    return icons[category] || Package;
+  };
+
   const totalCategories = APP_CONSTANTS.COMPONENT_CATEGORIES.length;
   const completedCategories = new Set(components.map(c => c.category)).size;
   const completionPercentage = Math.round((completedCategories / totalCategories) * 100);
@@ -34,32 +45,16 @@ export function BuildList() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-5">
         <div>
-          <h3 className="text-2xl font-display font-bold text-foreground">
+          <h3 className="text-xl lg:text-2xl font-display font-bold text-foreground">
             {t('configurator.buildList')}
           </h3>
-          <div className="flex items-center gap-4 mt-2">
-            <div className="flex items-center gap-2 text-muted text-sm">
-              <Settings className="w-4 h-4" />
-              <span>{components.length} {t('common.components')}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-2">
-                <div className="w-24 h-2 bg-zinc-800 rounded-full overflow-hidden">
-                  <motion.div
-                    className="h-full bg-gradient-to-r from-primary to-accent"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${completionPercentage}%` }}
-                    transition={{ duration: 0.5, ease: 'easeOut' }}
-                  />
-                </div>
-                <span className="text-xs text-muted font-medium">
-                  {completedCategories}/{totalCategories}
-                </span>
-              </div>
-            </div>
-          </div>
+          <p className="text-sm text-muted mt-1">Configure your dream bike</p>
+        </div>
+        <div className="flex items-center gap-2 text-muted text-sm">
+          <Eye className="w-4 h-4" />
+          <span>{components.length} {t('common.components')}</span>
         </div>
       </div>
 
@@ -93,70 +88,64 @@ export function BuildList() {
         ) : (
           <motion.div
             key="component-list"
-            className="space-y-4"
+            className="space-y-3"
           >
-            {components.map((component, index) => (
-              <motion.div
-                key={component.id}
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
-                transition={{ 
-                  delay: index * 0.08, 
-                  type: 'spring', 
-                  stiffness: 100,
-                  damping: 20,
-                }}
-                whileHover={{ scale: 1.01, x: 4 }}
-              >
-                <Card 
-                  variant="component"
-                  className="flex items-center justify-between group cursor-pointer"
-                  onClick={() => handleEdit(component.id)}
+            {components.map((component, index) => {
+              const CategoryIcon = getCategoryIcon(component.category);
+              return (
+                <motion.div
+                  key={component.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ 
+                    delay: index * 0.08, 
+                    type: 'spring', 
+                    stiffness: 100,
+                    damping: 20,
+                  }}
                 >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold uppercase tracking-widest text-primary/80">
+                  <div 
+                    className="component-item flex items-center gap-4 p-4 rounded-xl bg-surface border border-border/50 cursor-pointer hover:border-primary/30 hover:bg-surface/80 transition-all"
+                    onClick={() => handleEdit(component.id)}
+                  >
+                    <div className="component-icon w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <CategoryIcon className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="chip mb-2 inline-block px-2 py-0.5 bg-secondary rounded-full text-xs text-muted uppercase tracking-wider">
                         {getCategoryTranslation(component.category)}
                       </span>
+                      <h4 className="font-semibold text-foreground truncate">
+                        {component.name}
+                      </h4>
+                      <p className="text-xs text-muted mt-1">
+                        {component.brand || component.description || component.category}
+                      </p>
                     </div>
-                    <h4 className="font-semibold text-foreground mt-1.5 truncate group-hover:text-gradient transition-all duration-300">
-                      {component.name}
-                    </h4>
-                    {component.brand && (
-                      <p className="text-xs text-muted mt-0.5">{component.brand}</p>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-6 ml-4">
-                    <div className="text-right">
-                      <p className="text-primary font-bold text-lg">
+                    <div className="text-right flex-shrink-0">
+                      <p className="text-lg font-bold text-primary">
                         {formatCurrency(component.price)}
                       </p>
-                      <p className="text-sm text-muted/70">
+                      <p className="text-sm text-muted">
                         {formatWeight(component.weight / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR)}
                       </p>
                     </div>
-                    <motion.div 
-                      whileHover={{ scale: 1.1, rotate: 90 }} 
+                    <motion.button 
+                      className="p-2 rounded-lg text-muted hover:text-primary hover:bg-secondary/50 transition-all"
+                      whileHover={{ scale: 1.1, rotate: 10 }}
                       whileTap={{ scale: 0.9 }}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEdit(component.id);
+                      }}
                     >
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEdit(component.id);
-                        }}
-                        aria-label={`编辑 ${component.name}`}
-                      >
-                        <Edit3 className="w-4 h-4" />
-                      </Button>
-                    </motion.div>
+                      <Edit3 className="w-4 h-4" />
+                    </motion.button>
                   </div>
-                </Card>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </motion.div>
         )}
       </AnimatePresence>
