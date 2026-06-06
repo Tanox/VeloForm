@@ -1,49 +1,32 @@
 # Veloform 自行车配置器 - 原型与设计系统
 
-> **路径**: `/prototype-guide.md`  
-> **版本**: v2.0.0  
-> **更新日期**: 2026-06-01
+> **路径**: `/openspec/prototype-guide.md`  
+> **版本**: v2.3.0  
+> **更新日期**: 2026-06-04
 
 ## 概述
 
-本文档描述 Veloform 自行车配置器的设计系统、原型图说明以及原型与实际 Next.js 项目的映射关系。原型图位于 `prototype.html`，是 UI 设计的视觉参考基准，包含桌面端和移动端的完整交互体验。
+本文档描述 Veloform 自行车配置器的设计系统以及原型与实际 Next.js 项目的映射关系。**注意：旧的原型文件（`prototype.html`、`prototype-high-fidelity.html` 和 `prototype/` 目录）已被删除**，实际的 Next.js 应用现在即为高保真原型，包含完整的交互体验。
 
 ---
 
-## 原型图说明
+## 项目状态说明
 
-### 文件信息
+### 原型演进
 
-| 属性 | 值 |
-|------|-----|
-| 文件名 | `prototype.html` |
-| 文件大小 | ~65KB |
-| 代码行数 | ~1400+ 行 |
-| 技术栈 | HTML5 + CSS3 + Vanilla JavaScript |
-| 状态 | 已完成（高保真交互原型） |
+| 阶段 | 说明 | 状态 |
+|------|------|------|
+| HTML 原型 | 初始高保真原型，纯 HTML/CSS/JS 实现 | ❌ 已废弃 |
+| Next.js 应用 | 生产级应用，完整功能实现 | ✅ 当前版本 |
 
-### 主要特性
+### 当前项目特性
 
-- **三车型支持**：公路车 (Road)、山地车 (MTB)、折叠车 (Fold)
-- **响应式设计**：桌面端、平板、移动端完美适配
-- **流畅动画**：模态框、价格更新、悬停效果等微交互
-- **完整功能**：组件选择、配置保存、分享、重置等
-- **深色主题**：采用蓝色主色调 (#3b82f6) 和橙色强调色 (#f97316)
-
-### 使用方法
-
-直接在浏览器中打开 `prototype.html` 文件即可查看和交互原型：
-
-```bash
-# macOS
-open prototype.html
-
-# Windows
-start prototype.html
-
-# Linux
-xdg-open prototype.html
-```
+实际的 Next.js 应用现已包含所有原型功能，并新增以下特性：
+- **深色/浅色主题切换**：完整的双主题支持
+- **页脚组件**：含版本号显示
+- **增强视觉效果**：渐变网格、噪点背景、玻璃态效果等
+- **完整的后端集成**：Firebase 认证和数据持久化
+- **国际化支持**：中英文双语切换
 
 ---
 
@@ -333,10 +316,15 @@ showToast('加载中...', 'info');
 | 配置比较 | `ComparePanel` | `src/components/configurator/ComparePanel.tsx` | 已实现 |
 | 分享模态框 | `ShareModal` | `src/components/configurator/ShareModal.tsx` | 已实现 |
 | 导航栏 | `Navbar` | `src/components/layout/Navbar.tsx` | 已实现 |
+| 页脚 | `Footer` | `src/components/layout/Footer.tsx` | 新增 |
 | 主题切换 | `ThemeToggle` | `src/components/ui/ThemeToggle.tsx` | 已实现 |
 | 新手引导 | `OnboardingGuide` | `src/components/ui/OnboardingGuide.tsx` | 已实现 |
 | 支持模态框 | `SupportModal` | `src/components/ui/SupportModal.tsx` | 已实现 |
 | 错误边界 | `ErrorBoundary` | `src/components/ui/ErrorBoundary.tsx` | 已实现 |
+| Toast 通知 | `Toast` | `src/components/ui/Toast.tsx` | 已实现 |
+| 卡片组件 | `Card` | `src/components/ui/Card.tsx` | 已实现 |
+| 按钮组件 | `Button` | `src/components/ui/Button.tsx` | 已实现 |
+| 模态框组件 | `Modal` | `src/components/ui/Modal.tsx` | 已实现 |
 
 ### 功能对比
 
@@ -349,6 +337,8 @@ showToast('加载中...', 'info');
 | 国际化 | 中文 | EN/ZH-CN 双语 | 实际项目支持语言切换 |
 | 主题切换 | 仅深色 | 深色/浅色切换 | 实际项目支持双主题 |
 | 响应式 | 基础适配 | 完整响应式 | 实际项目优化移动端体验 |
+| 页脚组件 | 无 | 有 | 实际项目含版本号显示 |
+| 视觉效果 | 基础样式 | 玻璃态、渐变网格、噪点背景 | 实际项目增强视觉体验 |
 
 ### 技术栈对比
 
@@ -454,14 +444,20 @@ graph LR
 
 ## 后续改进方向
 
-### 短期（v3.5.x）
+### 已完成（v3.5.x/v3.6.x）
+
+- ✅ 深色/浅色主题切换
+- ✅ 页脚组件（含版本号显示）
+- ✅ 视觉效果优化（玻璃态、渐变网格、噪点背景）
+
+### 短期（v3.6.x）
 
 - [ ] 完善移动端触摸交互优化
 - [ ] 添加配置导入/导出功能
 - [ ] 优化成本图表交互体验
 - [ ] 增加配置分享链接生成
 
-### 中期（v3.6.x）
+### 中期（v3.7.x）
 
 - [ ] 集成 3D 模型预览（Three.js）
 - [ ] 添加 AR 预览功能（WebXR）
@@ -477,15 +473,29 @@ graph LR
 
 ---
 
-## 相关文档
+## 版本历史
 
-- [openspec/SPEC.md](./openspec/SPEC.md) - 项目规范概览
-- [openspec/architecture/component-design.md](./openspec/architecture/component-design.md) - 组件设计规范
-- [openspec/architecture/data-flow.md](./openspec/architecture/data-flow.md) - 数据流设计
-- [openspec/development/coding-standards.md](./openspec/development/coding-standards.md) - 编码规范
+| 版本 | 日期 | 变更内容 |
+|------|------|---------|
+| v2.3.0 | 2026-06-04 | 更新文档版本号至 3.6.0，与项目版本统一 |
+| v2.2.0 | 2026-06-04 | 文档移至 openspec 目录，更新所有引用路径 |
+| v2.1.0 | 2026-06-04 | 更新文档反映原型文件已删除的情况，新增页脚组件、视觉效果说明，完善版本历史 |
+| v2.0.0 | 2026-06-01 | 建立原型与实际项目映射关系，更新设计系统文档 |
 
 ---
 
-**文档路径**: `/prototype-guide.md`  
-**最后更新**: 2026-06-01  
-**版本**: v1.1.0
+## 相关文档
+
+- [openspec/README.md](./README.md) - 规范文档索引
+- [openspec/SPEC.md](./SPEC.md) - 项目规范概览
+- [openspec/design/ui-design-system.md](./design/ui-design-system.md) - UI 设计系统规范
+- [openspec/design/design-review.md](./design/design-review.md) - 设计审查与优化建议
+- [openspec/architecture/component-design.md](./architecture/component-design.md) - 组件设计规范
+- [openspec/architecture/data-flow.md](./architecture/data-flow.md) - 数据流设计
+- [openspec/development/coding-standards.md](./development/coding-standards.md) - 编码规范
+
+---
+
+**文档路径**: `/openspec/prototype-guide.md`  
+**最后更新**: 2026-06-04  
+**版本**: v2.3.0
