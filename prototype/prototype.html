@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Veloform - Premium Bike Configurator. Build your dream bicycle with precision.">
+  <meta name="theme-color" content="#050505">
+  <meta property="og:title" content="Veloform - Premium Bike Configurator">
+  <meta property="og:description" content="Configure your perfect bicycle with precision. Choose from premium components, compare specifications.">
+  <meta property="og:type" content="website">
+  <meta name="description" content="Veloform - Premium Bike Configurator. Build your dream bicycle with precision.">
+  <meta name="theme-color" content="#050505">
+  <meta property="og:title" content="Veloform - Premium Bike Configurator">
+  <meta property="og:description" content="Configure your perfect bicycle with precision. Choose from premium components, compare specifications.">
+  <meta property="og:type" content="website">
+  <title>Veloform - Premium Bike Configurator v2.0</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #050505;
+      --bg-secondary: #0f0f11;
+      --bg-tertiary: #1a1a1f;
+      --bg-elevated: #25252b;
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --border-default: rgba(255, 255, 255, 0.1);
+      --border-strong: rgba(255, 255, 255, 0.15);
+      --accent-primary: #10b981;
+      --accent-secondary: #34d399;
+      --accent-tertiary: #6ee7b7;
+      --accent-gold: #fbbf24;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
+      --text-muted: #475569;
+      --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.4);
+      --shadow-strong: 0 20px 60px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 60px rgba(16, 185, 129, 0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --radius-2xl: 28px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+
+    .ambient-bg {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; pointer-events: none;
+    }
+    .ambient-gradient-1 {
+      position: absolute; top: -10%; right: -5%; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+      border-radius: 50%; filter: blur(80px); animation: float1 20s ease-in-out infinite;
+    }
+    .ambient-gradient-2 {
+      position: absolute; bottom: -10%; left: -10%; width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+      border-radius: 50%; filter: blur(80px); animation: float2 25s ease-in-out infinite;
+    }
+    .ambient-gradient-3 {
+      position: absolute; top: 30%; left: 30%; width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(251, 191, 36, 0.04) 0%, transparent 70%);
+      border-radius: 50%; filter: blur(60px); animation: float3 30s ease-in-out infinite;
+    }
+
+    @keyframes float1 { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.1); } 66% { transform: translate(-20px, 20px) scale(0.95); } }
+    @keyframes float2 { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(-20px, 20px) scale(1.05); } 66% { transform: translate(30px, -20px) scale(0.9); } }
+    @keyframes float3 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(20px, 20px) scale(1.1); } }
+
+    .grain-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .glass {
+      background: rgba(15, 15, 17, 0.8);
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative; overflow: hidden;
+    }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+      opacity: 0; transition: opacity 0.4s ease;
+    }
+    .card:hover::before { opacity: 1; }
+    .card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-strong), var(--shadow-glow);
+    }
+    .card-active {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 1px var(--accent-primary), var(--shadow-glow);
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 28px; border-radius: 9999px; font-weight: 500; font-size: 14px;
+      letter-spacing: 0.01em; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer; border: none; outline: none; position: relative; overflow: hidden;
+      min-height: 48px;
+    }
+    .btn:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 3px; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-primary) 0%, #059669 100%);
+      color: white; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary::after {
+      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.6s ease;
+    }
+    .btn-primary:hover::after { left: 100%; }
+    .btn-secondary {
+      background: transparent; color: var(--text-primary); border: 1px solid var(--border-default);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05); border-color: var(--border-strong);
+    }
+    .btn-ghost {
+      background: transparent; color: var(--text-secondary); padding: 10px 16px; min-height: 44px;
+    }
+    .btn-ghost:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+    .btn-ghost.active { background: rgba(16, 185, 129, 0.1); color: var(--accent-primary); }
+
+    .bike-type-btn {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; padding: 20px 32px; border-radius: var(--radius-lg);
+      font-weight: 500; font-size: 13px; letter-spacing: 0.02em; text-transform: uppercase;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;
+      border: 1px solid transparent; background: transparent; color: var(--text-tertiary);
+      position: relative; min-height: 44px;
+    }
+    .bike-type-btn::before {
+      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 0; height: 2px; background: var(--accent-primary);
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 2px;
+    }
+    .bike-type-btn:hover { background: rgba(255, 255, 255, 0.03); color: var(--text-secondary); }
+    .bike-type-btn.active { color: var(--accent-primary); }
+    .bike-type-btn.active::before { width: 40%; }
+    .bike-type-btn svg { width: 24px; height: 24px; transition: all 0.4s ease; }
+    .bike-type-btn.active svg { transform: scale(1.15); filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.5)); }
+
+    .component-item {
+      display: flex; align-items: center; gap: 20px; padding: 20px;
+      background: var(--bg-secondary); border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg); cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;
+    }
+    .component-item::after {
+      content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+      width: 3px; height: 0; background: var(--accent-primary);
+      border-radius: 3px 0 0 3px; transition: height 0.3s ease;
+    }
+    .component-item:hover::after { height: 60%; }
+    .component-item:hover {
+      border-color: var(--border-strong);
+      background: linear-gradient(90deg, var(--bg-tertiary), var(--bg-secondary));
+      transform: translateX(4px);
+    }
+
+    .component-icon-wrapper {
+      width: 64px; height: 64px; border-radius: var(--radius-md);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; position: relative; transition: all 0.3s ease;
+    }
+    .component-item:hover .component-icon-wrapper {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0.1) 100%);
+      transform: scale(1.05);
+    }
+    .component-icon-wrapper svg {
+      width: 28px; height: 28px; color: var(--accent-primary); transition: all 0.3s ease;
+    }
+    .component-item:hover .component-icon-wrapper svg {
+      filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));
+    }
+
+    .category-tag {
+      display: inline-flex; align-items: center; padding: 4px 12px;
+      border-radius: 9999px; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      background: rgba(16, 185, 129, 0.1); color: var(--accent-secondary);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .stat-card {
+      position: relative; border-radius: var(--radius-xl); padding: 24px;
+      background: linear-gradient(180deg, rgba(26, 26, 31, 0.8) 0%, rgba(15, 15, 17, 0.9) 100%);
+      border: 1px solid var(--border-subtle); overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .stat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-gold));
+      opacity: 0.6;
+    }
+    .stat-card:hover {
+      transform: translateY(-2px); border-color: var(--border-strong);
+      box-shadow: var(--shadow-medium);
+    }
+    .stat-value { font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      z-index: 100; display: flex; align-items: center; justify-content: center;
+      padding: 20px; opacity: 0; visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    .modal-content {
+      background: var(--bg-secondary); border: 1px solid var(--border-default);
+      border-radius: var(--radius-2xl); max-width: 700px; width: 100%;
+      max-height: 85vh; overflow: hidden;
+      transform: scale(0.95) translateY(20px);
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-strong);
+    }
+    .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    @keyframes pulse-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+    @keyframes bounce-subtle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
+    .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+    .animate-slide-up { animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+    .animate-slide-in-left { animation: slideInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+    .animate-slide-in-right { animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+    .animate-scale-in { animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+    .animate-shimmer {
+      background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-elevated) 50%, var(--bg-tertiary) 75%);
+      background-size: 200% 100%; animation: shimmer 1.5s infinite;
+    }
+    .animate-pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }
+    .animate-bounce-subtle { animation: bounce-subtle 2s ease-in-out infinite; }
+
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--bg-tertiary); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--bg-elevated); }
+
+    *:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; border-radius: 4px; }
+    ::selection { background: rgba(16, 185, 129, 0.3); color: var(--text-primary); }
+
+    .progress-bar {
+      height: 6px; background: var(--bg-tertiary); border-radius: 3px;
+      overflow: hidden; position: relative;
+    }
+    .progress-fill {
+      height: 100%; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      border-radius: 3px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); position: relative;
+    }
+    .progress-fill::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
+      border-radius: 9999px; font-size: 12px; font-weight: 500;
+      background: rgba(16, 185, 129, 0.1); color: var(--accent-secondary);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+    .badge-gold {
+      background: rgba(251, 191, 36, 0.15); color: var(--accent-gold);
+      border-color: rgba(251, 191, 36, 0.3);
+    }
+    .badge-blue {
+      background: rgba(59, 130, 246, 0.15); color: #93c5fd;
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .mobile-bottom-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(15, 15, 17, 0.95); backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--border-subtle);
+      padding: 14px 16px; z-index: 50;
+      transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .mobile-bottom-bar.visible { transform: translateY(0); }
+    .mobile-bottom-bar button {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      background: transparent; border: none; color: var(--text-tertiary);
+      padding: 8px 12px; border-radius: var(--radius-md);
+      transition: all 0.2s ease; position: relative;
+    }
+    .mobile-bottom-bar button:hover, .mobile-bottom-bar button.active {
+      color: var(--text-primary); background: var(--bg-tertiary);
+    }
+    .mobile-bottom-bar button span { font-size: 10px; }
+    .mobile-bottom-bar button.btn-primary {
+      position: absolute; top: -28px; left: 50%; transform: translateX(-50%);
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: white; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+    }
+    .mobile-bottom-bar button.btn-primary:hover { transform: translateX(-50%) scale(1.05); }
+
+    .toast {
+      position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(15, 15, 17, 0.95); backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border-default);
+      padding: 14px 20px; border-radius: var(--radius-lg);
+      color: var(--text-primary); font-size: 14px;
+      z-index: 100; opacity: 1; transition: opacity 0.3s ease;
+      box-shadow: var(--shadow-strong);
+    }
+    .toast-success { border-color: rgba(16, 185, 129, 0.3); color: var(--accent-primary); }
+    .toast-error { border-color: rgba(239, 68, 68, 0.3); color: #ef4444; }
+    .toast-info { border-color: rgba(59, 130, 246, 0.3); color: #60a5fa; }
+
+    .skeleton {
+      background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-elevated) 50%, var(--bg-tertiary) 75%);
+      background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: var(--radius-md);
+    }
+
+    @media (max-width: 1024px) { .desktop-only { display: none !important; } }
+    @media (min-width: 1025px) { .mobile-only { display: none !important; } }
+    @media (max-width: 768px) {
+      .card { border-radius: var(--radius-md); }
+      .modal-content { max-height: 90vh; border-radius: var(--radius-xl); }
+      .stat-card { padding: 18px; }
+      .component-item { padding: 16px; gap: 14px; }
+      .component-icon-wrapper { width: 52px; height: 52px; }
+      .component-icon-wrapper svg { width: 24px; height: 24px; }
+    }
+
+    .stagger-1 { animation-delay: 0.05s; }
+    .stagger-2 { animation-delay: 0.1s; }
+    .stagger-3 { animation-delay: 0.15s; }
+    .stagger-4 { animation-delay: 0.2s; }
+    .stagger-5 { animation-delay: 0.25s; }
+    .stagger-6 { animation-delay: 0.3s; }
+
+    .animate-slide-up, .animate-slide-in-left, .animate-slide-in-right { opacity: 0; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+
+    /* Cursor effects */
+    button, a, [role="button"] { cursor: pointer; }
+    button:disabled, a[href="#"] { cursor: not-allowed; opacity: 0.6; }
+    
+    /* Loading skeleton animation */
+    .skeleton-pulse {
+      animation: skeletonPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes skeletonPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+    
+    /* Smooth scroll for anchor links */
+    html { scroll-behavior: smooth; }
+    
+    /* Active state for buttons */
+    .btn:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="ambient-bg">
+    <div class="ambient-gradient-1"></div>
+    <div class="ambient-gradient-2"></div>
+    <div class="ambient-gradient-3"></div>
+  </div>
+  <div class="grain-overlay"></div>
+
+  <nav class="fixed top-0 left-0 right-0 z-50 glass" role="navigation" aria-label="Main navigation">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="relative">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-emerald-400 via-emerald-500 to-emerald-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/25 group-hover:shadow-emerald-500/40 transition-all duration-500 group-hover:scale-105">
+              <span class="text-xl sm:text-2xl font-bold text-white font-display">V</span>
+            </div>
+            <div class="absolute -inset-1 bg-gradient-to-br from-emerald-400 to-amber-400 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-all duration-500"></div>
+          </div>
+          <div class="hidden sm:block">
+            <h1 class="text-lg sm:text-xl font-display font-bold text-white group-hover:text-emerald-400 transition-colors duration-300">Veloform</h1>
+            <p class="text-xs text-zinc-500">Premium Bike Configurator</p>
+          </div>
+        </a>
+
+        <div class="hidden lg:flex items-center gap-1 p-1 bg-zinc-900/50 rounded-2xl border border-white/5">
+          <button class="bike-type-btn active" data-type="road" onclick="selectBikeType('road')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/>
+            </svg>
+            Road
+          </button>
+          <button class="bike-type-btn" data-type="mtb" onclick="selectBikeType('mtb')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/><path d="m14.5 10-2.5 2.5"/>
+            </svg>
+            MTB
+          </button>
+          <button class="bike-type-btn" data-type="fold" onclick="selectBikeType('fold')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M12 15V7a4 4 0 0 0-4-4H6a6 6 0 0 1 12 0h-2a4 4 0 0 0-4 4v8"/>
+            </svg>
+            Fold
+          </button>
+        </div>
+
+        <div class="flex items-center gap-1 sm:gap-2">
+          <button class="btn-ghost rounded-xl" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle dark mode">
+            <i data-lucide="moon" class="w-5 h-5"></i>
+          </button>
+          <button class="btn-ghost rounded-xl hidden sm:flex items-center gap-2" onclick="toggleLanguage()">
+            <i data-lucide="globe" class="w-4 h-4"></i>
+            <span class="text-sm font-medium" id="lang-text">EN</span>
+          </button>
+          <button class="btn-ghost rounded-xl" id="help-btn" onclick="openHelpModal()" aria-label="Open help">
+            <i data-lucide="help-circle" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="lg:hidden pb-4">
+        <div class="flex items-center gap-1 p-1 bg-zinc-900/50 rounded-2xl border border-white/5">
+          <button class="bike-type-btn active flex-1 justify-center py-3" data-type="road" onclick="selectBikeType('road')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mb-1">
+              <circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/>
+            </svg>
+            Road
+          </button>
+          <button class="bike-type-btn flex-1 justify-center py-3" data-type="mtb" onclick="selectBikeType('mtb')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mb-1">
+              <circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/><path d="m14.5 10-2.5 2.5"/>
+            </svg>
+            MTB
+          </button>
+          <button class="bike-type-btn flex-1 justify-center py-3" data-type="fold" onclick="selectBikeType('fold')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mb-1">
+              <circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M12 15V7a4 4 0 0 0-4-4H6a6 6 0 0 1 12 0h-2a4 4 0 0 0-4 4v8"/>
+            </svg>
+            Fold
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-24 sm:pt-28 lg:pt-32 pb-28 lg:pb-12" role="main" aria-label="Main content">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="mb-10 lg:mb-14 animate-slide-up">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+          <div class="max-w-2xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full mb-4">
+              <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse-soft"></span>
+              <span class="text-emerald-400 text-xs font-semibold tracking-wide uppercase">New • v2.0 Release</span>
+            </div>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-white leading-tight mb-4">
+              Build Your
+              <span class="bg-gradient-to-r from-emerald-400 via-emerald-300 to-amber-400 bg-clip-text text-transparent"> Dream Ride</span>
+            </h1>
+            <p class="text-zinc-400 text-base sm:text-lg leading-relaxed">
+              Configure your perfect bicycle with precision. Choose from premium components, 
+              compare specifications, and create a build that matches your riding style.
+            </p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="hidden sm:flex items-center gap-4 text-sm text-zinc-500">
+              <div class="flex items-center gap-2">
+                <i data-lucide="bicycle" class="w-4 h-4"></i>
+                <span>3 Bike Types</span>
+              </div>
+              <div class="w-px h-5 bg-zinc-800"></div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="package" class="w-4 h-4"></i>
+                <span>50+ Components</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
+        
+        <div class="xl:col-span-2 space-y-8">
+          
+          <section>
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 rounded-xl border border-emerald-500/10">
+                  <i data-lucide="package" class="w-5 h-5 text-emerald-400"></i>
+                </div>
+                <div>
+                  <h2 class="text-xl sm:text-2xl font-display font-bold text-white">Build Components</h2>
+                  <p class="text-sm text-zinc-500">Select and customize each part</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 text-zinc-500">
+                <i data-lucide="settings-2" class="w-4 h-4"></i>
+                <span class="text-sm font-medium"><span id="component-count">5</span> Components</span>
+              </div>
+            </div>
+
+            <div class="space-y-3" id="build-list">
+              <div class="component-item animate-slide-in-left stagger-1" data-category="frame" onclick="openComponentModal('frame')">
+                <div class="component-icon-wrapper">
+                  <i data-lucide="box" class="w-6 h-6"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="category-tag mb-2">Frame</span>
+                  <h3 class="font-semibold text-white text-base truncate" id="frame-name">Specialized Tarmac SL8 Pro</h3>
+                  <p class="text-xs text-zinc-500 mt-1" id="frame-desc">Carbon Fiber • Disc Brake • Size 56</p>
+                </div>
+                <div class="text-right flex-shrink-0 mr-2">
+                  <p class="text-lg font-bold text-emerald-400 stat-value" id="frame-price">$2,450</p>
+                  <p class="text-xs text-zinc-600" id="frame-weight">1.18 kg</p>
+                </div>
+                <div class="p-2 rounded-xl hover:bg-white/5 transition-all">
+                  <i data-lucide="chevron-right" class="w-5 h-5 text-zinc-500"></i>
+                </div>
+              </div>
+
+              <div class="component-item animate-slide-in-left stagger-2" data-category="drivetrain" onclick="openComponentModal('drivetrain')">
+                <div class="component-icon-wrapper">
+                  <i data-lucide="settings" class="w-6 h-6"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="category-tag mb-2">Drivetrain</span>
+                  <h3 class="font-semibold text-white text-base truncate" id="drivetrain-name">Shimano Dura-Ace Di2 R9200</h3>
+                  <p class="text-xs text-zinc-500 mt-1" id="drivetrain-desc">12-Speed • Wireless Electronic</p>
+                </div>
+                <div class="text-right flex-shrink-0 mr-2">
+                  <p class="text-lg font-bold text-emerald-400 stat-value" id="drivetrain-price">$4,200</p>
+                  <p class="text-xs text-zinc-600" id="drivetrain-weight">2.43 kg</p>
+                </div>
+                <div class="p-2 rounded-xl hover:bg-white/5 transition-all">
+                  <i data-lucide="chevron-right" class="w-5 h-5 text-zinc-500"></i>
+                </div>
+              </div>
+
+              <div class="component-item animate-slide-in-left stagger-3" data-category="wheelset" onclick="openComponentModal('wheelset')">
+                <div class="component-icon-wrapper">
+                  <i data-lucide="circle" class="w-6 h-6"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="category-tag mb-2">Wheelset</span>
+                  <h3 class="font-semibold text-white text-base truncate" id="wheelset-name">Roval Rapide CLX II</h3>
+                  <p class="text-xs text-zinc-500 mt-1" id="wheelset-desc">Carbon • 51mm Deep • Tubeless</p>
+                </div>
+                <div class="text-right flex-shrink-0 mr-2">
+                  <p class="text-lg font-bold text-emerald-400 stat-value" id="wheelset-price">$2,800</p>
+                  <p class="text-xs text-zinc-600" id="wheelset-weight">1.52 kg</p>
+                </div>
+                <div class="p-2 rounded-xl hover:bg-white/5 transition-all">
+                  <i data-lucide="chevron-right" class="w-5 h-5 text-zinc-500"></i>
+                </div>
+              </div>
+
+              <div class="component-item animate-slide-in-left stagger-4" data-category="cockpit" onclick="openComponentModal('cockpit')">
+                <div class="component-icon-wrapper">
+                  <i data-lucide="navigation" class="w-6 h-6"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="category-tag mb-2">Cockpit</span>
+                  <h3 class="font-semibold text-white text-base truncate" id="cockpit-name">Roval Rapide Cockpit</h3>
+                  <p class="text-xs text-zinc-500 mt-1" id="cockpit-desc">Integrated • Carbon • 420mm</p>
+                </div>
+                <div class="text-right flex-shrink-0 mr-2">
+                  <p class="text-lg font-bold text-emerald-400 stat-value" id="cockpit-price">$750</p>
+                  <p class="text-xs text-zinc-600" id="cockpit-weight">0.31 kg</p>
+                </div>
+                <div class="p-2 rounded-xl hover:bg-white/5 transition-all">
+                  <i data-lucide="chevron-right" class="w-5 h-5 text-zinc-500"></i>
+                </div>
+              </div>
+
+              <div class="component-item animate-slide-in-left stagger-5" data-category="tires" onclick="openComponentModal('tires')">
+                <div class="component-icon-wrapper">
+                  <i data-lucide="circle-dot" class="w-6 h-6"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <span class="category-tag mb-2">Tires</span>
+                  <h3 class="font-semibold text-white text-base truncate" id="tires-name">Specialized Turbo Cotton</h3>
+                  <p class="text-xs text-zinc-500 mt-1" id="tires-desc">28mm • Clincher • Cotton Casing</p>
+                </div>
+                <div class="text-right flex-shrink-0 mr-2">
+                  <p class="text-lg font-bold text-emerald-400 stat-value" id="tires-price">$180</p>
+                  <p class="text-xs text-zinc-600" id="tires-weight">0.48 kg</p>
+                </div>
+                <div class="p-2 rounded-xl hover:bg-white/5 transition-all">
+                  <i data-lucide="chevron-right" class="w-5 h-5 text-zinc-500"></i>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="animate-slide-up" style="animation-delay: 0.35s;">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h2 class="text-xl sm:text-2xl font-display font-bold text-white">Curated Builds</h2>
+                <p class="text-sm text-zinc-500 mt-1">Expert configurations for every rider</p>
+              </div>
+              <button class="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 transition-colors text-sm font-medium">
+                View All
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div class="card p-5 group">
+                <div class="absolute top-4 right-4 w-24 h-24 bg-gradient-to-br from-emerald-500/10 to-transparent rounded-full blur-xl"></div>
+                <div class="relative">
+                  <div class="flex items-center gap-2 mb-3">
+                    <span class="badge">Pro</span>
+                    <span class="badge badge-blue">Lightweight</span>
+                  </div>
+                  <h3 class="text-lg font-semibold text-white mb-2 group-hover:text-emerald-400 transition-colors">Pro Race</h3>
+                  <p class="text-sm text-zinc-500 mb-5">Professional racing setup optimized for speed and performance</p>
+                  <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/5">
+                    <div>
+                      <p class="text-xs text-zinc-600 mb-1">Price</p>
+                      <p class="text-xl font-bold text-white">$9,780</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-xs text-zinc-600 mb-1">Weight</p>
+                      <p class="text-xl font-bold text-amber-400">6.8 kg</p>
+                    </div>
+                  </div>
+                  <button class="btn btn-secondary w-full mt-5 text-sm" onclick="loadPreset('pro-race')">
+                    Load Configuration
+                  </button>
+                </div>
+              </div>
+
+              <div class="card p-5 group">
+                <div class="absolute top-4 right-4 w-24 h-24 bg-gradient-to-br from-amber-500/10 to-transparent rounded-full blur-xl"></div>
+                <div class="relative">
+                  <div class="flex items-center gap-2 mb-3">
+                    <span class="badge badge-gold">Popular</span>
+                    <span class="badge">Value</span>
+                  </div>
+                  <h3 class="text-lg font-semibold text-white mb-2 group-hover:text-emerald-400 transition-colors">All-Rounder</h3>
+                  <p class="text-sm text-zinc-500 mb-5">Versatile build for all-day rides and mixed terrain</p>
+                  <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/5">
+                    <div>
+                      <p class="text-xs text-zinc-600 mb-1">Price</p>
+                      <p class="text-xl font-bold text-white">$7,510</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-xs text-zinc-600 mb-1">Weight</p>
+                      <p class="text-xl font-bold text-amber-400">7.2 kg</p>
+                    </div>
+                  </div>
+                  <button class="btn btn-secondary w-full mt-5 text-sm" onclick="loadPreset('all-rounder')">
+                    Load Configuration
+                  </button>
+                </div>
+              </div>
+
+              <div class="card p-5 group">
+                <div class="absolute top-4 right-4 w-24 h-24 bg-gradient-to-br from-purple-500/10 to-transparent rounded-full blur-xl"></div>
+                <div class="relative">
+                  <div class="flex items-center gap-2 mb-3">
+                    <span class="badge">Premium</span>
+                  </div>
+                  <h3 class="text-lg font-semibold text-white mb-2 group-hover:text-emerald-400 transition-colors">Ultimate</h3>
+                  <p class="text-sm text-zinc-500 mb-5">No-compromise build with top-tier components</p>
+                  <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/5">
+                    <div>
+                      <p class="text-xs text-zinc-600 mb-1">Price</p>
+                      <p class="text-xl font-bold text-white">$12,400</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-xs text-zinc-600 mb-1">Weight</p>
+                      <p class="text-xl font-bold text-amber-400">6.4 kg</p>
+                    </div>
+                  </div>
+                  <button class="btn btn-secondary w-full mt-5 text-sm" onclick="loadPreset('ultimate')">
+                    Load Configuration
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="hidden lg:block animate-slide-up" style="animation-delay: 0.4s;">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h2 class="text-xl sm:text-2xl font-display font-bold text-white">Compare Components</h2>
+                <p class="text-sm text-zinc-500 mt-1">Side-by-side specifications</p>
+              </div>
+            </div>
+            <div class="card p-6">
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead>
+                    <tr class="border-b border-white/5">
+                      <th class="text-left py-3 px-4 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Component</th>
+                      <th class="text-left py-3 px-4 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Selected</th>
+                      <th class="text-left py-3 px-4 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Alternative</th>
+                      <th class="text-right py-3 px-4 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Difference</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-white/5">
+                    <tr class="hover:bg-white/5 transition-colors">
+                      <td class="py-4 px-4 text-sm text-zinc-400">Frame</td>
+                      <td class="py-4 px-4 text-sm text-white font-medium">Tarmac SL8 Pro</td>
+                      <td class="py-4 px-4 text-sm text-zinc-400">Canyon Ultimate CF SLX</td>
+                      <td class="py-4 px-4 text-right text-sm text-emerald-400">+$350</td>
+                    </tr>
+                    <tr class="hover:bg-white/5 transition-colors">
+                      <td class="py-4 px-4 text-sm text-zinc-400">Wheelset</td>
+                      <td class="py-4 px-4 text-sm text-white font-medium">Roval Rapide CLX II</td>
+                      <td class="py-4 px-4 text-sm text-zinc-400">Zipp 454 NSW</td>
+                      <td class="py-4 px-4 text-right text-sm text-emerald-400">+$400</td>
+                    </tr>
+                    <tr class="hover:bg-white/5 transition-colors">
+                      <td class="py-4 px-4 text-sm text-zinc-400">Drivetrain</td>
+                      <td class="py-4 px-4 text-sm text-white font-medium">Dura-Ace Di2</td>
+                      <td class="py-4 px-4 text-sm text-zinc-400">SRAM Red AXS</td>
+                      <td class="py-4 px-4 text-right text-sm text-amber-400">-$200</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="xl:col-span-1">
+          <div class="lg:sticky lg:top-28 space-y-6">
+            
+            <div class="animate-slide-in-right">
+              <div class="card overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-500/15 to-amber-500/5 rounded-bl-full"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-emerald-500/10 to-transparent rounded-tr-full"></div>
+                
+                <div class="relative p-6">
+                  <div class="flex items-start justify-between mb-6">
+                    <div>
+                      <p class="text-xs text-zinc-500 uppercase tracking-wider mb-1">Current Build</p>
+                      <h3 class="text-xl font-display font-bold text-white" id="build-name">Road Pro Build</h3>
+                    </div>
+                    <div class="p-2 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
+                      <i data-lucide="bicycle" class="w-5 h-5 text-emerald-400"></i>
+                    </div>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="stat-card">
+                      <div class="flex items-center gap-2 mb-3">
+                        <div class="p-1.5 bg-emerald-500/15 rounded-lg">
+                          <i data-lucide="trending-up" class="w-4 h-4 text-emerald-400"></i>
+                        </div>
+                        <p class="text-[11px] text-zinc-500 uppercase tracking-wider font-semibold">Total Cost</p>
+                      </div>
+                      <p class="text-2xl sm:text-3xl font-bold text-white stat-value" id="total-cost">$10,380</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                      <div class="flex items-center gap-2 mb-3">
+                        <div class="p-1.5 bg-amber-500/15 rounded-lg">
+                          <i data-lucide="scale" class="w-4 h-4 text-amber-400"></i>
+                        </div>
+                        <p class="text-[11px] text-zinc-500 uppercase tracking-wider font-semibold">Weight</p>
+                      </div>
+                      <p class="text-2xl sm:text-3xl font-bold text-white stat-value" id="total-weight">5.92 kg</p>
+                    </div>
+                  </div>
+
+                  <div class="mb-6">
+                    <div class="flex items-center justify-between mb-3">
+                      <p class="text-xs text-zinc-500 uppercase tracking-wider font-semibold">Cost Breakdown</p>
+                      <button class="text-xs text-emerald-400 hover:text-emerald-300 transition-colors font-medium">
+                        View Chart
+                      </button>
+                    </div>
+                    <div class="space-y-2.5">
+                      <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+                        <span class="text-sm text-zinc-400 flex-1">Drivetrain</span>
+                        <span class="text-sm text-white font-medium">$4,200</span>
+                      </div>
+                      <div class="progress-bar mb-2">
+                        <div class="progress-fill" style="width: 40%"></div>
+                      </div>
+                      
+                      <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-emerald-300"></div>
+                        <span class="text-sm text-zinc-400 flex-1">Wheelset</span>
+                        <span class="text-sm text-white font-medium">$2,800</span>
+                      </div>
+                      <div class="progress-bar mb-2">
+                        <div class="progress-fill" style="width: 27%"></div>
+                      </div>
+                      
+                      <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-emerald-200"></div>
+                        <span class="text-sm text-zinc-400 flex-1">Frame</span>
+                        <span class="text-sm text-white font-medium">$2,450</span>
+                      </div>
+                      <div class="progress-bar mb-2">
+                        <div class="progress-fill" style="width: 24%"></div>
+                      </div>
+                      
+                      <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-zinc-400"></div>
+                        <span class="text-sm text-zinc-400 flex-1">Other</span>
+                        <span class="text-sm text-white font-medium">$930</span>
+                      </div>
+                      <div class="progress-bar">
+                        <div class="progress-fill" style="width: 9%"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="space-y-3">
+                    <button class="btn btn-primary w-full" id="save-btn" onclick="saveBuild()" aria-label="Save configuration">
+                      <i data-lucide="heart" class="w-4 h-4"></i>
+                      Save Configuration
+                    </button>
+                    <div class="grid grid-cols-2 gap-3">
+                      <button class="btn btn-secondary" id="share-btn" onclick="shareBuild()" aria-label="Share configuration">
+                        <i data-lucide="share-2" class="w-4 h-4"></i>
+                        Share
+                      </button>
+                      <button class="btn btn-secondary" id="reset-btn" onclick="resetBuild()" aria-label="Reset configuration">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        Reset
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="mt-6 p-4 bg-gradient-to-r from-emerald-500/10 to-transparent border border-emerald-500/15 rounded-xl">
+                    <div class="flex items-start gap-3">
+                      <div class="p-1.5 bg-emerald-500/20 rounded-lg flex-shrink-0">
+                        <i data-lucide="zap" class="w-4 h-4 text-emerald-400"></i>
+                      </div>
+                      <div>
+                        <p class="text-sm text-emerald-400 font-semibold mb-1">Pro Tip</p>
+                        <p class="text-xs text-zinc-500">Upgrade to carbon handlebars for a 15% weight savings and improved vibration damping.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card p-6 animate-slide-in-right" style="animation-delay: 0.1s;">
+              <h3 class="text-sm font-semibold text-white mb-5">Build Performance Score</h3>
+              <div class="space-y-5">
+                <div>
+                  <div class="flex justify-between text-sm mb-2">
+                    <span class="text-zinc-500">Value Index</span>
+                    <span class="text-white font-medium">8.7/10</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 87%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-sm mb-2">
+                    <span class="text-zinc-500">Weight Score</span>
+                    <span class="text-white font-medium">9.2/10</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 92%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-sm mb-2">
+                    <span class="text-zinc-500">Component Balance</span>
+                    <span class="text-white font-medium">7.9/10</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 79%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-sm mb-2">
+                    <span class="text-zinc-500">Aero Efficiency</span>
+                    <span class="text-white font-medium">8.5/10</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="border-t border-zinc-800/50 py-8" role="contentinfo">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 bg-gradient-to-br from-emerald-400 via-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
+              <span class="text-xl font-bold text-white font-display">V</span>
+            </div>
+            <div>
+              <h3 class="text-lg font-display font-bold text-white">Veloform</h3>
+              <p class="text-xs text-zinc-500">Premium Bike Configurator</p>
+            </div>
+          </div>
+          <p class="text-sm text-zinc-500 max-w-md">
+            Build your dream bicycle with precision. Choose from premium components, compare specifications, and create a build that matches your riding style.
+          </p>
+        </div>
+        
+        <div>
+          <h4 class="text-sm font-semibold text-white mb-4">Resources</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-sm text-zinc-500 hover:text-white transition-colors">Documentation</a></li>
+            <li><a href="#" class="text-sm text-zinc-500 hover:text-white transition-colors">API Reference</a></li>
+            <li><a href="#" class="text-sm text-zinc-500 hover:text-white transition-colors">Community</a></li>
+            <li><a href="#" class="text-sm text-zinc-500 hover:text-white transition-colors">Support</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-sm font-semibold text-white mb-4">Company</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-sm text-zinc-500 hover:text-white transition-colors">About</a></li>
+            <li><a href="#" class="text-sm text-zinc-500 hover:text-white transition-colors">Careers</a></li>
+            <li><a href="#" class="text-sm text-zinc-500 hover:text-white transition-colors">Press</a></li>
+            <li><a href="#" class="text-sm text-zinc-500 hover:text-white transition-colors">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="mt-8 pt-8 border-t border-zinc-800/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-xs text-zinc-600">2024 Veloform. All rights reserved.</p>
+        <div class="flex items-center gap-6">
+          <a href="#" class="text-xs text-zinc-600 hover:text-white transition-colors">Privacy</a>
+          <a href="#" class="text-xs text-zinc-600 hover:text-white transition-colors">Terms</a>
+          <a href="#" class="text-xs text-zinc-600 hover:text-white transition-colors">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="mobile-bottom-bar mobile-only" id="mobile-bottom-bar">
+    <button class="btn btn-icon" id="mobile-home" onclick="showSection('home')">
+      <i data-lucide="home" class="w-5 h-5"></i>
+      <span>Home</span>
+    </button>
+    <button class="btn btn-icon" id="mobile-build" onclick="showSection('build')">
+      <i data-lucide="wrench" class="w-5 h-5"></i>
+      <span>Build</span>
+    </button>
+    <button class="btn btn-primary btn-circle" id="mobile-compare" onclick="showCompare()">
+      <i data-lucide="git-compare" class="w-5 h-5"></i>
+    </button>
+    <button class="btn btn-icon" id="mobile-favorites" onclick="showSection('favorites')">
+      <i data-lucide="heart" class="w-5 h-5"></i>
+      <span>Saved</span>
+    </button>
+    <button class="btn btn-icon" id="mobile-profile" onclick="showSection('profile')">
+      <i data-lucide="user" class="w-5 h-5"></i>
+      <span>Profile</span>
+    </button>
+  </div>
+
+  <script>
+    function initializeLucide() {
+      lucide.createIcons();
+    }
+
+    function saveBuild() {
+      showToast('Configuration saved successfully!', 'success');
+    }
+
+    function shareBuild() {
+      showToast('Share link copied to clipboard!', 'success');
+    }
+
+    function resetBuild() {
+      showToast('Configuration reset to default', 'info');
+    }
+
+    function showCompare() {
+      showToast('Compare panel opened', 'info');
+    }
+
+    function showSection(section) {
+      showToast(`Navigated to ${section}`, 'info');
+    }
+
+    function showToast(message, type = 'info') {
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.innerHTML = `
+        <i data-lucide="${type === 'success' ? 'check-circle' : type === 'error' ? 'alert-circle' : 'info'}" class="w-4 h-4"></i>
+        <span>${message}</span>
+      `;
+      document.body.appendChild(toast);
+      lucide.createIcons({ target: toast });
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    
+    // Keyboard navigation support
+    document.addEventListener('keydown', (e) => {
+      // ESC to close modals
+      if (e.key === 'Escape') {
+        const activeModals = document.querySelectorAll('.modal-overlay.active');
+        activeModals.forEach(modal => {
+          modal.classList.remove('active');
+        });
+      }
+      
+      // ? to show keyboard shortcuts
+      if (e.key === '?' && e.shiftKey) {
+        showToast('Keyboard shortcuts: ESC to close, Tab to navigate', 'info');
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeLucide();
+    });
+  </script>
+</body>
+</html>
