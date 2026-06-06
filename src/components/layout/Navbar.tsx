@@ -5,7 +5,7 @@ import { BikeTypeSelector } from '@/components/configurator/BikeTypeSelector';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { SupportModal } from '@/components/ui/SupportModal';
 import { APP_CONSTANTS } from '@/lib/constants';
-import { BookOpen, Globe, Headphones, Menu, X, User } from 'lucide-react';
+import { BookOpen, Globe, Headphones, Menu, X, User, HelpCircle, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import { useLanguage, useSetLanguage, useTranslation } from '@/lib/i18n';
@@ -55,15 +55,18 @@ export function Navbar() {
               <motion.div 
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-primary via-primary to-accent rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all duration-300"
+                className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-primary via-blue-500 to-accent rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all duration-300"
               >
                 <span className="text-xl sm:text-2xl font-bold text-white">V</span>
               </motion.div>
               <div className="hidden sm:block">
-                <h1 className="text-lg sm:text-xl font-display font-bold text-foreground group-hover:text-gradient transition-all duration-300">
-                  {APP_CONSTANTS.APP_INFO.name}
-                </h1>
-                <p className="text-xs text-muted/80">{APP_CONSTANTS.APP_INFO.tagline}</p>
+                <div className="flex items-center gap-1.5">
+                  <h1 className="text-lg sm:text-xl font-display font-bold text-gradient-primary">
+                    {APP_CONSTANTS.APP_INFO.name}
+                  </h1>
+                  <Sparkles className="w-3.5 h-3.5 text-accent animate-pulse-slow" />
+                </div>
+                <p className="text-xs text-muted">{APP_CONSTANTS.APP_INFO.tagline}</p>
               </div>
             </Link>
 
@@ -117,7 +120,7 @@ export function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.3, type: 'spring', stiffness: 300, damping: 30 }}
               className="sm:hidden bg-background/95 backdrop-blur-xl border-b border-zinc-800/50"
             >
               <div className="px-4 py-4 space-y-3">

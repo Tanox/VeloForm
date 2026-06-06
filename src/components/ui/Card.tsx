@@ -2,9 +2,11 @@
 
 import { ReactNode, forwardRef, ComponentProps, HTMLAttributes } from 'react';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { motion, MotionProps } from 'framer-motion';
 
-interface CardProps extends Omit<ComponentProps<typeof motion.div>, 'ref'> {
+type SafeHTMLAttributes = Omit<HTMLAttributes<HTMLDivElement>, keyof MotionProps>;
+
+interface CardProps extends SafeHTMLAttributes {
   children: ReactNode;
   variant?: 'default' | 'stat' | 'component' | 'glass';
   hover?: boolean;
@@ -29,7 +31,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 
     return (
       <motion.div
-        ref={ref as any}
+        ref={ref}
         whileHover={hover ? { scale: 1.02, y: -2 } : {}}
         transition={{ duration: 0.2 }}
         className={cn(
@@ -40,7 +42,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
           hover && 'hover:shadow-xl hover:shadow-primary/5',
           className
         )}
-        {...props}
+        {...(props as unknown as MotionProps & React.HTMLAttributes<HTMLDivElement>)}
       >
         {children}
       </motion.div>
