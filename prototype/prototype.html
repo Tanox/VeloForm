@@ -9,6 +9,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* 完整的色彩系统 */
+            --primary-50: #f0fdfa;
+            --primary-100: #ccfbf1;
+            --primary-200: #99f6e4;
+            --primary-300: #5eead4;
+            --primary-400: #2dd4bf;
+            --primary-500: #14b8a6;
+            --primary-600: #0d9488;
+            --primary-700: #0f766e;
+            --primary-800: #115e59;
+            --primary-900: #134e4a;
             --primary: #14b8a6;
             --primary-light: #2dd4bf;
             --primary-dark: #0d9488;
@@ -24,6 +35,19 @@
             --warning: #eab308;
             --error: #ef4444;
             --info: #3b82f6;
+            
+            /* 阴影层级系统 */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            
+            /* 过渡动画 */
+            --transition-fast: 150ms ease;
+            --transition-normal: 200ms ease;
+            --transition-slow: 300ms ease;
+            --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         * {
@@ -38,6 +62,7 @@
             color: var(--foreground);
             line-height: 1.6;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         .font-display {
@@ -147,13 +172,24 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-600), var(--primary-700));
+            background-size: 200% 200%;
             color: white;
+            animation: gradient-shift 8s ease infinite;
         }
 
         .btn-primary:hover {
             transform: scale(1.02);
-            box-shadow: 0 10px 25px rgba(20, 184, 166, 0.3);
+            box-shadow: var(--shadow-xl), 0 0 30px rgba(20, 184, 166, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .btn-secondary {
@@ -243,9 +279,9 @@
         }
 
         .card:hover {
-            border-color: rgba(20, 184, 166, 0.3);
+            border-color: rgba(20, 184, 166, 0.4);
             transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: var(--shadow-xl), 0 0 40px rgba(20, 184, 166, 0.15);
         }
 
         .card-header {
@@ -586,9 +622,39 @@
             font-weight: 600;
         }
 
+        .option-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
         .option-brand {
             font-size: 0.85rem;
             color: var(--foreground-muted);
+        }
+        
+        .option-weight {
+            font-size: 0.8rem;
+            color: var(--primary-300);
+            font-weight: 500;
+        }
+        
+        .option-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .spec-tag {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            color: var(--primary-200);
+            font-weight: 500;
         }
 
         .toast-container {
@@ -1037,46 +1103,46 @@
             frame: {
                 title: '选择车架',
                 options: [
-                    { name: 'Specialized Tarmac SL8', brand: 'Specialized', price: 32990, selected: true },
-                    { name: 'Canyon Ultimate CF SLX', brand: 'Canyon', price: 26800 },
-                    { name: 'Trek Emonda SLR', brand: 'Trek', price: 29800 },
-                    { name: 'Giant TCR Advanced SL', brand: 'Giant', price: 23500 }
+                    { name: 'Specialized Tarmac SL8', brand: 'Specialized', price: 32990, selected: true, weight: '790g', specs: ['Rim/Disc', '12x142mm', 'Rider First'] },
+                    { name: 'Canyon Ultimate CF SLX', brand: 'Canyon', price: 26800, weight: '760g', specs: ['Disc Only', '12x148mm', 'Aero Optimized'] },
+                    { name: 'Trek Emonda SLR', brand: 'Trek', price: 29800, weight: '698g', specs: ['Disc Only', 'T47 BB', 'IsoSpeed'] },
+                    { name: 'Giant TCR Advanced SL', brand: 'Giant', price: 23500, weight: '820g', specs: ['Rim/Disc', 'OverDrive', 'PowerCore'] }
                 ]
             },
             groupset: {
                 title: '选择套件',
                 options: [
-                    { name: 'Shimano Dura-Ace R9270 Di2', brand: 'Shimano', price: 28500, selected: true },
-                    { name: 'SRAM Red AXS', brand: 'SRAM', price: 26800 },
-                    { name: 'Shimano Ultegra R8170 Di2', brand: 'Shimano', price: 15800 },
-                    { name: 'SRAM Force AXS', brand: 'SRAM', price: 14500 }
+                    { name: 'Shimano Dura-Ace R9270 Di2', brand: 'Shimano', price: 28500, selected: true, weight: '2200g', specs: ['12-Speed', 'Wireless', 'Power Meter'] },
+                    { name: 'SRAM Red AXS', brand: 'SRAM', price: 26800, weight: '2050g', specs: ['12-Speed', 'Wireless', 'Orbit Fluid'] },
+                    { name: 'Shimano Ultegra R8170 Di2', brand: 'Shimano', price: 15800, weight: '2400g', specs: ['12-Speed', 'Wireless', 'Hyperglide+'] },
+                    { name: 'SRAM Force AXS', brand: 'SRAM', price: 14500, weight: '2250g', specs: ['12-Speed', 'Wireless', 'X-Range'] }
                 ]
             },
             wheels: {
                 title: '选择轮组',
                 options: [
-                    { name: 'Zipp 454 NSW', brand: 'Zipp', price: 25800, selected: true },
-                    { name: 'ENVE SES 4.5', brand: 'ENVE', price: 22000 },
-                    { name: 'Roval Rapide CLX', brand: 'Roval', price: 19800 },
-                    { name: 'DT Swiss ARC 1400', brand: 'DT Swiss', price: 12800 }
+                    { name: 'Zipp 454 NSW', brand: 'Zipp', price: 25800, selected: true, weight: '1380g', specs: ['58/53mm', 'Hookless', 'Cognition'] },
+                    { name: 'ENVE SES 4.5', brand: 'ENVE', price: 22000, weight: '1420g', specs: ['54/49mm', 'Hooked', 'Innerdrive'] },
+                    { name: 'Roval Rapide CLX', brand: 'Roval', price: 19800, weight: '1360g', specs: ['51/35mm', 'Rim/Disc', 'DT 240'] },
+                    { name: 'DT Swiss ARC 1400', brand: 'DT Swiss', price: 12800, weight: '1520g', specs: ['50mm', 'Disc Only', 'Ratchet EXP'] }
                 ]
             },
             handlebar: {
                 title: '选择车把',
                 options: [
-                    { name: 'ENVE Aero SES', brand: 'ENVE', price: 4280, selected: true },
-                    { name: 'Zipp SL-70', brand: 'Zipp', price: 3200 },
-                    { name: 'Roval Rapide', brand: 'Roval', price: 2800 },
-                    { name: 'Deda Superzero', brand: 'Deda', price: 1800 }
+                    { name: 'ENVE Aero SES', brand: 'ENVE', price: 4280, selected: true, weight: '210g', specs: ['Aero Shape', 'Carbon', 'Internal Routing'] },
+                    { name: 'Zipp SL-70', brand: 'Zipp', price: 3200, weight: '195g', specs: ['Aero Drop', 'Carbon', 'Ergo Top'] },
+                    { name: 'Roval Rapide', brand: 'Roval', price: 2800, weight: '220g', specs: ['Aero', 'Carbon', 'Roval Design'] },
+                    { name: 'Deda Superzero', brand: 'Deda', price: 1800, weight: '240g', specs: ['Aero Shape', 'Carbon', 'DCR'] }
                 ]
             },
             saddle: {
                 title: '选择坐垫',
                 options: [
-                    { name: 'Fizik Arione R1', brand: 'Fizik', price: 1390, selected: true },
-                    { name: 'S-Works Power', brand: 'Specialized', price: 1690 },
-                    { name: 'Prologo Dimension', brand: 'Prologo', price: 980 },
-                    { name: 'Bontrager Aeolus', brand: 'Bontrager', price: 890 }
+                    { name: 'Fizik Arione R1', brand: 'Fizik', price: 1390, selected: true, weight: '135g', specs: ['Braided Rails', 'Carbon', 'Twin Flex'] },
+                    { name: 'S-Works Power', brand: 'Specialized', price: 1690, weight: '140g', specs: ['Titanium Rails', 'Carbon', 'Body Geometry'] },
+                    { name: 'Prologo Dimension', brand: 'Prologo', price: 980, weight: '155g', specs: ['Tirox Rails', 'Carbon Base', 'Nack'] },
+                    { name: 'Bontrager Aeolus', brand: 'Bontrager', price: 890, weight: '160g', specs: ['Titanium Rails', 'Carbon', 'IsoZone'] }
                 ]
             }
         };
@@ -1113,7 +1179,15 @@
                         <div class="option-name">${option.name}</div>
                         <div class="option-price">¥${option.price.toLocaleString()}</div>
                     </div>
-                    <div class="option-brand">${option.brand}</div>
+                    <div class="option-meta">
+                        <span class="option-brand">${option.brand}</span>
+                        ${option.weight ? `<span class="option-weight">${option.weight}</span>` : ''}
+                    </div>
+                    ${option.specs ? `
+                        <div class="option-specs">
+                            ${option.specs.map(spec => `<span class="spec-tag">${spec}</span>`).join('')}
+                        </div>
+                    ` : ''}
                 </div>
             `).join('');
             
