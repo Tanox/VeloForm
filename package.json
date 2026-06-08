@@ -9,8 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
-    "test:coverage": "vitest --coverage",
-    "generate-icons": "node scripts/generate-icons.js"
+    "test:coverage": "vitest --coverage"
   },
   "dependencies": {
     "firebase": "^11.0.0",
