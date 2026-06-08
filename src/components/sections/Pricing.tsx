@@ -1,0 +1,179 @@
+'use client';
+
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Check, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+
+const plans = [
+  {
+    name: '个人版',
+    description: '适合独立骑行爱好者',
+    monthlyPrice: 29,
+    yearlyPrice: 299,
+    features: [
+      '无限项目',
+      '5GB 存储空间',
+      '基础组件库',
+      '社区模板库',
+      '标准支持',
+    ],
+    popular: false,
+    cta: '免费开始',
+  },
+  {
+    name: '专业版',
+    description: '适合专业骑手和小团队',
+    monthlyPrice: 79,
+    yearlyPrice: 799,
+    features: [
+      '无限项目',
+      '100GB 存储空间',
+      '高级组件库',
+      '专属模板库',
+      '优先支持',
+      '团队协作功能',
+      '配置导出',
+    ],
+    popular: true,
+    cta: '立即升级',
+  },
+  {
+    name: '企业版',
+    description: '适合车队和企业',
+    monthlyPrice: 199,
+    yearlyPrice: 1999,
+    features: [
+      '无限项目',
+      '无限存储空间',
+      '全套组件库',
+      '定制模板库',
+      '24/7 专属支持',
+      '高级团队协作',
+      '私有化部署',
+      'SLA 保障',
+    ],
+    popular: false,
+    cta: '联系销售',
+  },
+];
+
+export function Pricing() {
+  const [isYearly, setIsYearly] = useState(true);
+
+  return (
+    <section className="py-24 sm:py-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <span className="inline-block text-sm font-medium text-primary mb-4">定价方案</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
+            选择适合你的方案
+          </h2>
+          <p className="text-lg text-secondary max-w-2xl mx-auto mb-8">
+            灵活的定价策略，满足不同规模用户的需求
+          </p>
+
+          <div className="inline-flex items-center gap-4 p-1 bg-surface-tertiary rounded-full">
+            <button
+              onClick={() => setIsYearly(false)}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                !isYearly
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-secondary hover:text-foreground'
+              }`}
+            >
+              月付
+            </button>
+            <button
+              onClick={() => setIsYearly(true)}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
+                isYearly
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-secondary hover:text-foreground'
+              }`}
+            >
+              年付
+              <span className="px-2 py-0.5 bg-accent/10 text-accent text-xs rounded-full">省20%</span>
+            </button>
+          </div>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {plans.map((plan, index) => (
+            <motion.div
+              key={plan.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={`relative rounded-2xl p-8 transition-all duration-300 ${
+                plan.popular
+                  ? 'bg-primary text-white shadow-xl shadow-primary/20 scale-105'
+                  : 'bg-surface border border-border-light hover:border-primary/30'
+              }`}
+            >
+              {plan.popular && (
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: index * 0.1 + 0.2, type: 'spring', stiffness: 200 }}
+                  className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-accent rounded-full"
+                >
+                  <span className="text-xs font-semibold flex items-center gap-1">
+                    <Sparkles className="w-3 h-3" />
+                    最受欢迎
+                  </span>
+                </motion.div>
+              )}
+
+              <div className={`mb-6 ${plan.popular ? 'text-white/80' : 'text-secondary'}`}>
+                <h3 className={`text-xl font-semibold mb-2 ${plan.popular ? 'text-white' : 'text-foreground'}`}>
+                  {plan.name}
+                </h3>
+                <p className="text-sm">{plan.description}</p>
+              </div>
+
+              <div className="mb-6">
+                <span className={`text-4xl font-bold ${plan.popular ? 'text-white' : 'text-foreground'}`}>
+                  ¥{isYearly ? plan.yearlyPrice : plan.monthlyPrice}
+                </span>
+                <span className={`text-sm ${plan.popular ? 'text-white/60' : 'text-secondary'}`}>
+                  /{isYearly ? '年' : '月'}
+                </span>
+              </div>
+
+              <ul className="space-y-3 mb-8">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-3">
+                    <Check
+                      className={`w-5 h-5 flex-shrink-0 mt-0.5 ${
+                        plan.popular ? 'text-white/80' : 'text-accent'
+                      }`}
+                    />
+                    <span className={`text-sm ${plan.popular ? 'text-white/80' : 'text-secondary'}`}>
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <Button
+                className="w-full"
+                variant={plan.popular ? 'secondary' : 'primary'}
+                size="lg"
+              >
+                {plan.cta}
+              </Button>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

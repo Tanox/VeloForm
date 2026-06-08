@@ -15,14 +15,16 @@ Veloform is an advanced bicycle configurator built with Next.js, Tailwind CSS, a
 
 ## Core Features
 
-- **Minimalist Dark UI**: Modern dark-themed design with smooth transitions and crisp typography
+- **Apple-style Design**: Minimalist design philosophy with generous whitespace, clear visual hierarchy, large image showcase, SF Pro fonts, Apple Blue primary color
+- **Dual Theme Support**: Support for both dark and light themes with unified design consistency
 - **Real-time Price & Weight Calculation**: Dynamically calculates and displays total build cost and estimated weight
 - **Configuration Cloud Sync**: Deeply integrated with Firebase Firestore to securely save your unique builds
 - **Bike Categorization**: Seamlessly switch between Road, MTB, and Folding bike presets
 - **Fully Responsive**: Mobile-first approach with uncompromising desktop aesthetics
 - **Bilingual Support**: Built-in EN/ZH-CN i18n system with one-click language switching
-- **Theme Toggle**: Support for both dark and light themes
 - **Config Library Management**: Save, load, and share your custom configurations
+- **Smooth Animations**: Micro-interactions powered by Framer Motion for natural and delightful user experience
+- **Performance Optimized**: Selective state subscription to avoid unnecessary re-renders
 
 ---
 
@@ -209,7 +211,7 @@ MIT License
 
 ## Version
 
-Current version: **v3.4.1**  
-Last updated: 2026-06-01
+Current version: **v3.7.0**  
+Last updated: 2026-06-08
 
 For detailed changelog, see [CHANGELOG.md](./CHANGELOG.md).

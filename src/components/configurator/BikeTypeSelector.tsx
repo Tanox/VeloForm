@@ -3,7 +3,7 @@
 import { BikeType } from '@/types';
 import { useConfigStore } from '@/lib/store';
 import { useTranslation } from '@/lib/i18n';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 export function BikeTypeSelector() {
@@ -49,24 +49,51 @@ export function BikeTypeSelector() {
 
   return (
     <div className="flex gap-1 p-1 bg-secondary rounded-xl flex-1">
-      {types.map((type) => {
-        const isActive = activeType === type;
-        return (
-          <button
-            key={type}
-            onClick={() => setActiveType(type)}
-            className={cn(
-              'flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all',
-              isActive
-                ? 'bg-background text-foreground shadow-sm'
-                : 'text-muted hover:text-foreground hover:bg-background/50'
-            )}
-          >
-            {getTypeIcon(type)}
-            {getTypeLabel(type)}
-          </button>
-        );
-      })}
+      <AnimatePresence mode="wait">
+        {types.map((type, index) => {
+          const isActive = activeType === type;
+          return (
+            <motion.button
+              key={type}
+              onClick={() => setActiveType(type)}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ 
+                duration: 0.3, 
+                delay: index * 0.05,
+                ease: [0.4, 0, 0.2, 1]
+              }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className={cn(
+                'flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 touch-target',
+                isActive
+                  ? 'bg-background text-foreground shadow-lg shadow-primary/10'
+                  : 'text-muted hover:text-foreground hover:bg-background/50'
+              )}
+            >
+              <motion.span
+                initial={false}
+                animate={{ 
+                  scale: isActive ? 1.1 : 1,
+                  rotate: isActive ? 5 : 0 
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                {getTypeIcon(type)}
+              </motion.span>
+              <span>{getTypeLabel(type)}</span>
+              {isActive && (
+                <motion.div
+                  layoutId="activeIndicator"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-primary to-accent rounded-full"
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                />
+              )}
+            </motion.button>
+          );
+        })}
+      </AnimatePresence>
     </div>
   );
 }
