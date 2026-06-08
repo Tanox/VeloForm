@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Settings, User, Moon, Sun, Search, ShoppingBag, Bike } from 'lucide-react';
+import { Menu, X, User, Moon, Sun, Bike } from 'lucide-react';
+import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
 
 interface NavbarProps {
@@ -12,7 +13,12 @@ interface NavbarProps {
 export function Navbar({ onNavigate }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,21 +28,14 @@ export function Navbar({ onNavigate }: NavbarProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
-
   const navItems = [
-    { label: '配置器', href: 'home', icon: null },
-    { label: '配置库', href: 'library', icon: null },
-    { label: '功能', href: 'features', icon: null },
-    { label: '定价', href: 'pricing', icon: null },
-    { label: '支持', href: 'support', icon: null },
+    { label: '配置器', href: 'home' },
+    { label: '配置库', href: 'library' },
   ];
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
 
   return (
     <>
@@ -77,34 +76,18 @@ export function Navbar({ onNavigate }: NavbarProps) {
               ))}
             </div>
 
-            <div className="flex items-center gap-1 sm:gap-2">
+            <div className="flex items-center gap-2">
+              {mounted && (
+                <button
+                  onClick={toggleTheme}
+                  className="p-2 sm:p-2.5 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
+                  aria-label="Toggle theme"
+                >
+                  {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                </button>
+              )}
               <button
-                className="p-2 sm:p-2.5 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
-                aria-label="Search"
-              >
-                <Search className="w-5 h-5" />
-              </button>
-              <button
-                className="p-2 sm:p-2.5 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
-                aria-label="Cart"
-              >
-                <ShoppingBag className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => setIsDarkMode(!isDarkMode)}
-                className="p-2 sm:p-2.5 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
-                aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
-                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-              </button>
-              <button
-                className="p-2 sm:p-2.5 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground hidden sm:block"
-                aria-label="Settings"
-              >
-                <Settings className="w-5 h-5" />
-              </button>
-              <button
-                className="ml-1 sm:ml-2 p-2 sm:p-2.5 rounded-full bg-surface-tertiary hover:bg-border transition-colors"
+                className="p-2 sm:p-2.5 rounded-full bg-surface-tertiary hover:bg-border transition-colors"
                 aria-label="User profile"
               >
                 <User className="w-5 h-5 text-secondary" />
@@ -163,6 +146,17 @@ export function Navbar({ onNavigate }: NavbarProps) {
                     <span className="text-foreground font-medium">{item.label}</span>
                   </button>
                 ))}
+                {mounted && (
+                  <button
+                    onClick={toggleTheme}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left hover:bg-surface-tertiary transition-colors"
+                  >
+                    {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                    <span className="text-foreground font-medium">
+                      {theme === 'dark' ? '浅色模式' : '深色模式'}
+                    </span>
+                  </button>
+                )}
               </div>
             </motion.div>
           </>
