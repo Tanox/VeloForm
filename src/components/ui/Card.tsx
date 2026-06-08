@@ -17,19 +17,19 @@ interface CardProps extends SafeHTMLAttributes {
 export const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ children, variant = 'default', hoverable = false, className, ...props }, ref) => {
     const variants = {
-      default: 'bg-surface border border-border-light',
-      elevated: 'bg-surface shadow-[var(--shadow-card)]',
+      default: 'bg-surface-secondary border border-border-light',
+      elevated: 'bg-surface-secondary border border-border-light shadow-apple',
       outlined: 'bg-background border border-border',
     };
 
     return (
       <motion.div
         ref={ref}
-        whileHover={hoverable ? { y: -4, transition: { duration: 0.2 } } : {}}
+        whileHover={hoverable ? { y: -6, transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] } } : {}}
         className={cn(
-          'rounded-2xl p-6 transition-all duration-200',
+          'rounded-3xl p-8 transition-all duration-300',
           variants[variant],
-          hoverable && 'cursor-pointer hover:shadow-lg',
+          hoverable && 'cursor-pointer hover:shadow-apple-lg',
           className
         )}
         {...(props as MotionProps & SafeHTMLAttributes)}
@@ -51,7 +51,7 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
   ({ children, className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('mb-4 pb-4 border-b border-border-light', className)}
+      className={cn('mb-6 pb-6 border-b border-border-light', className)}
       {...props}
     >
       {children}
@@ -85,7 +85,7 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
   ({ children, className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('mt-4 pt-4 border-t border-border-light', className)}
+      className={cn('mt-6 pt-6 border-t border-border-light', className)}
       {...props}
     >
       {children}

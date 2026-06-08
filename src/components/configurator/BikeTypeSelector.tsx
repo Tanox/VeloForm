@@ -38,7 +38,7 @@ export function BikeTypeSelector() {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6">
       {types.map((type, index) => {
         const isActive = activeType === type;
         const info = bikeTypeInfo[type];
@@ -48,58 +48,58 @@ export function BikeTypeSelector() {
           <motion.button
             key={type}
             onClick={() => setActiveType(type)}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ 
-              duration: 0.5, 
-              delay: index * 0.1,
+              duration: 0.6, 
+              delay: index * 0.12,
               ease: [0.4, 0, 0.2, 1]
             }}
-            whileHover={{ scale: 1.02, y: -4 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: 1.03, y: -6 }}
+            whileTap={{ scale: 0.97 }}
             className={cn(
-              'relative overflow-hidden p-6 sm:p-8 rounded-2xl text-left transition-all duration-300 touch-target group',
+              'relative overflow-hidden p-7 sm:p-9 rounded-3xl text-left transition-all duration-400 touch-target group',
               isActive
-                ? 'bg-surface border-2 border-primary shadow-xl shadow-primary/20'
-                : 'bg-surface/50 border-2 border-border-light hover:border-border hover:shadow-lg hover:shadow-primary/10'
+                ? 'bg-surface-secondary border-2 border-primary shadow-apple-lg'
+                : 'bg-surface-secondary border-2 border-border-light hover:border-border hover:shadow-apple'
             )}
           >
             {/* Background gradient for active state */}
             {isActive && (
               <motion.div
                 layoutId="bike-type-gradient"
-                className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 pointer-events-none"
+                className="absolute inset-0 bg-gradient-to-br from-primary/8 to-accent/5 pointer-events-none"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.4 }}
               />
             )}
             
             <div className="relative z-10">
               <motion.div
                 animate={{ 
-                  scale: isActive ? 1.1 : 1,
+                  scale: isActive ? 1.15 : 1,
                   rotate: isActive ? 5 : 0 
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.4 }}
                 className={cn(
-                  'w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-4',
+                  'w-16 h-16 sm:w-18 sm:h-18 rounded-2xl flex items-center justify-center mb-6',
                   isActive
-                    ? 'bg-gradient-to-br from-primary to-accent text-white shadow-lg shadow-primary/30'
-                    : 'bg-surface-tertiary text-muted group-hover:text-foreground transition-colors'
+                    ? 'bg-gradient-to-br from-primary to-accent text-white shadow-apple shadow-primary/40'
+                    : 'bg-surface text-muted group-hover:text-foreground transition-colors'
                 )}
               >
-                <Icon className="w-7 h-7 sm:w-8 sm:h-8" />
+                <Icon className="w-8 h-8 sm:w-9 sm:h-9" />
               </motion.div>
               
               <h3 className={cn(
-                'text-lg sm:text-xl font-display font-bold mb-2',
+                'text-xl sm:text-2xl font-display text-apple-title mb-3',
                 isActive ? 'text-foreground' : 'text-secondary group-hover:text-foreground transition-colors'
               )}>
                 {info.label}
               </h3>
               
-              <p className="text-sm sm:text-base text-muted leading-relaxed">
+              <p className="text-base sm:text-lg text-muted leading-relaxed">
                 {info.description}
               </p>
               
@@ -107,10 +107,10 @@ export function BikeTypeSelector() {
               {isActive && (
                 <motion.div
                   layoutId="active-dot"
-                  className="absolute top-4 right-4 w-3 h-3 rounded-full bg-gradient-to-r from-primary to-accent shadow-lg shadow-primary/50"
+                  className="absolute top-5 right-5 w-4 h-4 rounded-full bg-gradient-to-r from-primary to-accent shadow-apple shadow-primary/50"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ type: 'spring', stiffness: 500, damping: 30, delay: 0.1 }}
+                  transition={{ type: 'spring', stiffness: 600, damping: 25, delay: 0.15 }}
                 />
               )}
             </div>

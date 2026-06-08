@@ -1,7 +1,7 @@
 # UI 设计系统
 
 > **路径**: `/openspec/design/ui-design-system.md`  
-> **版本**: v2.1.0  
+> **版本**: v3.0.0  
 > **更新日期**: 2026-06-08
 
 ## 概述
@@ -75,10 +75,11 @@ Veloform 采用 CSS 变量系统实现深色/浅色主题切换，使用 Tailwin
 :root {
   --background: #ffffff;         /* 页面主背景 */
   --foreground: #1d1d1f;        /* 主文本色 - Apple 深色文本 */
-  --surface: #fafafa;           /* 卡片/表面背景 */
-  --surface-tertiary: #f5f5f7;  /* 第三级表面色 */
+  --surface: #f5f5f7;           /* 卡片/表面背景 */
+  --surface-secondary: #ffffff; /* 第二级表面色（卡片） */
+  --surface-tertiary: #e5e5ea;  /* 第三级表面色 */
   --border: #d2d2d7;            /* 默认边框 */
-  --border-light: rgba(0, 0, 0, 0.06);  /* 浅色边框 */
+  --border-light: rgba(0, 0, 0, 0.08);  /* 浅色边框 */
   --muted: #6e6e73;             /* 弱化文本 */
   --secondary: #86868b;         /* 次要文本 */
   --accent: #34c759;            /* 强调色 - Apple 绿色 */
@@ -92,11 +93,14 @@ Veloform 采用 CSS 变量系统实现深色/浅色主题切换，使用 Tailwin
   --background: #000000;         /* 页面主背景 - 纯黑 */
   --foreground: #ffffff;         /* 主文本色 - 纯白 */
   --surface: #1d1d1f;           /* 卡片/表面背景 */
-  --surface-tertiary: #272729;  /* 第三级表面色 */
+  --surface-secondary: #2c2c2e; /* 第二级表面色（卡片） */
+  --surface-tertiary: #3a3a3c;  /* 第三级表面色 */
   --border: #3a3a3c;            /* 默认边框 */
-  --border-light: rgba(255, 255, 255, 0.06);  /* 浅色边框 */
+  --border-light: rgba(255, 255, 255, 0.08);  /* 浅色边框 */
   --muted: #6e6e73;             /* 弱化文本 */
   --secondary: #86868b;         /* 次要文本 */
+  --primary: #2997ff;           /* 主色调 - Apple 深色蓝色 */
+  --primary-hover: #409cff;     /* 悬停状态 */
   --accent: #30d158;            /* 强调色 - Apple 深色绿色 */
 }
 ```
@@ -148,26 +152,78 @@ const config: Config = {
           DEFAULT: '#0071e3',
         },
         surface: {
-          DEFAULT: '#fafafa',
+          DEFAULT: '#f5f5f7',
           dark: '#1d1d1f',
-          light: '#fafafa',
+          light: '#f5f5f7',
+          secondary: '#ffffff',
+          tertiary: '#e5e5ea',
         },
         border: {
           DEFAULT: '#d2d2d7',
           dark: '#3a3a3c',
           light: '#d2d2d7',
         },
-        muted: '#6e6e73',
-        secondary: '#86868b',
+        muted: {
+          DEFAULT: '#6e6e73',
+          dark: '#6e6e73',
+          light: '#6e6e73',
+        },
         accent: {
           DEFAULT: '#34c759',
           dark: '#30d158',
           light: '#34c759',
         },
+        secondary: {
+          DEFAULT: '#86868b',
+          dark: '#86868b',
+          light: '#86868b',
+        },
         success: '#34c759',
         warning: '#ff9500',
         error: '#ff3b30',
         info: '#0071e3',
+      },
+      borderRadius: {
+        '3xl': '1.75rem',
+      },
+      animation: {
+        "fade-in": "fadeIn 0.4s ease-out",
+        "fade-in-up": "fadeInUp 0.8s ease-out",
+        "slide-up": "slideUp 0.4s ease-out",
+        "slide-in-right": "slideInRight 0.4s ease-out",
+        "scale-in": "scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+        pulse: "pulse 2s ease-in-out infinite",
+        float: "float 8s ease-in-out infinite",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        fadeInUp: {
+          "0%": { opacity: "0", transform: "translateY(40px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        slideUp: {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        slideInRight: {
+          "0%": { opacity: "0", transform: "translateX(40px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
+        },
+        scaleIn: {
+          "0%": { opacity: "0", transform: "scale(0.95)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
+        pulse: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-15px)" },
+        },
       },
     },
   },
@@ -258,11 +314,12 @@ space-24 = 6rem     /* 96px */
 
 | 组件类型 | Padding | 示例 |
 |----------|---------|------|
-| 按钮 (sm) | `px-4 py-2 min-h-[40px]` | 小按钮 |
-| 按钮 (md) | `px-6 py-2.5 min-h-[44px]` | 默认按钮 |
-| 按钮 (lg) | `px-8 py-3.5 min-h-[52px]` | 大按钮 |
-| 卡片 | `p-6` | 内容卡片 |
-| 模态框 | `p-6` | 模态框内容区 |
+| 按钮 (sm) | `px-5 py-2 min-h-[40px]` | 小按钮 |
+| 按钮 (md) | `px-7 py-3 min-h-[48px]` | 默认按钮 |
+| 按钮 (lg) | `px-9 py-4 min-h-[56px]` | 大按钮 |
+| 按钮 (icon) | `p-3 min-w-[48px] min-h-[48px]` | 图标按钮 |
+| 卡片 | `p-8` | 内容卡片 |
+| 模态框 | `p-8` | 模态框内容区 |
 | 输入框 | `px-3 py-2` | 表单输入 |
 
 ---
@@ -275,8 +332,8 @@ space-24 = 6rem     /* 96px */
 .rounded-md     { border-radius: 0.375rem; }  /* 6px */
 .rounded-lg     { border-radius: 0.5rem; }    /* 8px */
 .rounded-xl     { border-radius: 0.75rem; }   /* 12px */
-.rounded-2xl    { border-radius: 1rem; }      /* 16px - 卡片 */
-.rounded-3xl    { border-radius: 1.5rem; }    /* 24px - 大卡片/Hero 图片 */
+.rounded-2xl    { border-radius: 1rem; }      /* 16px - 小卡片 */
+.rounded-3xl    { border-radius: 1.75rem; }   /* 28px - 大卡片/Hero 图片 */
 .rounded-full   { border-radius: 9999px; }    /* 完全圆角 - 按钮 */
 ```
 
@@ -285,12 +342,12 @@ space-24 = 6rem     /* 96px */
 | 元素 | 圆角 | 说明 |
 |------|------|------|
 | 按钮 | `rounded-full` | 胶囊形状 |
-| 小图标容器 | `rounded-xl` | 12px |
-| 卡片 | `rounded-2xl` | 16px |
-| 模态框 | `rounded-2xl` | 16px |
+| 小图标容器 | `rounded-2xl` | 16px |
+| 卡片 | `rounded-3xl` | 28px |
+| 模态框 | `rounded-3xl` | 28px |
 | 头像 | `rounded-full` | 圆形 |
 | 标签/徽章 | `rounded-full` | 胶囊形状 |
-| Hero 图片 | `rounded-3xl` | 24px |
+| Hero 图片 | `rounded-3xl` | 28px |
 
 ---
 
@@ -298,20 +355,24 @@ space-24 = 6rem     /* 96px */
 
 ```css
 /* Apple 风格柔和阴影 */
---shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
---shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.08);
---shadow-hero: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+.shadow-apple {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-apple-lg {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+}
 ```
 
 **使用场景**：
 
 | 元素 | 阴影 | 说明 |
 |------|------|------|
-| 卡片（默认） | `shadow-sm` | 轻微浮起感 |
-| 卡片（悬停） | `shadow-md` | 悬停时加深 |
-| Hero 图片 | `shadow-2xl` + `shadow-black/10` | 明显层级 |
-| 下拉菜单 | `shadow-lg` | 明显层级 |
-| 模态框 | `shadow-2xl` | 最高层级 |
+| 卡片（默认） | `shadow-apple` | 轻微浮起感 |
+| 卡片（悬停） | `shadow-apple-lg` | 悬停时加深 |
+| Hero 图片 | `shadow-apple-lg` | 明显层级 |
+| 下拉菜单 | `shadow-apple-lg` | 明显层级 |
+| 模态框 | `shadow-apple-lg` | 最高层级 |
 
 ---
 
@@ -321,15 +382,13 @@ space-24 = 6rem     /* 96px */
 
 ```typescript
 animation: {
-  "fade-in": "fadeIn 0.3s ease-out",
+  "fade-in": "fadeIn 0.4s ease-out",
   "fade-in-up": "fadeInUp 0.8s ease-out",
   "slide-up": "slideUp 0.4s ease-out",
   "slide-in-right": "slideInRight 0.4s ease-out",
   "scale-in": "scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-  "bounce-in": "bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)",
-  pulse: "pulse 1s ease-in-out infinite",
-  "pulse-slow": "pulseSlow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-  float: "float 6s ease-in-out infinite",
+  pulse: "pulse 2s ease-in-out infinite",
+  float: "float 8s ease-in-out infinite",
 },
 keyframes: {
   fadeIn: {
@@ -337,7 +396,7 @@ keyframes: {
     "100%": { opacity: "1" },
   },
   fadeInUp: {
-    "0%": { opacity: "0", transform: "translateY(30px)" },
+    "0%": { opacity: "0", transform: "translateY(40px)" },
     "100%": { opacity: "1", transform: "translateY(0)" },
   },
   slideUp: {
@@ -352,10 +411,13 @@ keyframes: {
     "0%": { opacity: "0", transform: "scale(0.95)" },
     "100%": { opacity: "1", transform: "scale(1)" },
   },
-  bounceIn: {
-    "0%": { opacity: "0", transform: "scale(0.3)" },
-    "50%": { transform: "scale(1.05)" },
-    "100%": { opacity: "1", transform: "scale(1)" },
+  pulse: {
+    "0%, 100%": { opacity: "1" },
+    "50%": { opacity: "0.5" },
+  },
+  float: {
+    "0%, 100%": { transform: "translateY(0px)" },
+    "50%": { transform: "translateY(-15px)" },
   },
 },
 ```
@@ -384,22 +446,26 @@ const spring = {
 ```css
 /* 玻璃态卡片 */
 .glass-card {
-  @apply bg-surface/80 backdrop-blur-xl border border-border-light;
+  @apply bg-surface/70 backdrop-blur-2xl border border-border-light;
 }
 
-/* 标准卡片 */
-.card {
-  @apply bg-surface rounded-2xl transition-all duration-200;
+/* Apple 风格卡片 */
+.card-apple {
+  @apply bg-surface rounded-3xl border border-border-light;
+}
+
+.card-apple-hover {
+  @apply hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
 }
 
 /* 组件选择项 */
 .component-item {
-  @apply flex items-center gap-4 p-4 bg-background rounded-xl cursor-pointer transition-all duration-200 hover:bg-surface-tertiary;
+  @apply flex items-center gap-4 p-6 bg-surface-secondary rounded-2xl cursor-pointer transition-all duration-300 hover:bg-surface-tertiary hover:shadow-md border border-border-light;
 }
 
 /* 标签 */
 .tag {
-  @apply px-3 py-1 rounded-full text-xs font-medium;
+  @apply px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider;
 }
 
 .tag-primary {
@@ -408,6 +474,20 @@ const spring = {
 
 .tag-secondary {
   @apply bg-accent/10 text-accent;
+}
+
+/* 标题样式 */
+.text-apple-title {
+  @apply font-display font-semibold tracking-tight;
+}
+
+.text-apple-body {
+  @apply font-sans font-normal;
+}
+
+/* 渐变文本 */
+.text-gradient-primary {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70;
 }
 ```
 
@@ -427,18 +507,19 @@ const spring = {
 #### 尺寸
 
 ```tsx
-<Button size="sm">小按钮</Button>     // px-4 py-2 min-h-[40px]
-<Button size="md">默认按钮</Button>   // px-6 py-2.5 min-h-[44px]
-<Button size="lg">大按钮</Button>     // px-8 py-3.5 min-h-[52px]
-<Button size="icon">图标按钮</Button> // p-2.5 min-w-[44px] min-h-[44px]
+<Button size="sm">小按钮</Button>     // px-5 py-2 min-h-[40px]
+<Button size="md">默认按钮</Button>   // px-7 py-3 min-h-[48px]
+<Button size="lg">大按钮</Button>     // px-9 py-4 min-h-[56px]
+<Button size="icon">图标按钮</Button> // p-3 min-w-[48px] min-h-[48px]
 ```
 
 **样式特征**：
 - 圆角：`rounded-full`（胶囊形状）
-- 字体：`font-medium`
-- 动画：悬停缩放 `scale: 1.01`，点击缩放 `scale: 0.98`
-- 过渡：`duration-150`
-- 焦点：`focus:ring-2 focus:ring-primary/50`
+- 字体：`font-medium`，字间距：`tracking-tight`
+- 动画：悬停缩放 `scale: 1.02` + `y: -1`，点击缩放 `scale: 0.97`
+- 过渡：`duration-300`，缓动：`ease: [0.4, 0, 0.2, 1]`
+- 焦点：`focus:ring-4 focus:ring-primary/20`
+- 阴影：主色调按钮有 `shadow-lg shadow-primary/20`
 
 ### 卡片 (Card)
 
@@ -459,9 +540,10 @@ const spring = {
 ```
 
 **样式特征**：
-- 圆角：`rounded-2xl`
-- 内边距：`p-6`
-- 动画：悬停时 `y: -4`
+- 圆角：`rounded-3xl`（28px）
+- 内边距：`p-8`
+- 动画：悬停时 `y: -6`
+- 背景：`bg-surface-secondary`
 
 ### 模态框 (Modal)
 
@@ -473,7 +555,7 @@ const spring = {
 
 **样式特征**：
 - 遮罩：`fixed inset-0 bg-black/50 backdrop-blur-sm`
-- 内容：`bg-background rounded-2xl shadow-2xl`
+- 内容：`bg-background rounded-3xl shadow-apple-lg`
 - 动画：`scaleIn` + `fadeIn`
 
 ---
@@ -533,7 +615,8 @@ const spring = {
 
 | 版本 | 日期 | 变更内容 |
 |------|------|---------|
-| **v2.1.0** | 2026-06-08 | 参考 Apple 设计风格全面优化：更新 Hero 组件大图展示、Features 卡片布局、Pricing 定价卡片、Cta 行动号召、Navbar 和 Footer 导航组件 |
+| **v3.0.0** | 2026-06-08 | 全面 Apple 风格设计升级：新增 `surface-secondary`，优化颜色系统，加大圆角 `rounded-3xl`，新增 Apple 风格阴影，优化按钮和卡片动画，添加渐变文本和标题工具类 |
+| v2.1.0 | 2026-06-08 | 参考 Apple 设计风格全面优化：更新 Hero 组件大图展示、Features 卡片布局、Pricing 定价卡片、Cta 行动号召、Navbar 和 Footer 导航组件 |
 | v2.0.0 | 2026-06-04 | 全面更新为 Apple 设计风格：主色调改为 #0071e3，字体改为 SF Pro，优化圆角和阴影系统 |
 | v1.3.0 | 2026-06-04 | 更新 Button、Card、Footer 组件文档 |
 | v1.2.0 | 2026-06-04 | 更新主题系统实现细节 |
@@ -543,4 +626,4 @@ const spring = {
 
 **文档路径**: `/openspec/design/ui-design-system.md`  
 **最后更新**: 2026-06-08  
-**版本**: v2.1.0
+**版本**: v3.0.0

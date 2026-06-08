@@ -8,10 +8,11 @@
   :root {
     --background: #ffffff;
     --foreground: #1d1d1f;
-    --surface: #fafafa;
-    --surface-tertiary: #f5f5f7;
+    --surface: #f5f5f7;
+    --surface-secondary: #ffffff;
+    --surface-tertiary: #e5e5ea;
     --border: #d2d2d7;
-    --border-light: rgba(0, 0, 0, 0.06);
+    --border-light: rgba(0, 0, 0, 0.08);
     --muted: #6e6e73;
     --secondary: #86868b;
     --primary: #0071e3;
@@ -23,13 +24,14 @@
     --background: #000000;
     --foreground: #ffffff;
     --surface: #1d1d1f;
-    --surface-tertiary: #272729;
+    --surface-secondary: #2c2c2e;
+    --surface-tertiary: #3a3a3c;
     --border: #3a3a3c;
-    --border-light: rgba(255, 255, 255, 0.06);
+    --border-light: rgba(255, 255, 255, 0.08);
     --muted: #6e6e73;
     --secondary: #86868b;
-    --primary: #0071e3;
-    --primary-hover: #0077ed;
+    --primary: #2997ff;
+    --primary-hover: #409cff;
     --accent: #30d158;
   }
 
@@ -52,43 +54,30 @@
   }
   
   ::selection {
-    background-color: rgba(0, 113, 227, 0.3);
+    background-color: rgba(0, 113, 227, 0.2);
     color: var(--foreground);
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-surface/80 backdrop-blur-xl border border-border-light;
+    @apply bg-surface/70 backdrop-blur-2xl border border-border-light;
   }
   
-  .btn-glow {
-    @apply relative overflow-hidden;
+  .card-apple {
+    @apply bg-surface rounded-3xl border border-border-light;
   }
   
-  .btn-glow::before {
-    content: '';
-    @apply absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-500;
-  }
-  
-  .btn-glow:hover::before {
-    @apply translate-x-full;
-  }
-  
-  .card {
-    @apply bg-surface rounded-xl transition-all duration-200;
-  }
-  
-  .card-hover {
-    @apply hover:-translate-y-1 hover:bg-surface-tertiary;
+  .card-apple-hover {
+    @apply hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
   }
   
   .component-item {
-    @apply flex items-center gap-4 p-4 bg-background rounded-xl cursor-pointer transition-all duration-200 hover:bg-surface-tertiary;
+    @apply flex items-center gap-4 p-6 bg-surface-secondary rounded-2xl cursor-pointer transition-all duration-300 hover:bg-surface-tertiary hover:shadow-md border border-border-light;
   }
   
   .tag {
-    @apply px-3 py-1 rounded-full text-xs font-medium;
+    @apply px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider;
   }
   
   .tag-primary {
@@ -101,145 +90,40 @@
 }
 
 @layer utilities {
-  .gradient-mesh {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    opacity: 0;
-    pointer-events: none;
+  .text-apple-title {
+    @apply font-display font-semibold tracking-tight;
   }
   
-  .noise-bg {
-    position: relative;
-    overflow: hidden;
+  .text-apple-body {
+    @apply font-sans font-normal;
   }
   
-  .noise-bg::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: -1;
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70;
   }
   
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-foreground to-accent;
+  .shadow-apple {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   }
   
-  .shadow-glow {
-    @apply shadow-lg shadow-primary/20;
-  }
-  
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-  
-  .animate-pulse-slow {
-    animation: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-  
-  @keyframes pulse-slow {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-  }
-  
-  .animate-fade-in-up {
-    animation: fadeInUp 0.8s ease-out both;
-  }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .animate-slide-in-right {
-    animation: slideInRight 0.6s ease-out both;
-  }
-  
-  @keyframes slideInRight {
-    from {
-      opacity: 0;
-      transform: translateX(40px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  
-  .animate-scale-in {
-    animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
-  }
-  
-  @keyframes scaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  
-  .animate-bounce-in {
-    animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
-  }
-  
-  @keyframes bounceIn {
-    from {
-      opacity: 0;
-      transform: scale(0.3);
-    }
-    50% {
-      transform: scale(1.05);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+  .shadow-apple-lg {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
   }
   
   .hover-lift {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .hover-lift:hover {
-    transform: translateY(-4px);
-  }
-  
-  .hover-glow {
-    transition: all 0.3s ease;
-  }
-  
-  .hover-glow:hover {
-    box-shadow: 0 0 30px rgba(0, 113, 227, 0.2);
+    transform: translateY(-8px);
   }
   
   .tap-scale {
-    transition: transform 0.15s ease;
+    transition: transform 0.2s ease-out;
   }
   
   .tap-scale:active {
-    transform: scale(0.96);
+    transform: scale(0.97);
   }
   
   .scrollbar-hide::-webkit-scrollbar {
@@ -254,5 +138,9 @@
   .touch-target {
     min-height: 44px;
     min-width: 44px;
+  }
+  
+  .noise-bg {
+    position: relative;
   }
 }
