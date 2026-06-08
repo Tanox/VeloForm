@@ -1,8 +1,8 @@
 # Veloform 自行车配置器 - 原型与设计系统
 
-> **路径**: `/openspec/prototype-guide.md`  
-> **版本**: v2.3.0  
-> **更新日期**: 2026-06-04
+> **路径**: `/prototype/prototype-guide.md`  
+> **版本**: v2.3.1  
+> **更新日期**: 2026-06-06
 
 ## 概述
 
@@ -477,6 +477,7 @@ graph LR
 
 | 版本 | 日期 | 变更内容 |
 |------|------|---------|
+| v2.3.1 | 2026-06-06 | 文档迁移至 prototype 目录，更新路径引用 |
 | v2.3.0 | 2026-06-04 | 更新文档版本号至 3.6.0，与项目版本统一 |
 | v2.2.0 | 2026-06-04 | 文档移至 openspec 目录，更新所有引用路径 |
 | v2.1.0 | 2026-06-04 | 更新文档反映原型文件已删除的情况，新增页脚组件、视觉效果说明，完善版本历史 |
@@ -486,16 +487,19 @@ graph LR
 
 ## 相关文档
 
-- [openspec/README.md](./README.md) - 规范文档索引
-- [openspec/SPEC.md](./SPEC.md) - 项目规范概览
-- [openspec/design/ui-design-system.md](./design/ui-design-system.md) - UI 设计系统规范
-- [openspec/design/design-review.md](./design/design-review.md) - 设计审查与优化建议
-- [openspec/architecture/component-design.md](./architecture/component-design.md) - 组件设计规范
-- [openspec/architecture/data-flow.md](./architecture/data-flow.md) - 数据流设计
-- [openspec/development/coding-standards.md](./development/coding-standards.md) - 编码规范
+- [prototype/README.md](./README.md) - 原型设计总览
+- [prototype/documentation/component-mapping.md](./documentation/component-mapping.md) - 组件映射表
+- [prototype/documentation/design-system-summary.md](./documentation/design-system-summary.md) - 设计系统摘要
+- [prototype/design/ui-recommendations.md](./design/ui-recommendations.md) - UI/UX 优化建议
+- [prototype/design/responsive-guidelines.md](./design/responsive-guidelines.md) - 响应式设计指南
+- [prototype/design/accessibility-guidelines.md](./design/accessibility-guidelines.md) - 可访问性指南
+- [openspec/README.md](../openspec/README.md) - 规范文档索引
+- [openspec/SPEC.md](../openspec/SPEC.md) - 项目规范概览
+- [openspec/design/ui-design-system.md](../openspec/design/ui-design-system.md) - UI 设计系统规范
+- [openspec/design/design-review.md](../openspec/design/design-review.md) - 设计审查与优化建议
 
 ---
 
-**文档路径**: `/openspec/prototype-guide.md`  
-**最后更新**: 2026-06-04  
-**版本**: v2.3.0
+**文档路径**: `/prototype/prototype-guide.md`  
+**最后更新**: 2026-06-06  
+**版本**: v2.3.1
