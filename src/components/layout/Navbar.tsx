@@ -1,124 +1,173 @@
 'use client';
 
-import { useState } from 'react';
-import { BikeTypeSelector } from '@/components/configurator/BikeTypeSelector';
-import { ThemeToggle } from '@/components/ui/ThemeToggle';
-import { SupportModal } from '@/components/ui/SupportModal';
-import { APP_CONSTANTS } from '@/lib/constants';
-import { BookOpen, Globe, Headphones, Menu, X, User, HelpCircle } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
-import Link from 'next/link';
-import { useLanguage, useSetLanguage, useTranslation } from '@/lib/i18n';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { loginWithGoogle, logout } from '@/lib/auth';
-import { useConfigStore } from '@/lib/store';
+import { Menu, X, Settings, User, Moon, Sun, Search, ShoppingBag } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-export function Navbar() {
-  const [showSupportModal, setShowSupportModal] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const t = useTranslation();
-  const language = useLanguage();
-  const setLanguage = useSetLanguage();
-  const userId = useConfigStore((state) => state.userId);
-  const setUserId = useConfigStore((state) => state.setUserId);
-  const isLoggedIn = userId !== null;
+interface NavbarProps {
+  onNavigate: (page: string) => void;
+}
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'zh-CN' : 'en');
-  };
+export function Navbar({ onNavigate }: NavbarProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const handleAuth = async () => {
-    if (isLoggedIn) {
-      await logout();
-      setUserId(null);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
     } else {
-      try {
-        const user = await loginWithGoogle();
-        setUserId(user.uid);
-      } catch (error) {
-        console.error('Login failed:', error);
-      }
+      document.documentElement.classList.remove('dark');
     }
-  };
+  }, [isDarkMode]);
+
+  const navItems = [
+    { label: '产品', href: 'products', icon: null },
+    { label: '功能', href: 'features', icon: null },
+    { label: '设计', href: 'design', icon: null },
+    { label: '开发者', href: 'developers', icon: null },
+    { label: '定价', href: 'pricing', icon: null },
+  ];
 
   return (
     <>
-      <motion.nav 
+      <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl"
+        transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+        className={cn(
+          'fixed top-0 left-0 right-0 z-40 transition-all duration-300',
+          isScrolled
+            ? 'bg-background/80 backdrop-blur-xl border-b border-border-light shadow-sm'
+            : 'bg-transparent'
+        )}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Link href="/" className="flex items-center gap-3 group">
-              <motion.div 
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-10 h-10 bg-gradient-to-br from-primary to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all duration-300"
-              >
-                <span className="text-xl font-bold text-white">V</span>
-              </motion.div>
-              <div className="hidden sm:block">
-                <h1 className="text-lg font-display font-bold text-foreground group-hover:text-primary transition-colors">
-                  {APP_CONSTANTS.APP_INFO.name}
-                </h1>
-                <p className="text-xs text-muted">{APP_CONSTANTS.APP_INFO.tagline}</p>
+            <button
+              onClick={() => onNavigate('home')}
+              className="flex items-center gap-2 group"
+            >
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                <span className="text-white font-bold text-sm">D</span>
               </div>
-            </Link>
+              <span className="text-lg font-semibold text-foreground hidden sm:block">
+                DesignHub
+              </span>
+            </button>
 
-            <div className="hidden lg:flex items-center gap-1 p-1 bg-secondary rounded-xl">
-              <BikeTypeSelector />
+            <div className="hidden md:flex items-center gap-8">
+              {navItems.map((item) => (
+                <button
+                  key={item.href}
+                  onClick={() => onNavigate(item.href)}
+                  className="text-secondary hover:text-foreground transition-colors text-sm font-medium"
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
 
             <div className="flex items-center gap-2">
-              <ThemeToggle />
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={toggleLanguage}
-                className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-secondary transition-all"
+              <button
+                className="p-2 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
+                aria-label="Search"
               >
-                <span className="text-sm font-medium">{language === 'en' ? 'EN' : '中文'}</span>
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setShowSupportModal(true)}
-                className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-secondary transition-all"
+                <Search className="w-5 h-5" />
+              </button>
+              <button
+                className="p-2 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
+                aria-label="Cart"
               >
-                <HelpCircle className="w-5 h-5" />
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setShowMobileMenu(!showMobileMenu)}
-                className="lg:hidden p-2 rounded-lg text-muted hover:text-foreground hover:bg-secondary transition-all"
+                <ShoppingBag className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className="p-2 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
+                aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                {showMobileMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </motion.button>
+                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+              <button
+                className="p-2 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
+                aria-label="Settings"
+              >
+                <Settings className="w-5 h-5" />
+              </button>
+              <button
+                className="ml-2 p-2 rounded-full bg-surface-tertiary hover:bg-border transition-colors"
+                aria-label="User profile"
+              >
+                <User className="w-5 h-5 text-secondary" />
+              </button>
+
+              <button
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="md:hidden p-2 rounded-full hover:bg-surface-tertiary transition-colors"
+                aria-label="Open menu"
+              >
+                <Menu className="w-5 h-5 text-foreground" />
+              </button>
             </div>
           </div>
-
-          <AnimatePresence>
-            {(showMobileMenu) && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="lg:hidden pb-3"
-              >
-                <div className="flex items-center gap-1 p-1 bg-secondary rounded-xl">
-                  <BikeTypeSelector />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </motion.nav>
 
-      <SupportModal isOpen={showSupportModal} onClose={() => setShowSupportModal(false)} />
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, x: '100%' }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: '100%' }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-background z-50 shadow-xl"
+            >
+              <div className="flex items-center justify-between p-4 border-b border-border-light">
+                <span className="text-lg font-semibold text-foreground">Menu</span>
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-2 rounded-full hover:bg-surface-tertiary transition-colors"
+                  aria-label="Close menu"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="p-4 space-y-2">
+                {navItems.map((item) => (
+                  <button
+                    key={item.href}
+                    onClick={() => {
+                      onNavigate(item.href);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left hover:bg-surface-tertiary transition-colors"
+                  >
+                    <span className="text-foreground font-medium">{item.label}</span>
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }

@@ -1,26 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&family=SF+Pro+Text:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: #fafafa;
-    --foreground: #09090b;
-    --surface: #ffffff;
-    --border: #e4e4e7;
-    --muted: #71717a;
+    --background: #ffffff;
+    --foreground: #1d1d1f;
+    --surface: #fafafa;
+    --surface-tertiary: #f5f5f7;
+    --border: #d2d2d7;
+    --border-light: rgba(0, 0, 0, 0.06);
+    --muted: #6e6e73;
+    --secondary: #86868b;
+    --primary: #0071e3;
+    --primary-hover: #0077ed;
+    --accent: #34c759;
   }
 
   .dark {
-    --background: #09090b;
-    --foreground: #fafafa;
-    --surface: #18181b;
-    --border: #27272a;
-    --muted: #71717a;
+    --background: #000000;
+    --foreground: #ffffff;
+    --surface: #1d1d1f;
+    --surface-tertiary: #272729;
+    --border: #3a3a3c;
+    --border-light: rgba(255, 255, 255, 0.06);
+    --muted: #6e6e73;
+    --secondary: #86868b;
+    --primary: #0071e3;
+    --primary-hover: #0077ed;
+    --accent: #30d158;
   }
 
   * {
-    @apply border-border;
     box-sizing: border-box;
   }
   
@@ -29,43 +42,24 @@
   }
   
   body {
-    @apply bg-background text-foreground font-sans min-h-screen antialiased;
-    margin: 0;
-    padding: 0;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--background);
+    color: var(--foreground);
+    min-height: 100vh;
+    line-height: 1.47;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   ::selection {
-    @apply bg-primary/30 text-foreground;
-  }
-  
-  /* Light theme styles */
-  :root {
-    --color-background: #fafafa;
-    --color-foreground: #09090b;
-    --color-primary: #2563eb;
-    --color-secondary: #f4f4f5;
-    --color-surface: #ffffff;
-    --color-border: #e4e4e7;
-    --color-muted: #a1a1aa;
-    --color-accent: #d97706;
-  }
-  
-  /* Dark theme styles */
-  .dark {
-    --color-background: #09090b;
-    --color-foreground: #fafafa;
-    --color-primary: #3b82f6;
-    --color-secondary: #18181b;
-    --color-surface: #18181b;
-    --color-border: #27272a;
-    --color-muted: #71717a;
-    --color-accent: #f59e0b;
+    background-color: rgba(0, 113, 227, 0.3);
+    color: var(--foreground);
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-surface/60 backdrop-blur-xl border border-border/50;
+    @apply bg-surface/80 backdrop-blur-xl border border-border-light;
   }
   
   .btn-glow {
@@ -82,15 +76,27 @@
   }
   
   .card {
-    @apply bg-surface border border-border rounded-xl transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:-translate-y-0.5;
+    @apply bg-surface rounded-xl transition-all duration-200;
   }
   
-  .card-active {
-    @apply border-primary shadow-[0_0_0_1px_var(--tw-shadow-color)] shadow-primary/20;
+  .card-hover {
+    @apply hover:-translate-y-1 hover:bg-surface-tertiary;
   }
   
   .component-item {
-    @apply flex items-center gap-4 p-4 bg-surface border border-border rounded-lg cursor-pointer transition-all duration-300 hover:border-primary/30 hover:bg-zinc-100 dark:hover:bg-zinc-800/30;
+    @apply flex items-center gap-4 p-4 bg-background rounded-xl cursor-pointer transition-all duration-200 hover:bg-surface-tertiary;
+  }
+  
+  .tag {
+    @apply px-3 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .tag-primary {
+    @apply bg-primary/10 text-primary;
+  }
+  
+  .tag-secondary {
+    @apply bg-accent/10 text-accent;
   }
 }
 
@@ -102,27 +108,8 @@
     right: 0;
     bottom: 0;
     z-index: -1;
-    opacity: 0.4;
-    background-image: 
-      radial-gradient(at 20% 30%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
-      radial-gradient(at 80% 70%, rgba(245, 158, 11, 0.06) 0px, transparent 50%),
-      radial-gradient(at 50% 50%, rgba(59, 130, 246, 0.04) 0px, transparent 70%);
+    opacity: 0;
     pointer-events: none;
-  }
-  
-  .dark .gradient-mesh {
-    background-image: 
-      radial-gradient(at 20% 30%, rgba(20, 184, 166, 0.08) 0px, transparent 50%),
-      radial-gradient(at 80% 70%, rgba(245, 158, 11, 0.06) 0px, transparent 50%),
-      radial-gradient(at 50% 50%, rgba(20, 184, 166, 0.04) 0px, transparent 70%);
-  }
-  
-  :root:not(.dark) .gradient-mesh {
-    background-image: 
-      radial-gradient(at 20% 30%, rgba(20, 184, 166, 0.05) 0px, transparent 50%),
-      radial-gradient(at 80% 70%, rgba(245, 158, 11, 0.03) 0px, transparent 50%),
-      radial-gradient(at 50% 50%, rgba(20, 184, 166, 0.02) 0px, transparent 70%);
-    opacity: 0.6;
   }
   
   .noise-bg {
@@ -150,7 +137,6 @@
     @apply shadow-lg shadow-primary/20;
   }
   
-  /* 精致动画系统 - 从原型移植 */
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
@@ -169,7 +155,6 @@
     50% { opacity: 0.7; }
   }
   
-  /* 渐入上滑动画 */
   .animate-fade-in-up {
     animation: fadeInUp 0.8s ease-out both;
   }
@@ -185,7 +170,6 @@
     }
   }
   
-  /* 从右侧滑入 */
   .animate-slide-in-right {
     animation: slideInRight 0.6s ease-out both;
   }
@@ -201,7 +185,6 @@
     }
   }
   
-  /* 缩放渐入 */
   .animate-scale-in {
     animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
   }
@@ -217,7 +200,6 @@
     }
   }
   
-  /* 弹性缩放 */
   .animate-bounce-in {
     animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
   }
@@ -236,95 +218,28 @@
     }
   }
   
-  /* 微光效果 */
-  .animate-shimmer {
-    animation: shimmer 2s linear infinite;
-    background-size: 200% 100%;
-  }
-  
-  @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-  }
-  
-  /* 渐变边框动画 */
-  .animate-gradient-border {
-    position: relative;
-  }
-  
-  .animate-gradient-border::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 2px;
-    background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-primary));
-    background-size: 200% 100%;
-    animation: gradientMove 3s linear infinite;
-    -webkit-mask: 
-      linear-gradient(#fff 0 0) content-box, 
-      linear-gradient(#fff 0 0);
-    mask: 
-      linear-gradient(#fff 0 0) content-box, 
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-  
-  @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 200% 50%; }
-  }
-  
-  /* 悬停提升效果 */
   .hover-lift {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .hover-lift:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(124, 58, 237, 0.15);
+    transform: translateY(-4px);
   }
   
-  /* 悬停发光效果 */
   .hover-glow {
     transition: all 0.3s ease;
   }
   
   .hover-glow:hover {
-    box-shadow: 0 0 30px rgba(124, 58, 237, 0.3), 0 0 60px rgba(124, 58, 237, 0.1);
+    box-shadow: 0 0 30px rgba(0, 113, 227, 0.2);
   }
   
-  /* 点击反馈 */
   .tap-scale {
     transition: transform 0.15s ease;
   }
   
   .tap-scale:active {
     transform: scale(0.96);
-  }
-  
-  /* 波纹效果基础 */
-  .ripple-effect {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .ripple-effect::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-    transform: scale(0);
-    opacity: 0;
-    transition: transform 0.5s ease, opacity 0.3s ease;
-  }
-  
-  .ripple-effect:active::after {
-    transform: scale(2);
-    opacity: 1;
-    transition: transform 0s, opacity 0s;
   }
   
   .scrollbar-hide::-webkit-scrollbar {
@@ -336,17 +251,8 @@
     scrollbar-width: none;
   }
   
-  /* 触控目标优化 - 最小 44x44px */
   .touch-target {
     min-height: 44px;
     min-width: 44px;
-  }
-  
-  /* 移动端优化间距 */
-  @media (max-width: 768px) {
-    .mobile-spacing {
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
   }
 }

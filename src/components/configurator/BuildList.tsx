@@ -111,9 +111,8 @@ export function BuildList() {
                 whileTap={{ scale: 0.99 }}
               >
                 <Card 
-                  variant="component"
-                  padding="sm"
-                  className="flex items-center justify-between group cursor-pointer touch-target"
+                  variant="default"
+                  className="p-3 sm:p-4 flex items-center justify-between group cursor-pointer touch-target"
                   onClick={() => handleEdit(component.id)}
                 >
                   <div className="flex-1 min-w-0">

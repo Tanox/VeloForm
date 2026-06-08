@@ -21,34 +21,31 @@ interface ButtonProps extends SafeButtonHTMLAttributes {
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = 'primary', size = 'md', className, children, isLoading, leftIcon, rightIcon, disabled, ...props }, ref) => {
     const variants = {
-      primary: 'bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-white shadow-lg shadow-primary/20 hover:shadow-primary/40',
-      secondary: 'bg-gradient-to-r from-secondary to-secondary/90 hover:from-secondary/90 hover:to-secondary text-white shadow-lg shadow-secondary/20 hover:shadow-secondary/40',
-      accent: 'bg-gradient-to-r from-accent to-accent/90 hover:from-accent/90 hover:to-accent text-white shadow-lg shadow-accent/20 hover:shadow-accent/40',
-      outline: 'border-2 border-zinc-600 text-foreground hover:bg-zinc-800 hover:border-zinc-500 hover:text-white',
-      ghost: 'text-foreground hover:bg-zinc-800 hover:text-white',
-      danger: 'bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white shadow-lg shadow-red-500/20 hover:shadow-red-500/40',
+      primary: 'bg-primary text-white hover:bg-[var(--primary-hover)]',
+      secondary: 'bg-surface-tertiary text-foreground hover:bg-border/50 border border-border',
+      accent: 'bg-accent text-white hover:bg-accent/90',
+      outline: 'border-2 border-primary text-primary hover:bg-primary hover:text-white',
+      ghost: 'text-secondary hover:text-foreground hover:bg-surface-tertiary',
+      danger: 'bg-error text-white hover:bg-error/90',
     };
 
     const sizes = {
       sm: 'px-4 py-2 text-sm min-h-[40px]',
-      md: 'px-6 py-2.5 text-base min-h-[48px]',
-      lg: 'px-8 py-3.5 text-lg min-h-[56px]',
-      icon: 'p-2.5 min-w-[48px] min-h-[48px]',
+      md: 'px-6 py-2.5 text-base min-h-[44px]',
+      lg: 'px-8 py-3.5 text-lg min-h-[52px]',
+      icon: 'p-2.5 min-w-[44px] min-h-[44px]',
     };
 
     return (
       <motion.button
         ref={ref}
-        whileHover={{ 
-          scale: disabled || isLoading ? 1 : 1.03,
-          y: disabled || isLoading ? 0 : -2
-        }}
-        whileTap={{ scale: disabled || isLoading ? 1 : 0.96 }}
-        transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+        whileHover={{ scale: disabled || isLoading ? 1 : 1.01 }}
+        whileTap={{ scale: disabled || isLoading ? 1 : 0.98 }}
+        transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
         className={cn(
-          'inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 ease-out',
+          'inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200',
           'focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background',
-          'disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:scale-100',
+          'disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none',
           'touch-target tap-scale',
           variants[variant],
           sizes[size],
