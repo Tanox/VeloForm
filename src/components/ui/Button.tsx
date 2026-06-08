@@ -30,22 +30,26 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const sizes = {
-      sm: 'px-4 py-2 text-sm min-h-[36px]',
-      md: 'px-6 py-2.5 text-base min-h-[44px]',
-      lg: 'px-8 py-3.5 text-lg min-h-[52px]',
-      icon: 'p-2.5 min-w-[44px] min-h-[44px]',
+      sm: 'px-4 py-2 text-sm min-h-[40px]',
+      md: 'px-6 py-2.5 text-base min-h-[48px]',
+      lg: 'px-8 py-3.5 text-lg min-h-[56px]',
+      icon: 'p-2.5 min-w-[48px] min-h-[48px]',
     };
 
     return (
       <motion.button
         ref={ref}
-        whileHover={{ scale: disabled || isLoading ? 1 : 1.02 }}
+        whileHover={{ 
+          scale: disabled || isLoading ? 1 : 1.03,
+          y: disabled || isLoading ? 0 : -2
+        }}
         whileTap={{ scale: disabled || isLoading ? 1 : 0.96 }}
-        transition={{ duration: 0.2 }}
+        transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
         className={cn(
           'inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 ease-out',
           'focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background',
           'disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:scale-100',
+          'touch-target tap-scale',
           variants[variant],
           sizes[size],
           className

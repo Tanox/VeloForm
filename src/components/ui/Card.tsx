@@ -30,14 +30,19 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     return (
       <motion.div
         ref={ref as any}
-        whileHover={hover ? { scale: 1.02, y: -2 } : {}}
+        whileHover={hover ? { 
+          scale: 1.02, 
+          y: -4,
+          transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
+        } : {}}
+        whileTap={{ scale: 0.98 }}
         transition={{ duration: 0.2 }}
         className={cn(
           'rounded-2xl',
           variants[variant],
           paddings[padding],
           'transition-all duration-300 ease-out',
-          hover && 'hover:shadow-xl hover:shadow-primary/5',
+          hover && 'hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30',
           className
         )}
         {...props}
