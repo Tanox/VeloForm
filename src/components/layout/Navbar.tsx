@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Settings, User, Moon, Sun, Search, ShoppingBag } from 'lucide-react';
+import { Menu, X, Settings, User, Moon, Sun, Search, ShoppingBag, Bike } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface NavbarProps {
@@ -31,11 +31,11 @@ export function Navbar({ onNavigate }: NavbarProps) {
   }, [isDarkMode]);
 
   const navItems = [
-    { label: '产品', href: 'products', icon: null },
+    { label: '配置器', href: 'home', icon: null },
+    { label: '配置库', href: 'library', icon: null },
     { label: '功能', href: 'features', icon: null },
-    { label: '设计', href: 'design', icon: null },
-    { label: '开发者', href: 'developers', icon: null },
     { label: '定价', href: 'pricing', icon: null },
+    { label: '支持', href: 'support', icon: null },
   ];
 
   return (
@@ -52,16 +52,16 @@ export function Navbar({ onNavigate }: NavbarProps) {
         )}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-14 sm:h-16">
             <button
               onClick={() => onNavigate('home')}
               className="flex items-center gap-2 group"
             >
               <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <span className="text-white font-bold text-sm">D</span>
+                <Bike className="w-5 h-5 text-white" />
               </div>
               <span className="text-lg font-semibold text-foreground hidden sm:block">
-                DesignHub
+                Veloform
               </span>
             </button>
 
@@ -77,34 +77,34 @@ export function Navbar({ onNavigate }: NavbarProps) {
               ))}
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               <button
-                className="p-2 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
+                className="p-2 sm:p-2.5 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
                 aria-label="Search"
               >
                 <Search className="w-5 h-5" />
               </button>
               <button
-                className="p-2 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
+                className="p-2 sm:p-2.5 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
                 aria-label="Cart"
               >
                 <ShoppingBag className="w-5 h-5" />
               </button>
               <button
                 onClick={() => setIsDarkMode(!isDarkMode)}
-                className="p-2 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
+                className="p-2 sm:p-2.5 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
                 aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               >
                 {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
               <button
-                className="p-2 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground"
+                className="p-2 sm:p-2.5 rounded-full hover:bg-surface-tertiary transition-colors text-secondary hover:text-foreground hidden sm:block"
                 aria-label="Settings"
               >
                 <Settings className="w-5 h-5" />
               </button>
               <button
-                className="ml-2 p-2 rounded-full bg-surface-tertiary hover:bg-border transition-colors"
+                className="ml-1 sm:ml-2 p-2 sm:p-2.5 rounded-full bg-surface-tertiary hover:bg-border transition-colors"
                 aria-label="User profile"
               >
                 <User className="w-5 h-5 text-secondary" />
@@ -112,7 +112,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
 
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="md:hidden p-2 rounded-full hover:bg-surface-tertiary transition-colors"
+                className="md:hidden p-2 sm:p-2.5 rounded-full hover:bg-surface-tertiary transition-colors"
                 aria-label="Open menu"
               >
                 <Menu className="w-5 h-5 text-foreground" />
@@ -141,7 +141,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
               className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-background z-50 shadow-xl"
             >
               <div className="flex items-center justify-between p-4 border-b border-border-light">
-                <span className="text-lg font-semibold text-foreground">Menu</span>
+                <span className="text-lg font-semibold text-foreground">菜单</span>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="p-2 rounded-full hover:bg-surface-tertiary transition-colors"

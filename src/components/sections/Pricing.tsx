@@ -8,13 +8,13 @@ import { Button } from '@/components/ui/Button';
 const plans = [
   {
     name: '个人版',
-    description: '适合独立设计师和爱好者',
+    description: '适合独立骑行爱好者',
     monthlyPrice: 29,
     yearlyPrice: 299,
     features: [
       '无限项目',
       '5GB 存储空间',
-      '基础设计工具',
+      '基础组件库',
       '社区模板库',
       '标准支持',
     ],
@@ -23,30 +23,30 @@ const plans = [
   },
   {
     name: '专业版',
-    description: '适合专业设计师和小团队',
+    description: '适合专业骑手和小团队',
     monthlyPrice: 79,
     yearlyPrice: 799,
     features: [
       '无限项目',
       '100GB 存储空间',
-      '高级设计工具',
+      '高级组件库',
       '专属模板库',
       '优先支持',
       '团队协作功能',
-      '代码导出',
+      '配置导出',
     ],
     popular: true,
     cta: '立即升级',
   },
   {
     name: '企业版',
-    description: '适合大型团队和企业',
+    description: '适合车队和企业',
     monthlyPrice: 199,
     yearlyPrice: 1999,
     features: [
       '无限项目',
       '无限存储空间',
-      '全套设计工具',
+      '全套组件库',
       '定制模板库',
       '24/7 专属支持',
       '高级团队协作',
@@ -76,7 +76,7 @@ export function Pricing() {
             选择适合你的方案
           </h2>
           <p className="text-lg text-secondary max-w-2xl mx-auto mb-8">
-            灵活的定价策略，满足不同规模团队的需求
+            灵活的定价策略，满足不同规模用户的需求
           </p>
 
           <div className="inline-flex items-center gap-4 p-1 bg-surface-tertiary rounded-full">
@@ -114,17 +114,22 @@ export function Pricing() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`relative rounded-2xl p-8 transition-all duration-300 ${
                 plan.popular
-                  ? 'bg-primary text-white shadow-xl shadow-primary/25 scale-105'
+                  ? 'bg-primary text-white shadow-xl shadow-primary/20 scale-105'
                   : 'bg-surface border border-border-light hover:border-primary/30'
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-accent rounded-full">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: index * 0.1 + 0.2, type: 'spring', stiffness: 200 }}
+                  className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-accent rounded-full"
+                >
                   <span className="text-xs font-semibold flex items-center gap-1">
                     <Sparkles className="w-3 h-3" />
                     最受欢迎
                   </span>
-                </div>
+                </motion.div>
               )}
 
               <div className={`mb-6 ${plan.popular ? 'text-white/80' : 'text-secondary'}`}>

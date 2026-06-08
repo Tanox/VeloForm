@@ -13,7 +13,7 @@ export function Cta() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-primary/80 p-8 sm:p-12 lg:p-16"
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary/95 to-primary p-8 sm:p-12 lg:p-16"
         >
           <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
@@ -26,7 +26,7 @@ export function Cta() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white mb-6"
             >
-              准备好开始创作了吗？
+              准备好开始配置了吗？
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -35,7 +35,7 @@ export function Cta() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-lg text-white/80 max-w-2xl mx-auto mb-8"
             >
-              加入超过 100,000 名设计师的行列，开启你的创意之旅。
+              加入超过 100,000 名骑行爱好者的行列，打造专属于你的完美座驾。
               免费试用，无需信用卡。
             </motion.p>
             <motion.div
