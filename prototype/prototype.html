@@ -3,414 +3,386 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veloform - 自行车配置器</title>
+    <title>Veloform — 高端自行车配置器</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* 完整的色彩系统 */
-            --primary-50: #f0fdfa;
-            --primary-100: #ccfbf1;
-            --primary-200: #99f6e4;
-            --primary-300: #5eead4;
-            --primary-400: #2dd4bf;
-            --primary-500: #14b8a6;
-            --primary-600: #0d9488;
-            --primary-700: #0f766e;
-            --primary-800: #115e59;
-            --primary-900: #134e4a;
-            --primary: #14b8a6;
-            --primary-light: #2dd4bf;
-            --primary-dark: #0d9488;
-            --background: #09090b;
-            --surface: #18181b;
-            --surface-hover: #27272a;
-            --border: #27272a;
-            --foreground: #fafafa;
-            --foreground-muted: #a1a1aa;
-            --foreground-dim: #71717a;
-            --accent: #f59e0b;
-            --success: #22c55e;
-            --warning: #eab308;
-            --error: #ef4444;
-            --info: #3b82f6;
-            
-            /* 阴影层级系统 */
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-            
-            /* 过渡动画 */
-            --transition-fast: 150ms ease;
-            --transition-normal: 200ms ease;
-            --transition-slow: 300ms ease;
-            --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --bg-primary: #050506;
+            --bg-secondary: #0b0b0e;
+            --bg-tertiary: #14141b;
+            --color-primary: #7c3aed;
+            --color-primary-light: #a855f7;
+            --color-accent: #ec4899;
+            --color-secondary: #06b6d4;
+            --text-primary: #fafafa;
+            --text-secondary: #d4d4d8;
+            --text-muted: #71717a;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-medium: rgba(255, 255, 255, 0.12);
+            --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.6);
+            --shadow-glow: 0 0 60px rgba(124, 58, 237, 0.25);
         }
 
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', system-ui, sans-serif;
-            background-color: var(--background);
-            color: var(--foreground);
-            line-height: 1.6;
-            overflow-x: hidden;
+        html {
             scroll-behavior: smooth;
         }
 
-        .font-display {
-            font-family: 'Space Grotesk', sans-serif;
+        body {
+            font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        /* Background Effects */
         .gradient-mesh {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -1;
-            opacity: 0.4;
-            background-image: 
-                radial-gradient(at 20% 30%, rgba(20, 184, 166, 0.08) 0px, transparent 50%),
-                radial-gradient(at 80% 70%, rgba(245, 158, 11, 0.06) 0px, transparent 50%),
-                radial-gradient(at 50% 50%, rgba(20, 184, 166, 0.04) 0px, transparent 70%);
-            pointer-events: none;
-        }
-
-        .noise-bg::before {
-            content: '';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: -1;
+            z-index: -3;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 60%);
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
+        /* Header */
         header {
             position: sticky;
             top: 0;
-            z-index: 50;
-            background: rgba(9, 9, 11, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            backdrop-filter: blur(24px);
+            background: linear-gradient(to bottom, rgba(5, 5, 6, 0.95), rgba(5, 5, 6, 0.8), transparent);
+            border-bottom: 1px solid var(--border-subtle);
         }
 
-        .nav {
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem 0;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
             cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 12px;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 1.25rem;
+            font-weight: 800;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
         }
 
         .logo-text {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        .nav-actions {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-            padding: 0.5rem;
-            background: var(--surface);
-            border-radius: 12px;
-        }
-
-        .nav-links a {
-            color: var(--foreground-muted);
-            text-decoration: none;
-            transition: all 0.2s;
-            font-size: 0.9rem;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--foreground);
-            background: var(--surface-hover);
-        }
-
-        .icon-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            color: var(--foreground);
-        }
-
-        .icon-btn:hover {
-            background: var(--surface-hover);
-            border-color: var(--primary);
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-500), var(--primary-600), var(--primary-700));
-            background-size: 200% 200%;
-            color: white;
-            animation: gradient-shift 8s ease infinite;
-        }
-
-        .btn-primary:hover {
-            transform: scale(1.02);
-            box-shadow: var(--shadow-xl), 0 0 30px rgba(20, 184, 166, 0.3);
-        }
-
-        .btn-primary:active {
-            transform: scale(0.98);
-        }
-        
-        @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .btn-secondary {
-            background: var(--surface);
-            color: var(--foreground);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--surface-hover);
-            border-color: var(--primary);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--foreground);
-            border: 1px solid var(--border);
-        }
-
-        .btn-outline:hover {
-            border-color: var(--primary);
-            background: rgba(20, 184, 166, 0.1);
-        }
-
-        .btn-sm {
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-        }
-
-        .hero {
-            padding: 5rem 0 3rem;
-            text-align: center;
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
             font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary), var(--foreground), var(--accent));
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .hero-subtitle {
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            color: white;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--border-medium);
+            transform: translateY(-2px);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            padding: 0.625rem 1rem;
+        }
+
+        .btn-ghost:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Main Layout */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.25);
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            color: var(--color-primary-light);
+            margin-bottom: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 50%, var(--color-primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
             font-size: 1.25rem;
-            color: var(--foreground-muted);
+            color: var(--text-muted);
             max-width: 600px;
             margin: 0 auto 2rem;
+            line-height: 1.7;
         }
 
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .main-content {
-            padding: 3rem 0;
-        }
-
-        .grid {
+        /* Bike Type Selector */
+        .bike-selector {
             display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
         }
 
-        .grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
-        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-        .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-
-        @media (min-width: 768px) {
-            .grid-cols-md-2 { grid-template-columns: repeat(2, 1fr); }
+        .bike-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+            border: 1px solid var(--border-subtle);
+            border-radius: 24px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
 
-        @media (min-width: 1024px) {
-            .grid-cols-lg-3 { grid-template-columns: repeat(3, 1fr); }
+        .bike-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(124, 58, 237, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
+        .bike-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(124, 58, 237, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(124, 58, 237, 0.15);
+        }
+
+        .bike-card:hover::before {
+            opacity: 1;
+        }
+
+        .bike-card.active {
+            border-color: var(--color-primary);
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(236, 72, 153, 0.05));
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), var(--shadow-glow);
+        }
+
+        .bike-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 1.25rem;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(236, 72, 153, 0.1));
+        }
+
+        .bike-card.active .bike-icon {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+        }
+
+        .bike-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .bike-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Build List */
         .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.3s;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+            border: 1px solid var(--border-subtle);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .card:hover {
-            border-color: rgba(20, 184, 166, 0.4);
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-xl), 0 0 40px rgba(20, 184, 166, 0.15);
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.5), transparent);
         }
 
         .card-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1rem;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .card-description {
-            color: var(--foreground-muted);
-            font-size: 0.9rem;
-        }
-
-        .section-title {
-            font-size: 1.75rem;
-            font-weight: 600;
             margin-bottom: 1.5rem;
         }
 
-        .bike-selector {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
         }
 
-        .bike-option {
-            padding: 1rem 1.5rem;
-            background: var(--surface);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-            min-width: 120px;
-        }
-
-        .bike-option:hover {
-            border-color: var(--primary);
-            background: rgba(20, 184, 166, 0.1);
-        }
-
-        .bike-option.active {
-            border-color: var(--primary);
-            background: rgba(20, 184, 166, 0.15);
-            box-shadow: 0 0 0 1px var(--primary);
-        }
-
-        .bike-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .bike-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .components-list {
+        .component-list {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 1rem;
         }
 
         .component-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
+            gap: 1.25rem;
+            padding: 1.25rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
         }
 
         .component-item:hover {
-            border-color: rgba(20, 184, 166, 0.3);
-            background: rgba(39, 39, 42, 0.5);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(124, 58, 237, 0.3);
+            transform: translateX(4px);
         }
 
         .component-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(20, 184, 166, 0.1);
-            border-radius: 10px;
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(236, 72, 153, 0.08));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
+            flex-shrink: 0;
         }
 
         .component-info {
@@ -418,147 +390,263 @@
         }
 
         .component-name {
-            font-weight: 500;
+            font-weight: 600;
             margin-bottom: 0.25rem;
+            font-size: 1.05rem;
         }
 
         .component-brand {
-            font-size: 0.8rem;
-            color: var(--foreground-muted);
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
 
         .component-price {
-            font-weight: 600;
-            color: var(--accent);
+            font-weight: 700;
+            color: var(--color-primary-light);
+            font-size: 1.1rem;
         }
 
+        /* Summary Panel */
         .summary-panel {
             position: sticky;
-            top: 100px;
+            top: 120px;
         }
 
-        .price-display {
-            font-size: 2.5rem;
+        .summary-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .summary-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-config-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.75rem;
             font-weight: 700;
-            color: var(--accent);
-            margin: 1rem 0;
         }
 
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border);
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .stat-row:last-child {
-            border-bottom: none;
-        }
-
-        .stat-label {
-            color: var(--foreground-muted);
+        .stat-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 1.25rem;
+            text-align: center;
         }
 
         .stat-value {
-            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value.price {
+            background: linear-gradient(135deg, var(--color-primary-light), var(--color-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-value.weight {
+            color: var(--color-secondary);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .progress-section {
+            margin-bottom: 2rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
         }
 
         .progress-bar {
             height: 8px;
-            background: var(--surface-hover);
-            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 9999px;
             overflow: hidden;
-            margin-top: 0.5rem;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--primary-light));
-            border-radius: 4px;
-            transition: width 0.3s;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+            border-radius: 9999px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn-group {
             display: flex;
+            flex-direction: column;
             gap: 0.75rem;
-            margin-top: 1.5rem;
         }
 
         .btn-group .btn {
-            flex: 1;
+            width: 100%;
             justify-content: center;
         }
 
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
+        /* Recommended Configs */
+        .recommended-section {
+            margin-top: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
-        .badge-success {
-            background: rgba(34, 197, 94, 0.15);
-            color: var(--success);
-        }
-
-        .badge-warning {
-            background: rgba(234, 179, 8, 0.15);
-            color: var(--warning);
-        }
-
-        .badge-info {
-            background: rgba(59, 130, 246, 0.15);
-            color: var(--info);
-        }
-
-        .feature-grid {
-            margin-top: 4rem;
-        }
-
-        .feature-card {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .feature-icon {
-            width: 64px;
-            height: 64px;
-            background: rgba(20, 184, 166, 0.1);
-            border-radius: 16px;
+        .section-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin: 0 auto 1rem;
+            justify-content: space-between;
+            margin-bottom: 2rem;
         }
 
-        .feature-title {
-            font-size: 1.1rem;
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        .recommended-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .recommended-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 1.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recommended-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .recommended-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(124, 58, 237, 0.4);
+        }
+
+        .recommended-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .recommended-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            padding: 0.375rem 0.875rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
             font-weight: 600;
+        }
+
+        .tag-primary {
+            background: rgba(236, 72, 153, 0.15);
+            color: var(--color-accent);
+        }
+
+        .tag-secondary {
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--color-secondary);
+        }
+
+        .recommended-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
         }
 
-        .feature-desc {
-            color: var(--foreground-muted);
-            font-size: 0.9rem;
+        .recommended-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.6;
         }
 
+        .recommended-meta {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .meta-item {
+            flex: 1;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .meta-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .meta-value.price {
+            color: var(--color-primary-light);
+        }
+
+        .meta-value.weight {
+            color: var(--color-secondary);
+        }
+
+        /* Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 100;
+            z-index: 1000;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
         .modal-overlay.active {
@@ -567,52 +655,57 @@
         }
 
         .modal-content {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 2rem;
-            max-width: 600px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+            border-radius: 28px;
             width: 90%;
-            max-height: 80vh;
+            max-width: 700px;
+            max-height: 85vh;
             overflow-y: auto;
-            transform: scale(0.95);
-            transition: transform 0.3s;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .modal-overlay.active .modal-content {
-            transform: scale(1);
+            transform: scale(1) translateY(0);
         }
 
         .modal-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1.5rem;
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid var(--border-subtle);
         }
 
         .modal-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
         }
 
         .modal-close {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: var(--surface-hover);
+            background: rgba(255, 255, 255, 0.08);
             border: none;
-            color: var(--foreground);
+            color: var(--text-primary);
             font-size: 1.5rem;
             cursor: pointer;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
         }
 
         .modal-close:hover {
-            background: var(--border);
+            background: rgba(255, 255, 255, 0.15);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 2rem;
         }
 
         .options-grid {
@@ -621,79 +714,70 @@
         }
 
         .option-card {
-            padding: 1.25rem;
-            background: var(--background);
-            border: 2px solid var(--border);
-            border-radius: 12px;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid var(--border-subtle);
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
         }
 
         .option-card:hover {
-            border-color: rgba(20, 184, 166, 0.3);
+            border-color: rgba(124, 58, 237, 0.4);
+            background: rgba(124, 58, 237, 0.05);
         }
 
         .option-card.selected {
-            border-color: var(--primary);
-            background: rgba(20, 184, 166, 0.1);
+            border-color: var(--color-primary);
+            background: rgba(124, 58, 237, 0.1);
         }
 
         .option-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
 
         .option-name {
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.1rem;
         }
 
         .option-price {
-            color: var(--accent);
-            font-weight: 600;
+            font-weight: 700;
+            color: var(--color-primary-light);
+            font-size: 1.15rem;
         }
 
-        .option-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-        
         .option-brand {
-            font-size: 0.85rem;
-            color: var(--foreground-muted);
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
-        
-        .option-weight {
-            font-size: 0.8rem;
-            color: var(--primary-300);
-            font-weight: 500;
-        }
-        
+
         .option-specs {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
+            margin-top: 0.75rem;
         }
-        
+
         .spec-tag {
-            display: inline-block;
-            padding: 0.25rem 0.6rem;
-            background: rgba(20, 184, 166, 0.1);
-            border: 1px solid rgba(20, 184, 166, 0.2);
+            padding: 0.375rem 0.75rem;
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.2);
             border-radius: 9999px;
-            font-size: 0.7rem;
-            color: var(--primary-200);
+            font-size: 0.8rem;
+            color: var(--color-primary-light);
             font-weight: 500;
         }
 
+        /* Toast */
         .toast-container {
             position: fixed;
-            top: 1.5rem;
-            right: 1.5rem;
-            z-index: 200;
+            top: 2rem;
+            right: 2rem;
+            z-index: 2000;
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
@@ -701,26 +785,22 @@
 
         .toast {
             padding: 1rem 1.5rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+            border-radius: 14px;
+            box-shadow: var(--shadow-soft);
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            animation: slideInRight 0.3s ease-out;
+            animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .toast.success {
-            border-left: 4px solid var(--success);
-        }
-
-        .toast.error {
-            border-left: 4px solid var(--error);
+            border-left: 4px solid var(--color-secondary);
         }
 
         .toast.info {
-            border-left: 4px solid var(--info);
+            border-left: 4px solid var(--color-primary);
         }
 
         @keyframes slideInRight {
@@ -734,303 +814,10 @@
             }
         }
 
-        .toast-icon {
-            font-size: 1.25rem;
-        }
-
-        footer {
-            margin-top: 4rem;
-            padding: 2rem 0;
-            border-top: 1px solid var(--border);
-            background: var(--surface);
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        @media (min-width: 768px) {
-            .footer-content {
-                flex-direction: row;
-                justify-content: space-between;
-            }
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .footer-links a {
-            color: var(--foreground-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-
-        .footer-links a:hover {
-            color: var(--foreground);
-        }
-
-        .version {
-            font-size: 0.85rem;
-            color: var(--foreground-dim);
-        }
-
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .summary-panel {
-                position: static;
-            }
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .stat-card {
-            background: var(--background);
-            padding: 1rem;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .stat-card-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .stat-card-label {
-            font-size: 0.8rem;
-            color: var(--foreground-muted);
-            margin-top: 0.25rem;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1rem;
-        }
-
-        .tab {
-            padding: 0.5rem 1rem;
-            background: transparent;
-            border: none;
-            color: var(--foreground-muted);
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s;
-            font-weight: 500;
-        }
-
-        .tab:hover {
-            color: var(--foreground);
-            background: var(--surface-hover);
-        }
-
-        .tab.active {
-            color: var(--primary);
-            background: rgba(20, 184, 166, 0.1);
-        }
-
-        .cost-breakdown {
-            margin-top: 1rem;
-        }
-
-        .cost-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.9rem;
-        }
-
-        .cost-item:last-child {
-            border-bottom: none;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .cost-item-label {
-            color: var(--foreground-muted);
-        }
-
-        .cost-item-value {
-            font-weight: 500;
-        }
-
-        /* Additional styles for enhanced features */
-        .pro-tip-card {
-            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(245, 158, 11, 0.05));
-            border: 1px solid rgba(20, 184, 166, 0.2);
-        }
-
-        .build-stats-card {
-            margin-top: 1rem;
-        }
-
-        .stat-item {
-            margin-bottom: 1rem;
-        }
-
-        .stat-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .stat-label-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-        }
-
-        .stat-value-text {
-            font-weight: 500;
-            color: var(--foreground);
-        }
-
-        .stat-progress-bg {
-            height: 8px;
-            background: var(--surface-hover);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .stat-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), #3b82f6);
-            border-radius: 4px;
-            transition: width 0.3s;
-        }
-
-        .recommended-section {
-            margin-top: 2rem;
-        }
-
-        .recommended-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .recommended-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .recommended-card {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .recommended-decor {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, rgba(20, 184, 166, 0.05), rgba(245, 158, 11, 0.05));
-            border-radius: 0 0 0 100%;
-        }
-
-        .tag-list {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 0.75rem;
-        }
-
-        .tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            padding: 0.25rem 0.6rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .tag-primary {
-            background: rgba(234, 179, 8, 0.2);
-            color: #eab308;
-        }
-
-        .tag-green {
-            background: rgba(34, 197, 94, 0.2);
-            color: #22c55e;
-        }
-
-        .tag-purple {
-            background: rgba(147, 51, 234, 0.2);
-            color: #9333ea;
-        }
-
-        .recommended-meta {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .recommended-meta-item {
-            flex: 1;
-        }
-
-        .recommended-meta-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--foreground-muted);
-            margin-bottom: 0.25rem;
-        }
-
-        .recommended-meta-value {
-            font-size: 1.125rem;
-            font-weight: 700;
-        }
-
-        .recommended-meta-value.price {
-            color: var(--primary);
-        }
-
-        .recommended-meta-value.weight {
-            color: var(--accent);
-        }
-
-        .compare-panel {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(24, 24, 27, 0.95);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border);
-            z-index: 60;
-            padding: 1rem;
-            animation: slideUp 0.3s ease-out;
-        }
-
-        @keyframes slideUp {
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -1038,362 +825,317 @@
             }
         }
 
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-subtle);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Compare Panel */
+        .compare-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(11, 11, 14, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-medium);
+            z-index: 500;
+            padding: 1.5rem 2rem;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .compare-panel.active {
+            transform: translateY(0);
+        }
+
+        .compare-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         .compare-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .compare-title {
-            font-size: 1.125rem;
-            font-weight: 600;
-        }
-
-        .compare-table-container {
-            overflow-x: auto;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
         }
 
         .compare-table {
+            overflow-x: auto;
+        }
+
+        .compare-table table {
             width: 100%;
-            min-width: 800px;
             border-collapse: collapse;
         }
 
         .compare-table th,
         .compare-table td {
-            padding: 0.75rem 1rem;
+            padding: 1rem;
             text-align: center;
         }
 
         .compare-table th:first-child,
         .compare-table td:first-child {
             text-align: left;
-        }
-
-        .compare-header-row {
-            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+            color: var(--text-muted);
         }
 
         .compare-row {
-            border-bottom: 1px solid var(--border);
-        }
-
-        .compare-row:last-child {
-            border-bottom: none;
-        }
-
-        .compare-footer {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .compare-footer .btn {
-            flex: 1;
+            border-bottom: 1px solid var(--border-subtle);
         }
 
         .best-value {
-            color: #22c55e !important;
+            color: var(--color-secondary) !important;
+            font-weight: 800;
         }
 
-        .diff-positive {
-            color: #22c55e;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            justify-content: center;
-            font-size: 0.875rem;
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-panel {
+                position: static;
+            }
+
+            .recommended-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .diff-negative {
-            color: #ef4444;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            justify-content: center;
-            font-size: 0.875rem;
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 1rem 1.5rem;
+            }
+
+            .logo-text {
+                font-size: 1.25rem;
+            }
+
+            .nav-actions .btn-ghost {
+                display: none;
+            }
+
+            .main-container {
+                padding: 2rem 1.5rem 4rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.05rem;
+            }
+
+            .bike-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
         }
 
-        .diff-neutral {
-            color: var(--foreground-muted);
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            justify-content: center;
-            font-size: 0.875rem;
-        }
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
 
-        /* Onboarding Guide Modal */
-        .onboarding-modal {
-            max-width: 500px;
-        }
+            .card {
+                padding: 1.5rem;
+            }
 
-        .onboarding-icon-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .onboarding-icon {
-            width: 96px;
-            height: 96px;
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-        }
-
-        .onboarding-content {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .onboarding-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-        }
-
-        .onboarding-desc {
-            color: var(--foreground-muted);
-            font-size: 1.125rem;
-        }
-
-        .onboarding-progress {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .onboarding-dot {
-            height: 8px;
-            border-radius: 9999px;
-            background: var(--surface-hover);
-            transition: all 0.3s;
-        }
-
-        .onboarding-dot.active {
-            width: 32px;
-            background: var(--primary);
-        }
-
-        .onboarding-dot.inactive {
-            width: 8px;
-        }
-
-        .main-layout {
-            padding-top: 5rem;
-            padding-bottom: 6rem;
-        }
-
-        @media (min-width: 1024px) {
-            .main-layout {
-                padding-top: 6rem;
-                padding-bottom: 3rem;
+            .bike-card {
+                padding: 1.5rem;
             }
         }
     </style>
 </head>
-<body class="noise-bg">
+<body>
     <div class="gradient-mesh"></div>
-    
+    <div class="noise-overlay"></div>
+
     <header>
-        <div class="container">
-            <nav class="nav">
-                <div class="logo" onclick="scrollToTop()">
-                    <div class="logo-icon">V</div>
-                    <span class="logo-text font-display">Veloform</span>
-                </div>
-                <div class="nav-links">
-                    <a href="#" class="active" onclick="navigateTo('configurator', event)">配置器</a>
-                    <a href="#" onclick="navigateTo('library', event)">配置库</a>
-                </div>
-                <div class="nav-actions">
-                    <button class="icon-btn" onclick="toggleTheme()" title="切换主题">🌙</button>
-                    <button class="icon-btn" onclick="toggleLanguage()" title="切换语言">🌍</button>
-                    <button class="icon-btn" onclick="openSupportModal()" title="支持">❓</button>
-                    <button class="btn btn-secondary btn-sm" onclick="toggleAuth()">登录</button>
-                </div>
-            </nav>
+        <div class="header-content">
+            <div class="logo" onclick="scrollToTop()">
+                <div class="logo-icon">V</div>
+                <span class="logo-text">Veloform</span>
+            </div>
+            <div class="nav-actions">
+                <button class="btn btn-ghost" onclick="openSupportModal()">帮助</button>
+                <button class="btn btn-secondary" onclick="toggleAuth()">登录</button>
+            </div>
         </div>
     </header>
 
-    <main class="main-layout">
-        <div class="container">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                <div class="lg:col-span-2 space-y-6 lg:space-y-8">
-                    <!-- Build List with integrated Bike Type Selector -->
-                    <div class="card" id="buildListCard">
-                        <div class="card-header">
-                            <div class="flex items-center gap-4">
-                                <div class="nav-links" style="padding: 0; background: transparent; border: none;">
-                                    <div class="bike-option active" data-type="road" onclick="selectBikeType('road')">
-                                        <span style="font-size: 1.25rem;">🚴</span>
-                                        <span class="bike-name">公路车</span>
-                                    </div>
-                                    <div class="bike-option" data-type="mtb" onclick="selectBikeType('mtb')">
-                                        <span style="font-size: 1.25rem;">🏔️</span>
-                                        <span class="bike-name">山地车</span>
-                                    </div>
-                                    <div class="bike-option" data-type="gravel" onclick="selectBikeType('gravel')">
-                                        <span style="font-size: 1.25rem;">🌾</span>
-                                        <span class="bike-name">折叠车</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <h3 class="card-title font-display" id="buildTitle">当前配置</h3>
-                                <span class="badge badge-success" id="componentCount">5 个组件</span>
-                            </div>
+    <div class="main-container">
+        <div class="hero">
+            <div class="hero-badge">
+                ✨ 全新设计系统
+            </div>
+            <h1>构建你的梦想座驾</h1>
+            <p>沉浸式配置体验，让每一个选择都成为完美组合。公路车、山地车、折叠车，随你挑选。</p>
+        </div>
+
+        <div class="bike-selector">
+            <div class="bike-card active" data-type="road" onclick="selectBikeType('road')">
+                <div class="bike-icon">🚴</div>
+                <div class="bike-name">公路车</div>
+                <div class="bike-desc">速度与激情，专为竞速打造</div>
+            </div>
+            <div class="bike-card" data-type="mtb" onclick="selectBikeType('mtb')">
+                <div class="bike-icon">🏔️</div>
+                <div class="bike-name">山地车</div>
+                <div class="bike-desc">征服每一条崎岖山路</div>
+            </div>
+            <div class="bike-card" data-type="fold" onclick="selectBikeType('fold')">
+                <div class="bike-icon">🌾</div>
+                <div class="bike-name">折叠车</div>
+                <div class="bike-desc">城市通勤的最佳伙伴</div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">当前配置</h2>
+                        <span style="color: var(--text-muted); font-size: 0.9rem;">5 个组件</span>
+                    </div>
+                    <div class="component-list" id="componentList">
+                        <!-- Components will be rendered here -->
+                    </div>
+                </div>
+
+                <div class="recommended-section">
+                    <div class="section-header">
+                        <h2 class="section-title">专家推荐配置</h2>
+                        <p style="color: var(--text-muted);">精挑细选的完美组合</p>
+                    </div>
+                    <div class="recommended-grid" id="recommendedGrid">
+                        <!-- Recommended configs will be rendered here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-panel">
+                <div class="card">
+                    <div class="summary-header">
+                        <div class="summary-label">配置汇总</div>
+                        <div class="summary-config-name" id="configName">公路车配置</div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value price" id="totalPrice">¥92,960</div>
+                            <div class="stat-label">总价格</div>
                         </div>
-                        <div class="components-list" id="componentsList">
-                            <!-- Components will be rendered here -->
+                        <div class="stat-card">
+                            <div class="stat-value weight" id="totalWeight">6.8 kg</div>
+                            <div class="stat-label">总重量</div>
                         </div>
                     </div>
 
-                    <!-- Recommended Configurations -->
-                    <div class="recommended-section">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-2xl font-display font-bold">推荐配置</h2>
-                            <p class="text-sm text-muted">专家精选</p>
+                    <div class="progress-section">
+                        <div class="progress-label">
+                            <span>预算进度</span>
+                            <span id="budgetText">¥92,960 / ¥100,000</span>
                         </div>
-                        <div class="recommended-grid" id="recommendedGrid">
-                            <!-- Recommended configs will be rendered here -->
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="budgetProgress" style="width: 93%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="saveConfiguration()">
+                            💾 保存配置
+                        </button>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                            <button class="btn btn-secondary" onclick="shareConfiguration()">
+                                📤 分享
+                            </button>
+                            <button class="btn btn-secondary" onclick="resetToDefaults()">
+                                🔄 重置
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-1">
-                    <div class="sticky top-24 space-y-6">
-                        <!-- Summary Panel -->
-                        <div class="card summary-panel overflow-hidden relative">
-                            <!-- Decorative elements -->
-                            <div class="absolute top-0 right-0 w-20 sm:w-32 h-20 sm:h-32 bg-gradient-to-br from-primary/15 to-accent/15 rounded-bl-full"></div>
-                            <div class="absolute bottom-0 left-0 w-16 h-16 bg-primary/5 rounded-tr-full"></div>
-                            
-                            <div class="relative space-y-5 sm:space-y-6 p-4 sm:p-6">
-                                <div class="flex items-start justify-between">
-                                    <div>
-                                        <h3 class="text-xs sm:text-sm font-medium text-muted mb-1 sm:mb-2" id="summaryLabel">当前配置</h3>
-                                        <p class="text-xl sm:text-2xl font-display font-bold text-foreground" id="configName">公路车配置</p>
-                                        <div class="flex items-center gap-2 mt-2">
-                                            <div class="p-1.5 bg-primary/10 rounded-lg" id="bikeTypeIconContainer">
-                                                <span class="text-primary" style="font-size: 1rem;">🚴</span>
-                                            </div>
-                                            <span class="text-xs text-muted uppercase tracking-wider" id="bikeTypeLabel">公路车</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                                    <div class="bg-zinc-900/70 backdrop-blur-sm border border-zinc-800/50 rounded-xl sm:rounded-2xl p-4 sm:p-5">
-                                        <div class="flex items-center gap-2 mb-2">
-                                            <div class="p-1.5 bg-primary/20 rounded-lg">
-                                                <span class="text-primary">📈</span>
-                                            </div>
-                                            <p class="text-xs text-muted/80 uppercase tracking-wide">总价格</p>
-                                        </div>
-                                        <p class="text-2xl sm:text-3xl font-bold text-primary" id="totalPrice">¥92,960</p>
-                                    </div>
-                                    
-                                    <div class="bg-zinc-900/70 backdrop-blur-sm border border-zinc-800/50 rounded-xl sm:rounded-2xl p-4 sm:p-5">
-                                        <div class="flex items-center gap-2 mb-2">
-                                            <div class="p-1.5 bg-accent/20 rounded-lg">
-                                                <span class="text-accent">⚖️</span>
-                                            </div>
-                                            <p class="text-xs text-muted/80 uppercase tracking-wide">总重量</p>
-                                        </div>
-                                        <p class="text-2xl sm:text-3xl font-bold text-accent" id="totalWeight">6.8 kg</p>
-                                    </div>
-                                </div>
-
-                                <div id="tab-container">
-                                    <div id="tab-summary">
-                                        <div class="space-y-3 pt-2">
-                                            <button class="btn btn-primary w-full" onclick="saveConfiguration()">
-                                                💾 保存配置
-                                            </button>
-                                            
-                                            <div class="grid grid-cols-2 gap-3">
-                                                <button class="btn btn-outline w-full" onclick="shareConfiguration()">
-                                                    📤 分享
-                                                </button>
-                                                <button class="btn btn-outline w-full" onclick="resetToDefaults()">
-                                                    🔄 重置
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div id="tab-cost" style="display: none;">
-                                        <div class="cost-breakdown" id="costBreakdown">
-                                            <!-- Cost breakdown will be rendered here -->
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Login hint -->
-                                <div id="loginHint" class="mt-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl">
-                                    <div class="flex items-start gap-2">
-                                        <span class="text-amber-500 flex-shrink-0 mt-0.5">👤</span>
-                                        <div>
-                                            <p class="text-sm text-amber-500 font-medium">登录以保存配置</p>
-                                            <p class="text-xs text-amber-500/70 mt-1">配置将保存到云端，随时访问</p>
-                                        </div>
-                                    </div>
-                                </div>
+                <div style="margin-top: 1.5rem;">
+                    <div class="card" style="background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(236, 72, 153, 0.05)); border-color: rgba(124, 58, 237, 0.3);">
+                        <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                            <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(124, 58, 237, 0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.5rem;">
+                                💡
+                            </div>
+                            <div>
+                                <h3 style="font-weight: 700; margin-bottom: 0.5rem;">专业建议</h3>
+                                <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">升级碳轮可以减重 15% 并显著提升骑行体验。</p>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- Pro Tip Card -->
-                        <div class="card p-6 bg-gradient-to-br from-primary/10 to-accent/5 border-primary/20">
-                            <div class="flex items-start gap-4">
-                                <div class="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
-                                        <path d="M12 9v2m0 4h.01"/>
-                                        <path d="M5 21h14a2 2 0 0 0 1.84-2.75l-3.54-6.91a2 2 0 0 0-.31-1.76l-3.54-3.54a2 2 0 0 0-1.76-.31L6.75 3.16A2 2 0 0 0 4 5v14a2 2 0 0 0 2 2z"/>
-                                    </svg>
+                <div style="margin-top: 1.5rem;">
+                    <div class="card">
+                        <h3 style="font-weight: 700; margin-bottom: 1.25rem;">配置评分</h3>
+                        <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                                    <span style="color: var(--text-muted);">性价比</span>
+                                    <span style="font-weight: 600;">8.7 / 10</span>
                                 </div>
-                                <div>
-                                    <h3 class="font-semibold text-foreground mb-1">专业建议</h3>
-                                    <p class="text-sm text-muted">升级碳轮可以减重 15% 并显著提升骑行体验。</p>
+                                <div style="height: 8px; background: rgba(255, 255, 255, 0.08); border-radius: 9999px; overflow: hidden;">
+                                    <div style="height: 100%; width: 87%; background: linear-gradient(90deg, var(--color-primary), var(--color-secondary)); border-radius: 9999px;"></div>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Build Stats Card -->
-                        <div class="card p-6">
-                            <h3 class="font-semibold text-foreground mb-4">配置评分</h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <div class="flex justify-between text-sm mb-2">
-                                        <span class="text-muted">性价比</span>
-                                        <span class="text-foreground font-medium">8.7/10</span>
-                                    </div>
-                                    <div class="h-2 bg-zinc-800 rounded-full overflow-hidden">
-                                        <div class="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full transition-all duration-500" style="width: 87%;"></div>
-                                    </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                                    <span style="color: var(--text-muted);">轻量化</span>
+                                    <span style="font-weight: 600;">9.2 / 10</span>
                                 </div>
-                                <div>
-                                    <div class="flex justify-between text-sm mb-2">
-                                        <span class="text-muted">轻量化</span>
-                                        <span class="text-foreground font-medium">9.2/10</span>
-                                    </div>
-                                    <div class="h-2 bg-zinc-800 rounded-full overflow-hidden">
-                                        <div class="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full transition-all duration-500" style="width: 92%;"></div>
-                                    </div>
+                                <div style="height: 8px; background: rgba(255, 255, 255, 0.08); border-radius: 9999px; overflow: hidden;">
+                                    <div style="height: 100%; width: 92%; background: linear-gradient(90deg, var(--color-primary), var(--color-accent)); border-radius: 9999px;"></div>
                                 </div>
-                                <div>
-                                    <div class="flex justify-between text-sm mb-2">
-                                        <span class="text-muted">平衡性</span>
-                                        <span class="text-foreground font-medium">7.9/10</span>
-                                    </div>
-                                    <div class="h-2 bg-zinc-800 rounded-full overflow-hidden">
-                                        <div class="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full transition-all duration-500" style="width: 79%;"></div>
-                                    </div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                                    <span style="color: var(--text-muted);">平衡性</span>
+                                    <span style="font-weight: 600;">7.9 / 10</span>
+                                </div>
+                                <div style="height: 8px; background: rgba(255, 255, 255, 0.08); border-radius: 9999px; overflow: hidden;">
+                                    <div style="height: 100%; width: 79%; background: linear-gradient(90deg, var(--color-secondary), var(--color-primary)); border-radius: 9999px;"></div>
                                 </div>
                             </div>
                         </div>
@@ -1401,184 +1143,129 @@
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
     <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="logo">
-                    <div class="logo-icon">V</div>
-                    <span class="logo-text font-display">Veloform</span>
-                </div>
-                <div class="footer-links">
-                    <a href="#">GitHub</a>
-                    <span style="color: var(--foreground-dim);">|</span>
-                    <a href="#">关于</a>
-                    <a href="#">支持</a>
-                    <a href="#">隐私</a>
-                </div>
-                <div class="version">v3.6.0</div>
+        <div class="footer-content">
+            <div class="logo">
+                <div class="logo-icon">V</div>
+                <span class="logo-text">Veloform</span>
             </div>
+            <div class="footer-text">© 2024 Veloform. 重新定义骑行体验。</div>
         </div>
     </footer>
 
-    <!-- Compare Panel -->
-    <div class="compare-panel" id="comparePanel" style="display: none;">
-        <div class="container">
-            <div class="compare-header">
-                <h3 class="compare-title">配置对比 <span id="compareCount">(2 个配置)</span></h3>
-                <button class="icon-btn" onclick="closeComparePanel()">✕</button>
-            </div>
-            <div class="compare-table-container">
-                <table class="compare-table" id="compareTable">
-                    <!-- Compare table will be rendered here -->
-                </table>
-            </div>
-            <div class="compare-footer" id="compareFooter">
-                <!-- Load buttons will be rendered here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Additional Modals -->
-    <div class="modal-overlay" id="componentDetailModal" onclick="closeComponentDetailModal(event)">
+    <!-- Component Selector Modal -->
+    <div class="modal-overlay" id="componentModal" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <h3 class="modal-title font-display" id="detailModalTitle">组件详情</h3>
-                <button class="modal-close" onclick="closeComponentDetailModal()">×</button>
+                <h2 class="modal-title" id="modalTitle">选择组件</h2>
+                <button class="modal-close" onclick="closeModal()">×</button>
             </div>
-            <div id="componentDetailContent">
-                <!-- Component detail content will be rendered here -->
+            <div class="modal-body">
+                <div class="options-grid" id="modalOptions">
+                    <!-- Options will be rendered here -->
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Share Modal -->
     <div class="modal-overlay" id="shareModal" onclick="closeShareModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <h3 class="modal-title font-display">分享配置</h3>
+                <h2 class="modal-title">分享配置</h2>
                 <button class="modal-close" onclick="closeShareModal()">×</button>
             </div>
-            <div class="space-y-6">
-                <div class="bg-zinc-900/60 rounded-xl p-4">
-                    <label class="block text-sm font-medium text-muted mb-2">分享链接</label>
-                    <div class="flex gap-2">
-                        <input type="text" value="https://veloform.com/config/abc123" readonly class="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 text-sm font-mono">
-                        <button class="btn btn-primary btn-sm" onclick="copyShareLink()">复制</button>
+            <div class="modal-body">
+                <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                    <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">分享链接</div>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <input type="text" value="https://veloform.com/config/abc123" readonly style="flex: 1; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 0.875rem 1rem; color: var(--text-primary); font-family: inherit; font-size: 0.9rem;">
+                        <button class="btn btn-primary" onclick="copyShareLink()">复制</button>
                     </div>
                 </div>
-                <div class="space-y-3">
-                    <button class="btn btn-primary w-full" onclick="copyShareLink()">
-                        🔗 复制链接
-                    </button>
-                    <button class="btn btn-secondary w-full" onclick="exportConfig()">
-                        📥 导出 JSON
-                    </button>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="copyShareLink()">🔗 复制链接</button>
+                    <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="exportConfig()">📥 导出 JSON</button>
                 </div>
-                <p class="text-sm text-muted text-center">
-                    分享此链接让其他人查看你的配置
-                </p>
+                <p style="text-align: center; color: var(--text-muted); margin-top: 1.5rem; font-size: 0.9rem;">分享此链接让其他人查看你的配置</p>
             </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="onboardingModal" onclick="closeOnboardingModal(event)">
-        <div class="modal-content onboarding-modal" onclick="event.stopPropagation()">
-            <button class="modal-close" style="position: absolute; top: 1rem; right: 1rem;" onclick="closeOnboardingModal()">×</button>
-            <div id="onboardingContent">
-                <!-- Onboarding content will be rendered here -->
-            </div>
-        </div>
-    </div>
-
+    <!-- Support Modal -->
     <div class="modal-overlay" id="supportModal" onclick="closeSupportModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <h3 class="modal-title font-display">支持与帮助</h3>
+                <h2 class="modal-title">帮助与支持</h2>
                 <button class="modal-close" onclick="closeSupportModal()">×</button>
             </div>
-            <div class="space-y-6">
-                <div class="grid grid-cols-3 gap-4">
-                    <a href="mailto:support@veloform.com" class="flex flex-col items-center p-4 bg-zinc-900/50 rounded-xl hover:bg-zinc-800/50 transition-colors">
-                        <span style="font-size: 2rem;">📧</span>
-                        <span class="text-xs text-muted mt-2 text-center">邮件</span>
-                    </a>
-                    <a href="tel:+8612345678900" class="flex flex-col items-center p-4 bg-zinc-900/50 rounded-xl hover:bg-zinc-800/50 transition-colors">
-                        <span style="font-size: 2rem;">📞</span>
-                        <span class="text-xs text-muted mt-2 text-center">电话</span>
-                    </a>
-                    <button class="flex flex-col items-center p-4 bg-zinc-900/50 rounded-xl hover:bg-zinc-800/50 transition-colors">
-                        <span style="font-size: 2rem;">💬</span>
-                        <span class="text-xs text-muted mt-2 text-center">在线</span>
+            <div class="modal-body">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                    <button style="padding: 1.25rem; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-subtle); border-radius: 16px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.borderColor='rgba(124, 58, 237, 0.4)'; this.style.background='rgba(124, 58, 237, 0.05)'" onmouseout="this.style.borderColor='var(--border-subtle)'; this.style.background='rgba(255, 255, 255, 0.04)'">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📧</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">邮件</div>
+                    </button>
+                    <button style="padding: 1.25rem; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-subtle); border-radius: 16px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.borderColor='rgba(124, 58, 237, 0.4)'; this.style.background='rgba(124, 58, 237, 0.05)'" onmouseout="this.style.borderColor='var(--border-subtle)'; this.style.background='rgba(255, 255, 255, 0.04)'">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📞</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">电话</div>
+                    </button>
+                    <button style="padding: 1.25rem; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-subtle); border-radius: 16px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.borderColor='rgba(124, 58, 237, 0.4)'; this.style.background='rgba(124, 58, 237, 0.05)'" onmouseout="this.style.borderColor='var(--border-subtle)'; this.style.background='rgba(255, 255, 255, 0.04)'">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">💬</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">在线</div>
                     </button>
                 </div>
-
-                <div class="bg-zinc-900/50 rounded-xl p-4">
-                    <h4 class="flex items-center gap-2 text-sm font-medium mb-4">
+                <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 1.5rem;">
+                    <h3 style="font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                         ❓ 常见问题
-                    </h4>
-                    <div class="space-y-3">
-                        <details class="border-b border-zinc-800 pb-3 last:border-0">
-                            <summary class="text-sm text-muted cursor-pointer hover:text-foreground">
-                                如何保存我的配置？
-                            </summary>
-                            <p class="text-sm text-muted mt-2 pl-4">
-                                点击保存按钮，配置会自动保存到云端或本地。
-                            </p>
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <details style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
+                            <summary style="cursor: pointer; color: var(--text-muted); font-size: 0.95rem;">如何保存我的配置？</summary>
+                            <p style="color: var(--text-muted); margin-top: 0.75rem; padding-left: 1rem; font-size: 0.9rem;">点击保存按钮，配置会自动保存到云端或本地。</p>
                         </details>
-                        <details class="border-b border-zinc-800 pb-3 last:border-0">
-                            <summary class="text-sm text-muted cursor-pointer hover:text-foreground">
-                                组件价格是实时更新的吗？
-                            </summary>
-                            <p class="text-sm text-muted mt-2 pl-4">
-                                是的，我们定期更新组件价格以确保准确性。
-                            </p>
+                        <details style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
+                            <summary style="cursor: pointer; color: var(--text-muted); font-size: 0.95rem;">组件价格是实时更新的吗？</summary>
+                            <p style="color: var(--text-muted); margin-top: 0.75rem; padding-left: 1rem; font-size: 0.9rem;">是的，我们定期更新组件价格以确保准确性。</p>
                         </details>
-                        <details class="border-b border-zinc-800 pb-3 last:border-0">
-                            <summary class="text-sm text-muted cursor-pointer hover:text-foreground">
-                                可以导出我的配置吗？
-                            </summary>
-                            <p class="text-sm text-muted mt-2 pl-4">
-                                可以通过分享功能导出配置为JSON文件或生成分享链接。
-                            </p>
+                        <details>
+                            <summary style="cursor: pointer; color: var(--text-muted); font-size: 0.95rem;">可以导出我的配置吗？</summary>
+                            <p style="color: var(--text-muted); margin-top: 0.75rem; padding-left: 1rem; font-size: 0.9rem;">可以通过分享功能导出配置为 JSON 文件或生成分享链接。</p>
                         </details>
                     </div>
                 </div>
-
-                <form onsubmit="submitSupportForm(event)" class="space-y-4">
-                    <h4 class="text-sm font-medium">联系我们</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" placeholder="你的名字" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-sm" required>
-                        <input type="email" placeholder="电子邮件" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-sm" required>
-                    </div>
-                    <textarea placeholder="你的消息..." rows="4" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-sm resize-none" required></textarea>
-                    <button type="submit" class="btn btn-primary w-full">
-                        📤 发送消息
-                    </button>
-                </form>
             </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="modal" onclick="closeModal(event)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <h3 class="modal-title font-display" id="modal-title">选择组件</h3>
-                <button class="modal-close" onclick="closeModal()">×</button>
+    <!-- Compare Panel -->
+    <div class="compare-panel" id="comparePanel">
+        <div class="compare-content">
+            <div class="compare-header">
+                <h3 class="compare-title">配置对比 <span id="compareCount">(2 个配置)</span></h3>
+                <button class="btn btn-ghost" onclick="closeComparePanel()">✕ 关闭</button>
             </div>
-            <div class="options-grid" id="modal-content"></div>
+            <div class="compare-table">
+                <table id="compareTable">
+                    <!-- Compare table will be rendered here -->
+                </table>
+            </div>
+            <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;" id="compareButtons">
+                <!-- Buttons will be rendered here -->
+            </div>
         </div>
     </div>
 
-    <div class="toast-container" id="toast-container"></div>
+    <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // Component data
+        // Component Data
         const componentCategories = {
             frame: { name: '车架', icon: '📐' },
-            groupset: { name: '套件', icon: '⚙️' },
+            groupset: { name: '传动系统', icon: '⚙️' },
             wheels: { name: '轮组', icon: '🔘' },
-            handlebar: { name: '车把', icon: '🚲' },
+            handlebar: { name: '操控组件', icon: '🚲' },
             saddle: { name: '坐垫', icon: '🪑' }
         };
 
@@ -1586,71 +1273,70 @@
             frame: {
                 title: '选择车架',
                 options: [
-                    { id: 'frame-1', name: 'Specialized Tarmac SL8', brand: 'Specialized', price: 32990, weight: 790, specs: ['Rim/Disc', '12x142mm', 'Rider First'], image: null },
-                    { id: 'frame-2', name: 'Canyon Ultimate CF SLX', brand: 'Canyon', price: 26800, weight: 760, specs: ['Disc Only', '12x148mm', 'Aero Optimized'], image: null },
-                    { id: 'frame-3', name: 'Trek Emonda SLR', brand: 'Trek', price: 29800, weight: 698, specs: ['Disc Only', 'T47 BB', 'IsoSpeed'], image: null },
-                    { id: 'frame-4', name: 'Giant TCR Advanced SL', brand: 'Giant', price: 23500, weight: 820, specs: ['Rim/Disc', 'OverDrive', 'PowerCore'], image: null }
+                    { id: 'frame-1', name: 'Specialized Tarmac SL8', brand: 'Specialized', price: 32990, weight: 790, specs: ['碟刹', '12x142mm', 'Rider First'] },
+                    { id: 'frame-2', name: 'Canyon Ultimate CF SLX', brand: 'Canyon', price: 26800, weight: 760, specs: ['碟刹', '12x148mm', '空气动力学'] },
+                    { id: 'frame-3', name: 'Trek Emonda SLR', brand: 'Trek', price: 29800, weight: 698, specs: ['碟刹', 'T47中轴', 'IsoSpeed'] },
+                    { id: 'frame-4', name: 'Giant TCR Advanced SL', brand: 'Giant', price: 23500, weight: 820, specs: ['圈刹/碟刹', 'OverDrive', 'PowerCore'] }
                 ]
             },
             groupset: {
-                title: '选择套件',
+                title: '选择传动系统',
                 options: [
-                    { id: 'groupset-1', name: 'Shimano Dura-Ace R9270 Di2', brand: 'Shimano', price: 28500, weight: 2200, specs: ['12-Speed', 'Wireless', 'Power Meter'], image: null },
-                    { id: 'groupset-2', name: 'SRAM Red AXS', brand: 'SRAM', price: 26800, weight: 2050, specs: ['12-Speed', 'Wireless', 'Orbit Fluid'], image: null },
-                    { id: 'groupset-3', name: 'Shimano Ultegra R8170 Di2', brand: 'Shimano', price: 15800, weight: 2400, specs: ['12-Speed', 'Wireless', 'Hyperglide+'], image: null },
-                    { id: 'groupset-4', name: 'SRAM Force AXS', brand: 'SRAM', price: 14500, weight: 2250, specs: ['12-Speed', 'Wireless', 'X-Range'], image: null }
+                    { id: 'groupset-1', name: 'Shimano Dura-Ace R9270 Di2', brand: 'Shimano', price: 28500, weight: 2200, specs: ['12速', '电子变速', '功率计'] },
+                    { id: 'groupset-2', name: 'SRAM Red AXS', brand: 'SRAM', price: 26800, weight: 2050, specs: ['12速', '无线电子', 'Orbit Fluid'] },
+                    { id: 'groupset-3', name: 'Shimano Ultegra R8170 Di2', brand: 'Shimano', price: 15800, weight: 2400, specs: ['12速', '电子变速', 'Hyperglide+'] },
+                    { id: 'groupset-4', name: 'SRAM Force AXS', brand: 'SRAM', price: 14500, weight: 2250, specs: ['12速', '无线电子', 'X-Range'] }
                 ]
             },
             wheels: {
                 title: '选择轮组',
                 options: [
-                    { id: 'wheels-1', name: 'Zipp 454 NSW', brand: 'Zipp', price: 25800, weight: 1380, specs: ['58/53mm', 'Hookless', 'Cognition'], image: null },
-                    { id: 'wheels-2', name: 'ENVE SES 4.5', brand: 'ENVE', price: 22000, weight: 1420, specs: ['54/49mm', 'Hooked', 'Innerdrive'], image: null },
-                    { id: 'wheels-3', name: 'Roval Rapide CLX', brand: 'Roval', price: 19800, weight: 1360, specs: ['51/35mm', 'Rim/Disc', 'DT 240'], image: null },
-                    { id: 'wheels-4', name: 'DT Swiss ARC 1400', brand: 'DT Swiss', price: 12800, weight: 1520, specs: ['50mm', 'Disc Only', 'Ratchet EXP'], image: null }
+                    { id: 'wheels-1', name: 'Zipp 454 NSW', brand: 'Zipp', price: 25800, weight: 1380, specs: ['58/53mm', '无钩', 'Cognition'] },
+                    { id: 'wheels-2', name: 'ENVE SES 4.5', brand: 'ENVE', price: 22000, weight: 1420, specs: ['54/49mm', '有钩', 'InnerDrive'] },
+                    { id: 'wheels-3', name: 'Roval Rapide CLX', brand: 'Roval', price: 19800, weight: 1360, specs: ['51/35mm', '圈刹/碟刹', 'DT 240'] },
+                    { id: 'wheels-4', name: 'DT Swiss ARC 1400', brand: 'DT Swiss', price: 12800, weight: 1520, specs: ['50mm', '仅碟刹', 'Ratchet EXP'] }
                 ]
             },
             handlebar: {
-                title: '选择车把',
+                title: '选择操控组件',
                 options: [
-                    { id: 'handlebar-1', name: 'ENVE Aero SES', brand: 'ENVE', price: 4280, weight: 210, specs: ['Aero Shape', 'Carbon', 'Internal Routing'], image: null },
-                    { id: 'handlebar-2', name: 'Zipp SL-70', brand: 'Zipp', price: 3200, weight: 195, specs: ['Aero Drop', 'Carbon', 'Ergo Top'], image: null },
-                    { id: 'handlebar-3', name: 'Roval Rapide', brand: 'Roval', price: 2800, weight: 220, specs: ['Aero', 'Carbon', 'Roval Design'], image: null },
-                    { id: 'handlebar-4', name: 'Deda Superzero', brand: 'Deda', price: 1800, weight: 240, specs: ['Aero Shape', 'Carbon', 'DCR'], image: null }
+                    { id: 'handlebar-1', name: 'ENVE Aero SES', brand: 'ENVE', price: 4280, weight: 210, specs: ['气动造型', '碳纤维', '内走线'] },
+                    { id: 'handlebar-2', name: 'Zipp SL-70', brand: 'Zipp', price: 3200, weight: 195, specs: ['气动弯把', '碳纤维', 'Ergo Top'] },
+                    { id: 'handlebar-3', name: 'Roval Rapide', brand: 'Roval', price: 2800, weight: 220, specs: ['气动', '碳纤维', 'Roval设计'] },
+                    { id: 'handlebar-4', name: 'Deda Superzero', brand: 'Deda', price: 1800, weight: 240, specs: ['气动造型', '碳纤维', 'DCR'] }
                 ]
             },
             saddle: {
                 title: '选择坐垫',
                 options: [
-                    { id: 'saddle-1', name: 'Fizik Arione R1', brand: 'Fizik', price: 1390, weight: 135, specs: ['Braided Rails', 'Carbon', 'Twin Flex'], image: null },
-                    { id: 'saddle-2', name: 'S-Works Power', brand: 'Specialized', price: 1690, weight: 140, specs: ['Titanium Rails', 'Carbon', 'Body Geometry'], image: null },
-                    { id: 'saddle-3', name: 'Prologo Dimension', brand: 'Prologo', price: 980, weight: 155, specs: ['Tirox Rails', 'Carbon Base', 'Nack'], image: null },
-                    { id: 'saddle-4', name: 'Bontrager Aeolus', brand: 'Bontrager', price: 890, weight: 160, specs: ['Titanium Rails', 'Carbon', 'IsoZone'], image: null }
+                    { id: 'saddle-1', name: 'Fizik Arione R1', brand: 'Fizik', price: 1390, weight: 135, specs: ['编织导轨', '碳纤维', 'Twin Flex'] },
+                    { id: 'saddle-2', name: 'S-Works Power', brand: 'Specialized', price: 1690, weight: 140, specs: ['钛合金导轨', '碳纤维', '人体工学'] },
+                    { id: 'saddle-3', name: 'Prologo Dimension', brand: 'Prologo', price: 980, weight: 155, specs: ['Tirox导轨', '碳底', 'Nack'] },
+                    { id: 'saddle-4', name: 'Bontrager Aeolus', brand: 'Bontrager', price: 890, weight: 160, specs: ['钛合金导轨', '碳纤维', 'IsoZone'] }
                 ]
             }
         };
 
-        // Recommended configurations
         const recommendedConfigs = [
             {
                 id: 'rec-1',
                 name: '竞速王者',
-                description: '为速度而生的极致配置',
+                description: '为速度而生的极致配置，每克都经过精心计算',
                 bikeType: 'road',
-                tags: ['Recommended', 'Lightweight'],
+                tags: ['推荐', '轻量化'],
                 totalCost: 92960,
                 estimatedWeight: 6.8,
-                components: []
+                components: {}
             },
             {
                 id: 'rec-2',
                 name: '性价比之选',
-                description: '平衡性能与预算的完美选择',
+                description: '平衡性能与预算，享受专业级骑行体验',
                 bikeType: 'road',
-                tags: ['Value', 'Popular'],
+                tags: ['性价比', '热门'],
                 totalCost: 58900,
                 estimatedWeight: 7.5,
-                components: []
+                components: {}
             }
         ];
 
@@ -1684,97 +1370,35 @@
             language: 'zh'
         };
 
-        let currentTab = 'summary';
-        let toastId = 0;
-
-        // Onboarding steps
-        const onboardingSteps = [
-            {
-                icon: '🚴',
-                title: '欢迎来到 Veloform',
-                description: '构建你梦想中的自行车配置，从这里开始。'
-            },
-            {
-                icon: '🔧',
-                title: '选择组件',
-                description: '点击任意组件即可查看并更换为其他选项。'
-            },
-            {
-                icon: '💾',
-                title: '保存配置',
-                description: '将你的配置保存到云端，随时访问和分享。'
-            },
-            {
-                icon: '📊',
-                title: '比较配置',
-                description: '对比不同配置，找到最适合你的组合。'
-            }
-        ];
+        let currentCategory = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             renderComponents();
             renderRecommendedConfigs();
             updateSummary();
-            renderCostBreakdown();
-            
-            const hasSeenGuide = localStorage.getItem('veloform_onboarding');
-            if (!hasSeenGuide) {
-                setTimeout(() => openOnboardingModal(), 500);
-            }
         });
-
-        // Navigation
-        function navigateTo(page, e) {
-            e.preventDefault();
-            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-            e.target.classList.add('active');
-            
-            if (page === 'library') {
-                showToast('配置库功能即将推出', 'info');
-            }
-        }
 
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Bike type selection
+        // Bike Type Selection
         function selectBikeType(type) {
             state.activeType = type;
-            document.querySelectorAll('.bike-option').forEach(el => {
-                el.classList.remove('active');
-            });
-            document.querySelectorAll(`[data-type="${type}"]`).forEach(el => el.classList.add('active'));
-            
-            const typeNames = { road: '公路车', mtb: '山地车', gravel: '折叠车' };
-            const typeIcons = { road: '🚴', mtb: '🏔️', gravel: '🌾' };
-            
-            document.getElementById('bikeTypeLabel').textContent = typeNames[type];
-            document.getElementById('bikeTypeIconContainer').innerHTML = `<span class="text-primary" style="font-size: 1rem;">${typeIcons[type]}</span>`;
+            document.querySelectorAll('.bike-card').forEach(el => el.classList.remove('active'));
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+
+            const typeNames = { road: '公路车', mtb: '山地车', fold: '折叠车' };
             document.getElementById('configName').textContent = `${typeNames[type]}配置`;
-            
-            showToast(`已切换至${typeNames[type]}配置`, 'info');
-        }
-        
-        // Reset to defaults
-        function resetToDefaults() {
-            state.components = {
-                frame: componentData.frame.options[0],
-                groupset: componentData.groupset.options[0],
-                wheels: componentData.wheels.options[0],
-                handlebar: componentData.handlebar.options[0],
-                saddle: componentData.saddle.options[0]
-            };
-            renderComponents();
-            updateSummary();
-            renderCostBreakdown();
-            showToast('配置已重置为默认值', 'info');
+            state.manualConfigName = `${typeNames[type]}配置`;
+
+            showToast(`已切换到${typeNames[type]}配置`, 'info');
         }
 
-        // Render functions
+        // Render Functions
         function renderComponents() {
-            const container = document.getElementById('componentsList');
+            const container = document.getElementById('componentList');
             container.innerHTML = Object.entries(state.components).map(([category, component]) => `
                 <div class="component-item" onclick="openComponentSelector('${category}')">
                     <div class="component-icon">${componentCategories[category].icon}</div>
@@ -1785,53 +1409,28 @@
                     <div class="component-price">¥${component.price.toLocaleString()}</div>
                 </div>
             `).join('');
-            
-            document.getElementById('componentCount').textContent = 
-                `${Object.keys(state.components).length} 个组件`;
         }
 
         function renderRecommendedConfigs() {
             const container = document.getElementById('recommendedGrid');
-            const tagIcons = { Recommended: '⭐', Lightweight: '⚡', Value: '💎', Popular: '✨' };
-            const tagColors = {
-                Recommended: 'tag-primary',
-                Lightweight: 'tag-green',
-                Value: 'tag-purple',
-                Popular: 'tag-primary'
-            };
-            
+            const tagColors = { '推荐': 'tag-primary', '轻量化': 'tag-secondary', '性价比': 'tag-secondary', '热门': 'tag-primary' };
+            const tagIcons = { '推荐': '⭐', '轻量化': '⚡', '性价比': '💎', '热门': '✨' };
+
             container.innerHTML = recommendedConfigs.map((config, index) => `
-                <div class="card recommended-card">
-                    <div class="recommended-decor"></div>
-                    <div class="relative p-6">
-                        <div class="tag-list mb-3">
-                            ${config.tags.map(tag => `
-                                <span class="tag ${tagColors[tag] || ''}">
-                                    ${tagIcons[tag] || '✨'} ${tag}
-                                </span>
-                            `).join('')}
+                <div class="recommended-card" onclick="loadRecommendedConfig(${index})">
+                    <div class="recommended-tags">
+                        ${config.tags.map(tag => `<span class="tag ${tagColors[tag] || 'tag-primary'}">${tagIcons[tag] || '✨'} ${tag}</span>`).join('')}
+                    </div>
+                    <div class="recommended-name">${config.name}</div>
+                    <div class="recommended-desc">${config.description}</div>
+                    <div class="recommended-meta">
+                        <div class="meta-item">
+                            <div class="meta-label">价格</div>
+                            <div class="meta-value price">¥${config.totalCost.toLocaleString()}</div>
                         </div>
-                        <h3 class="text-xl font-display font-semibold mb-2">${config.name}</h3>
-                        <p class="text-muted text-sm mb-4">${config.description}</p>
-                        
-                        <div class="recommended-meta mb-4">
-                            <div class="recommended-meta-item">
-                                <div class="recommended-meta-label">价格</div>
-                                <div class="recommended-meta-value price">¥${config.totalCost.toLocaleString()}</div>
-                            </div>
-                            <div class="recommended-meta-item">
-                                <div class="recommended-meta-label">重量</div>
-                                <div class="recommended-meta-value weight">${config.estimatedWeight} kg</div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex gap-2">
-                            <button class="btn btn-primary flex-1" onclick="loadRecommendedConfig(${index})">
-                                应用配置
-                            </button>
-                            <button class="btn btn-outline" onclick="addToCompare('${config.id}')">
-                                🆚
-                            </button>
+                        <div class="meta-item">
+                            <div class="meta-label">重量</div>
+                            <div class="meta-value weight">${config.estimatedWeight} kg</div>
                         </div>
                     </div>
                 </div>
@@ -1841,119 +1440,16 @@
         function updateSummary() {
             const totalCost = getTotalCost();
             const totalWeight = getTotalWeight();
-            
+
             document.getElementById('totalPrice').textContent = `¥${totalCost.toLocaleString()}`;
             document.getElementById('totalWeight').textContent = `${totalWeight.toFixed(1)} kg`;
-            
+
             const budget = 100000;
             const progress = Math.min((totalCost / budget) * 100, 100);
             document.getElementById('budgetProgress').style.width = `${progress}%`;
-            document.getElementById('budgetText').textContent = 
-                `¥${totalCost.toLocaleString()} / ¥${budget.toLocaleString()}`;
+            document.getElementById('budgetText').textContent = `¥${totalCost.toLocaleString()} / ¥${budget.toLocaleString()}`;
         }
 
-        function renderCostBreakdown() {
-            const container = document.getElementById('costBreakdown');
-            const components = Object.entries(state.components);
-            const totalCost = getTotalCost();
-            
-            container.innerHTML = components.map(([category, component]) => `
-                <div class="cost-item">
-                    <span class="cost-item-label">${componentCategories[category].name}</span>
-                    <span class="cost-item-value">¥${component.price.toLocaleString()}</span>
-                </div>
-            `).join('') + `
-                <div class="cost-item">
-                    <span class="cost-item-label">总计</span>
-                    <span class="cost-item-value">¥${totalCost.toLocaleString()}</span>
-                </div>
-            `;
-        }
-
-        function renderComparePanel() {
-            const comparingConfigs = [
-                { ...recommendedConfigs[0], id: 'rec-1' },
-                { ...state.myConfigs[0], id: 'saved-1' }
-            ];
-            
-            document.getElementById('compareCount').textContent = 
-                `(${comparingConfigs.length} 个配置)`;
-            
-            const categories = Object.keys(componentCategories);
-            const minCost = Math.min(...comparingConfigs.map(c => c.totalCost));
-            const minWeight = Math.min(...comparingConfigs.map(c => c.estimatedWeight));
-            
-            const table = document.getElementById('compareTable');
-            table.innerHTML = `
-                <thead>
-                    <tr class="compare-header-row">
-                        <th class="text-left py-3 px-4 text-sm font-medium text-muted">组件</th>
-                        ${comparingConfigs.map(config => `
-                            <th class="text-center py-3 px-4">
-                                <div class="flex flex-col items-center">
-                                    <span class="font-semibold">${config.name}</span>
-                                    <span class="text-xs text-muted">${getTypeName(config.bikeType)}</span>
-                                </div>
-                            </th>
-                        `).join('')}
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="compare-row">
-                        <td class="py-3 px-4 text-sm font-medium text-muted">价格</td>
-                        ${comparingConfigs.map((config, i) => `
-                            <td class="text-center py-3 px-4">
-                                <p class="text-lg font-bold ${config.totalCost === minCost && comparingConfigs.length > 1 ? 'text-green-500' : 'text-primary'}">
-                                    ¥${config.totalCost.toLocaleString()}
-                                </p>
-                                ${i > 0 ? renderDiff(config.totalCost, comparingConfigs[0].totalCost, false) : ''}
-                            </td>
-                        `).join('')}
-                    </tr>
-                    <tr class="compare-row">
-                        <td class="py-3 px-4 text-sm font-medium text-muted">重量</td>
-                        ${comparingConfigs.map((config, i) => `
-                            <td class="text-center py-3 px-4">
-                                <p class="text-lg font-bold ${config.estimatedWeight === minWeight && comparingConfigs.length > 1 ? 'text-green-500' : 'text-accent'}">
-                                    ${config.estimatedWeight} kg
-                                </p>
-                                ${i > 0 ? renderDiff(config.estimatedWeight, comparingConfigs[0].estimatedWeight, true) : ''}
-                            </td>
-                        `).join('')}
-                    </tr>
-                </tbody>
-            `;
-            
-            const footer = document.getElementById('compareFooter');
-            footer.innerHTML = comparingConfigs.map((config, i) => `
-                <button class="btn btn-outline" onclick="loadConfigById('${config.id}')">
-                    加载 ${config.name}
-                </button>
-            `).join('') + `
-                <button class="btn btn-ghost" onclick="closeComparePanel()">关闭</button>
-            `;
-        }
-
-        function renderDiff(current, base, lowerIsBetter) {
-            const diff = current - base;
-            if (diff === 0) return `<span class="diff-neutral">━</span>`;
-            
-            const percent = Math.abs((diff / base) * 100).toFixed(1);
-            const isBetter = lowerIsBetter ? diff < 0 : diff > 0;
-            
-            return `
-                <span class="${isBetter ? 'diff-positive' : 'diff-negative'}">
-                    ${isBetter ? '↓' : '↑'} ${percent}%
-                </span>
-            `;
-        }
-
-        function getTypeName(type) {
-            const names = { road: '公路车', mtb: '山地车', gravel: '折叠车' };
-            return names[type] || type;
-        }
-
-        // Calculations
         function getTotalCost() {
             return Object.values(state.components).reduce((sum, c) => sum + c.price, 0);
         }
@@ -1962,122 +1458,46 @@
             return Object.values(state.components).reduce((sum, c) => sum + c.weight, 0) / 1000;
         }
 
-        // Component selector modal
+        // Component Selector Modal
         function openComponentSelector(category) {
+            currentCategory = category;
             const data = componentData[category];
-            if (!data) return;
-            
-            document.getElementById('modal-title').textContent = data.title;
-            
-            const content = document.getElementById('modal-content');
-            content.innerHTML = data.options.map((option, index) => {
+            document.getElementById('modalTitle').textContent = data.title;
+
+            const optionsContainer = document.getElementById('modalOptions');
+            optionsContainer.innerHTML = data.options.map((option, index) => {
                 const isSelected = state.components[category]?.id === option.id;
                 return `
-                    <div class="option-card ${isSelected ? 'selected' : ''}" 
-                         onclick="selectComponent('${category}', ${index})">
+                    <div class="option-card ${isSelected ? 'selected' : ''}" onclick="selectComponent('${category}', ${index})">
                         <div class="option-header">
                             <div class="option-name">${option.name}</div>
                             <div class="option-price">¥${option.price.toLocaleString()}</div>
                         </div>
-                        <div class="option-meta">
-                            <span class="option-brand">${option.brand}</span>
-                            <span class="option-weight">${option.weight}g</span>
-                        </div>
+                        <div class="option-brand">${option.brand}</div>
                         <div class="option-specs">
                             ${option.specs.map(spec => `<span class="spec-tag">${spec}</span>`).join('')}
-                        </div>
-                        <div class="flex gap-2 mt-3">
-                            <button class="btn btn-outline btn-sm flex-1" onclick="event.stopPropagation(); openComponentDetail('${category}', ${index})">
-                                👁️ 详情
-                            </button>
                         </div>
                     </div>
                 `;
             }).join('');
-            
-            document.getElementById('modal').classList.add('active');
+
+            document.getElementById('componentModal').classList.add('active');
         }
 
         function selectComponent(category, index) {
             state.components[category] = componentData[category].options[index];
             renderComponents();
             updateSummary();
-            renderCostBreakdown();
             openComponentSelector(category);
             showToast('组件已更新！', 'success');
         }
 
         function closeModal(event) {
             if (event && event.target !== event.currentTarget) return;
-            document.getElementById('modal').classList.remove('active');
+            document.getElementById('componentModal').classList.remove('active');
         }
 
-        // Component detail modal
-        function openComponentDetail(category, index) {
-            const component = componentData[category].options[index];
-            document.getElementById('detailModalTitle').textContent = component.name;
-            
-            const content = document.getElementById('componentDetailContent');
-            content.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="relative aspect-square bg-zinc-900 rounded-xl overflow-hidden flex items-center justify-center">
-                        <div class="text-6xl">${componentCategories[category].icon}</div>
-                        <div class="absolute top-4 right-4 bg-primary/90 backdrop-blur-sm rounded-lg px-3 py-1">
-                            <span class="text-sm font-semibold text-white">¥${component.price.toLocaleString()}</span>
-                        </div>
-                    </div>
-                    <div class="space-y-6">
-                        <div>
-                            <span class="text-sm text-primary font-medium uppercase tracking-wider">
-                                ${component.brand}
-                            </span>
-                        </div>
-                        
-                        <div class="flex items-center gap-4">
-                            <div>
-                                <p class="text-xs text-muted uppercase tracking-wider">价格</p>
-                                <p class="text-2xl font-bold text-primary">¥${component.price.toLocaleString()}</p>
-                            </div>
-                            <div>
-                                <p class="text-xs text-muted uppercase tracking-wider">重量</p>
-                                <p class="text-2xl font-bold text-accent">${component.weight}g</p>
-                            </div>
-                        </div>
-                        
-                        <div class="pt-4 border-t border-zinc-800">
-                            <h4 class="text-sm font-semibold mb-3">规格</h4>
-                            <div class="grid grid-cols-2 gap-2">
-                                ${component.specs.map(spec => `
-                                    <div class="flex items-center gap-2 py-2 px-3 bg-zinc-900/50 rounded-lg">
-                                        <span class="text-primary">➤</span>
-                                        <span class="text-sm">${spec}</span>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                        
-                        <button class="btn btn-primary w-full" onclick="selectComponentFromDetail('${category}', ${index})">
-                            选择此组件
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('modal').classList.remove('active');
-            document.getElementById('componentDetailModal').classList.add('active');
-        }
-
-        function selectComponentFromDetail(category, index) {
-            selectComponent(category, index);
-            closeComponentDetailModal();
-        }
-
-        function closeComponentDetailModal(event) {
-            if (event && event.target !== event.currentTarget) return;
-            document.getElementById('componentDetailModal').classList.remove('active');
-        }
-
-        // Save and share
+        // Save & Share
         function saveConfiguration() {
             showToast('配置已保存！', 'success');
         }
@@ -2099,105 +1519,24 @@
             showToast('配置已导出为 JSON', 'success');
         }
 
-        // Compare panel
-        function addToCompare(configId) {
-            if (!state.comparingConfigIds.includes(configId)) {
-                state.comparingConfigIds.push(configId);
-            }
-            openComparePanel();
-        }
-
-        function openComparePanel() {
-            renderComparePanel();
-            document.getElementById('comparePanel').style.display = 'block';
-        }
-
-        function closeComparePanel() {
-            document.getElementById('comparePanel').style.display = 'none';
-        }
-
-        function loadConfigById(id) {
-            const config = recommendedConfigs.find(c => c.id === id);
-            if (config) {
-                loadRecommendedConfig(recommendedConfigs.indexOf(config));
-            }
-            closeComparePanel();
+        function resetToDefaults() {
+            state.components = {
+                frame: componentData.frame.options[0],
+                groupset: componentData.groupset.options[0],
+                wheels: componentData.wheels.options[0],
+                handlebar: componentData.handlebar.options[0],
+                saddle: componentData.saddle.options[0]
+            };
+            renderComponents();
+            updateSummary();
+            showToast('配置已重置为默认值', 'info');
         }
 
         function loadRecommendedConfig(index) {
             showToast(`已加载 ${recommendedConfigs[index].name}`, 'success');
         }
 
-        // Onboarding
-        function openOnboardingModal() {
-            renderOnboardingStep();
-            document.getElementById('onboardingModal').classList.add('active');
-        }
-
-        function renderOnboardingStep() {
-            const step = onboardingSteps[state.currentOnboardingStep];
-            const gradientColors = ['from-primary to-accent', 'from-blue-500 to-cyan-500', 
-                                   'from-green-500 to-emerald-500', 'from-purple-500 to-pink-500'];
-            
-            const content = document.getElementById('onboardingContent');
-            content.innerHTML = `
-                <div class="p-8">
-                    <div class="flex justify-center mb-6">
-                        <div class="w-24 h-24 rounded-3xl bg-gradient-to-br ${gradientColors[state.currentOnboardingStep]} flex items-center justify-center shadow-xl" style="font-size: 3rem;">
-                            ${step.icon}
-                        </div>
-                    </div>
-                    
-                    <div class="text-center space-y-4 mb-6">
-                        <h2 class="text-2xl font-display font-bold">${step.title}</h2>
-                        <p class="text-muted text-lg">${step.description}</p>
-                    </div>
-                    
-                    <div class="flex justify-center mb-6">
-                        <div class="flex gap-2">
-                            ${onboardingSteps.map((_, i) => `
-                                <div class="h-2 rounded-full transition-all duration-300 ${i <= state.currentOnboardingStep ? 'bg-primary w-8' : 'bg-zinc-700 w-2'}"></div>
-                            `).join('')}
-                        </div>
-                    </div>
-                    
-                    <div class="flex gap-3">
-                        ${state.currentOnboardingStep > 0 ? `
-                            <button class="btn btn-outline flex-1" onclick="prevOnboardingStep()">
-                                上一步
-                            </button>
-                        ` : ''}
-                        <button class="btn btn-primary ${state.currentOnboardingStep > 0 ? 'flex-1' : 'w-full'}" onclick="nextOnboardingStep()">
-                            ${state.currentOnboardingStep < onboardingSteps.length - 1 ? '下一步' : '开始使用'}
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function nextOnboardingStep() {
-            if (state.currentOnboardingStep < onboardingSteps.length - 1) {
-                state.currentOnboardingStep++;
-                renderOnboardingStep();
-            } else {
-                closeOnboardingModal();
-            }
-        }
-
-        function prevOnboardingStep() {
-            if (state.currentOnboardingStep > 0) {
-                state.currentOnboardingStep--;
-                renderOnboardingStep();
-            }
-        }
-
-        function closeOnboardingModal(event) {
-            if (event && event.target !== event.currentTarget) return;
-            localStorage.setItem('veloform_onboarding', 'true');
-            document.getElementById('onboardingModal').classList.remove('active');
-        }
-
-        // Support modal
+        // Support Modal
         function openSupportModal() {
             document.getElementById('supportModal').classList.add('active');
         }
@@ -2207,22 +1546,16 @@
             document.getElementById('supportModal').classList.remove('active');
         }
 
-        function submitSupportForm(e) {
-            e.preventDefault();
-            showToast('消息已发送，感谢您的反馈！', 'success');
-            closeSupportModal();
+        // Compare Panel
+        function openComparePanel() {
+            document.getElementById('comparePanel').classList.add('active');
         }
 
-        // Theme and language
-        function toggleTheme() {
-            showToast('主题切换功能即将推出', 'info');
+        function closeComparePanel() {
+            document.getElementById('comparePanel').classList.remove('active');
         }
 
-        function toggleLanguage() {
-            state.language = state.language === 'zh' ? 'en' : 'zh';
-            showToast(state.language === 'zh' ? '已切换到中文' : 'Switched to English', 'info');
-        }
-
+        // Auth
         function toggleAuth() {
             state.isLoggedIn = !state.isLoggedIn;
             if (state.isLoggedIn) {
@@ -2234,48 +1567,36 @@
             }
         }
 
-        // Tabs
-        function switchTab(tab) {
-            currentTab = tab;
-            
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            document.getElementById('tab-summary').style.display = tab === 'summary' ? 'block' : 'none';
-            document.getElementById('tab-cost').style.display = tab === 'cost' ? 'block' : 'none';
-        }
-
-        // Toast
+        // Toast System
         function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
+            const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            toast.id = `toast-${++toastId}`;
-            
+
             const icons = { success: '✅', error: '❌', info: 'ℹ️' };
             toast.innerHTML = `
                 <span class="toast-icon">${icons[type]}</span>
                 <span>${message}</span>
             `;
-            
+
             container.appendChild(toast);
-            
+
             setTimeout(() => {
-                toast.style.animation = 'slideInRight 0.3s ease-out reverse';
-                setTimeout(() => toast.remove(), 300);
+                toast.style.animation = 'slideInRight 0.4s ease-out reverse';
+                setTimeout(() => toast.remove(), 400);
             }, 3000);
         }
 
-        // Keyboard shortcuts
+        // Keyboard Shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeModal();
-                closeComponentDetailModal();
                 closeShareModal();
-                closeOnboardingModal();
                 closeSupportModal();
+                closeComparePanel();
             }
         });
     </script>
 </body>
 </html>
+
