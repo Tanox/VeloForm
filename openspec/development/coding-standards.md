@@ -1,4 +1,4 @@
-# 开发规范 (v3.4.1)
+# 开发规范 (v3.7.0)
 
 ## 概述
 
@@ -553,9 +553,11 @@ export function PrimaryButton({ children, onClick }: PrimaryButtonProps) {
 
 **Tailwind 配置**：
 
-```javascript
-// tailwind.config.js
-module.exports = {
+```typescript
+// tailwind.config.ts
+import type { Config } from 'tailwindcss';
+
+export default {
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}'
@@ -920,32 +922,29 @@ const translations = {
 };
 ```
 
-### 2. 使用 next-intl
+### 2. 使用自定义 i18n hook（不依赖 next-intl）
 
-```typescript
-// messages/en.json
-{
-  "nav": {
-    "home": "Home",
-    "library": "Library"
-  },
-  "preview": {
-    "weight": "Weight",
-    "cost": "Cost"
-  }
-}
+项目使用自定义 Zustand store + hook 实现国际化，结构如下：
+
+```
+src/lib/i18n/
+├── index.ts        # useTranslation() hook 定义 + Zustand store
+├── en.ts           # 英文翻译
+└── zh-CN.ts        # 中文翻译
 ```
 
 ```tsx
 // components/NavLink.tsx
-import { useTranslations } from 'next-intl';
+'use client';
+
+import { useTranslation } from '@/lib/i18n';
 
 interface NavLinkProps {
   href: string;
 }
 
 export function NavLink({ href }: NavLinkProps) {
-  const t = useTranslations();
+  const t = useTranslation();
   const label = href === '/' ? t('nav.home') : t('nav.library');
 
   return <a href={href}>{label}</a>;
@@ -958,18 +957,17 @@ export function NavLink({ href }: NavLinkProps) {
 // components/LanguageSwitcher.tsx
 'use client';
 
-import { useRouter, usePathname } from 'next/navigation';
+import { useLanguage, useSetLanguage } from '@/lib/i18n';
 
 export function LanguageSwitcher() {
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const switchLocale = (locale: string) => {
-    router.push(pathname.replace(/^\/[a-z]{2}/, `/${locale}`));
-  };
+  const language = useLanguage();
+  const setLanguage = useSetLanguage();
 
   return (
-    <select onChange={(e) => switchLocale(e.target.value)}>
+    <select
+      value={language}
+      onChange={(e) => setLanguage(e.target.value as 'en' | 'zh-CN')}
+    >
       <option value="en">English</option>
       <option value="zh-CN">中文</option>
     </select>
@@ -1146,5 +1144,5 @@ export function Dashboard() {
 
 ---
 
-**最后更新**: 2026-05-26
-**版本**: v3.4.1
+**最后更新**: 2026-06-09
+**版本**: v3.7.0

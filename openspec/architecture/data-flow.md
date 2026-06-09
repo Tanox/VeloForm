@@ -1,8 +1,8 @@
 # 数据流设计
 
 > **路径**: `/openspec/architecture/data-flow.md`  
-> **版本**: v3.5.1  
-> **更新日期**: 2026-06-01
+> **版本**: v3.7.0  
+> **更新日期**: 2026-06-09
 
 ## 概述
 
@@ -26,34 +26,39 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface ConfigState {
-  activeType: BikeType;           // 当前选中车型
-  components: ConfigComponent[];  // 当前配置组件列表
-  configId: string | null;        // 当前配置 ID（已保存时）
-  manualConfigName: string | null;// 用户自定义配置名称
-  allDbComponents: ConfigComponent[]; // 数据库组件缓存
-  showLibrary: boolean;           // 是否显示配置库模态框
-  myConfigs: Configuration[];     // 用户保存的配置列表
-  isLoggedIn: boolean;            // 用户登录状态
-  isSaving: boolean;              // 保存操作进行中
-  showComponentSelector: boolean; // 是否显示组件选择器
-  editingComponentId: string;     // 当前编辑的组件 ID
+  activeType: BikeType;            // 当前选中车型
+  components: ConfigComponent[];   // 当前配置组件列表
+  configId: string | null;         // 当前配置 ID（已保存时）
+  manualConfigName: string | null; // 用户自定义配置名称
+  myConfigs: Configuration[];      // 用户保存的配置列表
+  isSaving: boolean;               // 保存操作进行中
+  showComponentSelector: boolean;  // 是否显示组件选择器
+  editingComponentId: string;      // 当前编辑的组件 ID
+  userId: string | null;           // 当前登录用户的 Firebase UID
+  comparingConfigIds: string[];    // 正在对比的配置 ID 列表
 }
 
 interface ConfigActions {
   setActiveType: (type: BikeType) => void;
   setComponents: (components: ConfigComponent[]) => void;
-  addComponent: (component: ConfigComponent) => void;
-  removeComponent: (id: string) => void;
-  updateComponent: (id: string, updates: Partial<ConfigComponent>) => void;
-  setConfigId: (id: string | null) => void;
+  replaceComponent: (newComponent: ConfigComponent) => void;
+  loadConfiguration: (config: Configuration) => void;
+  resetToDefaults: () => void;
   setManualConfigName: (name: string | null) => void;
-  setShowLibrary: (show: boolean) => void;
   setMyConfigs: (configs: Configuration[]) => void;
-  setIsLoggedIn: (loggedIn: boolean) => void;
-  setIsSaving: (saving: boolean) => void;
-  setShowComponentSelector: (show: boolean) => void;
-  setEditingComponentId: (id: string) => void;
-  resetConfig: () => void;
+  setSaving: (saving: boolean) => void;
+  setConfigId: (id: string | null) => void;
+  setUserId: (userId: string | null) => void;
+  toggleComponentSelector: (componentId?: string) => void;
+  saveConfiguration: () => Promise<void>;
+  deleteConfiguration: (configId: string) => Promise<void>;
+  generateShareableLink: () => string;
+  exportConfiguration: () => string;
+  toggleCompare: (configId: string) => void;
+  clearCompare: () => void;
+  getComparingConfigs: () => Configuration[];
+  getTotalCost: () => number;
+  getTotalWeight: () => number;
 }
 
 type ConfigStore = ConfigState & ConfigActions;
@@ -63,54 +68,21 @@ export const useConfigStore = create<ConfigStore>()(
     (set, get) => ({
       // 初始状态
       activeType: 'Road',
-      components: ROAD_DEFAULT_COMPONENTS,
+      components: getDefaultsForType('Road'),
       configId: null,
       manualConfigName: null,
-      allDbComponents: [],
-      showLibrary: false,
       myConfigs: [],
-      isLoggedIn: false,
       isSaving: false,
       showComponentSelector: false,
       editingComponentId: '',
+      userId: null,
+      comparingConfigIds: [],
 
-      // Actions
-      setActiveType: (type) => set({ activeType: type }),
-      setComponents: (components) => set({ components }),
-      addComponent: (component) => 
-        set((state) => ({ components: [...state.components, component] })),
-      removeComponent: (id) =>
-        set((state) => ({
-          components: state.components.filter((c) => c.id !== id),
-        })),
-      updateComponent: (id, updates) =>
-        set((state) => ({
-          components: state.components.map((c) =>
-            c.id === id ? { ...c, ...updates } : c
-          ),
-        })),
-      setConfigId: (id) => set({ configId: id }),
-      setManualConfigName: (name) => set({ manualConfigName: name }),
-      setShowLibrary: (show) => set({ showLibrary: show }),
-      setMyConfigs: (configs) => set({ myConfigs: configs }),
-      setIsLoggedIn: (loggedIn) => set({ isLoggedIn: loggedIn }),
-      setIsSaving: (saving) => set({ isSaving: saving }),
-      setShowComponentSelector: (show) => set({ showComponentSelector: show }),
-      setEditingComponentId: (id) => set({ editingComponentId: id }),
-      resetConfig: () => set({
-        activeType: 'Road',
-        components: ROAD_DEFAULT_COMPONENTS,
-        configId: null,
-        manualConfigName: null,
-      }),
+      // Actions 实现参见 src/lib/store.ts
+      // ...
     }),
     {
       name: 'veloform-config-storage', // localStorage key
-      partialize: (state) => ({
-        activeType: state.activeType,
-        components: state.components,
-        manualConfigName: state.manualConfigName,
-      }),
     }
   )
 );
@@ -171,14 +143,14 @@ graph TD
     B -->|props: configs| F[ComparePanel]
     
     C -->|onChange: setActiveType| A
-    D -->|onClick: updateComponent| A
-    D -->|onClick: removeComponent| A
-    E -->|onClick: saveConfig| G[FirebaseService]
-    F -->|onClick: loadConfig| A
+    D -->|onClick: replaceComponent| A
+    D -->|onClick: setComponents| A
+    E -->|onClick: saveConfiguration| G[FirebaseService]
+    F -->|onClick: toggleCompare| A
     
-    G -->|save/load| H[(Firestore)]
-    H -->|onAuthStateChanged| I[useAuthStore]
-    I -->|isLoggedIn| A
+    G -->|save/load/delete| H[(Firestore)]
+    H -->|onAuthStateChanged| I[useAuth / Firebase Auth]
+    I -->|userId| A
 ```
 
 ---
@@ -473,7 +445,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 监听状态变化并同步到 localStorage：
 
 ```typescript
-// Zustand persist middleware 已自动处理
+// Zustand persist middleware 已自动处理状态持久化
 // 如需自定义同步逻辑：
 useEffect(() => {
   const config = {
@@ -763,5 +735,5 @@ export function PreviewCanvas() {
 ---
 
 **文档路径**: `/openspec/architecture/data-flow.md`  
-**最后更新**: 2026-06-01  
-**版本**: v3.5.1
+**最后更新**: 2026-06-09  
+**版本**: v3.7.0

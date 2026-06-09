@@ -1,30 +1,16 @@
 # Veloform 原型设计
 
 > **路径**: `/prototype/README.md`  
-> **版本**: v4.0.0  
-> **更新日期**: 2024-06-08
+> **版本**: v3.7.0  
+> **更新日期**: 2026-06-09
 
 ## 📁 目录结构
 
 ```
 prototype/
-├── README.md                          # 原型设计总览（本文件）
-├── prototype.html                     # ✨ 独立原型文件（可直接打开）
-├── prototype-guide.md                 # 原型与设计系统说明
-├── design-critique.md                 # 设计审视报告
-│
-├── design/                            # 设计文档
-│   ├── ui-recommendations.md          # UI/UX 优化建议
-│   ├── responsive-guidelines.md       # 响应式设计指南
-│   ├── accessibility-guidelines.md    # 可访问性指南
-│   └── design-optimization-report.md  # 世界级优化报告（新）
-│
-├── documentation/                     # 文档资料
-│   ├── design-system-summary.md       # 设计系统摘要
-│   └── component-mapping.md           # 组件映射表
-│
-└── archive/                           # 已废弃的原型文件
-    └── README.md
+├── README.md                    # 原型设计总览（本文件）
+├── prototype.html               # 独立 HTML 原型文件（可直接在浏览器中打开）
+└── prototype-guide.md           # 原型与设计系统说明、原型与实际代码映射
 ```
 
 ## 🎯 概述
@@ -81,7 +67,7 @@ npm run dev
 - [UI 设计系统](../openspec/design/ui-design-system.md) - 官方设计系统
 - [设计审查](../openspec/design/design-review.md) - 设计质量评估
 
-## ✨ 新特性 (v4.0)
+## ✨ 当前版本特性 (v3.7)
 
 1. **世界级设计标准**
    - 采用 Awwwards 级别的视觉效果
@@ -107,9 +93,9 @@ npm run dev
 ## 🎨 设计理念
 
 ### 视觉风格
-- **主题**: 深色模式 + 紫色渐变
-- **字体**: Poppins（标题）+ Inter（正文）
-- **风格**: 现代、精致、科技感
+- **主题**: Apple 风格极简，浅色/深色双主题，蓝色(#0071e3)主色 + 绿色(#34c759)强调色
+- **字体**: 系统字体栈 -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', sans-serif，Apple 平台自动使用 SF Pro
+- **风格**: 极简主义、大图展示、充足留白、清晰视觉层次
 - **层次**: 清晰的视觉层级和空间感
 
 ### 交互原则
@@ -125,18 +111,18 @@ npm run dev
 
 ## 📋 更新日志
 
-### v4.0.0 (2024-06-08)
-- ✨ 全新创建的世界级设计原型
+### v3.7.0 (2026-06-09)
+- ✨ Apple 风格极简设计，双主题支持，完整的 Next.js + Tailwind + Firebase 技术栈
 - 🎨 优化的视觉效果和动画
 - 📱 完善的移动端体验
 - 📚 添加国际顶级设计师视角的优化报告
 
 ### v3.6.0 (2026-06-06)
-- 原版本的更新内容...
+- Apple 风格设计升级，页脚组件，主题切换功能
 
 ---
 
 **文档路径**: `/prototype/README.md`  
-**最后更新**: 2024-06-08  
-**版本**: v4.0.0
+**最后更新**: 2026-06-09  
+**版本**: v3.7.0
 

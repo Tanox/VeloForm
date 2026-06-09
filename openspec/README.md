@@ -23,8 +23,8 @@
 | [状态管理](./architecture/state-management.md) | React 状态管理方案、Context、Zustand、Server State | 选择合适的状态管理方案 |
 | [组件模式](./architecture/component-patterns.md) | React 组件设计模式、Hooks 最佳实践、性能优化 | 开发可复用组件时参考 |
 | [组件设计规范](./architecture/component-design.md) | 组件分类、命名规范、Props 定义、可访问性 | 开发新组件时参考 |
-| [ADR 索引](./architecture/adr/) | 架构决策记录索引 | 理解关键架构决策背景 |
-| [规范标准化](./规范标准化.md) | 文档格式、版本管理、命名规范和维护流程 | 规范化文档编写 |
+| ADR 索引（待补充） | 架构决策记录索引 | 理解关键架构决策背景 |
+| 规范标准化（待补充） | 文档格式、版本管理、命名规范和维护流程 | 规范化文档编写 |
 
 ### API 规范
 
@@ -39,14 +39,14 @@
 |------|------|----------|
 | [编码规范](./development/coding-standards.md) | TypeScript、React/Next.js、样式、Git 工作流、性能优化 | 编写代码时遵循 |
 | [测试规范](./development/testing.md) | 测试策略、框架使用、覆盖率要求、最佳实践 | 编写测试时参考 |
-| [国际化规范](./development/i18n-guidelines.md) | i18n 实现、翻译文件结构、语言切换、测试 | 开发多语言功能时参考 |
+| 国际化规范（待补充） | i18n 实现、翻译文件结构、语言切换、测试 | 开发多语言功能时参考 |
 
 ### 部署规范
 
 | 文档 | 说明 | 适用场景 |
 |------|------|----------|
 | [环境配置](./deployment/environments.md) | 部署流程、环境变量、SSR 配置、监控、SEO | 部署应用时参考 |
-| [CI/CD 流程](./devops/ci-cd.md) | 分支策略、自动化测试、部署流程、监控告警 | 设置 CI/CD 流水线 |
+| CI/CD 流程（待补充） | 分支策略、自动化测试、部署流程、监控告警 | 设置 CI/CD 流水线 |
 
 ### 安全规范
 
@@ -66,7 +66,7 @@
 |------|------|----------|
 | [UI 设计系统](./design/ui-design-system.md) | 完整的设计系统，包含颜色、字体、间距、组件规范等 | UI 开发、组件设计参考 |
 | [原型图说明](../prototype/prototype-guide.md) | 高拟真原型图功能说明、与实际项目映射关系 | 理解 UI 设计和交互流程 |
-| [设计审查与优化建议](./design/design-review.md) | 顶级设计师视角的设计审查和优化建议 | 优化用户体验、提升设计质量 |
+| 设计审查与优化建议（待补充） | 顶级设计师视角的设计审查和优化建议 | 优化用户体验、提升设计质量 |
 
 ---
 
@@ -84,7 +84,7 @@
 1. 查看 [组件模式](./architecture/component-patterns.md) 了解 React 组件开发模式
 2. 参考 [状态管理](./architecture/state-management.md) 选择合适的状态管理方案
 3. 如需调用后端，查阅 [Firestore API](./api/firestore.md)
-4. 如需多语言支持，参考 [国际化规范](./development/i18n-guidelines.md)
+4. 如需多语言支持，参考 [编码规范](./development/coding-standards.md) 中的国际化章节（自定义 i18n hook，不依赖 next-intl）
 5. 完成后按照 [测试规范](./development/testing.md) 编写测试
 
 ### 修复 Bug
@@ -186,7 +186,7 @@
 - [英文 README](../README_EN.md) - 英文版项目说明
 - [变更日志](../CHANGELOG.md) - 版本历史
 - [原型图](../prototype/prototype-guide.md) - 原型说明文档
-- [设计审查](./design/design-review.md) - 设计优化建议
+- 设计审查（待补充） - 设计优化建议
 
 ---
 

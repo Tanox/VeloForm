@@ -1,7 +1,7 @@
 # Veloform 自行车配置器 - 原型与设计系统
 
 > **路径**: `/prototype/prototype-guide.md`  
-> **版本**: v3.1.0  
+> **版本**: v3.7.0  
 > **更新日期**: 2026-06-09
 
 ## 概述
@@ -68,61 +68,50 @@ Veloform 采用 Apple 风格蓝色作为主色调：
 
 ```css
 :root {
-  /* 主色调 - Apple Blue */
-  --primary: #0071e3;        /* 主色 */
-  --primary-hover: #0077ed;  /* 悬停状态 */
-  
-  /* 强调色 - Apple Green */
+  --background: #ffffff;
+  --foreground: #1d1d1f;
+  --surface: #f5f5f7;
+  --surface-secondary: #ffffff;
+  --surface-tertiary: #e5e5ea;
+  --border: #d2d2d7;
+  --border-light: rgba(0, 0, 0, 0.08);
+  --muted: #6e6e73;
+  --secondary: #86868b;
+  --primary: #0071e3;
+  --primary-hover: #0077ed;
   --accent: #34c759;
-  
-  /* 背景色 */
-  --bg-primary: #ffffff;     /* 主背景 */
-  --bg-secondary: #fafafa;   /* 次级背景 */
-  --bg-tertiary: #f5f5f7;    /* 三级背景 */
-  
-  /* 文本颜色 */
-  --text-primary: #1d1d1f;   /* 主文本 */
-  --text-secondary: #86868b; /* 次要文本 */
-  --text-muted: #6e6e73;     /* 弱化文本 */
-  
-  /* 边框 */
-  --border-subtle: #d2d2d7;
-  --border-light: rgba(0, 0, 0, 0.06);
-  
-  /* 阴影 */
-  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
-  --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.12);
 }
 ```
 
 #### 深色主题
 
 ```css
-[data-theme="dark"] {
-  --bg-primary: #000000;
-  --bg-secondary: #1d1d1f;
-  --bg-tertiary: #272729;
-  --color-primary: #2997ff;
-  --color-primary-hover: #409cff;
-  --color-accent: #30d158;
-  --text-primary: #ffffff;
-  --text-secondary: #86868b;
-  --text-muted: #6e6e73;
-  --border-subtle: #3a3a3c;
-  --border-light: rgba(255, 255, 255, 0.06);
-  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
-  --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.4);
+.dark {
+  --background: #000000;
+  --foreground: #ffffff;
+  --surface: #1d1d1f;
+  --surface-secondary: #2c2c2e;
+  --surface-tertiary: #3a3a3c;
+  --border: #3a3a3c;
+  --border-light: rgba(255, 255, 255, 0.08);
+  --muted: #6e6e73;
+  --secondary: #86868b;
+  --primary: #2997ff;
+  --primary-hover: #409cff;
+  --accent: #30d158;
 }
 ```
+
+> 注：阴影效果使用 CSS utility class 实现，不是 CSS 变量。
 
 #### 颜色使用规范
 
 | 用途 | 颜色变量 | 示例 |
 |------|----------|------|
-| 主要按钮 | `--color-primary` | 保存、确认操作 |
-| 次要按钮 | `--bg-secondary` + border | 取消、返回操作 |
-| 强调元素 | `--color-accent` | 价格高亮、重要提示 |
-| 悬停状态 | `--bg-tertiary` | 卡片悬停效果 |
+| 主要按钮 | `--primary` | 保存、确认操作 |
+| 次要按钮 | `--surface-secondary` + border | 取消、返回操作 |
+| 强调元素 | `--accent` | 价格高亮、重要提示 |
+| 悬停状态 | `--surface-tertiary` | 卡片悬停效果 |
 
 ### 字体系统
 
@@ -131,12 +120,12 @@ Veloform 采用 Apple 风格蓝色作为主色调：
 ```css
 /* 标题字体 - SF Pro Display */
 h1, h2, h3, h4, h5, h6, .font-display {
-  font-family: 'SF Pro Display', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
 }
 
 /* 正文字体 - SF Pro Text */
 body, p, span, div {
-  font-family: 'SF Pro Text', system-ui, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', sans-serif;
 }
 ```
 
@@ -255,13 +244,13 @@ body, p, span, div {
 }
 
 .btn-primary {
-  background: var(--color-primary);
+  background: var(--primary);
   color: white;
   box-shadow: 0 4px 14px rgba(0, 113, 227, 0.25);
 }
 
 .btn-primary:hover {
-  background: var(--color-primary-hover);
+  background: var(--primary-hover);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 113, 227, 0.35);
 }
@@ -281,7 +270,7 @@ body, p, span, div {
 ```
 
 **样式特征**：
-- 背景：`var(--bg-secondary)`
+- 背景：`var(--surface-secondary)`
 - 边框：`1px solid var(--border-light)`
 - 圆角：`24px`
 - 内边距：`28px`
@@ -292,7 +281,14 @@ body, p, span, div {
 ```html
 <div class="bike-grid">
   <div class="bike-card active">
-    <div class="bike-icon">🚴</div>
+    <div class="bike-icon">
+      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+        <circle cx="5.5" cy="17.5" r="3.5"/>
+        <circle cx="18.5" cy="17.5" r="3.5"/>
+        <path d="M15 6a1 1 0 1 0 0 2h3l-2 6h-5l-2-4H7"/>
+        <path d="M7 14l1-3"/>
+      </svg>
+    </div>
     <div class="bike-name">公路车</div>
     <div class="bike-desc">速度与激情...</div>
     <div class="bike-active-dot"></div>
@@ -444,7 +440,7 @@ graph LR
 
 ## 后续改进方向
 
-### 已完成（v3.1.x）
+### 已完成（v3.7.x）
 
 - ✅ 深色/浅色主题切换
 - ✅ 页脚组件（含版本号显示）
@@ -478,7 +474,7 @@ graph LR
 
 | 版本 | 日期 | 变更内容 |
 |------|------|---------|
-| **v3.1.0** | 2026-06-09 | 参考 Apple 设计风格优化原型：增加大图展示、充足留白、清晰视觉层次、渐变背景效果、主题切换功能 |
+| **v3.7.0** | 2026-06-09 | 参考 Apple 设计风格优化原型：增加大图展示、充足留白、清晰视觉层次、渐变背景效果、主题切换功能 |
 | v3.0.0 | 2026-06-08 | 全面 Apple 风格设计升级 |
 | v2.3.1 | 2026-06-06 | 文档迁移至 prototype 目录，更新路径引用 |
 | v2.3.0 | 2026-06-04 | 更新文档版本号至 3.6.0，与项目版本统一 |
@@ -500,4 +496,4 @@ graph LR
 
 **文档路径**: `/prototype/prototype-guide.md`  
 **最后更新**: 2026-06-09  
-**版本**: v3.1.0
+**版本**: v3.7.0

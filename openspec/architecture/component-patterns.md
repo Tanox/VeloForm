@@ -1,7 +1,7 @@
 # React 组件设计模式规范
 
-**版本**: v3.4.1  
-**日期**: 2026-05-26  
+**版本**: v3.7.0  
+**日期**: 2026-06-09  
 **项目**: Veloform
 
 ---
@@ -22,10 +22,15 @@ Veloform 的组件按照职责范围分为三个类别：
 
 | 组件名 | 文件名 | 职责 |
 |--------|--------|------|
-| BuildList | `build-list.tsx` | 显示已选配置项列表，支持删除和重新排序 |
-| ComponentSelector | `component-selector.tsx` | 组件选择器，提供分类浏览和搜索功能 |
-| SummaryPanel | `summary-panel.tsx` | 配置摘要面板，展示总价格和配置概要 |
-| BikeTypeSelector | `bike-type-selector.tsx` | 车型选择器，支持不同车型的配置切换 |
+| BuildList | `BuildList.tsx` | 显示已选配置项列表，支持删除和重新排序 |
+| ComponentSelector | `ComponentSelector.tsx` | 组件选择器，提供分类浏览和搜索功能 |
+| SummaryPanel | `SummaryPanel.tsx` | 配置摘要面板，展示总价格和配置概要 |
+| BikeTypeSelector | `BikeTypeSelector.tsx` | 车型选择器，支持不同车型的配置切换 |
+| ComponentDetailModal | `ComponentDetailModal.tsx` | 组件详情弹窗 |
+| CostBreakdownChart | `CostBreakdownChart.tsx` | 成本分解图表 |
+| RecommendedConfigs | `RecommendedConfigs.tsx` | 推荐配置展示 |
+| ComparePanel | `ComparePanel.tsx` | 配置对比面板 |
+| ShareModal | `ShareModal.tsx` | 分享配置模态框 |
 
 ### 2.2 layout 组件
 
@@ -33,7 +38,8 @@ Veloform 的组件按照职责范围分为三个类别：
 
 | 组件名 | 文件名 | 职责 |
 |--------|--------|------|
-| Navbar | `navbar.tsx` | 顶部导航栏，包含 Logo、菜单和用户操作入口 |
+| Navbar | `Navbar.tsx` | 顶部导航栏，包含 Logo、菜单和用户操作入口 |
+| Footer | `Footer.tsx` | 页脚，包含品牌信息和导航链接 |
 
 ### 2.3 ui 组件
 
@@ -41,17 +47,22 @@ Veloform 的组件按照职责范围分为三个类别：
 
 | 组件名 | 文件名 | 职责 |
 |--------|--------|------|
-| Button | `button.tsx` | 多功能按钮组件，支持变体、尺寸和状态 |
-| Card | `card.tsx` | 卡片容器，提供统一的视觉容器 |
-| Modal | `modal.tsx` | 模态对话框，支持自定义内容和动画 |
+| Button | `Button.tsx` | 多功能按钮组件，支持变体、尺寸和状态 |
+| Card | `Card.tsx` | 卡片容器，提供统一的视觉容器 |
+| Modal | `Modal.tsx` | 模态对话框，支持自定义内容和动画 |
+| Toast | `Toast.tsx` | 通知提示组件 |
+| ThemeToggle | `ThemeToggle.tsx` | 主题切换按钮 |
+| ErrorBoundary | `ErrorBoundary.tsx` | 错误边界，捕获组件级错误 |
+| OnboardingGuide | `OnboardingGuide.tsx` | 新手引导组件 |
+| SupportModal | `SupportModal.tsx` | 支持/帮助模态框 |
 
 ## 3. 命名规范
 
 ### 3.1 文件命名
 
-- **组件文件**: 使用 kebab-case，例如 `build-list.tsx`、`component-selector.tsx`
-- **工具文件**: 使用 kebab-case，例如 `firebase-service.ts`、`utils.ts`
-- **类型文件**: 使用 kebab-case，例如 `index.ts`
+- **组件文件**: 使用 **PascalCase**（如 `BuildList.tsx`、`ComponentSelector.tsx`、`BikeTypeSelector.tsx`）
+- **工具/服务文件**: 使用 kebab-case（如 `firebase-service.ts`、`utils.ts`）
+- **类型文件**: 使用 kebab-case 或 index.ts（如 `types/index.ts`）
 
 ### 3.2 组件命名
 
@@ -63,19 +74,36 @@ Veloform 的组件按照职责范围分为三个类别：
 
 ```
 src/components/
-├── configurator/
-│   ├── build-list/
-│   │   ├── index.ts
-│   │   ├── build-list.tsx
-│   │   ├── build-list.test.tsx
-│   │   └── build-list.module.css
-│   ├── component-selector/
-│   └── ...
-├── layout/
-│   └── navbar/
-└── ui/
-    ├── button/
-    └── ...
+├── SyncProvider.tsx              # 顶层 Firebase 同步提供者
+├── configurator/                 # 配置器业务组件
+│   ├── BikeTypeSelector.tsx
+│   ├── BuildList.tsx
+│   ├── BuildList.test.tsx
+│   ├── ComponentSelector.tsx
+│   ├── ComponentDetailModal.tsx
+│   ├── SummaryPanel.tsx
+│   ├── SummaryPanel.test.tsx
+│   ├── CostBreakdownChart.tsx
+│   ├── RecommendedConfigs.tsx
+│   ├── ComparePanel.tsx
+│   └── ShareModal.tsx
+├── layout/                       # 布局组件
+│   ├── Navbar.tsx
+│   └── Footer.tsx
+├── sections/                     # 营销/落地页分区组件
+│   ├── Hero.tsx
+│   ├── Features.tsx
+│   ├── Pricing.tsx
+│   └── Cta.tsx
+└── ui/                           # 基础/复用 UI 组件
+    ├── Button.tsx
+    ├── Card.tsx
+    ├── Modal.tsx
+    ├── Toast.tsx
+    ├── ErrorBoundary.tsx
+    ├── ThemeToggle.tsx
+    ├── OnboardingGuide.tsx
+    └── SupportModal.tsx
 ```
 
 ## 4. Props 定义
@@ -195,41 +223,42 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface ConfigState {
-  selectedBikeType: string;
-  selectedComponents: Component[];
-  totalPrice: number;
-  setSelectedBikeType: (type: string) => void;
-  addComponent: (component: Component) => void;
-  removeComponent: (componentId: string) => void;
-  resetConfig: () => void;
+  activeType: BikeType;
+  components: ConfigComponent[];
+  setActiveType: (type: BikeType) => void;
+  replaceComponent: (component: ConfigComponent) => void;
+  setComponents: (components: ConfigComponent[]) => void;
+  resetToDefaults: () => void;
 }
 
 export const useConfigStore = create<ConfigState>()(
   persist(
     (set) => ({
-      selectedBikeType: 'road',
-      selectedComponents: [],
-      totalPrice: 0,
-      setSelectedBikeType: (type) => set({ selectedBikeType: type }),
-      addComponent: (component) =>
+      activeType: 'Road',
+      components: getDefaultsForType('Road'),
+      setActiveType: (type) =>
+        set({
+          activeType: type,
+          components: getDefaultsForType(type),
+          configId: null,
+          manualConfigName: null,
+        }),
+      replaceComponent: (newComponent) =>
         set((state) => ({
-          selectedComponents: [...state.selectedComponents, component],
-        })),
-      removeComponent: (componentId) =>
-        set((state) => ({
-          selectedComponents: state.selectedComponents.filter(
-            (c) => c.id !== componentId
+          components: state.components.map((c) =>
+            c.category === newComponent.category ? newComponent : c
           ),
         })),
-      resetConfig: () =>
-        set({
-          selectedBikeType: 'road',
-          selectedComponents: [],
-          totalPrice: 0,
-        }),
+      setComponents: (components) => set({ components }),
+      resetToDefaults: () =>
+        set((state) => ({
+          components: getDefaultsForType(state.activeType),
+          configId: null,
+          manualConfigName: null,
+        })),
     }),
     {
-      name: 'veloform-config',
+      name: 'veloform-config-storage',
     }
   )
 );
@@ -241,15 +270,18 @@ export const useConfigStore = create<ConfigState>()(
 import { useConfigStore } from '@/lib/store';
 
 export function BuildList() {
-  const { selectedComponents, removeComponent } = useConfigStore();
+  const components = useConfigStore((state) => state.components);
+  const setComponents = useConfigStore((state) => state.setComponents);
 
   return (
-    <div className="build-list">
-      {selectedComponents.map((component) => (
+    <div>
+      {components.map((component) => (
         <BuildListItem
           key={component.id}
           component={component}
-          onRemove={() => removeComponent(component.id)}
+          onRemove={(id) =>
+            setComponents(components.filter((c) => c.id !== id))
+          }
         />
       ))}
     </div>
@@ -290,7 +322,7 @@ export function BuildList() {
 ### 7.3 组件边界划分示例
 
 ```typescript
-// src/components/configurator/build-list.tsx
+// src/components/configurator/BuildList.tsx
 'use client';
 
 import { motion } from 'framer-motion';
@@ -303,7 +335,7 @@ export function BuildList() {
 
 ```typescript
 // src/app/page.tsx
-import { BuildList } from '@/components/configurator/build-list';
+import { BuildList } from '@/components/configurator/BuildList';
 import { getServerComponents } from '@/lib/firebase-service';
 
 export default async function ConfiguratorPage() {

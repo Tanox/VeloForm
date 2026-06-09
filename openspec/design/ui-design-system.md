@@ -640,4 +640,4 @@ const spring = {
 
 **文档路径**: `/openspec/design/ui-design-system.md`  
 **最后更新**: 2026-06-09  
-**版本**: v3.1.0
+**版本**: v3.7.0
