@@ -1,7 +1,7 @@
 # UI 设计系统
 
 > **路径**: `/openspec/design/ui-design-system.md`  
-> **版本**: v3.1.0  
+> **版本**: v3.7.0  
 > **更新日期**: 2026-06-09
 
 ## 概述
@@ -234,6 +234,14 @@ const config: Config = {
 
 ## 字体系统
 
+### 字体加载策略
+
+Veloform 不通过 Google Fonts 加载外部字体，原因是：
+1. **SF Pro 系列是 Apple 专有字体**，Google Fonts 不提供，任何 `fonts.googleapis.com/css2?family=SF+Pro...` 的请求都会失败或回退到系统字体
+2. **减少不必要的网络请求**，提升 FCP（First Contentful Paint）指标
+
+Apple 平台（macOS/iOS）预装 SF Pro Text/Display，其他平台通过系统字体栈优雅回退。
+
 ### 字体家族
 
 ```css
@@ -250,6 +258,11 @@ const config: Config = {
 /* 等宽字体 - 代码显示 */
 .font-mono {
   font-family: 'SF Mono', 'JetBrains Mono', monospace;
+}
+
+/* 全局 body 字体栈（与 globals.css 对齐） */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', sans-serif;
 }
 ```
 
