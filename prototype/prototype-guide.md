@@ -1,8 +1,8 @@
 # Veloform 自行车配置器 - 原型与设计系统
 
 > **路径**: `/prototype/prototype-guide.md`  
-> **版本**: v3.0.0  
-> **更新日期**: 2026-06-06
+> **版本**: v3.1.0  
+> **更新日期**: 2026-06-09
 
 ## 概述
 
@@ -15,7 +15,7 @@
 
 HTML 原型现在包含以下特性，与 Next.js 应用保持一致：
 
-- ✅ 深色主题设计
+- ✅ 深色/浅色主题切换
 - ✅ 车型选择器集成到主界面
 - ✅ 组件配置与实时更新
 - ✅ 配置汇总面板
@@ -25,9 +25,10 @@ HTML 原型现在包含以下特性，与 Next.js 应用保持一致：
 - ✅ 用户引导流程
 - ✅ 支持与帮助
 - ✅ 响应式布局设计
-- ✅ 渐变网格与噪点背景效果
+- ✅ 渐变背景效果
 - ✅ 玻璃态设计元素
 - ✅ 平滑过渡动画
+- ✅ Apple 设计风格（大图、留白、清晰层次）
 
 ### 使用 HTML 原型
 
@@ -43,7 +44,7 @@ HTML 原型是一个完全独立的文件，包含了所有必要的 HTML、CSS 
 
 | 阶段 | 说明 | 状态 |
 |------|------|------|
-| HTML 原型 | 初始高保真原型，纯 HTML/CSS/JS 实现 | ❌ 已废弃 |
+| HTML 原型 | 初始高保真原型，纯 HTML/CSS/JS 实现 | ✅ 当前版本 |
 | Next.js 应用 | 生产级应用，完整功能实现 | ✅ 当前版本 |
 
 ### 当前项目特性
@@ -51,7 +52,7 @@ HTML 原型是一个完全独立的文件，包含了所有必要的 HTML、CSS 
 实际的 Next.js 应用现已包含所有原型功能，并新增以下特性：
 - **深色/浅色主题切换**：完整的双主题支持
 - **页脚组件**：含版本号显示
-- **增强视觉效果**：渐变网格、噪点背景、玻璃态效果等
+- **增强视觉效果**：渐变背景、玻璃态效果等
 - **完整的后端集成**：Firebase 认证和数据持久化
 - **国际化支持**：中英文双语切换
 
@@ -63,33 +64,54 @@ HTML 原型是一个完全独立的文件，包含了所有必要的 HTML、CSS 
 
 #### 主色调
 
-Veloform 采用深色主题设计，以青绿色（Teal）为主色调：
+Veloform 采用 Apple 风格蓝色作为主色调：
 
 ```css
 :root {
-  /* 主色调 - 青绿色系 */
-  --primary: #14b8a6;        /* 主色 */
-  --primary-light: #2dd4bf;  /* 浅色变体 */
-  --primary-dark: #0d9488;   /* 深色变体 */
+  /* 主色调 - Apple Blue */
+  --primary: #0071e3;        /* 主色 */
+  --primary-hover: #0077ed;  /* 悬停状态 */
+  
+  /* 强调色 - Apple Green */
+  --accent: #34c759;
   
   /* 背景色 */
-  --background: #0a0a0b;     /* 主背景（近黑色）*/
-  --surface: #141415;        /* 卡片/表面背景 */
-  --surface-hover: #1a1a1b;  /* 悬停状态背景 */
-  
-  /* 边框 */
-  --border: #27272a;         /* 边框颜色 */
+  --bg-primary: #ffffff;     /* 主背景 */
+  --bg-secondary: #fafafa;   /* 次级背景 */
+  --bg-tertiary: #f5f5f7;    /* 三级背景 */
   
   /* 文本颜色 */
-  --foreground: #fafafa;     /* 主文本 */
-  --foreground-muted: #a1a1aa;  /* 次要文本 */
-  --foreground-dim: #71717a;    /* 弱化文本 */
+  --text-primary: #1d1d1f;   /* 主文本 */
+  --text-secondary: #86868b; /* 次要文本 */
+  --text-muted: #6e6e73;     /* 弱化文本 */
   
-  /* 功能色 */
-  --accent: #f59e0b;         /* 强调色（琥珀色）*/
-  --success: #22c55e;        /* 成功状态 */
-  --warning: #eab308;        /* 警告状态 */
-  --error: #ef4444;          /* 错误状态 */
+  /* 边框 */
+  --border-subtle: #d2d2d7;
+  --border-light: rgba(0, 0, 0, 0.06);
+  
+  /* 阴影 */
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.12);
+}
+```
+
+#### 深色主题
+
+```css
+[data-theme="dark"] {
+  --bg-primary: #000000;
+  --bg-secondary: #1d1d1f;
+  --bg-tertiary: #272729;
+  --color-primary: #2997ff;
+  --color-primary-hover: #409cff;
+  --color-accent: #30d158;
+  --text-primary: #ffffff;
+  --text-secondary: #86868b;
+  --text-muted: #6e6e73;
+  --border-subtle: #3a3a3c;
+  --border-light: rgba(255, 255, 255, 0.06);
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 ```
 
@@ -97,26 +119,24 @@ Veloform 采用深色主题设计，以青绿色（Teal）为主色调：
 
 | 用途 | 颜色变量 | 示例 |
 |------|----------|------|
-| 主要按钮 | `--primary` | 保存、确认操作 |
-| 次要按钮 | `--surface` + border | 取消、返回操作 |
-| 强调元素 | `--accent` | 价格高亮、重要提示 |
-| 成功提示 | `--success` | 保存成功 Toast |
-| 错误提示 | `--error` | 操作失败 Toast |
-| 悬停状态 | `--surface-hover` | 卡片悬停效果 |
+| 主要按钮 | `--color-primary` | 保存、确认操作 |
+| 次要按钮 | `--bg-secondary` + border | 取消、返回操作 |
+| 强调元素 | `--color-accent` | 价格高亮、重要提示 |
+| 悬停状态 | `--bg-tertiary` | 卡片悬停效果 |
 
 ### 字体系统
 
 #### 字体家族
 
 ```css
-/* 标题字体 - Space Grotesk（几何无衬线）*/
+/* 标题字体 - SF Pro Display */
 h1, h2, h3, h4, h5, h6, .font-display {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'SF Pro Display', sans-serif;
 }
 
-/* 正文字体 - Inter（现代人文无衬线）*/
+/* 正文字体 - SF Pro Text */
 body, p, span, div {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'SF Pro Text', system-ui, sans-serif;
 }
 ```
 
@@ -133,15 +153,9 @@ body, p, span, div {
 #### 字号层级
 
 ```css
-/* 基于 1.25 比例尺 */
-.text-xs   { font-size: 0.75rem; }   /* 12px - 辅助文字 */
-.text-sm   { font-size: 0.875rem; }  /* 14px - 小字 */
-.text-base { font-size: 1rem; }      /* 16px - 正文 */
-.text-lg   { font-size: 1.125rem; }  /* 18px - 大正文 */
-.text-xl   { font-size: 1.25rem; }   /* 20px - 小标题 */
-.text-2xl  { font-size: 1.5rem; }    /* 24px - 标题 */
-.text-3xl  { font-size: 1.875rem; }  /* 30px - 大标题 */
-.text-4xl  { font-size: 2.25rem; }   /* 36px - 超大标题 */
+/* 基于 clamp 实现响应式 */
+.hero h1 { font-size: clamp(40px, 8vw, 56px); }
+.section-title { font-size: clamp(28px, 5vw, 40px); }
 ```
 
 ### 间距系统
@@ -170,26 +184,18 @@ body, p, span, div {
 .rounded-lg  { border-radius: 0.75rem; }   /* 12px - 卡片 */
 .rounded-xl  { border-radius: 1rem; }      /* 16px - 大卡片 */
 .rounded-2xl { border-radius: 1.5rem; }    /* 24px - 模态框 */
+.rounded-3xl { border-radius: 1.75rem; }   /* 28px - Hero 卡片 */
 .rounded-full { border-radius: 9999px; }   /* 完全圆角 - 按钮 */
 ```
 
 ### 阴影系统
 
 ```css
-.shadow-sm {
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+.shadow-soft {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
-.shadow-md {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-              0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-.shadow-lg {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-              0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-.shadow-xl {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-              0 10px 10px -5px rgba(0, 0, 0, 0.04);
+.shadow-card {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
 }
 ```
 
@@ -198,43 +204,29 @@ body, p, span, div {
 #### 过渡效果
 
 ```css
-/* 标准过渡 */
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 200ms;
+/* 标准过渡 - Apple 风格缓动 */
+.bike-card {
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 快速过渡 */
-.transition-fast {
-  transition-duration: 150ms;
-}
-
-/* 慢速过渡 */
-.transition-slow {
-  transition-duration: 300ms;
+/* 按钮过渡 */
+.btn {
+  transition: all 0.25s ease;
 }
 ```
 
 #### 关键帧动画
 
 ```css
-/* 淡入动画 */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* 脉冲动画 */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
-/* 缩放进入 */
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-/* 滑动进入 */
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(-20px); }
-  to { opacity: 1; transform: translateX(0); }
+/* 悬停上移 */
+.bike-card:hover {
+  transform: translateY(-8px);
 }
 ```
 
@@ -248,18 +240,32 @@ body, p, span, div {
 
 | 变体 | 样式 | 用途 |
 |------|------|------|
-| Primary | 渐变背景 + 白色文字 | 主要操作（保存、确认） |
-| Secondary | 透明背景 + 边框 | 次要操作（取消、返回） |
-| Ghost | 无边框 + 悬停背景 | 轻量操作（关闭、更多） |
-| Danger | 红色背景 | 危险操作（删除） |
+| Primary | 主色背景 + 白色文字 | 主要操作（保存、确认） |
+| Secondary | 透明背景 + 主色文字 | 次要操作（了解更多） |
 
-#### 尺寸
+#### 样式特征
 
-| 尺寸 | Padding | 字体大小 |
-|------|---------|----------|
-| sm | 8px 16px | 14px |
-| md | 12px 24px | 14px |
-| lg | 16px 32px | 16px |
+```css
+.btn {
+  padding: 14px 28px;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+  box-shadow: 0 4px 14px rgba(0, 113, 227, 0.25);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 113, 227, 0.35);
+}
+```
 
 ### 卡片 (Card)
 
@@ -271,59 +277,35 @@ body, p, span, div {
   <div class="card-body">
     <p>卡片内容</p>
   </div>
-  <div class="card-footer">
-    <button>操作</button>
-  </div>
 </div>
 ```
 
 **样式特征**：
-- 背景：`var(--surface)`
-- 边框：`1px solid var(--border)`
-- 圆角：`12px`
-- 内边距：`16px`
+- 背景：`var(--bg-secondary)`
+- 边框：`1px solid var(--border-light)`
+- 圆角：`24px`
+- 内边距：`28px`
 - 悬停效果：轻微上移 + 阴影加深
 
-### 模态框 (Modal)
+### 车型选择器 (Bike Type Selector)
 
 ```html
-<div class="modal-overlay" onclick="closeModal()">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <div class="modal-header">
-      <h2>标题</h2>
-      <button class="close-btn" onclick="closeModal()">&times;</button>
-    </div>
-    <div class="modal-body">
-      <!-- 内容 -->
-    </div>
-    <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeModal()">取消</button>
-      <button class="btn-primary" onclick="confirm()">确认</button>
-    </div>
+<div class="bike-grid">
+  <div class="bike-card active">
+    <div class="bike-icon">🚴</div>
+    <div class="bike-name">公路车</div>
+    <div class="bike-desc">速度与激情...</div>
+    <div class="bike-active-dot"></div>
   </div>
 </div>
 ```
 
 **样式特征**：
-- 遮罩层：半透明黑色背景
-- 内容区：毛玻璃效果 (`backdrop-filter: blur(20px)`)
-- 进入动画：缩放 + 淡入
-- 最大宽度：`600px`（桌面），`90vw`（移动）
-
-### Toast 通知
-
-```javascript
-// 显示 Toast
-showToast('配置已保存', 'success');
-showToast('保存失败', 'error');
-showToast('加载中...', 'info');
-```
-
-**样式特征**：
-- 位置：右上角固定
-- 自动消失：3 秒后
-- 类型图标：成功/错误/信息
-- 进入动画：从右侧滑入
+- 网格布局：`grid-template-columns: repeat(3, 1fr)`
+- 圆角：`24px`
+- 悬停效果：上移 8px + 阴影
+- 激活状态：主色边框 + 渐变背景
+- 图标动画：激活时缩放 1.1 + 旋转 5deg
 
 ---
 
@@ -345,13 +327,6 @@ showToast('加载中...', 'info');
 | 导航栏 | `Navbar` | `src/components/layout/Navbar.tsx` | 已实现 |
 | 页脚 | `Footer` | `src/components/layout/Footer.tsx` | 新增 |
 | 主题切换 | `ThemeToggle` | `src/components/ui/ThemeToggle.tsx` | 已实现 |
-| 新手引导 | `OnboardingGuide` | `src/components/ui/OnboardingGuide.tsx` | 已实现 |
-| 支持模态框 | `SupportModal` | `src/components/ui/SupportModal.tsx` | 已实现 |
-| 错误边界 | `ErrorBoundary` | `src/components/ui/ErrorBoundary.tsx` | 已实现 |
-| Toast 通知 | `Toast` | `src/components/ui/Toast.tsx` | 已实现 |
-| 卡片组件 | `Card` | `src/components/ui/Card.tsx` | 已实现 |
-| 按钮组件 | `Button` | `src/components/ui/Button.tsx` | 已实现 |
-| 模态框组件 | `Modal` | `src/components/ui/Modal.tsx` | 已实现 |
 
 ### 功能对比
 
@@ -362,10 +337,8 @@ showToast('加载中...', 'info');
 | 用户认证 | 无 | Firebase Auth | 实际项目支持登录/注册 |
 | 配置保存 | 本地存储 | Firestore + localStorage | 实际项目支持多设备同步 |
 | 国际化 | 中文 | EN/ZH-CN 双语 | 实际项目支持语言切换 |
-| 主题切换 | 仅深色 | 深色/浅色切换 | 实际项目支持双主题 |
+| 主题切换 | 深色/浅色 | 深色/浅色切换 | 完全一致 |
 | 响应式 | 基础适配 | 完整响应式 | 实际项目优化移动端体验 |
-| 页脚组件 | 无 | 有 | 实际项目含版本号显示 |
-| 视觉效果 | 基础样式 | 玻璃态、渐变网格、噪点背景 | 实际项目增强视觉体验 |
 
 ### 技术栈对比
 
@@ -443,11 +416,11 @@ graph LR
 - 聚焦核心功能展示
 - 留白充足，视觉呼吸感
 
-### 2. 深色优先
+### 2. 大图展示
 
-- 深色主题作为默认
-- 减少眼部疲劳
-- 突出内容层次
+- Hero 区域使用大尺寸视觉元素
+- 产品图片占据主要视觉空间
+- 图标和图形元素清晰可见
 
 ### 3. 微交互
 
@@ -471,20 +444,21 @@ graph LR
 
 ## 后续改进方向
 
-### 已完成（v3.5.x/v3.6.x）
+### 已完成（v3.1.x）
 
 - ✅ 深色/浅色主题切换
 - ✅ 页脚组件（含版本号显示）
-- ✅ 视觉效果优化（玻璃态、渐变网格、噪点背景）
+- ✅ 视觉效果优化（玻璃态、渐变背景）
+- ✅ Apple 设计风格（大图、留白、层次）
 
-### 短期（v3.6.x）
+### 短期（v3.2.x）
 
 - [ ] 完善移动端触摸交互优化
 - [ ] 添加配置导入/导出功能
 - [ ] 优化成本图表交互体验
 - [ ] 增加配置分享链接生成
 
-### 中期（v3.7.x）
+### 中期（v3.3.x）
 
 - [ ] 集成 3D 模型预览（Three.js）
 - [ ] 添加 AR 预览功能（WebXR）
@@ -504,6 +478,8 @@ graph LR
 
 | 版本 | 日期 | 变更内容 |
 |------|------|---------|
+| **v3.1.0** | 2026-06-09 | 参考 Apple 设计风格优化原型：增加大图展示、充足留白、清晰视觉层次、渐变背景效果、主题切换功能 |
+| v3.0.0 | 2026-06-08 | 全面 Apple 风格设计升级 |
 | v2.3.1 | 2026-06-06 | 文档迁移至 prototype 目录，更新路径引用 |
 | v2.3.0 | 2026-06-04 | 更新文档版本号至 3.6.0，与项目版本统一 |
 | v2.2.0 | 2026-06-04 | 文档移至 openspec 目录，更新所有引用路径 |
@@ -515,11 +491,6 @@ graph LR
 ## 相关文档
 
 - [prototype/README.md](./README.md) - 原型设计总览
-- [prototype/documentation/component-mapping.md](./documentation/component-mapping.md) - 组件映射表
-- [prototype/documentation/design-system-summary.md](./documentation/design-system-summary.md) - 设计系统摘要
-- [prototype/design/ui-recommendations.md](./design/ui-recommendations.md) - UI/UX 优化建议
-- [prototype/design/responsive-guidelines.md](./design/responsive-guidelines.md) - 响应式设计指南
-- [prototype/design/accessibility-guidelines.md](./design/accessibility-guidelines.md) - 可访问性指南
 - [openspec/README.md](../openspec/README.md) - 规范文档索引
 - [openspec/SPEC.md](../openspec/SPEC.md) - 项目规范概览
 - [openspec/design/ui-design-system.md](../openspec/design/ui-design-system.md) - UI 设计系统规范
@@ -528,5 +499,5 @@ graph LR
 ---
 
 **文档路径**: `/prototype/prototype-guide.md`  
-**最后更新**: 2026-06-06  
-**版本**: v2.3.1
+**最后更新**: 2026-06-09  
+**版本**: v3.1.0

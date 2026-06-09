@@ -1,8 +1,8 @@
 # UI 设计系统
 
 > **路径**: `/openspec/design/ui-design-system.md`  
-> **版本**: v3.0.0  
-> **更新日期**: 2026-06-08
+> **版本**: v3.1.0  
+> **更新日期**: 2026-06-09
 
 ## 概述
 
@@ -604,7 +604,7 @@ const spring = {
 
 ## 相关文档
 
-- [原型图说明](../prototype-guide.md)
+- [原型图说明](../../prototype/prototype-guide.md)
 - [设计审查与优化建议](./design-review.md)
 - [组件设计规范](../architecture/component-design.md)
 - [编码规范](../development/coding-standards.md)
@@ -615,7 +615,8 @@ const spring = {
 
 | 版本 | 日期 | 变更内容 |
 |------|------|---------|
-| **v3.0.0** | 2026-06-08 | 全面 Apple 风格设计升级：新增 `surface-secondary`，优化颜色系统，加大圆角 `rounded-3xl`，新增 Apple 风格阴影，优化按钮和卡片动画，添加渐变文本和标题工具类 |
+| **v3.1.0** | 2026-06-09 | 参考 Apple 设计风格优化原型：增加大图展示、充足留白、清晰视觉层次、渐变背景效果、主题切换功能 |
+| v3.0.0 | 2026-06-08 | 全面 Apple 风格设计升级：新增 `surface-secondary`，优化颜色系统，加大圆角 `rounded-3xl`，新增 Apple 风格阴影，优化按钮和卡片动画，添加渐变文本和标题工具类 |
 | v2.1.0 | 2026-06-08 | 参考 Apple 设计风格全面优化：更新 Hero 组件大图展示、Features 卡片布局、Pricing 定价卡片、Cta 行动号召、Navbar 和 Footer 导航组件 |
 | v2.0.0 | 2026-06-04 | 全面更新为 Apple 设计风格：主色调改为 #0071e3，字体改为 SF Pro，优化圆角和阴影系统 |
 | v1.3.0 | 2026-06-04 | 更新 Button、Card、Footer 组件文档 |
@@ -625,5 +626,5 @@ const spring = {
 ---
 
 **文档路径**: `/openspec/design/ui-design-system.md`  
-**最后更新**: 2026-06-08  
-**版本**: v3.0.0
+**最后更新**: 2026-06-09  
+**版本**: v3.1.0
