@@ -4,40 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Veloform — 高端自行车配置器</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&family=SF+Pro+Text:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #fafafa;
-            --bg-tertiary: #f5f5f7;
-            --color-primary: #0071e3;
-            --color-primary-hover: #0077ed;
-            --color-accent: #34c759;
-            --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
-            --text-muted: #6e6e73;
-            --border-subtle: #d2d2d7;
-            --border-light: rgba(0, 0, 0, 0.06);
-            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.12);
+            --background: #ffffff;
+            --foreground: #1d1d1f;
+            --surface: #f5f5f7;
+            --surface-secondary: #ffffff;
+            --surface-tertiary: #e5e5ea;
+            --border: #d2d2d7;
+            --border-light: rgba(0, 0, 0, 0.08);
+            --muted: #6e6e73;
+            --secondary: #86868b;
+            --primary: #0071e3;
+            --primary-hover: #0077ed;
+            --accent: #34c759;
         }
 
-        [data-theme="dark"] {
-            --bg-primary: #000000;
-            --bg-secondary: #1d1d1f;
-            --bg-tertiary: #272729;
-            --color-primary: #2997ff;
-            --color-primary-hover: #409cff;
-            --color-accent: #30d158;
-            --text-primary: #ffffff;
-            --text-secondary: #86868b;
-            --text-muted: #6e6e73;
-            --border-subtle: #3a3a3c;
-            --border-light: rgba(255, 255, 255, 0.06);
-            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
-            --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.4);
+        .dark {
+            --background: #000000;
+            --foreground: #ffffff;
+            --surface: #1d1d1f;
+            --surface-secondary: #2c2c2e;
+            --surface-tertiary: #3a3a3c;
+            --border: #3a3a3c;
+            --border-light: rgba(255, 255, 255, 0.08);
+            --muted: #6e6e73;
+            --secondary: #86868b;
+            --primary: #2997ff;
+            --primary-hover: #409cff;
+            --accent: #30d158;
         }
 
         * {
@@ -51,12 +46,13 @@
         }
 
         body {
-            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: var(--background);
+            color: var(--foreground);
             min-height: 100vh;
             line-height: 1.47;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* Header - Apple 风格极简导航 */
@@ -70,7 +66,7 @@
             border-bottom: 1px solid var(--border-light);
         }
 
-        [data-theme="dark"] header {
+        .dark header {
             background: rgba(0, 0, 0, 0.72);
         }
 
@@ -106,15 +102,15 @@
             font-weight: 700;
             font-size: 16px;
             color: white;
-            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            background: linear-gradient(135deg, var(--primary), var(--accent));
         }
 
         .logo-text {
-            font-family: 'SF Pro Display', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
             font-size: 17px;
             font-weight: 600;
             letter-spacing: -0.02em;
-            color: var(--text-primary);
+            color: var(--foreground);
         }
 
         .nav-links {
@@ -125,17 +121,17 @@
 
         .nav-link {
             font-size: 14px;
-            color: var(--text-secondary);
+            color: var(--secondary);
             text-decoration: none;
             transition: color 0.2s ease;
         }
 
         .nav-link:hover {
-            color: var(--text-primary);
+            color: var(--foreground);
         }
 
         .nav-link.active {
-            color: var(--text-primary);
+            color: var(--foreground);
             font-weight: 500;
         }
 
@@ -143,7 +139,7 @@
         .hero {
             text-align: center;
             padding: 100px 20px 120px;
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            background: linear-gradient(180deg, var(--surface-tertiary) 0%, var(--background) 100%);
         }
 
         .hero-badge {
@@ -154,16 +150,20 @@
             background: rgba(0, 113, 227, 0.1);
             border-radius: 9999px;
             font-size: 12px;
-            color: var(--color-primary);
+            color: var(--primary);
             font-weight: 500;
             margin-bottom: 28px;
+        }
+
+        .dark .hero-badge {
+            background: rgba(41, 151, 255, 0.15);
         }
 
         .hero-badge-dot {
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: var(--color-primary);
+            background: var(--primary);
             animation: pulse 2s ease-in-out infinite;
         }
 
@@ -173,17 +173,17 @@
         }
 
         .hero h1 {
-            font-family: 'SF Pro Display', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
             font-size: clamp(40px, 8vw, 56px);
             font-weight: 700;
             letter-spacing: -0.03em;
             margin-bottom: 20px;
-            color: var(--text-primary);
+            color: var(--foreground);
             line-height: 1.1;
         }
 
         .hero h1 span {
-            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+            background: linear-gradient(90deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -191,7 +191,7 @@
 
         .hero-subtitle {
             font-size: clamp(17px, 3vw, 21px);
-            color: var(--text-secondary);
+            color: var(--secondary);
             max-width: 520px;
             margin: 0 auto 48px;
             font-weight: 400;
@@ -204,10 +204,9 @@
             padding: 48px 0;
         }
 
-        .hero-image img {
+        .hero-image svg {
             width: 100%;
             height: auto;
-            object-fit: contain;
         }
 
         .hero-cta {
@@ -229,24 +228,36 @@
         }
 
         .btn-primary {
-            background: var(--color-primary);
+            background: var(--primary);
             color: white;
             box-shadow: 0 4px 14px rgba(0, 113, 227, 0.25);
         }
 
+        .dark .btn-primary {
+            box-shadow: 0 4px 14px rgba(41, 151, 255, 0.35);
+        }
+
         .btn-primary:hover {
-            background: var(--color-primary-hover);
+            background: var(--primary-hover);
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0, 113, 227, 0.35);
         }
 
+        .dark .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(41, 151, 255, 0.5);
+        }
+
         .btn-secondary {
             background: transparent;
-            color: var(--color-primary);
+            color: var(--primary);
         }
 
         .btn-secondary:hover {
             background: rgba(0, 113, 227, 0.1);
+        }
+
+        .dark .btn-secondary:hover {
+            background: rgba(41, 151, 255, 0.15);
         }
 
         /* Bike Type Selector - Apple 卡片风格 */
@@ -257,18 +268,18 @@
         }
 
         .section-title {
-            font-family: 'SF Pro Display', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
             font-size: clamp(28px, 5vw, 40px);
             font-weight: 700;
             text-align: center;
             margin-bottom: 16px;
-            color: var(--text-primary);
+            color: var(--foreground);
             letter-spacing: -0.02em;
         }
 
         .section-subtitle {
             text-align: center;
-            color: var(--text-secondary);
+            color: var(--secondary);
             font-size: 17px;
             margin-bottom: 48px;
             max-width: 480px;
@@ -283,7 +294,7 @@
         }
 
         .bike-card {
-            background: var(--bg-tertiary);
+            background: var(--surface);
             border-radius: 24px;
             padding: 40px 28px;
             cursor: pointer;
@@ -302,11 +313,19 @@
             transition: opacity 0.35s ease;
         }
 
+        .dark .bike-card::before {
+            background: linear-gradient(135deg, rgba(41, 151, 255, 0.1), rgba(48, 209, 88, 0.06));
+        }
+
         .bike-card:hover {
             transform: translateY(-8px);
-            background: var(--bg-secondary);
-            border-color: var(--border-subtle);
-            box-shadow: var(--shadow-soft);
+            background: var(--surface-secondary);
+            border-color: var(--border);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .dark .bike-card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .bike-card:hover::before {
@@ -314,9 +333,13 @@
         }
 
         .bike-card.active {
-            background: var(--bg-secondary);
-            border-color: var(--color-primary);
-            box-shadow: var(--shadow-card);
+            background: var(--surface-secondary);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .dark .bike-card.active {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
         }
 
         .bike-card.active::before {
@@ -330,29 +353,50 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
             margin-bottom: 20px;
             background: rgba(0, 113, 227, 0.08);
             transition: all 0.35s ease;
         }
 
+        .dark .bike-icon {
+            background: rgba(41, 151, 255, 0.15);
+        }
+
+        .bike-icon svg {
+            width: 36px;
+            height: 36px;
+            stroke: var(--primary);
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
         .bike-card.active .bike-icon {
-            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             transform: scale(1.1) rotate(5deg);
             box-shadow: 0 8px 24px rgba(0, 113, 227, 0.3);
         }
 
+        .dark .bike-card.active .bike-icon {
+            box-shadow: 0 8px 24px rgba(41, 151, 255, 0.4);
+        }
+
+        .bike-card.active .bike-icon svg {
+            stroke: white;
+        }
+
         .bike-name {
-            font-family: 'SF Pro Display', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
             font-size: 22px;
             font-weight: 600;
             margin-bottom: 10px;
-            color: var(--text-primary);
+            color: var(--foreground);
             letter-spacing: -0.01em;
         }
 
         .bike-desc {
-            color: var(--text-secondary);
+            color: var(--secondary);
             font-size: 15px;
             line-height: 1.5;
         }
@@ -364,8 +408,12 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             box-shadow: 0 2px 8px rgba(0, 113, 227, 0.4);
+        }
+
+        .dark .bike-active-dot {
+            box-shadow: 0 2px 8px rgba(41, 151, 255, 0.5);
         }
 
         /* Build Section - Apple 布局风格 */
@@ -383,7 +431,7 @@
 
         /* Build List */
         .card {
-            background: var(--bg-secondary);
+            background: var(--surface-secondary);
             border-radius: 24px;
             padding: 28px;
             border: 1px solid var(--border-light);
@@ -397,10 +445,10 @@
         }
 
         .card-title {
-            font-family: 'SF Pro Display', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
             font-size: 24px;
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--foreground);
             letter-spacing: -0.01em;
         }
 
@@ -415,7 +463,7 @@
             align-items: center;
             gap: 16px;
             padding: 18px;
-            background: var(--bg-primary);
+            background: var(--background);
             border-radius: 18px;
             cursor: pointer;
             transition: all 0.25s ease;
@@ -423,8 +471,8 @@
         }
 
         .component-item:hover {
-            background: var(--bg-tertiary);
-            border-color: var(--border-subtle);
+            background: var(--surface);
+            border-color: var(--border);
             transform: translateX(4px);
         }
 
@@ -436,8 +484,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
             flex-shrink: 0;
+        }
+
+        .dark .component-icon {
+            background: rgba(41, 151, 255, 0.15);
+        }
+
+        .component-icon svg {
+            width: 26px;
+            height: 26px;
+            stroke: var(--primary);
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .component-info {
@@ -449,17 +510,17 @@
             font-weight: 500;
             font-size: 15px;
             margin-bottom: 3px;
-            color: var(--text-primary);
+            color: var(--foreground);
         }
 
         .component-brand {
-            color: var(--text-secondary);
+            color: var(--secondary);
             font-size: 13px;
         }
 
         .component-price {
             font-weight: 600;
-            color: var(--color-primary);
+            color: var(--primary);
             font-size: 15px;
         }
 
@@ -478,15 +539,15 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: var(--text-muted);
+            color: var(--muted);
             margin-bottom: 8px;
         }
 
         .summary-config-name {
-            font-family: 'SF Pro Display', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
             font-size: 20px;
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--foreground);
         }
 
         .stats-grid {
@@ -497,28 +558,29 @@
         }
 
         .stat-card {
-            background: var(--bg-primary);
+            background: var(--background);
             border-radius: 18px;
             padding: 20px;
             text-align: center;
+            border: 1px solid var(--border-light);
         }
 
         .stat-value {
-            font-family: 'SF Pro Display', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
             font-size: 28px;
             font-weight: 700;
             margin-bottom: 4px;
-            color: var(--text-primary);
+            color: var(--foreground);
             letter-spacing: -0.02em;
         }
 
         .stat-value.price {
-            color: var(--color-primary);
+            color: var(--primary);
         }
 
         .stat-label {
             font-size: 11px;
-            color: var(--text-muted);
+            color: var(--muted);
             text-transform: uppercase;
             letter-spacing: 0.08em;
         }
@@ -532,7 +594,7 @@
             justify-content: space-between;
             margin-bottom: 10px;
             font-size: 13px;
-            color: var(--text-secondary);
+            color: var(--secondary);
         }
 
         .progress-bar {
@@ -542,13 +604,13 @@
             overflow: hidden;
         }
 
-        [data-theme="dark"] .progress-bar {
+        .dark .progress-bar {
             background: rgba(255, 255, 255, 0.06);
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+            background: linear-gradient(90deg, var(--primary), var(--accent));
             border-radius: 9999px;
             transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -562,6 +624,8 @@
         .btn-group .btn {
             width: 100%;
             justify-content: center;
+            display: inline-flex;
+            align-items: center;
         }
 
         /* Recommended Configs - Apple 展示风格 */
@@ -586,7 +650,7 @@
         }
 
         .recommended-card {
-            background: var(--bg-secondary);
+            background: var(--surface-secondary);
             border-radius: 24px;
             padding: 28px;
             cursor: pointer;
@@ -598,7 +662,11 @@
 
         .recommended-card:hover {
             transform: translateY(-6px);
-            box-shadow: var(--shadow-soft);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .dark .recommended-card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .recommended-tags {
@@ -616,25 +684,33 @@
 
         .tag-primary {
             background: rgba(0, 113, 227, 0.1);
-            color: var(--color-primary);
+            color: var(--primary);
+        }
+
+        .dark .tag-primary {
+            background: rgba(41, 151, 255, 0.15);
         }
 
         .tag-secondary {
             background: rgba(52, 199, 89, 0.1);
-            color: var(--color-accent);
+            color: var(--accent);
+        }
+
+        .dark .tag-secondary {
+            background: rgba(48, 209, 88, 0.15);
         }
 
         .recommended-name {
-            font-family: 'SF Pro Display', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
             font-size: 20px;
             font-weight: 600;
             margin-bottom: 10px;
-            color: var(--text-primary);
+            color: var(--foreground);
             letter-spacing: -0.01em;
         }
 
         .recommended-desc {
-            color: var(--text-secondary);
+            color: var(--secondary);
             font-size: 15px;
             margin-bottom: 20px;
             line-height: 1.5;
@@ -653,25 +729,25 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            color: var(--text-muted);
+            color: var(--muted);
             margin-bottom: 4px;
         }
 
         .meta-value {
             font-weight: 600;
             font-size: 17px;
-            color: var(--text-primary);
+            color: var(--foreground);
         }
 
         .meta-value.price {
-            color: var(--color-primary);
+            color: var(--primary);
         }
 
         /* Footer - Apple 极简风格 */
         footer {
             border-top: 1px solid var(--border-light);
             padding: 32px 20px;
-            background: var(--bg-secondary);
+            background: var(--surface);
         }
 
         .footer-content {
@@ -683,7 +759,7 @@
         }
 
         .footer-text {
-            color: var(--text-muted);
+            color: var(--muted);
             font-size: 13px;
         }
 
@@ -694,13 +770,13 @@
 
         .footer-link {
             font-size: 13px;
-            color: var(--text-secondary);
+            color: var(--secondary);
             text-decoration: none;
             transition: color 0.2s ease;
         }
 
         .footer-link:hover {
-            color: var(--text-primary);
+            color: var(--foreground);
         }
 
         /* Theme Toggle */
@@ -710,13 +786,28 @@
             background: transparent;
             border: none;
             cursor: pointer;
-            color: var(--text-secondary);
+            color: var(--secondary);
             transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            min-height: 40px;
         }
 
         .theme-toggle:hover {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
+            background: var(--surface);
+            color: var(--foreground);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         /* Responsive */
@@ -776,10 +867,15 @@
                 <a href="#" class="nav-link">配置库</a>
                 <a href="#" class="nav-link">支持</a>
             </nav>
-            <button class="theme-toggle" onclick="toggleTheme()" aria-label="切换主题">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="切换主题" id="themeToggleBtn">
+                <!-- 太阳图标 (浅色模式下显示，代表切换到深色) -->
+                <svg id="sunIcon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+                </svg>
+                <!-- 月亮图标 (深色模式下显示，代表切换到浅色) -->
+                <svg id="moonIcon" viewBox="0 0 24 24" style="display:none;">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                 </svg>
             </button>
         </div>
@@ -796,30 +892,30 @@
             <div class="hero-image">
                 <svg viewBox="0 0 800 350" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <!-- 自行车简化图形 -->
-                    <ellipse cx="400" cy="200" rx="200" ry="90" fill="none" stroke="var(--color-primary)" stroke-width="2" opacity="0.3"/>
-                    <ellipse cx="400" cy="200" rx="150" ry="65" fill="none" stroke="var(--color-primary)" stroke-width="1.5" opacity="0.2"/>
-                    
+                    <ellipse cx="400" cy="200" rx="200" ry="90" fill="none" stroke="var(--primary)" stroke-width="2" opacity="0.3"/>
+                    <ellipse cx="400" cy="200" rx="150" ry="65" fill="none" stroke="var(--primary)" stroke-width="1.5" opacity="0.2"/>
+
                     <!-- 车架 -->
-                    <path d="M280 200 L400 100 L520 200" fill="none" stroke="var(--text-primary)" stroke-width="3" stroke-linejoin="round"/>
-                    <path d="M400 100 L400 70" fill="none" stroke="var(--text-primary)" stroke-width="3"/>
-                    
+                    <path d="M280 200 L400 100 L520 200" fill="none" stroke="var(--foreground)" stroke-width="3" stroke-linejoin="round"/>
+                    <path d="M400 100 L400 70" fill="none" stroke="var(--foreground)" stroke-width="3"/>
+
                     <!-- 车轮 -->
-                    <circle cx="280" cy="200" r="45" fill="none" stroke="var(--text-primary)" stroke-width="2.5"/>
-                    <circle cx="280" cy="200" r="8" fill="var(--color-primary)"/>
-                    <circle cx="520" cy="200" r="45" fill="none" stroke="var(--text-primary)" stroke-width="2.5"/>
-                    <circle cx="520" cy="200" r="8" fill="var(--color-primary)"/>
-                    
+                    <circle cx="280" cy="200" r="45" fill="none" stroke="var(--foreground)" stroke-width="2.5"/>
+                    <circle cx="280" cy="200" r="8" fill="var(--primary)"/>
+                    <circle cx="520" cy="200" r="45" fill="none" stroke="var(--foreground)" stroke-width="2.5"/>
+                    <circle cx="520" cy="200" r="8" fill="var(--primary)"/>
+
                     <!-- 座椅 -->
-                    <path d="M360 100 L440 100" stroke="var(--text-primary)" stroke-width="4" stroke-linecap="round"/>
-                    
+                    <path d="M360 100 L440 100" stroke="var(--foreground)" stroke-width="4" stroke-linecap="round"/>
+
                     <!-- 把手 -->
-                    <circle cx="400" cy="65" r="12" fill="var(--color-accent)"/>
-                    
+                    <circle cx="400" cy="65" r="12" fill="var(--accent)"/>
+
                     <!-- 装饰元素 -->
-                    <circle cx="200" cy="150" r="4" fill="var(--color-primary)" opacity="0.4"/>
-                    <circle cx="600" cy="180" r="6" fill="var(--color-accent)" opacity="0.4"/>
-                    <circle cx="150" cy="220" r="3" fill="var(--color-primary)" opacity="0.3"/>
-                    <circle cx="650" cy="140" r="5" fill="var(--color-accent)" opacity="0.3"/>
+                    <circle cx="200" cy="150" r="4" fill="var(--primary)" opacity="0.4"/>
+                    <circle cx="600" cy="180" r="6" fill="var(--accent)" opacity="0.4"/>
+                    <circle cx="150" cy="220" r="3" fill="var(--primary)" opacity="0.3"/>
+                    <circle cx="650" cy="140" r="5" fill="var(--accent)" opacity="0.3"/>
                 </svg>
             </div>
             <div class="hero-cta">
@@ -833,18 +929,43 @@
             <p class="section-subtitle">三种精心设计的车型，满足不同骑行需求</p>
             <div class="bike-grid">
                 <div class="bike-card active" onclick="selectBike('road')">
-                    <div class="bike-icon">🚴</div>
+                    <div class="bike-icon">
+                        <!-- 公路车图标 (Road Bike) -->
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="5.5" cy="17.5" r="3.5"/>
+                            <circle cx="18.5" cy="17.5" r="3.5"/>
+                            <path d="M15 6a1 1 0 1 0 0 2h3l-2 6h-5l-2-4H7"/>
+                            <path d="M7 14l1-3"/>
+                        </svg>
+                    </div>
                     <div class="bike-name">公路车</div>
                     <div class="bike-desc">速度与激情，专为竞速打造，轻量化设计让你风驰电掣</div>
                     <div class="bike-active-dot"></div>
                 </div>
                 <div class="bike-card" onclick="selectBike('mtb')">
-                    <div class="bike-icon">🚵</div>
+                    <div class="bike-icon">
+                        <!-- 山地车图标 (Mountain Bike) -->
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="5.5" cy="17.5" r="3.5"/>
+                            <circle cx="18.5" cy="17.5" r="3.5"/>
+                            <path d="M14 4l3 6-3 2-2-2-4 4"/>
+                            <path d="M17 10l3 3"/>
+                        </svg>
+                    </div>
                     <div class="bike-name">山地车</div>
                     <div class="bike-desc">征服山野，强悍的悬挂系统应对各种复杂地形</div>
                 </div>
                 <div class="bike-card" onclick="selectBike('fold')">
-                    <div class="bike-icon">🛵</div>
+                    <div class="bike-icon">
+                        <!-- 折叠车图标 (Foldable Bike) -->
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="5.5" cy="17.5" r="3.5"/>
+                            <circle cx="18.5" cy="17.5" r="3.5"/>
+                            <path d="M9 17l3-10h4"/>
+                            <path d="M12 7l2-3"/>
+                            <path d="M9 17l4-4"/>
+                        </svg>
+                    </div>
                     <div class="bike-name">折叠车</div>
                     <div class="bike-desc">灵活便携，轻松收纳，城市通勤的最佳伴侣</div>
                 </div>
@@ -857,11 +978,18 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">配置清单</h3>
-                            <span style="color: var(--text-secondary); font-size: 14px;">6 个组件</span>
+                            <span style="color: var(--secondary); font-size: 14px;">6 个组件</span>
                         </div>
                         <div class="component-list">
                             <div class="component-item">
-                                <div class="component-icon">🏠</div>
+                                <div class="component-icon">
+                                    <!-- 车架图标 (Frame) -->
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M2 12h10l3-7 5 7-3 7-5-7H2"/>
+                                        <circle cx="15" cy="5" r="1"/>
+                                        <circle cx="15" cy="19" r="1"/>
+                                    </svg>
+                                </div>
                                 <div class="component-info">
                                     <div class="component-name">碳纤维车架</div>
                                     <div class="component-brand">Specialized</div>
@@ -869,7 +997,13 @@
                                 <div class="component-price">¥12,999</div>
                             </div>
                             <div class="component-item">
-                                <div class="component-icon">⚙️</div>
+                                <div class="component-icon">
+                                    <!-- 变速系统图标 (Gears) -->
+                                    <svg viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M12 2v3M12 19v3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M2 12h3M19 12h3M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/>
+                                    </svg>
+                                </div>
                                 <div class="component-info">
                                     <div class="component-name">Shimano Dura-Ace</div>
                                     <div class="component-brand">Shimano</div>
@@ -877,7 +1011,14 @@
                                 <div class="component-price">¥8,500</div>
                             </div>
                             <div class="component-item">
-                                <div class="component-icon">🔄</div>
+                                <div class="component-icon">
+                                    <!-- 轮组图标 (Wheels) -->
+                                    <svg viewBox="0 0 24 24">
+                                        <circle cx="8" cy="12" r="5"/>
+                                        <circle cx="16" cy="12" r="5"/>
+                                        <path d="M8 12h8M11 7l2 10M13 7l-2 10M4 12h2M18 12h2"/>
+                                    </svg>
+                                </div>
                                 <div class="component-info">
                                     <div class="component-name">Carbon Wheelset</div>
                                     <div class="component-brand">Zipp</div>
@@ -926,7 +1067,7 @@
             <div class="section-header">
                 <div>
                     <h2 class="section-title">推荐配置</h2>
-                    <p style="color: var(--text-secondary); font-size: 15px; margin-top: 8px;">专家精选的配置方案</p>
+                    <p style="color: var(--secondary); font-size: 15px; margin-top: 8px;">专家精选的配置方案</p>
                 </div>
             </div>
             <div class="recommended-grid">
@@ -971,7 +1112,7 @@
 
     <footer>
         <div class="footer-content">
-            <div class="footer-text">© 2024 Veloform. All rights reserved.</div>
+            <div class="footer-text">© 2026 Veloform · v3.7.0</div>
             <div class="footer-links">
                 <a href="#" class="footer-link">隐私政策</a>
                 <a href="#" class="footer-link">使用条款</a>
@@ -981,17 +1122,47 @@
     </footer>
 
     <script>
-        // Theme toggle
+        // Theme toggle - 对齐 Next.js next-themes 实现方式 (class="dark")
         function toggleTheme() {
             const html = document.documentElement;
-            const isDark = html.getAttribute('data-theme') === 'dark';
-            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+            const isDark = html.classList.contains('dark');
+
+            if (isDark) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+
+            updateThemeIcons();
         }
 
-        // Initialize theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
+        function updateThemeIcons() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+
+            // 浅色模式显示太阳图标 (点击切换到深色)
+            // 深色模式显示月亮图标 (点击切换到浅色)
+            if (isDark) {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            } else {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            }
+        }
+
+        // Initialize theme - 与 Next.js next-themes 保持一致
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else if (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            // 遵循系统深色偏好
+            document.documentElement.classList.add('dark');
+        }
+        updateThemeIcons();
 
         // Bike selection
         function selectBike(type) {
@@ -1000,10 +1171,10 @@
                 const dot = card.querySelector('.bike-active-dot');
                 if (dot) dot.remove();
             });
-            
+
             const activeCard = event.currentTarget;
             activeCard.classList.add('active');
-            
+
             const dot = document.createElement('div');
             dot.className = 'bike-active-dot';
             activeCard.appendChild(dot);
