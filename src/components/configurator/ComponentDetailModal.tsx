@@ -101,15 +101,24 @@ export function ComponentDetailModal({ isOpen, onClose, componentId, onSelect }:
                 {t('componentDetail.technicalSpecs')}
               </h4>
               <div className="space-y-2">
-                {Object.entries(detail.specs).map(([key, value]) => (
-                  <div
-                    key={key}
-                    className="flex justify-between py-2 px-3 bg-zinc-900/50 rounded-lg"
-                  >
-                    <span className="text-sm text-muted">{key}</span>
-                    <span className="text-sm font-medium text-foreground">{value}</span>
-                  </div>
-                ))}
+                {Object.entries(detail.specs ?? {}).map(([key, value]) => {
+                  const displayValue = Array.isArray(value)
+                    ? value.join(', ')
+                    : value !== null && value !== undefined
+                      ? String(value)
+                      : '';
+                  return (
+                    <div
+                      key={key}
+                      className="flex justify-between py-2 px-3 bg-zinc-900/50 rounded-lg"
+                    >
+                      <span className="text-sm text-muted">{key}</span>
+                      <span className="text-sm font-medium text-foreground">
+                        {displayValue}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}

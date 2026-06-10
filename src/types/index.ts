@@ -1,7 +1,13 @@
 export type BikeType = 'Road' | 'MTB' | 'Fold';
-export type ComponentCategory = 'Frame' | 'Drivetrain' | 'Wheelset' | 'Suspension' | 'Cockpit' | 'Tires';
+export type ComponentCategory =
+  | 'Frame'
+  | 'Drivetrain'
+  | 'Wheelset'
+  | 'Suspension'
+  | 'Cockpit'
+  | 'Tires';
 
-// Category-specific specifications
+// --- 分类 specs 定义 ---
 export interface DrivetrainSpecs {
   speeds?: number;
   cassetteRange?: string;
@@ -42,27 +48,26 @@ export interface TireSpecs {
   tubeless?: boolean;
 }
 
-// Union type for component specs based on category (for type-safe access)
-export type ComponentSpecsMap = {
+// --- 分类 → specs 类型映射 ---
+export interface ComponentSpecsMap {
   Drivetrain: DrivetrainSpecs;
   Wheelset: WheelsetSpecs;
   Suspension: SuspensionSpecs;
   Frame: FrameSpecs;
   Cockpit: CockpitSpecs;
   Tires: TireSpecs;
-};
+}
 
-// Generic specs type that allows any key-value pairs
-export type GenericSpecs = Record<string, string | number | boolean | string[]>;
+// 宽松版 specs 类型（用于兼容未迁移的代码与运行时数据）
+export type GenericSpecs = Record<string, unknown>;
 
-export interface ConfigComponent<T extends ComponentCategory = ComponentCategory> {
+// --- 共享字段 base ---
+interface ConfigComponentBase {
   id: string;
-  category: T;
   name: string;
   price: number;
   weight: number;
   bikeType: BikeType;
-  specs?: GenericSpecs;
   brand?: string;
   model?: string;
   description?: string;
@@ -70,6 +75,15 @@ export interface ConfigComponent<T extends ComponentCategory = ComponentCategory
   reviewCount?: number;
   imageUrl?: string;
 }
+
+// 宽松的通用配置组件类型：category 与 specs 的关联通过映射类型来映射表
+// 这是项目内默认使用的普通对象类型，便于 interface extends 与对象字面量推断
+export type ConfigComponent<
+  T extends ComponentCategory = ComponentCategory
+> = ConfigComponentBase & {
+  category: T;
+  specs?: ComponentSpecsMap[T];
+};
 
 export interface Configuration {
   id: string;
@@ -96,4 +110,12 @@ export interface ConfigState {
   editingComponentId: string;
   userId: string | null;
   comparingConfigIds: string[];
+}
+
+// --- 类型守卫 ---
+export function isCategory<T extends ComponentCategory>(
+  comp: ConfigComponent,
+  category: T
+): comp is ConfigComponent<T> {
+  return comp.category === category;
 }

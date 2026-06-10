@@ -1,0 +1,137 @@
+import { Configuration } from '@/types';
+import { useConfigStore } from '@/lib/stores/config-store';
+import { useCompareStore } from '@/lib/stores/compare-store';
+import { useUserStore } from '@/lib/stores/user-store';
+import { useConfigUIStore } from '@/lib/stores/config-ui-store';
+import { toast } from '@/lib/toast';
+import {
+  saveConfigurationToFirebase,
+  deleteConfigurationFromFirebase,
+  isFirebaseConfigured,
+} from '@/lib/firebase-service';
+
+export function buildConfigurationFromStore(): Configuration {
+  const {
+    activeType,
+    components,
+    configId,
+    manualConfigName,
+    getTotalCost,
+    getTotalWeight,
+  } = useConfigStore.getState();
+  const userId = useUserStore.getState().userId;
+
+  return {
+    id: configId || `config_${Date.now()}`,
+    userId: userId || 'anonymous',
+    bikeType: activeType,
+    name: manualConfigName || `${activeType} Build`,
+    components: [...components],
+    totalCost: getTotalCost(),
+    estimatedWeight: getTotalWeight(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+}
+
+export async function saveConfiguration(): Promise<void> {
+  const configUI = useConfigUIStore.getState();
+  const compareStore = useCompareStore.getState();
+
+  configUI.setSaving(true);
+
+  try {
+    const config = buildConfigurationFromStore();
+
+    try {
+      if (!isFirebaseConfigured()) {
+        toast('warning', 'Cloud sync unavailable, saving locally');
+      } else {
+        const savedId = await saveConfigurationToFirebase(
+          config,
+          useUserStore.getState().userId || undefined
+        );
+        config.id = savedId;
+        toast('success', 'Configuration saved to cloud');
+      }
+    } catch (firebaseError: any) {
+      if (firebaseError?.code === 'permission-denied') {
+        toast('error', 'Permission denied. Please log in.');
+      } else if (firebaseError?.code === 'unavailable') {
+        toast('warning', 'Cloud service unavailable, saved locally');
+      } else {
+        console.error('Firebase error:', firebaseError);
+        toast('error', 'Failed to sync with cloud, saved locally');
+      }
+    }
+
+    const existingIndex = compareStore.myConfigs.findIndex(
+      (c) => c.id === config.id
+    );
+    if (existingIndex >= 0) {
+      const updated = [...compareStore.myConfigs];
+      updated[existingIndex] = config;
+      compareStore.setMyConfigs(updated);
+    } else {
+      compareStore.setMyConfigs([...compareStore.myConfigs, config]);
+    }
+
+    useConfigStore.setState({
+      configId: config.id || null,
+      manualConfigName: config.name,
+    });
+  } catch (error) {
+    console.error('Critical save error:', error);
+    toast('error', 'Failed to save configuration');
+  } finally {
+    configUI.setSaving(false);
+  }
+}
+
+export async function deleteConfiguration(configId: string): Promise<void> {
+  const compareStore = useCompareStore.getState();
+
+  try {
+    if (isFirebaseConfigured()) {
+      await deleteConfigurationFromFirebase(configId);
+      toast('info', 'Configuration deleted from cloud');
+    }
+  } catch (error) {
+    console.warn('Failed to delete from Firebase:', error);
+    toast('warning', 'Deleted locally but may still exist in cloud');
+  }
+
+  compareStore.deleteConfiguration(configId);
+}
+
+export function generateShareableLink(): string {
+  const { activeType, components, manualConfigName } = useConfigStore.getState();
+  const config = {
+    bikeType: activeType,
+    components,
+    name: manualConfigName || `${activeType} Build`,
+  };
+  const encoded = btoa(JSON.stringify(config));
+  const origin =
+    typeof window !== 'undefined' ? window.location.origin : '';
+  return `${origin}/?config=${encoded}`;
+}
+
+export function exportConfiguration(): string {
+  const { activeType, components, manualConfigName, getTotalCost, getTotalWeight } =
+    useConfigStore.getState();
+  const exportData = {
+    name: manualConfigName || `${activeType} Build`,
+    bikeType: activeType,
+    totalCost: getTotalCost(),
+    estimatedWeight: getTotalWeight(),
+    components: components.map((comp) => ({
+      category: comp.category,
+      name: comp.name,
+      price: comp.price,
+      weight: comp.weight,
+    })),
+    exportedAt: new Date().toISOString(),
+  };
+  return JSON.stringify(exportData, null, 2);
+}
