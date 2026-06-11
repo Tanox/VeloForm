@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useCompareStore, useUserStore } from '@/lib/stores';
 import { subscribeToAuthChanges } from '@/lib/auth';
 import { loadConfigurationsFromFirebase } from '@/lib/firebase-service';
+import { firebaseLogger } from '@/lib/logger';
 
 /**
  * SyncProvider 负责：
@@ -49,7 +50,7 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
             }
           } catch (error) {
             if (!disposed) {
-              console.error('Failed to load configurations:', error);
+              firebaseLogger.error('Failed to load configurations:', error);
             }
           }
         } else {

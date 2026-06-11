@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { useTranslation } from '@/lib/i18n';
 import { Copy, Download, Check, Share2 } from 'lucide-react';
 import { toast } from '@/lib/toast';
+import { uiLogger } from '@/lib/logger';
 // generateShareableLink / exportConfiguration are in the legacy store
 // as they depend on internal store state
 import { useConfigStore as useLegacyStore } from '@/lib/store';
@@ -25,7 +26,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
       toast('success', t('share.copied'));
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
-      console.error('Failed to copy:', error);
+      uiLogger.error('Failed to copy:', error);
       toast('error', t('share.copyFailed'));
     }
   };

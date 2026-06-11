@@ -4,6 +4,7 @@ import { useCompareStore } from '@/lib/stores/compare-store';
 import { useUserStore } from '@/lib/stores/user-store';
 import { useConfigUIStore } from '@/lib/stores/config-ui-store';
 import { toast } from '@/lib/toast';
+import { configLogger } from '@/lib/logger';
 import {
   saveConfigurationToFirebase,
   deleteConfigurationFromFirebase,
@@ -54,13 +55,14 @@ export async function saveConfiguration(): Promise<void> {
         config.id = savedId;
         toast('success', 'Configuration saved to cloud');
       }
-    } catch (firebaseError: any) {
-      if (firebaseError?.code === 'permission-denied') {
+    } catch (firebaseError: unknown) {
+      const error = firebaseError as { code?: string };
+      if (error?.code === 'permission-denied') {
         toast('error', 'Permission denied. Please log in.');
-      } else if (firebaseError?.code === 'unavailable') {
+      } else if (error?.code === 'unavailable') {
         toast('warning', 'Cloud service unavailable, saved locally');
       } else {
-        console.error('Firebase error:', firebaseError);
+        configLogger.error('Firebase error:', firebaseError);
         toast('error', 'Failed to sync with cloud, saved locally');
       }
     }
@@ -81,7 +83,7 @@ export async function saveConfiguration(): Promise<void> {
       manualConfigName: config.name,
     });
   } catch (error) {
-    console.error('Critical save error:', error);
+    configLogger.error('Critical save error:', error);
     toast('error', 'Failed to save configuration');
   } finally {
     configUI.setSaving(false);
@@ -97,7 +99,7 @@ export async function deleteConfiguration(configId: string): Promise<void> {
       toast('info', 'Configuration deleted from cloud');
     }
   } catch (error) {
-    console.warn('Failed to delete from Firebase:', error);
+    configLogger.warn('Failed to delete from Firebase:', error);
     toast('warning', 'Deleted locally but may still exist in cloud');
   }
 

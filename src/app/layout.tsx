@@ -4,11 +4,12 @@ import { Providers } from './providers';
 import { Toaster } from '@/components/ui/Toast';
 import { SyncProvider } from '@/components/SyncProvider';
 import { ClientErrorBoundary } from '@/components/ClientErrorBoundary';
+import { logger } from '@/lib/logger';
 
 // Validate environment variables in development mode
 if (process.env.NODE_ENV === 'development') {
   import('@/lib/env').catch((error) => {
-    console.warn('Environment validation warning:', error);
+    logger.warn('Environment validation warning:', error);
   });
 }
 

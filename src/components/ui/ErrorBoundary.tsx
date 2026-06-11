@@ -4,6 +4,7 @@ import React, { Component, ReactNode } from 'react';
 import { Card } from './Card';
 import { Button } from './Button';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
+import { uiLogger } from '@/lib/logger';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -34,7 +35,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-    console.error('[ErrorBoundary]', error.message, errorInfo.componentStack);
+    uiLogger.error('[ErrorBoundary]', error.message, errorInfo.componentStack);
   }
 
   handleReset = (): void => {

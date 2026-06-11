@@ -11,10 +11,11 @@ import { ComponentSelector } from '@/components/configurator/ComponentSelector';
 import { RecommendedConfigs } from '@/components/configurator/RecommendedConfigs';
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 import { motion } from 'framer-motion';
+import { uiLogger } from '@/lib/logger';
 
 export default function Home() {
   const handleNavigate = (page: string) => {
-    console.log('Navigate to:', page);
+    uiLogger.debug('Navigate to:', page);
   };
 
   return (

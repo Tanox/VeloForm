@@ -4,6 +4,8 @@
  * 类型推断到精确的字符串字面量类型，避免在代码中使用裸字符串 key。
  */
 
+import { logger } from './logger';
+
 export const REQUIRED_ENV_KEYS = [
   'NEXT_PUBLIC_FIREBASE_PROJECT_ID',
   'NEXT_PUBLIC_FIREBASE_API_KEY',
@@ -70,6 +72,6 @@ export function getEnvSnapshot(): Env {
 if (process.env.NODE_ENV === 'development') {
   const result = validateEnv();
   if (!result.ok) {
-    console.warn('Environment validation warning:', result.message);
+    logger.warn('Environment validation warning:', result.message);
   }
 }

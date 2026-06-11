@@ -10,6 +10,7 @@ import {
   Auth,
 } from 'firebase/auth';
 import { app } from './firebase';
+import { authLogger } from './logger';
 
 // Initialize Firebase Auth
 const auth: Auth | null = app ? getAuth(app) : null;
@@ -27,8 +28,8 @@ export const loginWithGoogle = async (): Promise<User> => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     return result.user;
-  } catch (error: any) {
-    console.error('Google login error:', error);
+  } catch (error: unknown) {
+    authLogger.error('Google login error:', error);
     throw error;
   }
 };
@@ -43,8 +44,8 @@ export const logout = async (): Promise<void> => {
 
   try {
     await signOut(auth);
-  } catch (error: any) {
-    console.error('Logout error:', error);
+  } catch (error: unknown) {
+    authLogger.error('Logout error:', error);
     throw error;
   }
 };
@@ -58,7 +59,7 @@ export const subscribeToAuthChanges = (
   callback: (user: User | null) => void
 ): (() => void) => {
   if (!auth) {
-    console.warn('Firebase Auth not initialized, auth state subscription skipped');
+    authLogger.warn('Firebase Auth not initialized, auth state subscription skipped');
     return () => {};
   }
 

@@ -11,6 +11,7 @@ import { persist } from 'zustand/middleware';
 import type { ConfigComponent, Configuration, BikeType } from '@/types';
 import { getDefaultsForType, APP_CONSTANTS } from '@/lib/constants';
 import { toast } from '@/lib/toast';
+import { configLogger } from '@/lib/logger';
 
 // 业务逻辑从 store 中剥离到独立的 service 模块，保持 store 聚焦状态管理
 import {
@@ -190,13 +191,14 @@ export const useConfigStore = create<LegacyConfigStore>()(
               config.id = savedId;
               toast('success', 'Configuration saved to cloud');
             }
-          } catch (firebaseError: any) {
-            if (firebaseError?.code === 'permission-denied') {
+          } catch (firebaseError: unknown) {
+            const error = firebaseError as { code?: string };
+            if (error?.code === 'permission-denied') {
               toast('error', 'Permission denied. Please log in.');
-            } else if (firebaseError?.code === 'unavailable') {
+            } else if (error?.code === 'unavailable') {
               toast('warning', 'Cloud service unavailable, saved locally');
             } else {
-              console.error('Firebase error:', firebaseError);
+              configLogger.error('Firebase error:', firebaseError);
               toast('error', 'Failed to sync with cloud, saved locally');
             }
           }
@@ -220,7 +222,7 @@ export const useConfigStore = create<LegacyConfigStore>()(
             });
           }
         } catch (error) {
-          console.error('Critical save error:', error);
+          configLogger.error('Critical save error:', error);
           toast('error', 'Failed to save configuration');
           set({ isSaving: false });
         }
@@ -233,7 +235,7 @@ export const useConfigStore = create<LegacyConfigStore>()(
             toast('info', 'Configuration deleted from cloud');
           }
         } catch (error) {
-          console.warn('Failed to delete from Firebase:', error);
+          configLogger.warn('Failed to delete from Firebase:', error);
           toast('warning', 'Deleted locally but may still exist in cloud');
         }
 

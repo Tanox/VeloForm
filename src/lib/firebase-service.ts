@@ -2,6 +2,7 @@
 
 import { Configuration } from '@/types';
 import { APP_CONSTANTS } from './constants';
+import { firebaseLogger } from './logger';
 import type { Timestamp, FieldValue } from 'firebase/firestore';
 
 type FirestoreConfigData = {
@@ -28,7 +29,7 @@ export async function saveConfigurationToFirebase(
   userId?: string
 ): Promise<string> {
   if (!isFirebaseConfigured()) {
-    console.log('Firebase not configured, using local only');
+    firebaseLogger.info('Firebase not configured, using local only');
     return config.id || `config_${Date.now()}`;
   }
 
@@ -65,7 +66,7 @@ export async function saveConfigurationToFirebase(
       return newDocRef.id;
     }
   } catch (error) {
-    console.error('Error saving configuration to Firebase:', error);
+    firebaseLogger.error('Error saving configuration to Firebase:', error);
     return config.id || `config_${Date.now()}`;
   }
 }
@@ -105,7 +106,7 @@ export async function loadConfigurationsFromFirebase(
       updatedAt: doc.data().updatedAt?.toDate?.() || new Date(),
     })) as Configuration[];
   } catch (error) {
-    console.error('Error loading configurations from Firebase:', error);
+    firebaseLogger.error('Error loading configurations from Firebase:', error);
     return [];
   }
 }
@@ -128,6 +129,6 @@ export async function deleteConfigurationFromFirebase(
     const COLLECTIONS = APP_CONSTANTS.FIRESTORE_COLLECTIONS;
     await deleteDoc(doc(db, COLLECTIONS.configurations, configId));
   } catch (error) {
-    console.error('Error deleting configuration from Firebase:', error);
+    firebaseLogger.error('Error deleting configuration from Firebase:', error);
   }
 }
