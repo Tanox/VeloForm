@@ -65,7 +65,7 @@ export function SummaryPanel() {
           <div className="flex items-start justify-between">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <Sparkles className="w-4 h-4 text-primary" />
+                <Sparkles className="w-4 h-4 text-primary" aria-hidden="true" />
                 <span className="text-xs font-medium text-primary uppercase tracking-wider">
                   当前配置
                 </span>
@@ -74,7 +74,7 @@ export function SummaryPanel() {
                 {manualConfigName || `${activeType} Build`}
               </p>
               <div className="flex items-center gap-2 mt-2">
-                <div className="p-1.5 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg">
+                <div className="p-1.5 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg" aria-hidden="true">
                   <BikeIcon className="w-4 h-4 text-primary" />
                 </div>
                 <span className="text-xs text-muted uppercase tracking-wider">
@@ -85,17 +85,18 @@ export function SummaryPanel() {
           </div>
 
           {/* 统计卡片 */}
-          <div className="grid grid-cols-2 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4" role="list">
             <motion.div
+              role="listitem"
               className="relative bg-surface-tertiary/50 backdrop-blur-sm border border-border-light rounded-2xl p-4 sm:p-5 overflow-hidden"
               whileHover={{ scale: 1.02, y: -2 }}
               transition={{ duration: 0.2 }}
             >
               {/* 顶部装饰线 */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-transparent" />
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-transparent" aria-hidden="true" />
 
               <div className="flex items-center gap-2 mb-3">
-                <div className="p-1.5 bg-primary/20 rounded-lg">
+                <div className="p-1.5 bg-primary/20 rounded-lg" aria-hidden="true">
                   <TrendingUp className="w-4 h-4 text-primary" />
                 </div>
                 <p className="text-xs text-muted/80 uppercase tracking-wide font-medium">
@@ -108,21 +109,23 @@ export function SummaryPanel() {
                 animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 0.3 }}
                 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent"
+                aria-label={`总价: ${formatCurrency(totalCost)}`}
               >
                 {formatCurrency(totalCost)}
               </motion.p>
             </motion.div>
 
             <motion.div
+              role="listitem"
               className="relative bg-surface-tertiary/50 backdrop-blur-sm border border-border-light rounded-2xl p-4 sm:p-5 overflow-hidden"
               whileHover={{ scale: 1.02, y: -2 }}
               transition={{ duration: 0.2 }}
             >
               {/* 顶部装饰线 */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent to-transparent" />
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent to-transparent" aria-hidden="true" />
 
               <div className="flex items-center gap-2 mb-3">
-                <div className="p-1.5 bg-accent/20 rounded-lg">
+                <div className="p-1.5 bg-accent/20 rounded-lg" aria-hidden="true">
                   <Scale className="w-4 h-4 text-accent" />
                 </div>
                 <p className="text-xs text-muted/80 uppercase tracking-wide font-medium">
@@ -135,6 +138,7 @@ export function SummaryPanel() {
                 animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 0.3 }}
                 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent"
+                aria-label={`总重量: ${formatWeight(totalWeight)}`}
               >
                 {formatWeight(totalWeight)}
               </motion.p>
@@ -152,19 +156,21 @@ export function SummaryPanel() {
               whileTap={{ scale: 0.98 }}
             >
               <Button
-                className="w-full btn-gradient"
+                className="w-full btn-gradient min-h-[48px]"
                 size="lg"
                 onClick={handleSave}
                 disabled={isSaving}
+                aria-label={isSaving ? "保存配置中" : "保存配置"}
+                aria-busy={isSaving}
               >
                 {isSaving ? (
                   <>
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" aria-hidden="true" />
                     保存中...
                   </>
                 ) : (
                   <>
-                    <Save className="w-5 h-5 mr-2" />
+                    <Save className="w-5 h-5 mr-2" aria-hidden="true" />
                     保存配置
                   </>
                 )}
@@ -177,18 +183,20 @@ export function SummaryPanel() {
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setShowShareModal(true)}
-                className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-surface-tertiary/50 border border-border-light hover:border-primary/30 hover:bg-primary/5 transition-all duration-300"
+                className="flex items-center justify-center gap-2 px-4 py-3 min-h-[48px] rounded-xl bg-surface-tertiary/50 border border-border-light hover:border-primary/30 hover:bg-primary/5 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                aria-label="分享配置"
               >
-                <Share2 className="w-4 h-4 text-muted" />
+                <Share2 className="w-4 h-4 text-muted" aria-hidden="true" />
                 <span className="text-sm font-medium text-foreground">分享</span>
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={resetToDefaults}
-                className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-surface-tertiary/50 border border-border-light hover:border-accent/30 hover:bg-accent/5 transition-all duration-300"
+                className="flex items-center justify-center gap-2 px-4 py-3 min-h-[48px] rounded-xl bg-surface-tertiary/50 border border-border-light hover:border-accent/30 hover:bg-accent/5 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                aria-label="重置为默认配置"
               >
-                <RefreshCw className="w-4 h-4 text-muted" />
+                <RefreshCw className="w-4 h-4 text-muted" aria-hidden="true" />
                 <span className="text-sm font-medium text-foreground">重置</span>
               </motion.button>
             </div>
@@ -202,7 +210,7 @@ export function SummaryPanel() {
               className="p-4 bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl"
             >
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0" aria-hidden="true">
                   <User className="w-5 h-5 text-amber-500" />
                 </div>
                 <div>

@@ -66,12 +66,13 @@ export function Footer() {
                 </p>
 
                 {/* 社交链接 */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2" role="list">
                   {socialLinks.map((social, index) => (
                     <motion.a
                       key={social.label}
                       href={social.href}
-                      className="relative w-10 h-10 rounded-xl bg-surface-tertiary/50 hover:bg-primary/10 border border-border-light hover:border-primary/30 flex items-center justify-center text-secondary hover:text-primary transition-all duration-300 group"
+                      role="listitem"
+                      className="relative min-w-[44px] min-h-[44px] rounded-xl bg-surface-tertiary/50 hover:bg-primary/10 border border-border-light hover:border-primary/30 flex items-center justify-center text-secondary hover:text-primary transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                       aria-label={social.label}
                       initial={{ opacity: 0, y: 10 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -79,7 +80,7 @@ export function Footer() {
                       transition={{ delay: index * 0.05 }}
                       whileHover={{ y: -2 }}
                     >
-                      <social.icon className="w-4 h-4" />
+                      <social.icon className="w-4 h-4" aria-hidden="true" />
                     </motion.a>
                   ))}
                 </div>
@@ -88,29 +89,30 @@ export function Footer() {
 
             {/* 链接区域 */}
             {Object.entries(footerLinks).map(([category, links], categoryIndex) => (
-              <motion.div
+              <motion.nav
                 key={category}
+                aria-label={category}
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: categoryIndex * 0.05 }}
               >
                 <h3 className="text-sm font-semibold text-foreground mb-4">{category}</h3>
-                <ul className="space-y-3">
+                <ul className="space-y-3" role="list">
                   {links.map((link, linkIndex) => (
-                    <li key={link.label}>
+                    <li key={link.label} role="listitem">
                       <motion.a
                         href={link.href}
-                        className="group inline-flex items-center gap-1 text-sm text-secondary hover:text-primary transition-colors"
+                        className="group inline-flex items-center gap-1 text-sm text-secondary hover:text-primary transition-colors focus-visible:outline-none focus-visible:underline focus-visible:decoration-primary focus-visible:underline-offset-2 min-h-[32px]"
                         whileHover={{ x: 2 }}
                       >
                         {link.label}
-                        <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
+                        <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" aria-hidden="true" />
                       </motion.a>
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </motion.nav>
             ))}
           </div>
         </div>
@@ -124,12 +126,13 @@ export function Footer() {
               </p>
             </div>
 
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-6" role="list">
               {['隐私政策', '服务条款', 'Cookie 设置'].map((item, index) => (
                 <motion.a
                   key={item}
                   href="#"
-                  className="text-sm text-secondary hover:text-foreground transition-colors"
+                  role="listitem"
+                  className="text-sm text-secondary hover:text-foreground transition-colors focus-visible:outline-none focus-visible:underline focus-visible:decoration-primary focus-visible:underline-offset-2 min-h-[32px] inline-flex items-center"
                   whileHover={{ y: -1 }}
                 >
                   {item}

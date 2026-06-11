@@ -120,15 +120,19 @@ export function ComponentSelector() {
                         whileTap={{ scale: 0.99 }}
                       >
                         <div
-                          className={`relative cursor-pointer rounded-2xl p-5 transition-all duration-300 overflow-hidden ${
+                          className={`relative cursor-pointer rounded-2xl p-5 transition-all duration-300 overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                             isSelected
                               ? 'bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border-2 border-primary shadow-lg shadow-primary/10'
                               : 'bg-surface-secondary/80 border-2 border-border-light hover:border-primary/50 hover:bg-surface-secondary'
                           } ${isPromotional ? 'before:absolute before:inset-0 before:bg-gradient-to-r before:from-red-500/5 before:to-transparent' : ''}`}
                           onClick={() => handleSelect(component)}
+                          tabIndex={0}
+                          role="button"
+                          aria-label={`选择 ${component.name}${isSelected ? ' (已选)' : ''}`}
+                          aria-pressed={isSelected}
                         >
                           {isPromotional && (
-                            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 to-orange-400" />
+                            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 to-orange-400" aria-hidden="true" />
                           )}
 
                           <div className="flex items-center gap-4">
@@ -141,6 +145,7 @@ export function ComponentSelector() {
                                   ? 'bg-red-500/10 text-red-500'
                                   : 'bg-surface-tertiary text-muted'
                               }`}
+                              aria-hidden="true"
                             >
                               {isSelected ? (
                                 <Check className="w-6 h-6" />
@@ -173,13 +178,13 @@ export function ComponentSelector() {
                               <div className="flex items-center gap-2 mt-2">
                                 {isSelected && (
                                   <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-primary/10 text-primary text-xs font-medium rounded-full">
-                                    <Check className="w-3 h-3" />
+                                    <Check className="w-3 h-3" aria-hidden="true" />
                                     已选
                                   </span>
                                 )}
                                 {isPromotional && (
                                   <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500/10 text-red-500 text-xs font-bold rounded-full animate-pulse">
-                                    <Zap className="w-3 h-3" />
+                                    <Zap className="w-3 h-3" aria-hidden="true" />
                                     -{promotionalComponents[component.id].discount}%
                                   </span>
                                 )}
@@ -216,9 +221,10 @@ export function ComponentSelector() {
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={(e) => handleViewDetail(component.id, e)}
-                                className="p-2.5 rounded-xl bg-surface-tertiary/50 hover:bg-primary/10 text-muted hover:text-primary transition-all duration-200"
+                                className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-surface-tertiary/50 hover:bg-primary/10 text-muted hover:text-primary transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                                aria-label={`查看 ${component.name} 详情`}
                               >
-                                <Eye className="w-5 h-5" />
+                                <Eye className="w-5 h-5" aria-hidden="true" />
                               </motion.button>
                             </div>
                           </div>
@@ -228,13 +234,14 @@ export function ComponentSelector() {
                               initial={{ opacity: 0, height: 0 }}
                               animate={{ opacity: 1, height: 'auto' }}
                               className="mt-4 pt-3 border-t border-red-500/20 flex items-center gap-4"
+                              aria-hidden="true"
                             >
                               <div className="flex items-center gap-2 text-red-500 text-sm">
-                                <Truck className="w-4 h-4" />
+                                <Truck className="w-4 h-4" aria-hidden="true" />
                                 <span className="font-medium">免费配送</span>
                               </div>
                               <div className="flex items-center gap-2 text-orange-500 text-sm">
-                                <Sparkles className="w-4 h-4" />
+                                <Sparkles className="w-4 h-4" aria-hidden="true" />
                                 <span className="font-medium">限时特惠</span>
                               </div>
                             </motion.div>
@@ -256,9 +263,10 @@ export function ComponentSelector() {
               variant="ghost"
               size="sm"
               onClick={closeComponentSelector}
+              aria-label="关闭组件选择器，稍后选择"
             >
               稍后选择
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <ArrowRight className="w-4 h-4 ml-2" aria-hidden="true" />
             </Button>
           </div>
         </DialogContent>

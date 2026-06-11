@@ -122,7 +122,8 @@ export function Hero({ onNavigate }: HeroProps) {
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => onNavigate('configurator')}
-            className="group relative px-8 py-4 rounded-2xl font-semibold text-white overflow-hidden shadow-glow transition-all duration-300"
+            className="group relative px-8 py-4 rounded-2xl font-semibold text-white overflow-hidden shadow-glow transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            aria-label="开始配置"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-accent" />
             <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -136,6 +137,7 @@ export function Hero({ onNavigate }: HeroProps) {
             variant="secondary"
             size="lg"
             className="border-border-light bg-surface-secondary/50 backdrop-blur-sm hover:bg-surface-tertiary"
+            aria-label="观看演示视频"
           >
             <Play className="w-5 h-5 mr-2" />
             观看演示视频

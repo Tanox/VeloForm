@@ -73,16 +73,19 @@ export function Features() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6" role="list">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
+              role="listitem"
               initial={{ opacity: 0, y: 30, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="group relative bg-surface-secondary/80 backdrop-blur-sm rounded-2xl p-7 sm:p-8 border border-border-light hover:border-primary/30 transition-all duration-300 cursor-pointer overflow-hidden"
+              tabIndex={0}
+              className="group relative bg-surface-secondary/80 backdrop-blur-sm rounded-2xl p-7 sm:p-8 border border-border-light hover:border-primary/30 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all duration-300 cursor-pointer overflow-hidden outline-none"
+              aria-label={feature.title}
             >
               {/* 悬停渐变背景 */}
               <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
@@ -94,6 +97,7 @@ export function Features() {
                 className={`relative w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-6 shadow-lg group-hover:shadow-xl transition-shadow duration-300`}
                 whileHover={{ rotate: [0, -5, 5, 0] }}
                 transition={{ duration: 0.5 }}
+                aria-hidden="true"
               >
                 <feature.icon className="w-7 h-7 text-white" />
               </motion.div>
@@ -112,6 +116,7 @@ export function Features() {
                 className="absolute bottom-7 right-7 opacity-0 group-hover:opacity-100 transition-all duration-300"
                 initial={{ x: -10 }}
                 whileHover={{ x: 0 }}
+                aria-hidden="true"
               >
                 <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${feature.gradient} flex items-center justify-center`}>
                   <ArrowRight className="w-4 h-4 text-white" />

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, User, Moon, Sun, Bike } from 'lucide-react';
 import { useTheme } from 'next-themes';
@@ -15,6 +15,8 @@ export function Navbar({ onNavigate }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -27,6 +29,44 @@ export function Navbar({ onNavigate }: NavbarProps) {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Keyboard navigation for mobile menu
+  const handleMenuKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (!isMobileMenuOpen) return;
+
+    if (e.key === 'Escape') {
+      setIsMobileMenuOpen(false);
+      menuButtonRef.current?.focus();
+    }
+  }, [isMobileMenuOpen]);
+
+  // Focus trap in mobile menu
+  useEffect(() => {
+    if (isMobileMenuOpen && menuRef.current) {
+      const focusableElements = menuRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      const handleTabKey = (e: KeyboardEvent) => {
+        if (e.key !== 'Tab') return;
+
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        }
+      };
+
+      document.addEventListener('keydown', handleTabKey);
+      firstElement?.focus();
+
+      return () => document.removeEventListener('keydown', handleTabKey);
+    }
+  }, [isMobileMenuOpen]);
 
   const navItems = [
     { label: '配置器', href: 'home' },
@@ -55,7 +95,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
             {/* Logo */}
             <motion.button
               onClick={() => onNavigate('home')}
-              className="flex items-center gap-3 group"
+              className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -76,7 +116,8 @@ export function Navbar({ onNavigate }: NavbarProps) {
                   className={cn(
                     'relative px-5 py-2.5 rounded-xl text-sm font-medium transition-colors',
                     'text-secondary hover:text-foreground',
-                    'hover:bg-surface-tertiary/50'
+                    'hover:bg-surface-tertiary/50',
+                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2'
                   )}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -94,8 +135,8 @@ export function Navbar({ onNavigate }: NavbarProps) {
               {mounted && (
                 <motion.button
                   onClick={toggleTheme}
-                  className="relative p-2.5 rounded-xl hover:bg-surface-tertiary/50 transition-colors text-secondary hover:text-foreground"
-                  aria-label="Toggle theme"
+                  className="relative min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl hover:bg-surface-tertiary/50 transition-colors text-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  aria-label={theme === 'dark' ? '切换到浅色模式' : '切换到深色模式'}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -116,8 +157,8 @@ export function Navbar({ onNavigate }: NavbarProps) {
               )}
 
               <motion.button
-                className="p-2.5 rounded-xl bg-surface-tertiary/50 hover:bg-surface-tertiary transition-colors"
-                aria-label="User profile"
+                className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-surface-tertiary/50 hover:bg-surface-tertiary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                aria-label="用户设置"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -125,9 +166,12 @@ export function Navbar({ onNavigate }: NavbarProps) {
               </motion.button>
 
               <motion.button
+                ref={menuButtonRef}
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="md:hidden p-2.5 rounded-xl hover:bg-surface-tertiary/50 transition-colors"
-                aria-label="Open menu"
+                className="md:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl hover:bg-surface-tertiary/50 transition-colors"
+                aria-label="打开菜单"
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-menu"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -149,13 +193,20 @@ export function Navbar({ onNavigate }: NavbarProps) {
               transition={{ duration: 0.2 }}
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
               onClick={() => setIsMobileMenuOpen(false)}
+              role="presentation"
             />
             <motion.div
+              ref={menuRef}
+              id="mobile-menu"
               initial={{ opacity: 0, x: '100%' }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '100%' }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
               className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-background z-50 shadow-2xl"
+              role="dialog"
+              aria-modal="true"
+              aria-label="导航菜单"
+              onKeyDown={handleMenuKeyDown}
             >
               {/* Header */}
               <div className="flex items-center justify-between p-6 border-b border-border-light">
@@ -167,8 +218,8 @@ export function Navbar({ onNavigate }: NavbarProps) {
                 </div>
                 <motion.button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 rounded-xl hover:bg-surface-tertiary transition-colors"
-                  aria-label="Close menu"
+                  className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl hover:bg-surface-tertiary transition-colors"
+                  aria-label="关闭菜单"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -185,7 +236,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
                       onNavigate(item.href);
                       setIsMobileMenuOpen(false);
                     }}
-                    className="w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-left hover:bg-surface-tertiary/50 transition-colors"
+                    className="w-full flex items-center gap-4 px-5 py-4 min-h-[56px] rounded-2xl text-left hover:bg-surface-tertiary/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
@@ -216,7 +267,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
                 {mounted && (
                   <motion.button
                     onClick={toggleTheme}
-                    className="w-full flex items-center gap-4 px-5 py-4 rounded-2xl hover:bg-surface-tertiary/50 transition-colors"
+                    className="w-full flex items-center gap-4 px-5 py-4 min-h-[56px] rounded-2xl hover:bg-surface-tertiary/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.2 }}
