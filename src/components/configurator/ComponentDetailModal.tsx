@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { formatCurrency, formatWeight } from '@/lib/utils';
@@ -31,12 +31,12 @@ export function ComponentDetailModal({ isOpen, onClose, componentId, onSelect }:
           className="space-y-4"
         >
           <div className="relative aspect-square bg-zinc-900 rounded-xl overflow-hidden">
-            <Image
+            <OptimizedImage
               src={detail.imageUrl || ''}
               alt={detail.name}
               fill
-              className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"
+              imgClassName="object-cover"
             />
             <div className="absolute top-4 right-4 bg-primary/90 backdrop-blur-sm rounded-lg px-3 py-1">
               <span className="text-sm font-semibold text-white">

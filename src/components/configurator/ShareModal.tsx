@@ -4,15 +4,17 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
-import { useConfigStore } from '@/lib/store';
 import { useTranslation } from '@/lib/i18n';
 import { Copy, Download, Check, Share2 } from 'lucide-react';
 import { toast } from '@/lib/toast';
+// generateShareableLink / exportConfiguration are in the legacy store
+// as they depend on internal store state
+import { useConfigStore as useLegacyStore } from '@/lib/store';
 
 export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const t = useTranslation();
-  const generateShareableLink = useConfigStore((state) => state.generateShareableLink);
-  const exportConfiguration = useConfigStore((state) => state.exportConfiguration);
+  const generateShareableLink = useLegacyStore((s) => s.generateShareableLink);
+  const exportConfiguration = useLegacyStore((s) => s.exportConfiguration);
   const [copied, setCopied] = useState(false);
 
   const handleCopyLink = async () => {

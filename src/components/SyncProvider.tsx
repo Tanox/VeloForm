@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useConfigStore } from '@/lib/store';
+import { useCompareStore, useUserStore } from '@/lib/stores';
 import { subscribeToAuthChanges } from '@/lib/auth';
 import { loadConfigurationsFromFirebase } from '@/lib/firebase-service';
 
@@ -15,7 +15,8 @@ import { loadConfigurationsFromFirebase } from '@/lib/firebase-service';
  * 避免 SSR 阶段触发副作用。
  */
 export function SyncProvider({ children }: { children: React.ReactNode }) {
-  const { setMyConfigs, setUserId } = useConfigStore();
+  const setMyConfigs = useCompareStore((s) => s.setMyConfigs);
+  const setUserId = useUserStore((s) => s.setUserId);
   const unsubscribeRef = useRef<(() => void) | null>(null);
   const hasSubscribedRef = useRef(false);
   const [hydrated, setHydrated] = useState(false);

@@ -1,8 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { useConfigStore } from '@/lib/store';
+import {
+  useActiveType,
+  useTotalCost,
+  useTotalWeight,
+  useManualConfigName,
+  useConfigStore,
+  useIsSaving,
+  useUserId,
+} from '@/lib/stores';
 import { formatCurrency, formatWeight } from '@/lib/utils';
+// saveConfiguration is a complex async action that touches multiple state slices
+// Keeping it in the legacy store for now, imported directly
+import { useConfigStore as useLegacyStore } from '@/lib/store';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { useTranslation } from '@/lib/i18n';
@@ -14,30 +25,16 @@ import { CostBreakdownChart } from './CostBreakdownChart';
 export function SummaryPanel() {
   const t = useTranslation();
   const [showShareModal, setShowShareModal] = useState(false);
-  const { 
-    activeType, 
-    getTotalCost, 
-    getTotalWeight, 
-    manualConfigName, 
-    resetToDefaults, 
-    isSaving, 
-    saveConfiguration,
-    userId 
-  } = useConfigStore((state) => ({
-    activeType: state.activeType,
-    getTotalCost: state.getTotalCost,
-    getTotalWeight: state.getTotalWeight,
-    manualConfigName: state.manualConfigName,
-    resetToDefaults: state.resetToDefaults,
-    isSaving: state.isSaving,
-    saveConfiguration: state.saveConfiguration,
-    userId: state.userId,
-  }));
+  const activeType = useActiveType();
+  const totalCost = useTotalCost();
+  const totalWeight = useTotalWeight();
+  const manualConfigName = useManualConfigName();
+  const resetToDefaults = useConfigStore((s) => s.resetToDefaults);
+  const saveConfiguration = useLegacyStore((s) => s.saveConfiguration);
+  const isSaving = useIsSaving();
+  const userId = useUserId();
   
   const isLoggedIn = userId !== null;
-  
-  const totalCost = getTotalCost();
-  const totalWeight = getTotalWeight();
 
   const handleSave = async () => {
     await saveConfiguration();

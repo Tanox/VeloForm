@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useConfigStore } from '@/lib/store';
+import { useComponents, useTotalCost } from '@/lib/stores';
 import { formatCurrency } from '@/lib/utils';
 import { useTranslation } from '@/lib/i18n';
 
@@ -18,10 +18,8 @@ const COLORS = [
 
 export function CostBreakdownChart() {
   const t = useTranslation();
-  const components = useConfigStore((state) => state.components);
-  const getTotalCost = useConfigStore((state) => state.getTotalCost);
-
-  const totalCost = getTotalCost();
+  const components = useComponents();
+  const totalCost = useTotalCost();
 
   if (totalCost === 0) return null;
 

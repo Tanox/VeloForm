@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Play, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 
 interface HeroProps {
   onNavigate: (page: string) => void;
@@ -69,12 +69,13 @@ export function Hero({ onNavigate }: HeroProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 pointer-events-none" />
           <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-black/10">
             <div className="aspect-[16/9] bg-surface-tertiary">
-              <Image
+              <OptimizedImage
                 src="https://neeko-copilot.bytedance.net/api/text_to_image?prompt=modern%20bicycle%20configurator%20software%20interface%20on%20iMac%20screen%20minimalist%20clean%20UI%20apple%20style%20dark%20theme&image_size=landscape_16_9"
-                alt="Veloform Interface"
+                alt="Veloform 界面预览"
                 fill
-                className="object-cover"
                 priority
+                sizes="(max-width: 1024px) 100vw, 80vw"
+                imgClassName="object-cover"
               />
             </div>
           </div>

@@ -1,7 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useConfigStore } from '@/lib/store';
+import { useEffect, useState, lazy, Suspense } from 'react';
+import {
+  useShowComponentSelector,
+  useEditingComponentId,
+  useComponents,
+  useConfigStore,
+  useConfigUIStore,
+} from '@/lib/stores';
 import { Modal } from '@/components/ui/Modal';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -13,17 +19,22 @@ import { ConfigComponent } from '@/types';
 import { Check, Eye, ChevronRight, Package, Star, Zap, Truck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/lib/i18n';
-import { ComponentDetailModal } from './ComponentDetailModal';
+import { Skeleton } from '@/components/ui/Skeleton';
+
+// 懒加载详情弹窗，仅用户点击"查看详情"时才加载代码
+const ComponentDetailModal = lazy(() =>
+  import('./ComponentDetailModal').then((m) => ({ default: m.ComponentDetailModal }))
+);
 
 export function ComponentSelector() {
   const t = useTranslation();
   const [selectedComponentId, setSelectedComponentId] = useState<string | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
-  const showComponentSelector = useConfigStore((state) => state.showComponentSelector);
-  const toggleComponentSelector = useConfigStore((state) => state.toggleComponentSelector);
-  const components = useConfigStore((state) => state.components);
-  const replaceComponent = useConfigStore((state) => state.replaceComponent);
-  const editingComponentId = useConfigStore((state) => state.editingComponentId);
+  const showComponentSelector = useShowComponentSelector();
+  const toggleComponentSelector = useConfigUIStore((s) => s.toggleComponentSelector);
+  const components = useComponents();
+  const replaceComponent = useConfigStore((s) => s.replaceComponent);
+  const editingComponentId = useEditingComponentId();
 
   const currentComponent = components.find((c) => c.id === editingComponentId);
   const alternatives = mockAlternatives[currentComponent?.category || ''] || [];
@@ -219,12 +230,14 @@ export function ComponentSelector() {
         </div>
       </Modal>
 
-      <ComponentDetailModal
-        isOpen={showDetailModal}
-        onClose={() => setShowDetailModal(false)}
-        componentId={selectedComponentId || ''}
-        onSelect={handleSelectFromDetail}
-      />
+      <Suspense fallback={<div className="p-8"><Skeleton className="h-64 w-full rounded-xl" /></div>}>
+        <ComponentDetailModal
+          isOpen={showDetailModal}
+          onClose={() => setShowDetailModal(false)}
+          componentId={selectedComponentId || ''}
+          onSelect={handleSelectFromDetail}
+        />
+      </Suspense>
     </>
   );
 }

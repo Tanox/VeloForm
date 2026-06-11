@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useConfigStore } from '@/lib/store';
+import { useComparingConfigs, useCompareStore, useConfigStore } from '@/lib/stores';
 import { useTranslation } from '@/lib/i18n';
 import { formatCurrency, formatWeight } from '@/lib/utils';
 import { Card } from '@/components/ui/Card';
@@ -10,10 +10,10 @@ import { X, TrendingDown, TrendingUp, Minus } from 'lucide-react';
 
 export function ComparePanel() {
   const t = useTranslation();
-  const comparingConfigs = useConfigStore((state) => state.getComparingConfigs());
-  const clearCompare = useConfigStore((state) => state.clearCompare);
-  const loadConfiguration = useConfigStore((state) => state.loadConfiguration);
-  const toggleCompare = useConfigStore((state) => state.toggleCompare);
+  const comparingConfigs = useComparingConfigs();
+  const clearCompare = useCompareStore((s) => s.clearCompare);
+  const loadConfiguration = useConfigStore((s) => s.loadConfiguration);
+  const toggleCompare = useCompareStore((s) => s.toggleCompare);
 
   if (comparingConfigs.length < 2) return null;
 

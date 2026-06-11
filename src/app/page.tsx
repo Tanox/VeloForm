@@ -9,6 +9,7 @@ import { BuildList } from '@/components/configurator/BuildList';
 import { SummaryPanel } from '@/components/configurator/SummaryPanel';
 import { ComponentSelector } from '@/components/configurator/ComponentSelector';
 import { RecommendedConfigs } from '@/components/configurator/RecommendedConfigs';
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 import { motion } from 'framer-motion';
 
 export default function Home() {
@@ -45,22 +46,24 @@ export default function Home() {
         </motion.section>
 
         {/* Main Configurator */}
-        <motion.section
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20"
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
-            <div className="lg:col-span-2">
-              <BuildList />
+        <ErrorBoundary>
+          <motion.section
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
+              <div className="lg:col-span-2">
+                <BuildList />
+              </div>
+              <div className="lg:col-span-1">
+                <SummaryPanel />
+              </div>
             </div>
-            <div className="lg:col-span-1">
-              <SummaryPanel />
-            </div>
-          </div>
-        </motion.section>
+          </motion.section>
+        </ErrorBoundary>
 
         {/* Recommended Configurations */}
         <motion.section

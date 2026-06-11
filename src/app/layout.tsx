@@ -3,6 +3,7 @@ import './globals.css';
 import { Providers } from './providers';
 import { Toaster } from '@/components/ui/Toast';
 import { SyncProvider } from '@/components/SyncProvider';
+import { ClientErrorBoundary } from '@/components/ClientErrorBoundary';
 
 // Validate environment variables in development mode
 if (process.env.NODE_ENV === 'development') {
@@ -46,9 +47,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans antialiased">
         <Providers>
-          <SyncProvider>
-            {children}
-          </SyncProvider>
+          <ClientErrorBoundary>
+            <SyncProvider>
+              {children}
+            </SyncProvider>
+          </ClientErrorBoundary>
           <Toaster />
         </Providers>
       </body>

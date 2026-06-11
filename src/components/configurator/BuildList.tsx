@@ -1,6 +1,6 @@
 'use client';
 
-import { useConfigStore } from '@/lib/store';
+import { useComponents, useConfigUIStore } from '@/lib/stores';
 import { formatCurrency, formatWeight } from '@/lib/utils';
 import { APP_CONSTANTS } from '@/lib/constants';
 import { Card } from '@/components/ui/Card';
@@ -12,8 +12,8 @@ import { useState } from 'react';
 
 export function BuildList() {
   const t = useTranslation();
-  const components = useConfigStore((state) => state.components);
-  const toggleComponentSelector = useConfigStore((state) => state.toggleComponentSelector);
+  const components = useComponents();
+  const toggleComponentSelector = useConfigUIStore((state) => state.toggleComponentSelector);
   const [isLoading, setIsLoading] = useState(false);
 
   const getCategoryTranslation = (category: string) => {

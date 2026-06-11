@@ -3,21 +3,23 @@
 import { Navbar } from '@/components/layout/Navbar';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { useConfigStore } from '@/lib/store';
+import { useMyConfigs, useComparingConfigIds, useCompareStore, useConfigStore } from '@/lib/stores';
 import { formatCurrency, formatWeight } from '@/lib/utils';
 import { useTranslation } from '@/lib/i18n';
 import { motion } from 'framer-motion';
 import { FolderOpen, Trash2, GitCompare } from 'lucide-react';
 import Link from 'next/link';
 import { ComparePanel } from '@/components/configurator/ComparePanel';
+// deleteConfiguration is an async action that touches both config and compare stores
+import { useConfigStore as useLegacyStore } from '@/lib/store';
 
 export default function LibraryPage() {
   const t = useTranslation();
-  const myConfigs = useConfigStore((state) => state.myConfigs);
-  const loadConfiguration = useConfigStore((state) => state.loadConfiguration);
-  const deleteConfiguration = useConfigStore((state) => state.deleteConfiguration);
-  const toggleCompare = useConfigStore((state) => state.toggleCompare);
-  const comparingConfigIds = useConfigStore((state) => state.comparingConfigIds);
+  const myConfigs = useMyConfigs();
+  const loadConfiguration = useConfigStore((s) => s.loadConfiguration);
+  const deleteConfiguration = useLegacyStore((s) => s.deleteConfiguration);
+  const toggleCompare = useCompareStore((s) => s.toggleCompare);
+  const comparingConfigIds = useComparingConfigIds();
 
   return (
     <div className="min-h-screen">

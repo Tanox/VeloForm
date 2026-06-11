@@ -1,7 +1,8 @@
 'use client';
 
 import { BikeType } from '@/types';
-import { useConfigStore } from '@/lib/store';
+import { useActiveType } from '@/lib/stores';
+import { useConfigStore } from '@/lib/stores';
 import { useTranslation } from '@/lib/i18n';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -15,7 +16,7 @@ interface BikeTypeInfo {
 
 export function BikeTypeSelector() {
   const t = useTranslation();
-  const activeType = useConfigStore((state) => state.activeType);
+  const activeType = useActiveType();
   const setActiveType = useConfigStore((state) => state.setActiveType);
   const types: BikeType[] = ['Road', 'MTB', 'Fold'];
 
