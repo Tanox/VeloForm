@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { useConfigStore } from '@/lib/stores';
 import { formatCurrency, formatWeight } from '@/lib/utils';
 import { useTranslation } from '@/lib/i18n';

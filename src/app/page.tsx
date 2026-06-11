@@ -9,7 +9,7 @@ import { BuildList } from '@/components/configurator/BuildList';
 import { SummaryPanel } from '@/components/configurator/SummaryPanel';
 import { ComponentSelector } from '@/components/configurator/ComponentSelector';
 import { RecommendedConfigs } from '@/components/configurator/RecommendedConfigs';
-import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
+import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { motion } from 'framer-motion';
 import { uiLogger } from '@/lib/logger';
 

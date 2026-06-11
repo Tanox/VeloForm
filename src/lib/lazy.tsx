@@ -7,7 +7,7 @@
  * 减少首屏 bundle 大小，按需加载非关键组件。
  */
 import { lazy, Suspense, ReactNode } from 'react';
-import { Skeleton } from '@/components/ui/Skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 
 /**
  * 懒加载包装组件。

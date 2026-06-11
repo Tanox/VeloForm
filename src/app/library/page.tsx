@@ -1,8 +1,8 @@
 'use client';
 
 import { Navbar } from '@/components/layout/Navbar';
-import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { useMyConfigs, useComparingConfigIds, useCompareStore, useConfigStore } from '@/lib/stores';
 import { formatCurrency, formatWeight } from '@/lib/utils';
 import { useTranslation } from '@/lib/i18n';
@@ -89,7 +89,7 @@ export default function LibraryPage() {
                         {t('library.load')}
                       </Button>
                       <Button
-                        variant={comparingConfigIds.includes(config.id || '') ? 'primary' : 'ghost'}
+                        variant={comparingConfigIds.includes(config.id || '') ? 'default' : 'ghost'}
                         size="sm"
                         onClick={() => config.id && toggleCompare(config.id)}
                       >

@@ -1,8 +1,8 @@
 'use client';
 
 import { Suspense, ReactNode } from 'react';
-import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
-import { Skeleton } from '@/components/ui/Skeleton';
+import { ErrorBoundary } from '@/components/ui/error-boundary';
+import { Skeleton } from '@/components/ui/skeleton';
 
 /**
  * 异步数据加载边界组件。

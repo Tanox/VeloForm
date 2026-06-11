@@ -1,6 +1,6 @@
 'use client';
 
-import { ErrorBoundary as ReactErrorBoundary } from '@/components/ui/ErrorBoundary';
+import { ErrorBoundary as ReactErrorBoundary } from '@/components/ui/error-boundary';
 
 /**
  * 客户端错误边界包装器。

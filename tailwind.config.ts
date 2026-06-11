@@ -10,11 +10,10 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'SF Pro Display', 'Segoe UI', 'system-ui', 'sans-serif'],
-        display: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'Segoe UI', 'system-ui', 'sans-serif'],
+        sans: ['Satoshi', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        display: ['Clash Display', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       colors: {
-        // 所有颜色统一走 CSS 变量，globals.css 中的 :root / .dark 是唯一真相源
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         primary: {
@@ -33,11 +32,14 @@ const config: Config = {
         muted: 'var(--muted)',
         accent: 'var(--accent)',
         secondary: 'var(--secondary)',
-        // 语义色
         success: '#34c759',
         warning: '#ff9500',
         error: '#ff3b30',
         info: 'var(--primary)',
+      },
+      backgroundImage: {
+        'gradient-brand': 'var(--gradient-brand)',
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
       borderRadius: {
         '3xl': '1.75rem',
@@ -48,8 +50,9 @@ const config: Config = {
         "slide-up": "slideUp 0.4s ease-out",
         "slide-in-right": "slideInRight 0.4s ease-out",
         "scale-in": "scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-        pulse: "pulse 2s ease-in-out infinite",
-        float: "float 8s ease-in-out infinite",
+        "pulse": "pulse 2s ease-in-out infinite",
+        "float": "float 8s ease-in-out infinite",
+        "glow-pulse": "glowPulse 4s ease-in-out infinite",
       },
       keyframes: {
         fadeIn: {
@@ -80,9 +83,18 @@ const config: Config = {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-15px)" },
         },
+        glowPulse: {
+          "0%, 100%": { opacity: "0.5", transform: "scale(1)" },
+          "50%": { opacity: "1", transform: "scale(1.1)" },
+        },
       },
       spacing: {
         '88': '22rem',
+      },
+      boxShadow: {
+        'glow': '0 0 40px rgba(0, 102, 255, 0.3)',
+        'glow-lg': '0 0 80px rgba(0, 102, 255, 0.4)',
+        'glow-accent': '0 0 40px rgba(0, 212, 170, 0.3)',
       },
     },
   },

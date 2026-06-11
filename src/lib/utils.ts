@@ -1,14 +1,20 @@
-export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('en-US', {
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+// Formatting utilities
+export function formatCurrency(value: number, currency = 'CNY'): string {
+  return new Intl.NumberFormat('zh-CN', {
     style: 'currency',
-    currency: 'USD',
-  }).format(amount);
+    currency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
 }
 
-export function formatWeight(kg: number): string {
-  return `${kg.toFixed(2)} kg`;
-}
-
-export function cn(...classes: (string | undefined | null | false)[]): string {
-  return classes.filter(Boolean).join(' ');
+export function formatWeight(value: number, unit = 'kg'): string {
+  return `${value.toFixed(1)} ${unit}`;
 }

@@ -1,8 +1,8 @@
 'use client';
 
 import React, { Component, ReactNode } from 'react';
-import { Card } from './Card';
-import { Button } from './Button';
+import { Card } from './card';
+import { Button } from './button';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 import { uiLogger } from '@/lib/logger';
 
@@ -82,7 +82,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               )}
 
               <div className="flex gap-3 justify-center pt-2">
-                <Button variant="primary" onClick={this.handleReset} leftIcon={<RefreshCw className="w-4 h-4" />}>
+                <Button variant="default" onClick={this.handleReset}>
+                  <RefreshCw className="w-4 h-4 mr-2" />
                   重试
                 </Button>
                 <Button variant="outline" onClick={() => window.location.href = '/'}>

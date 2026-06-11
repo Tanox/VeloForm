@@ -3,7 +3,7 @@
  */
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { ErrorBoundary } from './ErrorBoundary';
+import { ErrorBoundary } from './error-boundary';
 
 // 抑制 React 的错误边界警告
 const originalError = console.error;
