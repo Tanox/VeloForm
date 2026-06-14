@@ -92,14 +92,15 @@ export function Navbar({ onNavigate }: NavbarProps) {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-18">
-            {/* Logo */}
+            {/* Logo - 使用 shadcn Button 样式一致性 */}
             <motion.button
               onClick={() => onNavigate('home')}
-              className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl"
+              className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl px-2 py-1 min-h-[44px]"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              aria-label="返回首页"
             >
-              <div className="relative w-10 h-10 rounded-xl bg-gradient-brand flex items-center justify-center shadow-glow group-hover:shadow-glow-lg transition-shadow duration-300">
+              <div className="relative w-10 h-10 rounded-xl bg-gradient-brand flex items-center justify-center shadow-glow group-hover:shadow-glow-lg transition-shadow duration-300" aria-hidden="true">
                 <Bike className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-display font-bold text-foreground hidden sm:block">
@@ -107,14 +108,14 @@ export function Navbar({ onNavigate }: NavbarProps) {
               </span>
             </motion.button>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - 统一导航链接样式 */}
             <div className="hidden md:flex items-center gap-2">
               {navItems.map((item, index) => (
                 <motion.button
                   key={item.href}
                   onClick={() => onNavigate(item.href)}
                   className={cn(
-                    'relative px-5 py-2.5 rounded-xl text-sm font-medium transition-colors',
+                    'relative px-5 py-2.5 rounded-xl text-sm font-medium transition-colors min-h-[44px] min-w-[44px]',
                     'text-secondary hover:text-foreground',
                     'hover:bg-surface-tertiary/50',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2'
@@ -124,13 +125,14 @@ export function Navbar({ onNavigate }: NavbarProps) {
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
+                  aria-label={item.label}
                 >
                   {item.label}
                 </motion.button>
               ))}
             </div>
 
-            {/* Actions */}
+            {/* Actions - 右侧操作区 */}
             <div className="flex items-center gap-2">
               {mounted && (
                 <motion.button
@@ -146,6 +148,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
                     animate={{ rotate: 0, opacity: 1 }}
                     exit={{ rotate: 90, opacity: 0 }}
                     transition={{ duration: 0.2 }}
+                    aria-hidden="true"
                   >
                     {theme === 'dark' ? (
                       <Sun className="w-5 h-5" />
@@ -162,7 +165,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <User className="w-5 h-5 text-secondary" />
+                <User className="w-5 h-5 text-secondary" aria-hidden="true" />
               </motion.button>
 
               <motion.button

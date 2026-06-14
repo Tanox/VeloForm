@@ -107,11 +107,11 @@ export function BuildList() {
               </p>
               <Button
                 onClick={() => toggleComponentSelector()}
-                className="btn-gradient"
+                variant="gradient"
                 size="lg"
               >
                 {t('configurator.emptyState.cta')}
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-5 h-5 ml-2" aria-hidden="true" />
               </Button>
             </div>
           </motion.div>
@@ -193,7 +193,7 @@ export function BuildList() {
                         aria-label={`编辑 ${component.name}`}
                         className="w-10 h-10 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary"
                       >
-                        <Edit3 className="w-4 h-4" />
+                        <Edit3 className="w-4 h-4" aria-hidden="true" />
                       </Button>
                     </motion.div>
 
@@ -202,6 +202,7 @@ export function BuildList() {
                       animate={{ x: [0, 4, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
                       className="sm:hidden"
+                      aria-hidden="true"
                     >
                       <ArrowRight className="w-5 h-5 text-muted" />
                     </motion.div>

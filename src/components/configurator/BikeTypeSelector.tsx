@@ -6,7 +6,7 @@ import { useConfigStore } from '@/lib/stores';
 import { useTranslation } from '@/lib/i18n';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { Bike, Zap, Package, Mountain, Wind } from 'lucide-react';
+import { Bike, Zap, Mountain, Wind } from 'lucide-react';
 
 interface BikeTypeInfo {
   icon: typeof Bike;
@@ -38,7 +38,7 @@ export function BikeTypeSelector() {
       hoverGradient: 'hover:from-emerald-500/10 hover:to-teal-400/10',
     },
     Fold: {
-      icon: Package,
+      icon: Zap,
       label: '折叠车',
       description: '灵活便携，轻松收纳，城市通勤的最佳伴侣',
       gradient: 'from-purple-500 to-pink-400',
@@ -47,7 +47,7 @@ export function BikeTypeSelector() {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5" role="tablist" aria-label="选择车型">
       {types.map((type, index) => {
         const isActive = activeType === type;
         const info = bikeTypeInfo[type];
@@ -57,6 +57,9 @@ export function BikeTypeSelector() {
           <motion.button
             key={type}
             onClick={() => setActiveType(type)}
+            role="tab"
+            aria-selected={isActive}
+            aria-label={`选择${info.label}`}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
@@ -67,10 +70,10 @@ export function BikeTypeSelector() {
             whileHover={{ scale: 1.02, y: -4 }}
             whileTap={{ scale: 0.98 }}
             className={cn(
-              'relative overflow-hidden p-6 sm:p-7 rounded-2xl text-left transition-all duration-300 touch-target group',
+              'relative overflow-hidden p-6 sm:p-7 rounded-2xl text-left transition-all duration-300 touch-target group min-h-[180px] sm:min-h-[200px]',
               isActive
-                ? 'bg-gradient-to-br from-surface-secondary to-surface shadow-xl border-2 border-transparent'
-                : `bg-surface-secondary/80 backdrop-blur-sm border-2 border-border-light hover:border-border ${info.hoverGradient}`
+                ? 'bg-gradient-to-br from-surface-secondary to-surface shadow-xl border-2 border-transparent ring-2 ring-primary/30'
+                : `bg-surface-secondary/80 backdrop-blur-sm border-2 border-border-light hover:border-primary/30 ${info.hoverGradient}`
             )}
           >
             {/* 激活状态渐变背景 */}
@@ -81,6 +84,7 @@ export function BikeTypeSelector() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.1 }}
                 transition={{ duration: 0.4 }}
+                aria-hidden="true"
               />
             )}
 
@@ -90,13 +94,14 @@ export function BikeTypeSelector() {
               initial={{ scaleX: 0 }}
               animate={{ scaleX: isActive ? 1 : 0 }}
               transition={{ duration: 0.3 }}
+              aria-hidden="true"
             />
 
-            {/* 左侧装饰圆点 */}
+            {/* 左侧装饰圆点 - 激活标识 */}
             <div className={cn(
               'absolute top-4 right-4 w-2.5 h-2.5 rounded-full transition-all duration-300',
               isActive ? `bg-gradient-to-br ${info.gradient} shadow-lg scale-125` : 'bg-border'
-            )} />
+            )} aria-hidden="true" />
 
             <div className="relative z-10">
               {/* 图标 */}
@@ -112,6 +117,7 @@ export function BikeTypeSelector() {
                     ? `bg-gradient-to-br ${info.gradient} text-white shadow-lg`
                     : 'bg-surface-tertiary text-muted group-hover:text-foreground'
                 )}
+                aria-hidden="true"
               >
                 <Icon className="w-7 h-7 sm:w-8 sm:h-8" />
               </motion.div>
@@ -144,6 +150,7 @@ export function BikeTypeSelector() {
                   <motion.div
                     animate={{ x: [0, 4, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
+                    aria-hidden="true"
                   >
                     <Zap className="w-4 h-4" />
                   </motion.div>

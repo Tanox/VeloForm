@@ -193,7 +193,7 @@ export function Pricing() {
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-3" role="listitem">
                     <div className={`w-5 h-5 rounded-full ${plan.popular ? 'bg-white/20' : 'bg-accent/10'} flex items-center justify-center flex-shrink-0 mt-0.5`} aria-hidden="true">
-                      <Check className={`w-3 h-3 ${plan.popular ? 'text-white' : 'text-accent'}`} />
+                      <Check className={`w-3 h-3 ${plan.popular ? 'text-white' : 'text-accent'}`} aria-hidden="true" />
                     </div>
                     <span className={`text-sm ${plan.popular ? 'text-white/80' : 'text-secondary'}`}>
                       {feature}
@@ -203,7 +203,7 @@ export function Pricing() {
               </ul>
 
               <Button
-                className="w-full min-h-[44px]"
+                className="w-full min-h-[48px] rounded-xl"
                 variant={plan.popular ? 'secondary' : 'default'}
                 size="lg"
                 aria-label={`${plan.name}方案 - ${plan.cta}`}

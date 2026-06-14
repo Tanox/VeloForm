@@ -150,14 +150,15 @@ export function SummaryPanel() {
 
           {/* 操作按钮 */}
           <div className="space-y-3 pt-2">
-            {/* 保存按钮 */}
+            {/* 保存按钮 - 使用 gradient 变体 */}
             <motion.div
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               <Button
-                className="w-full btn-gradient min-h-[48px]"
+                variant="gradient"
                 size="lg"
+                className="w-full min-h-[48px] rounded-xl"
                 onClick={handleSave}
                 disabled={isSaving}
                 aria-label={isSaving ? "保存配置中" : "保存配置"}
@@ -179,26 +180,36 @@ export function SummaryPanel() {
 
             {/* 次要操作 */}
             <div className="grid grid-cols-2 gap-3">
-              <motion.button
+              <motion.div
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => setShowShareModal(true)}
-                className="flex items-center justify-center gap-2 px-4 py-3 min-h-[48px] rounded-xl bg-surface-tertiary/50 border border-border-light hover:border-primary/30 hover:bg-primary/5 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                aria-label="分享配置"
               >
-                <Share2 className="w-4 h-4 text-muted" aria-hidden="true" />
-                <span className="text-sm font-medium text-foreground">分享</span>
-              </motion.button>
-              <motion.button
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full min-h-[48px] rounded-xl"
+                  onClick={() => setShowShareModal(true)}
+                  aria-label="分享配置"
+                >
+                  <Share2 className="w-4 h-4 mr-2" aria-hidden="true" />
+                  分享
+                </Button>
+              </motion.div>
+              <motion.div
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={resetToDefaults}
-                className="flex items-center justify-center gap-2 px-4 py-3 min-h-[48px] rounded-xl bg-surface-tertiary/50 border border-border-light hover:border-accent/30 hover:bg-accent/5 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-                aria-label="重置为默认配置"
               >
-                <RefreshCw className="w-4 h-4 text-muted" aria-hidden="true" />
-                <span className="text-sm font-medium text-foreground">重置</span>
-              </motion.button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full min-h-[48px] rounded-xl"
+                  onClick={resetToDefaults}
+                  aria-label="重置为默认配置"
+                >
+                  <RefreshCw className="w-4 h-4 mr-2" aria-hidden="true" />
+                  重置
+                </Button>
+              </motion.div>
             </div>
           </div>
 
@@ -211,7 +222,7 @@ export function SummaryPanel() {
             >
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0" aria-hidden="true">
-                  <User className="w-5 h-5 text-amber-500" />
+                  <User className="w-5 h-5 text-amber-500" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-amber-500">
