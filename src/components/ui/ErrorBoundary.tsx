@@ -1,8 +1,8 @@
 'use client';
 
 import React, { Component, ReactNode } from 'react';
-import { Card } from './Card';
-import { Button } from './Button';
+import { Card } from './card';
+import { Button } from './button';
 
 interface Props {
   children: ReactNode;
@@ -37,20 +37,16 @@ export class ErrorBoundary extends Component<Props, State> {
       if (this.props.fallback) {
         return this.props.fallback;
       }
-      
+
       return (
         <div className="min-h-screen flex items-center justify-center p-4">
           <Card className="max-w-md w-full text-center">
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-foreground">
-                Something went wrong
-              </h2>
+              <h2 className="text-xl font-semibold text-foreground">Something went wrong</h2>
               <p className="text-muted">
                 {this.state.error?.message || 'An unexpected error occurred'}
               </p>
-              <Button onClick={this.handleReset}>
-                Try again
-              </Button>
+              <Button onClick={this.handleReset}>Try again</Button>
             </div>
           </Card>
         </div>

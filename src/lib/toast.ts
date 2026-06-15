@@ -1,42 +1,38 @@
 'use client';
 
-import { create } from 'zustand';
+import { toast as sonnerToast, Toaster } from 'sonner';
 
+// Re-export toast functions using sonner
 export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
-export interface Toast {
-  id: string;
-  type: ToastType;
-  message: string;
-  duration?: number;
-}
-
-interface ToastStore {
-  toasts: Toast[];
-  addToast: (type: ToastType, message: string, duration?: number) => void;
-  removeToast: (id: string) => void;
-}
-
-export const useToastStore = create<ToastStore>((set) => ({
-  toasts: [],
-  addToast: (type: ToastType, message: string, duration = 4000) => {
-    const id = Date.now().toString();
-    set((state) => ({
-      toasts: [...state.toasts, { id, type, message, duration }],
-    }));
-    setTimeout(() => {
-      set((state) => ({
-        toasts: state.toasts.filter((toast) => toast.id !== id),
-      }));
-    }, duration);
-  },
-  removeToast: (id: string) => {
-    set((state) => ({
-      toasts: state.toasts.filter((toast) => toast.id !== id),
-    }));
-  },
-}));
-
 export function toast(type: ToastType, message: string, duration?: number) {
-  useToastStore.getState().addToast(type, message, duration);
+  const options = {
+    duration: duration ?? 4000,
+  };
+
+  switch (type) {
+    case 'success':
+      sonnerToast.success(message, options);
+      break;
+    case 'error':
+      sonnerToast.error(message, options);
+      break;
+    case 'warning':
+      sonnerToast.warning(message, options);
+      break;
+    case 'info':
+    default:
+      sonnerToast(message, options);
+      break;
+  }
 }
+
+// Legacy exports for backwards compatibility
+export const useToastStore = {
+  getState: () => ({ toasts: [] }),
+  subscribe: () => () => {},
+};
+
+// Re-export sonner Toaster component
+export const Toast = Toaster;
+export { sonnerToast as default };

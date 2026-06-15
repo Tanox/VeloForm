@@ -4,27 +4,82 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Hero } from '@/components/sections/Hero';
 import { Features } from '@/components/sections/Features';
-import { Pricing } from '@/components/sections/Pricing';
-import { Cta } from '@/components/sections/Cta';
+import { BikeTypeSelector } from '@/components/configurator/BikeTypeSelector';
+import { BuildList } from '@/components/configurator/BuildList';
+import { SummaryPanel } from '@/components/configurator/SummaryPanel';
+import { ComponentSelector } from '@/components/configurator/ComponentSelector';
+import { RecommendedConfigs } from '@/components/configurator/RecommendedConfigs';
+import { ErrorBoundary } from '@/components/ui/error-boundary';
+import { motion } from 'framer-motion';
+import { uiLogger } from '@/lib/logger';
 
 export default function Home() {
   const handleNavigate = (page: string) => {
-    console.log('Navigate to:', page);
+    uiLogger.debug('Navigate to:', page);
   };
 
   return (
-    <div className="min-h-screen noise-bg">
-      <div className="gradient-mesh" />
+    <div className="min-h-screen bg-background">
       <Navbar onNavigate={handleNavigate} />
-      
+      <Hero onNavigate={handleNavigate} />
+
       <main>
-        <Hero onNavigate={handleNavigate} />
+        {/* Core Features */}
         <Features />
-        <Pricing />
-        <Cta />
+
+        {/* Bike Type Selector */}
+        <motion.section
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+          className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 sm:mb-20"
+        >
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-3">
+              选择你的车型
+            </h2>
+            <p className="text-muted text-lg">
+              我们为您提供公路车、山地车和折叠车三种选择
+            </p>
+          </div>
+          <BikeTypeSelector />
+        </motion.section>
+
+        {/* Main Configurator */}
+        <ErrorBoundary>
+          <motion.section
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
+              <div className="lg:col-span-2">
+                <BuildList />
+              </div>
+              <div className="lg:col-span-1">
+                <SummaryPanel />
+              </div>
+            </div>
+          </motion.section>
+        </ErrorBoundary>
+
+        {/* Recommended Configurations */}
+        <motion.section
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 border-t border-border-light"
+        >
+          <RecommendedConfigs />
+        </motion.section>
       </main>
-      
+
       <Footer />
+      <ComponentSelector />
     </div>
   );
 }

@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from './Button';
-import { Modal } from './Modal';
+import { Button } from './button';
+import { Dialog, DialogContent } from './dialog';
 import { useTranslation } from '@/lib/i18n';
 import { Bike, Wrench, Save, BarChart3, ChevronRight, X, Sparkles } from 'lucide-react';
 
@@ -79,29 +79,24 @@ export function OnboardingGuide() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <Modal
-          isOpen={isOpen}
-          onClose={handleSkip}
-          title=""
-          className="max-w-md sm:max-w-lg p-0 overflow-hidden"
-        >
-          <motion.div
-            key={currentStep}
-            initial={{ opacity: 0, x: 40, scale: 0.95 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: -40, scale: 0.95 }}
-            transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-            className="relative p-6 sm:p-8"
-          >
-            {/* 跳过按钮 */}
-            <motion.button
-              onClick={handleSkip}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="absolute top-4 right-4 p-2 rounded-lg text-muted hover:text-foreground hover:bg-zinc-800/50 transition-all touch-target"
+        <Dialog open={isOpen} onOpenChange={handleSkip}>
+          <DialogContent className="max-w-md sm:max-w-lg p-0 overflow-hidden">
+            <motion.div
+              key={currentStep}
+              initial={{ opacity: 0, x: 40, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: -40, scale: 0.95 }}
+              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              className="relative p-6 sm:p-8"
             >
-              <X className="w-5 h-5" />
-            </motion.button>
+              <motion.button
+                onClick={handleSkip}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="absolute top-4 right-4 p-2 rounded-lg text-muted hover:text-foreground hover:bg-zinc-800/50 transition-all touch-target"
+              >
+                <X className="w-5 h-5" />
+              </motion.button>
 
             {/* 进度指示器 */}
             <div className="flex justify-center mb-6 sm:mb-8">
@@ -228,7 +223,8 @@ export function OnboardingGuide() {
               </motion.button>
             )}
           </motion.div>
-        </Modal>
+            </DialogContent>
+          </Dialog>
       )}
     </AnimatePresence>
   );

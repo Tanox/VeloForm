@@ -19,6 +19,15 @@ export const translations = {
     currentBuild: 'Current Build',
     totalCost: 'Total Cost',
     estimatedWeight: 'Est. Weight',
+    emptyState: {
+      title: 'No components selected yet',
+      description:
+        'Start building your dream ride by selecting components. Each component shows real-time price and weight.',
+      cta: 'Select Your First Component',
+    },
+    loginToSave: 'Log in to save configurations',
+    loginToSaveHint:
+      'Saved configurations are automatically synced to the cloud so you can continue editing on any device. Without logging in, configurations are only stored locally in your browser.',
   },
   bikeTypes: {
     road: 'Road',
@@ -105,11 +114,14 @@ export const translations = {
     thankYou: 'Thank you for reaching out. We will get back to you shortly.',
     faq: 'Frequently Asked Questions',
     faq1: 'How do I save my configuration?',
-    faq1Answer: 'Click the "Save Build" button in the summary panel. Your configuration will be saved to your library for future access.',
+    faq1Answer:
+      'Click the "Save Build" button in the summary panel. Your configuration will be saved to your library for future access.',
     faq2: 'Can I share my configuration?',
-    faq2Answer: 'Yes! Click the "Share Configuration" button to generate a shareable link or export your configuration as JSON.',
+    faq2Answer:
+      'Yes! Click the "Share Configuration" button to generate a shareable link or export your configuration as JSON.',
     faq3: 'How do I compare configurations?',
-    faq3Answer: 'Go to your library page, select configurations using the compare button, and a comparison panel will appear at the bottom of the screen.',
+    faq3Answer:
+      'Go to your library page, select configurations using the compare button, and a comparison panel will appear at the bottom of the screen.',
   },
   common: {
     cancel: 'Cancel',

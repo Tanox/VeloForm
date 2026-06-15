@@ -1,99 +1,165 @@
 'use client';
 
 import { BikeType } from '@/types';
-import { useConfigStore } from '@/lib/store';
+import { useActiveType } from '@/lib/stores';
+import { useConfigStore } from '@/lib/stores';
 import { useTranslation } from '@/lib/i18n';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { Bike, Zap, Mountain, Wind } from 'lucide-react';
+
+interface BikeTypeInfo {
+  icon: typeof Bike;
+  label: string;
+  description: string;
+  gradient: string;
+  hoverGradient: string;
+}
 
 export function BikeTypeSelector() {
   const t = useTranslation();
-  const activeType = useConfigStore((state) => state.activeType);
+  const activeType = useActiveType();
   const setActiveType = useConfigStore((state) => state.setActiveType);
   const types: BikeType[] = ['Road', 'MTB', 'Fold'];
 
-  const getTypeLabel = (type: BikeType) => {
-    const key = `bikeTypes.${type.toLowerCase()}`;
-    const translated = t(key);
-    return translated === key ? type : translated;
-  };
-
-  const getTypeIcon = (type: BikeType) => {
-    if (type === 'Road') {
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="5.5" cy="17.5" r="3.5"/>
-          <circle cx="18.5" cy="17.5" r="3.5"/>
-          <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/>
-        </svg>
-      );
-    } else if (type === 'MTB') {
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="5.5" cy="17.5" r="3.5"/>
-          <circle cx="18.5" cy="17.5" r="3.5"/>
-          <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/>
-          <path d="m14.5 10-2.5 2.5"/>
-        </svg>
-      );
-    } else {
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="5.5" cy="17.5" r="2.5"/>
-          <circle cx="18.5" cy="17.5" r="2.5"/>
-          <path d="M12 15V7a4 4 0 0 0-4-4H6a6 6 0 0 1 12 0h-2a4 4 0 0 0-4 4v8"/>
-        </svg>
-      );
+  const bikeTypeInfo: Record<BikeType, BikeTypeInfo> = {
+    Road: {
+      icon: Wind,
+      label: '公路车',
+      description: '速度与激情，专为竞速打造，轻量化设计让你风驰电掣',
+      gradient: 'from-blue-500 to-cyan-400',
+      hoverGradient: 'hover:from-blue-500/10 hover:to-cyan-400/10',
+    },
+    MTB: {
+      icon: Mountain,
+      label: '山地车',
+      description: '征服山野，强悍的悬挂系统应对各种复杂地形',
+      gradient: 'from-emerald-500 to-teal-400',
+      hoverGradient: 'hover:from-emerald-500/10 hover:to-teal-400/10',
+    },
+    Fold: {
+      icon: Zap,
+      label: '折叠车',
+      description: '灵活便携，轻松收纳，城市通勤的最佳伴侣',
+      gradient: 'from-purple-500 to-pink-400',
+      hoverGradient: 'hover:from-purple-500/10 hover:to-pink-400/10',
     }
   };
 
   return (
-    <div className="flex gap-1 p-1 bg-secondary rounded-xl flex-1">
-      <AnimatePresence mode="wait">
-        {types.map((type, index) => {
-          const isActive = activeType === type;
-          return (
-            <motion.button
-              key={type}
-              onClick={() => setActiveType(type)}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.3, 
-                delay: index * 0.05,
-                ease: [0.4, 0, 0.2, 1]
-              }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className={cn(
-                'flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 touch-target',
-                isActive
-                  ? 'bg-background text-foreground shadow-lg shadow-primary/10'
-                  : 'text-muted hover:text-foreground hover:bg-background/50'
-              )}
-            >
-              <motion.span
-                initial={false}
-                animate={{ 
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5" role="tablist" aria-label="选择车型">
+      {types.map((type, index) => {
+        const isActive = activeType === type;
+        const info = bikeTypeInfo[type];
+        const Icon = info.icon;
+
+        return (
+          <motion.button
+            key={type}
+            onClick={() => setActiveType(type)}
+            role="tab"
+            aria-selected={isActive}
+            aria-label={`选择${info.label}`}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.6,
+              delay: index * 0.1,
+              ease: [0.4, 0, 0.2, 1]
+            }}
+            whileHover={{ scale: 1.02, y: -4 }}
+            whileTap={{ scale: 0.98 }}
+            className={cn(
+              'relative overflow-hidden p-6 sm:p-7 rounded-2xl text-left transition-all duration-300 touch-target group min-h-[180px] sm:min-h-[200px]',
+              isActive
+                ? 'bg-gradient-to-br from-surface-secondary to-surface shadow-xl border-2 border-transparent ring-2 ring-primary/30'
+                : `bg-surface-secondary/80 backdrop-blur-sm border-2 border-border-light hover:border-primary/30 ${info.hoverGradient}`
+            )}
+          >
+            {/* 激活状态渐变背景 */}
+            {isActive && (
+              <motion.div
+                layoutId="bike-type-gradient"
+                className={cn('absolute inset-0 bg-gradient-to-br', info.gradient, 'opacity-10')}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.1 }}
+                transition={{ duration: 0.4 }}
+                aria-hidden="true"
+              />
+            )}
+
+            {/* 顶部装饰线 */}
+            <motion.div
+              className={cn('absolute top-0 left-0 right-0 h-1 bg-gradient-to-r', info.gradient)}
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: isActive ? 1 : 0 }}
+              transition={{ duration: 0.3 }}
+              aria-hidden="true"
+            />
+
+            {/* 左侧装饰圆点 - 激活标识 */}
+            <div className={cn(
+              'absolute top-4 right-4 w-2.5 h-2.5 rounded-full transition-all duration-300',
+              isActive ? `bg-gradient-to-br ${info.gradient} shadow-lg scale-125` : 'bg-border'
+            )} aria-hidden="true" />
+
+            <div className="relative z-10">
+              {/* 图标 */}
+              <motion.div
+                animate={{
                   scale: isActive ? 1.1 : 1,
-                  rotate: isActive ? 5 : 0 
+                  rotate: isActive ? 5 : 0
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className={cn(
+                  'w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300',
+                  isActive
+                    ? `bg-gradient-to-br ${info.gradient} text-white shadow-lg`
+                    : 'bg-surface-tertiary text-muted group-hover:text-foreground'
+                )}
+                aria-hidden="true"
               >
-                {getTypeIcon(type)}
-              </motion.span>
-              <span>{getTypeLabel(type)}</span>
+                <Icon className="w-7 h-7 sm:w-8 sm:h-8" />
+              </motion.div>
+
+              {/* 标题 */}
+              <h3 className={cn(
+                'text-xl sm:text-2xl font-display font-bold mb-2 transition-colors',
+                isActive ? 'text-foreground' : 'text-secondary group-hover:text-foreground'
+              )}>
+                {info.label}
+              </h3>
+
+              {/* 描述 */}
+              <p className={cn(
+                'text-sm leading-relaxed transition-colors',
+                isActive ? 'text-secondary' : 'text-muted group-hover:text-secondary'
+              )}>
+                {info.description}
+              </p>
+
+              {/* 激活状态底部装饰 */}
               {isActive && (
                 <motion.div
-                  layoutId="activeIndicator"
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-primary to-accent rounded-full"
-                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                />
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className={cn('mt-4 flex items-center gap-2 text-sm font-medium bg-gradient-to-r', info.gradient, 'bg-clip-text text-transparent')}
+                >
+                  <span>已选择</span>
+                  <motion.div
+                    animate={{ x: [0, 4, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                    aria-hidden="true"
+                  >
+                    <Zap className="w-4 h-4" />
+                  </motion.div>
+                </motion.div>
               )}
-            </motion.button>
-          );
-        })}
-      </AnimatePresence>
+            </div>
+          </motion.button>
+        );
+      })}
     </div>
   );
 }

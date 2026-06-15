@@ -1,258 +1,455 @@
-@import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&family=SF+Pro+Text:wght@400;500;600&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ================================
+ * Apple-Style Design System v2.0.0
+ * 全局样式与 CSS 变量
+ * ================================ */
+
+/* 字体加载策略 - 优化 LCP */
 @layer base {
+  /* -- 字体定义 -- */
+  @font-face {
+    font-family: 'Satoshi';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url('/fonts/Satoshi-Variable.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Satoshi';
+    font-style: italic;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url('/fonts/Satoshi-VariableItalic.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Clash Display';
+    font-style: normal;
+    font-weight: 200 700;
+    font-display: swap;
+    src: url('/fonts/ClashDisplay-Variable.woff2') format('woff2');
+  }
+
+  /* -- 根变量与主题 -- */
   :root {
-    --background: #ffffff;
-    --foreground: #1d1d1f;
-    --surface: #fafafa;
-    --surface-tertiary: #f5f5f7;
-    --border: #d2d2d7;
-    --border-light: rgba(0, 0, 0, 0.06);
-    --muted: #6e6e73;
-    --secondary: #86868b;
-    --primary: #0071e3;
-    --primary-hover: #0077ed;
-    --accent: #34c759;
+    /* 设计系统核心色彩 - 基于 Apple HIG */
+    --background: #FFFFFF;
+    --foreground: #1D1D1F;
+
+    /* 主色调 - Apple Blue */
+    --primary: #0071E3;
+    --primary-hover: #0077ED;
+    --primary-light: #E5F1FE;
+    --primary-foreground: #FFFFFF;
+
+    /* 强调色 - Apple Green */
+    --accent: #34C759;
+    --accent-hover: #2EB650;
+    --accent-light: #E7F7EC;
+    --accent-foreground: #FFFFFF;
+
+    /* 文本层级 */
+    --secondary: #6E6E73;
+    --muted: #8E8E93;
+    --tertiary: #A1A1A6;
+
+    /* 表面色 */
+    --surface: #F5F5F7;
+    --surface-secondary: #FFFFFF;
+    --surface-tertiary: #E5E5EA;
+
+    /* 边框和分隔线 */
+    --border: #D2D2D7;
+    --border-light: #E8E8ED;
+    --border-lighter: #F2F2F7;
+
+    /* 阴影 - Apple 风格 */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.08);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.12);
+    --shadow-glow: 0 8px 32px rgba(0, 113, 227, 0.24);
+
+    /* 圆角 */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+
+    /* 字体设置 */
+    --font-sans: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    --font-display: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+    /* 动画时长 */
+    --duration-fast: 150ms;
+    --duration-normal: 300ms;
+    --duration-slow: 500ms;
+
+    /* 动效曲线 */
+    --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-emphasized: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* 间距 */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+    --spacing-3xl: 64px;
   }
 
-  .dark {
-    --background: #000000;
-    --foreground: #ffffff;
-    --surface: #1d1d1f;
-    --surface-tertiary: #272729;
-    --border: #3a3a3c;
-    --border-light: rgba(255, 255, 255, 0.06);
-    --muted: #6e6e73;
-    --secondary: #86868b;
-    --primary: #0071e3;
-    --primary-hover: #0077ed;
-    --accent: #30d158;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-  
+  /* -- 基础元素样式 -- */
   html {
+    font-family: var(--font-sans);
+    font-size: 16px;
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
-  
+
   body {
-    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background-color: var(--background);
     color: var(--foreground);
-    min-height: 100vh;
-    line-height: 1.47;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
+  /* 选择文本颜色 */
   ::selection {
-    background-color: rgba(0, 113, 227, 0.3);
-    color: var(--foreground);
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  /* 滚动条样式 - Firefox */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-light) transparent;
+  }
+
+  /* 滚动条样式 - Webkit */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border-light);
+    border-radius: 4px;
+    transition: background-color var(--duration-fast) var(--ease-standard);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--border);
+  }
+
+  /* 聚焦轮廓 */
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 6px;
   }
 }
 
+/* ================================
+ * 组件层 - 工具类
+ * ================================ */
 @layer components {
-  .glass-card {
-    @apply bg-surface/80 backdrop-blur-xl border border-border-light;
+  /* -- 核心工具类 -- */
+  /* 渐变品牌文字 - 关键样式 */
+  .text-gradient-brand {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 50%, #AF52DE 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
   }
-  
-  .btn-glow {
-    @apply relative overflow-hidden;
+
+  /* 渐变文字 - 悬停态 */
+  .group-hover\:text-gradient {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
   }
-  
-  .btn-glow::before {
-    content: '';
-    @apply absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-500;
+
+  /* 渐变背景按钮 */
+  .btn-gradient {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    color: var(--primary-foreground);
+    box-shadow: var(--shadow-glow);
+    transition: transform var(--duration-normal) var(--ease-standard),
+      box-shadow var(--duration-normal) var(--ease-standard),
+      opacity var(--duration-fast) var(--ease-standard);
   }
-  
-  .btn-glow:hover::before {
-    @apply translate-x-full;
+
+  .btn-gradient:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0, 113, 227, 0.32);
   }
-  
-  .card {
-    @apply bg-surface rounded-xl transition-all duration-200;
+
+  .btn-gradient:active:not(:disabled) {
+    transform: translateY(0);
   }
-  
-  .card-hover {
-    @apply hover:-translate-y-1 hover:bg-surface-tertiary;
+
+  .btn-gradient:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
   }
-  
-  .component-item {
-    @apply flex items-center gap-4 p-4 bg-background rounded-xl cursor-pointer transition-all duration-200 hover:bg-surface-tertiary;
+
+  /* 玻璃态效果 */
+  .glass {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
   }
-  
-  .tag {
-    @apply px-3 py-1 rounded-full text-xs font-medium;
+
+  /* 触摸目标尺寸 - A11y */
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
   }
-  
-  .tag-primary {
-    @apply bg-primary/10 text-primary;
+
+  /* -- 布局工具类 -- */
+  .container-apple {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
-  
-  .tag-secondary {
-    @apply bg-accent/10 text-accent;
+
+  @media (min-width: 768px) {
+    .container-apple {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* -- 动画工具类 -- */
+  .animate-in {
+    animation: animateIn var(--duration-normal) var(--ease-standard);
+  }
+
+  .fade-in {
+    animation: fadeIn var(--duration-normal) var(--ease-standard);
+  }
+
+  .slide-up {
+    animation: slideUp var(--duration-slow) var(--ease-standard);
+  }
+
+  /* -- 视觉工具类 -- */
+  /* 图片加载错误 */
+  img[data-error="true"] {
+    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23f5f5f7" width="100" height="100"/><circle cx="50" cy="40" r="20" fill="%23e5e5ea"/><rect x="30" y="70" width="40" height="20" rx="4" fill="%23e5e5ea"/></svg>');
   }
 }
 
-@layer utilities {
-  .gradient-mesh {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
+/* ================================
+ * 动画定义
+ * ================================ */
+
+@keyframes animateIn {
+  from {
     opacity: 0;
-    pointer-events: none;
+    transform: translateY(8px);
   }
-  
-  .noise-bg {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .noise-bg::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: -1;
-  }
-  
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-foreground to-accent;
-  }
-  
-  .shadow-glow {
-    @apply shadow-lg shadow-primary/20;
-  }
-  
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-  
-  .animate-pulse-slow {
-    animation: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-  
-  @keyframes pulse-slow {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-  }
-  
-  .animate-fade-in-up {
-    animation: fadeInUp 0.8s ease-out both;
-  }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .animate-slide-in-right {
-    animation: slideInRight 0.6s ease-out both;
-  }
-  
-  @keyframes slideInRight {
-    from {
-      opacity: 0;
-      transform: translateX(40px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  
-  .animate-scale-in {
-    animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
-  }
-  
-  @keyframes scaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  
-  .animate-bounce-in {
-    animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
-  }
-  
-  @keyframes bounceIn {
-    from {
-      opacity: 0;
-      transform: scale(0.3);
-    }
-    50% {
-      transform: scale(1.05);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  
-  .hover-lift {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .hover-lift:hover {
-    transform: translateY(-4px);
-  }
-  
-  .hover-glow {
-    transition: all 0.3s ease;
-  }
-  
-  .hover-glow:hover {
-    box-shadow: 0 0 30px rgba(0, 113, 227, 0.2);
-  }
-  
-  .tap-scale {
-    transition: transform 0.15s ease;
-  }
-  
-  .tap-scale:active {
-    transform: scale(0.96);
-  }
-  
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  
-  .touch-target {
-    min-height: 44px;
-    min-width: 44px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 浮动动画 - 装饰元素 */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* 光晕脉冲 */
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* 渐变位移 */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 粒子动画 */
+@keyframes particle-float {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-30px) translateX(15px);
+  }
+}
+
+/* 旋转动画 */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ================================
+ * Tailwind 扩展样式支持
+ * ================================ */
+
+/* 动画类 - 可在 Tailwind 中使用 */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.animate-gradient-shift {
+  animation: gradientShift 8s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-particle-float {
+  animation: particle-float 8s ease-in-out infinite;
+}
+
+/* 延迟变量 */
+.animation-delay-100 { animation-delay: 0.1s; }
+.animation-delay-200 { animation-delay: 0.2s; }
+.animation-delay-300 { animation-delay: 0.3s; }
+.animation-delay-500 { animation-delay: 0.5s; }
+.animation-delay-1000 { animation-delay: 1s; }
+
+/* ================================
+ * 打印样式
+ * ================================ */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background-color: white;
+    color: black;
+  }
+}
+
+/* ================================
+ * Reduced Motion - 无障碍支持
+ * ================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ================================
+ * 深色模式支持（可选）
+ * ================================ */
+@media (prefers-color-scheme: dark) {
+  /* 深色模式变量 */
+  /* -- 项目当前使用浅色主题 -- */
+  /* 如需深色模式，在此定义变量覆盖 */
+}
+
+/* ================================
+ * 实验性样式（beta）
+ * ================================ */
+
+/* 渐变边框 - 使用 background-clip 技巧 */
+.gradient-border {
+  position: relative;
+  background: linear-gradient(var(--background), var(--background)) padding-box,
+    linear-gradient(135deg, var(--primary), var(--accent)) border-box;
+  border: 2px solid transparent;
+}
+
+/* 文字阴影 - 用于浅色背景上的文字 */
+.text-shadow-sm {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 背景渐变 */
+.bg-gradient-apple {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+}
+
+/* 背景尺寸调整 - 配合渐变动画 */
+.bg-size-200 {
+  background-size: 200% 200%;
+}
+
+/* ================================
+ * 文件结束标记
+ * ================================ */

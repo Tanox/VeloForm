@@ -1,26 +1,20 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
-import { Toaster } from '@/components/ui/Toast';
+import { Toaster } from 'sonner';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { SyncProvider } from '@/components/SyncProvider';
+import { ClientErrorBoundary } from '@/components/ClientErrorBoundary';
+import { logger } from '@/lib/logger';
+import { cn } from "@/lib/utils";
+
 
 // Validate environment variables in development mode
 if (process.env.NODE_ENV === 'development') {
   import('@/lib/env').catch((error) => {
-    console.warn('Environment validation warning:', error);
+    logger.warn('Environment validation warning:', error);
   });
 }
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-});
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-space-grotesk',
-});
 
 export const metadata: Metadata = {
   title: 'Veloform Configurator — Build Your Dream Bike',
@@ -42,7 +36,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#0a0a0a',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#000000' },
+  ],
 };
 
 export default function RootLayout({
@@ -51,13 +48,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
-      <body className="min-h-screen bg-background gradient-mesh noise-bg font-sans antialiased">
+    <html lang="en" suppressHydrationWarning className="font-sans">
+      <body className="min-h-screen bg-background font-sans antialiased">
         <Providers>
-          <SyncProvider>
-            {children}
-          </SyncProvider>
-          <Toaster />
+          <TooltipProvider>
+            <ClientErrorBoundary>
+              <SyncProvider>
+                {children}
+              </SyncProvider>
+            </ClientErrorBoundary>
+          </TooltipProvider>
+          <Toaster richColors position="top-right" />
         </Providers>
       </body>
     </html>

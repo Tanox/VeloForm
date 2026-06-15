@@ -2,6 +2,7 @@
 
 import { initializeApp, getApp, getApps, FirebaseApp } from 'firebase/app';
 import { getFirestore, Firestore } from 'firebase/firestore';
+import { firebaseLogger } from './logger';
 
 const firebaseConfig = {
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
@@ -24,7 +25,7 @@ if (typeof window !== 'undefined' && hasRequiredConfig()) {
     app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
     db = getFirestore(app);
   } catch (error) {
-    console.error('Firebase initialization error:', error);
+    firebaseLogger.error('Firebase initialization error:', error);
     app = null;
     db = null;
   }

@@ -1,9 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { useConfigStore } from '@/lib/store';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { useConfigStore } from '@/lib/stores';
 import { formatCurrency, formatWeight } from '@/lib/utils';
 import { useTranslation } from '@/lib/i18n';
 import { recommendedConfigurations } from '@/lib/recommended-configs';
@@ -31,7 +31,7 @@ const tagColors: Record<string, string> = {
 
 export function RecommendedConfigs() {
   const t = useTranslation();
-  const loadConfiguration = useConfigStore((state) => state.loadConfiguration);
+  const loadConfiguration = useConfigStore((s) => s.loadConfiguration);
 
   return (
     <motion.div

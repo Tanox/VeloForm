@@ -1,7 +1,7 @@
 'use client';
 
 import { ThemeProvider } from 'next-themes';
-import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
+import { ErrorBoundary } from '@/components/ui/error-boundary';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
