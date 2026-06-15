@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.8.0]
+### Added
+- Integrated shadcn/ui component library (v4.11.0) with gradient button variant
+- Added complete Apple-style design system in globals.css with CSS variables
+- Added text-gradient-brand utility class for brand gradient text
+- Added touch-target utility class (44x44px minimum) for accessibility
+- Added animation utilities: float, glow-pulse, gradient-shift, fadeIn, slideUp
+- Added reduced-motion media query support for accessibility
+- Added prototype design specification documents:
+  - design-system-spec.md - Complete design token system
+  - component-library.md - Component classification and usage rules
+  - interaction-standards.md - Interaction patterns and feedback standards
+
+### Changed
+- Refactored button.tsx to use shadcn/ui with gradient variant support
+- Updated tailwind.config.ts with complete CSS variable color system
+- Updated globals.css with Apple HIG color palette and design tokens
+- Updated BikeTypeSelector.tsx with enhanced interaction states and animations
+- Updated BuildList.tsx and SummaryPanel.tsx to use shadcn Button components
+- Updated Hero.tsx, Cta.tsx, Navbar.tsx to use consistent Button styling
+- Updated Features.tsx and Pricing.tsx with proper aria-hidden attributes
+- Updated i18n translations (zh-CN.ts, en.ts) with missing emptyState keys
+- Updated README.md with shadcn/ui in tech stack and updated directory structure
+- Updated package.json version to 3.8.0
+
+### Fixed
+- Fixed decorative elements missing aria-hidden attributes
+- Fixed button touch targets to meet WCAG 2.1 44x44px minimum requirement
+- Fixed aria-pressed attribute on role="tab" elements (removed unsupported attribute)
+- Fixed missing i18n translation keys for configurator empty state
+- Fixed inconsistent button styling across components
+
 ## [3.5.0]
 ### Added
 - Added Footer component with version number display
