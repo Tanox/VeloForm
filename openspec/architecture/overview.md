@@ -1,4 +1,4 @@
-# Veloform 架构概览 (v3.4.1)
+# Veloform 架构概览 (v3.7.0)
 
 ## 项目概述
 
@@ -18,12 +18,12 @@ Veloform 是一个本地化（EN/ZH）、高性能的自行车配置器，专为
 | **语言** | TypeScript | ~5.3.0 |
 | **样式** | Tailwind CSS (Mobile-first) | ^3.4.0 |
 | **状态管理** | Zustand | ^4.5.0 |
-| **后端/数据库** | Firebase (Firestore) | ^10.0.0 |
+| **后端/数据库** | Firebase (Firestore) | ^11.0.0 |
 | **动画** | Framer Motion | ^10.16.4 |
 | **代码检查** | ESLint + Prettier | ^9.39.1 / ^3.16.0 |
 | **测试** | Vitest | ^4.0.0 |
 | **部署** | Vercel | — |
-| **国际化** | Custom I18n hook | — |
+| **国际化** | Custom I18n hook（不依赖 next-intl） | — |
 
 ---
 
@@ -58,20 +58,23 @@ export default async function ConfiguratorPage() {
 ```
 app.tsx (root)
   ├── Zustand Store: useConfigStore
-  │     ├── state: activeType, components, isSaving, configId, showLibrary, myConfigs
-  │     ├── actions: setActiveType, addComponent, removeComponent, saveConfig, loadConfig
-  │     └── computed: configName, totalCost, baseWeight, totalWeight (via selectors)
+  │     ├── state: activeType, components, configId, manualConfigName, myConfigs, isSaving,
+  │     │          showComponentSelector, editingComponentId, userId, comparingConfigIds
+  │     ├── actions: setActiveType, replaceComponent, setComponents, loadConfiguration,
+  │     │           saveConfiguration, deleteConfiguration, toggleComponentSelector,
+  │     │           generateShareableLink, exportConfiguration, toggleCompare, clearCompare
+  │     └── computed: getTotalCost, getTotalWeight (via getters / selectors)
   │
   ├── Navbar (Client Component)
   │     ├── hooks: useTheme, useLanguage
-  │     └── handlers: openLibrary, toggleTheme
+  │     └── handlers: toggleTheme, setLanguage
   │
   ├── BuildList (Client Component)
   │     ├── props: components, isSaving
-  │     └── events: onSync, onEdit
+  │     └── events: onEdit, onRemove
   │
   └── SummaryPanel (Client Component)
-        ├── props: name, type, weight, cost
+        ├── props: totalCost, totalWeight, activeType
         └── Framer Motion animations (panel transitions)
 ```
 
@@ -109,7 +112,7 @@ const FirebaseAuth = dynamic(
 - 使用 `use client` 指令明确标识客户端组件
 - 服务端组件用于数据获取和布局，减少客户端 JavaScript
 - 使用 Zustand hooks (`useStore`) 进行状态管理，避免 prop drilling
-- 组件文件名使用 `kebab-case`，导出组件使用 `PascalCase`
+- 组件文件名使用 `PascalCase`（如 `BuildList.tsx`），组件导出名同样使用 `PascalCase`
 - 自定义 hooks 封装可复用逻辑 (`useBikeConfig`, `useAuth`, `useI18n`)
 
 ---
@@ -120,29 +123,37 @@ const FirebaseAuth = dynamic(
 src/
 ├── app/                           # Next.js App Router
 │   ├── page.tsx                  # 首页/配置器
-│   ├── library/
-│   │   └── page.tsx             # 配置库页面
-│   ├── layout.tsx               # Root Layout
-│   ├── providers.tsx             # 全局提供者
-│   ├── globals.css              # 全局样式
-│   └── middleware.ts            # 中间件
+│   ├── layout.tsx                # Root Layout
+│   ├── globals.css               # 全局样式
+│   └── middleware.ts             # 中间件
 │
-├── components/                   # React 组件
-│   ├── configurator/            # 配置器组件
+├── components/                    # React 组件
+│   ├── SyncProvider.tsx          # 顶层同步提供者（Firebase）
+│   │
+│   ├── configurator/             # 配置器业务组件
 │   │   ├── BikeTypeSelector.tsx
 │   │   ├── BuildList.tsx
+│   │   ├── BuildList.test.tsx
 │   │   ├── ComponentSelector.tsx
 │   │   ├── ComponentDetailModal.tsx
 │   │   ├── SummaryPanel.tsx
+│   │   ├── SummaryPanel.test.tsx
 │   │   ├── CostBreakdownChart.tsx
 │   │   ├── RecommendedConfigs.tsx
 │   │   ├── ComparePanel.tsx
 │   │   └── ShareModal.tsx
 │   │
-│   ├── layout/                  # 布局组件
-│   │   └── Navbar.tsx
+│   ├── layout/                   # 布局组件
+│   │   ├── Navbar.tsx
+│   │   └── Footer.tsx
 │   │
-│   └── ui/                      # 基础 UI 组件
+│   ├── sections/                 # 营销/落地页分区组件
+│   │   ├── Hero.tsx
+│   │   ├── Features.tsx
+│   │   ├── Pricing.tsx
+│   │   └── Cta.tsx
+│   │
+│   └── ui/                       # 基础/复用 UI 组件
 │       ├── Button.tsx
 │       ├── Card.tsx
 │       ├── Modal.tsx
@@ -152,27 +163,25 @@ src/
 │       ├── OnboardingGuide.tsx
 │       └── SupportModal.tsx
 │
-├── lib/                          # 工具库
-│   ├── i18n/                   # 国际化
+├── lib/                           # 工具库
+│   ├── i18n/                    # 国际化（自定义 hook，不依赖 next-intl）
 │   │   ├── index.ts
 │   │   ├── en.ts
 │   │   └── zh-CN.ts
 │   │
-│   ├── store.ts                # Zustand 状态管理
-│   ├── constants.ts            # 应用常量
-│   ├── mock-data.ts            # 模拟数据
-│   ├── recommended-configs.ts  # 推荐配置
-│   ├── utils.ts                # 工具函数
-│   ├── toast.ts                # Toast 通知
-│   ├── firebase.ts             # Firebase 配置
-│   └── firebase-service.ts     # Firebase 服务
+│   ├── store.ts                 # Zustand 状态管理
+│   ├── constants.ts             # 应用常量
+│   ├── recommended-configs.ts   # 推荐配置
+│   ├── utils.ts                 # 工具函数
+│   ├── toast.ts                 # Toast 通知
+│   ├── firebase.ts              # Firebase 初始化配置
+│   └── firebase-service.ts      # Firebase 服务封装
 │
-├── types/                        # TypeScript 类型定义
+├── types/                         # TypeScript 类型定义
 │   └── index.ts
 │
-└── public/                      # 静态资源
-    ├── _headers                # Vercel 头部配置
-    └── _redirects              # Vercel 重定向配置
+└── public/                        # 静态资源
+    └── _headers                   # Vercel 头部配置
 ```
 
 ---
@@ -246,5 +255,5 @@ src/
 
 ---
 
-**最后更新**: 2026-05-26
-**版本**: v3.4.1
+**最后更新**: 2026-06-09
+**版本**: v3.7.0

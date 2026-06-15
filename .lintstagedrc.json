@@ -1,3 +1,6 @@
+# lint-staged 配置
+# 在 git commit 前自动运行 lint 和格式化
+
 {
   "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
   "*.{json,md,css}": ["prettier --write"]

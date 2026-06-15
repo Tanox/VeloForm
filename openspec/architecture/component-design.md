@@ -1,8 +1,8 @@
 # 组件设计规范
 
 > **路径**: `/openspec/architecture/component-design.md`  
-> **版本**: v3.5.1  
-> **更新日期**: 2026-06-01
+> **版本**: v3.7.0  
+> **更新日期**: 2026-06-09
 
 ## 概述
 
@@ -94,14 +94,23 @@ export default function Home() {
 
 ```
 components/
-├── layout/           # 布局组件
-│   └── Navbar.tsx
-├── configurator/     # 配置器相关组件
+├── SyncProvider.tsx   # 顶层 Firebase 同步提供者
+├── layout/            # 布局组件
+│   ├── Navbar.tsx
+│   └── Footer.tsx
+├── configurator/      # 配置器相关组件
 │   ├── BuildList.tsx
-│   └── BikeTypeSelector.tsx
-└── ui/               # 通用 UI 组件
+│   ├── BikeTypeSelector.tsx
+│   └── ...
+├── sections/          # 营销/落地页分区组件
+│   ├── Hero.tsx
+│   ├── Features.tsx
+│   ├── Pricing.tsx
+│   └── Cta.tsx
+└── ui/                # 通用 UI 组件
     ├── Button.tsx
-    └── Card.tsx
+    ├── Card.tsx
+    └── ...
 ```
 
 ---
@@ -512,5 +521,5 @@ export function FadeInCard({ children }) {
 ---
 
 **文档路径**: `/openspec/architecture/component-design.md`  
-**最后更新**: 2026-06-01  
-**版本**: v3.5.1
+**最后更新**: 2026-06-09  
+**版本**: v3.7.0
