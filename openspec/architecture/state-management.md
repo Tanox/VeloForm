@@ -1,9 +1,9 @@
 # Veloform State Management Specification
 
 **文件路径**: `/workspace/openspec/architecture/state-management.md`
-**版本**: v3.4.1
-**日期**: 2026-05-26
-**更新**: Zustand 状态管理规范
+**版本**: v3.7.0
+**日期**: 2026-06-09
+**更新**: Zustand 状态管理规范（使用 persist 中间件实现本地存储持久化）
 
 ## 1. 概述
 
