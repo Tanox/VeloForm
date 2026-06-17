@@ -16,6 +16,28 @@
         <view class="overview-label">总价值</view>
       </view>
     </view>
+
+    <!-- 车型筛选器 -->
+    <view class="filter-section">
+      <view class="filter-tabs">
+        <view
+          class="filter-tab {{selectedFilter === 'all' ? 'active' : ''}}"
+          bindtap="onFilterChange"
+          data-filter="all"
+        >
+          <text>全部</text>
+        </view>
+        <block wx:for="{{bikeTypes}}" wx:key="type">
+          <view
+            class="filter-tab {{selectedFilter === item.type ? 'active' : ''}}"
+            bindtap="onFilterChange"
+            data-filter="{{item.type}}"
+          >
+            <text>{{item.icon}} {{item.name}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
   </view>
 
   <!-- 空状态 -->
@@ -30,7 +52,7 @@
 
   <!-- 配置列表 -->
   <view class="config-list" wx:if="{{!isEmpty}}">
-    <block wx:for="{{configurations}}" wx:key="id">
+    <block wx:for="{{filteredConfigurations}}" wx:key="id">
       <view
         class="config-card"
         hover-class="config-card-hover"
@@ -129,4 +151,7 @@
     <text class="footer-brand text-gradient-brand font-bold">{{appInfo.name}}</text>
     <text class="footer-version">Version {{appInfo.version}}</text>
   </view>
+
+  <!-- 自定义 TabBar -->
+  <tabbar />
 </view>

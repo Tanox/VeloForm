@@ -82,23 +82,44 @@ Page({
     const rec = RECOMMENDED_CONFIGS.find(r => r.id === id);
 
     if (rec) {
-      showModal(rec.name, `加载推荐配置「${rec.name}」？\n将使用默认组件创建该配置。`, {
+      showModal(rec.name, `加载推荐配置「${rec.name}」？\n${rec.description}`, {
         confirmText: '使用此配置',
         cancelText: '查看详情'
       }).then(confirmed => {
         if (confirmed) {
+          // 使用推荐配置的组件
           const config = configStore.createConfiguration(rec.bikeType, rec.name);
-          const defaults = getDefaultsForType(rec.bikeType);
-          defaults.forEach(comp => {
-            configStore.addComponent(config.id, comp);
-          });
+          if (rec.components && rec.components.length > 0) {
+            rec.components.forEach(comp => {
+              configStore.addComponent(config.id, {
+                id: comp.id,
+                category: comp.category,
+                categoryName: comp.categoryName,
+                categoryIcon: comp.categoryIcon,
+                name: comp.name,
+                brand: comp.brand,
+                model: comp.model,
+                price: comp.price,
+                weight: comp.weight,
+                description: comp.description
+              });
+            });
+          }
           showToast('配置已创建');
           wx.navigateTo({
             url: `/pages/configurator/configurator?id=${config.id}`
           });
         } else {
+          // 导航到详情页，传递完整推荐配置信息
+          const recData = {
+            ...rec,
+            bikeTypeName: this.getBikeTypeName(rec.bikeType),
+            bikeTypeIcon: this.getBikeTypeIcon(rec.bikeType),
+            totalPriceFormatted: formatPrice(rec.totalPrice),
+            totalWeightFormatted: formatWeight(rec.totalWeight)
+          };
           wx.navigateTo({
-            url: `/pages/detail/detail?id=${id}&type=recommended`
+            url: `/pages/detail/detail?id=${id}&type=recommended&data=${encodeURIComponent(JSON.stringify(recData))}`
           });
         }
       });

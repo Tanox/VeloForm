@@ -15,11 +15,14 @@ const {
 Page({
   data: {
     appInfo: APP_INFO,
+    bikeTypes: BIKE_TYPES,
     configurations: [],
+    filteredConfigurations: [],
     totalConfigs: 0,
     totalPrice: '¥0',
     isEmpty: true,
-    filter: 'all'
+    filter: 'all',
+    selectedFilter: 'all'
   },
 
   onLoad() {
@@ -36,6 +39,7 @@ Page({
     if (!configs || configs.length === 0) {
       this.setData({
         configurations: [],
+        filteredConfigurations: [],
         totalConfigs: 0,
         totalPrice: '¥0',
         isEmpty: true
@@ -95,12 +99,28 @@ Page({
       0
     );
 
+    // 应用筛选
+    const { selectedFilter } = this.data;
+    const filtered = selectedFilter === 'all'
+      ? processedConfigs
+      : processedConfigs.filter(c => c.bikeType === selectedFilter);
+
     this.setData({
       configurations: processedConfigs,
-      totalConfigs: processedConfigs.length,
-      totalPrice: formatPrice(totalConfigPrice),
-      isEmpty: false
+      filteredConfigurations: filtered,
+      totalConfigs: filtered.length,
+      totalPrice: formatPrice(filtered.reduce((sum, c) => {
+        const price = c.components.reduce((s, comp) => s + (comp.price || 0), 0);
+        return sum + price;
+      }, 0)),
+      isEmpty: filtered.length === 0
     });
+  },
+
+  onFilterChange(e) {
+    const filter = e.currentTarget.dataset.filter;
+    this.setData({ selectedFilter: filter });
+    this.loadConfigurations();
   },
 
   onViewConfig(e) {

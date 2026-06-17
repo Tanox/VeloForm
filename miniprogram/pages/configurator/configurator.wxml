@@ -115,6 +115,13 @@
                   <view class="component-weight">{{comp.weightFormatted}}</view>
                 </view>
                 <view
+                  class="component-view-spec"
+                  bindtap="onViewSpec"
+                  data-component-id="{{comp.id}}"
+                >
+                  <text>📋</text>
+                </view>
+                <view
                   class="component-remove"
                   bindtap="onRemoveComponent"
                   data-component-id="{{comp.id}}"
@@ -172,6 +179,9 @@
     <button class="btn btn-gradient" bindtap="onSaveConfig">保存配置</button>
   </view>
 
+  <!-- 自定义 TabBar -->
+  <tabbar />
+
   <!-- 组件选择弹窗 -->
   <view class="modal-overlay" wx:if="{{showAlternativeModal}}" bindtap="onCloseModal">
     <view class="modal-content" catchtap="">
@@ -199,6 +209,61 @@
             </view>
           </view>
         </block>
+      </view>
+    </view>
+  </view>
+
+  <!-- 组件规格详情弹窗 -->
+  <view class="modal-overlay component-spec-modal" wx:if="{{showSpecModal}}" bindtap="onCloseSpecModal">
+    <view class="modal-content" catchtap="" wx:if="{{selectedSpecData}}">
+      <!-- 规格头部 -->
+      <view class="spec-header">
+        <view class="spec-icon">{{selectedSpecData.categoryIcon}}</view>
+        <view class="spec-header-info">
+          <view class="spec-category">{{selectedSpecData.categoryName}}</view>
+          <view class="spec-name">{{selectedSpecData.name}}</view>
+          <view class="spec-brand">{{selectedSpecData.brand}} · {{selectedSpecData.model}}</view>
+          <view class="spec-description" wx:if="{{selectedSpecData.description}}">
+            {{selectedSpecData.description}}
+          </view>
+        </view>
+      </view>
+
+      <!-- 价格和重量 -->
+      <view class="spec-stats-row">
+        <view class="spec-stat-item">
+          <view class="spec-stat-value price">{{selectedSpecData.priceFormatted}}</view>
+          <view class="spec-stat-label">价格</view>
+        </view>
+        <view class="spec-stat-item">
+          <view class="spec-stat-value weight">{{selectedSpecData.weightFormatted}}</view>
+          <view class="spec-stat-label">重量</view>
+        </view>
+      </view>
+
+      <!-- 详细规格 -->
+      <view class="spec-details-section" wx:if="{{selectedSpecData.specs.length > 0}}">
+        <view class="spec-section-title">详细规格</view>
+        <view class="spec-grid">
+          <block wx:for="{{selectedSpecData.specs}}" wx:key="key">
+            <view class="spec-item">
+              <view class="spec-item-key">{{item.key}}</view>
+              <view class="spec-item-value">{{item.value}}</view>
+            </view>
+          </block>
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="spec-actions">
+        <view class="btn btn-secondary" bindtap="onCloseSpecModal">关闭</view>
+        <view
+          class="btn btn-danger btn-sm"
+          bindtap="onRemoveComponentFromSpec"
+          data-component-id="{{selectedComponent.id}}"
+        >
+          删除组件
+        </view>
       </view>
     </view>
   </view>

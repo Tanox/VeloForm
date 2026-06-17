@@ -360,6 +360,20 @@
   margin-left: 16rpx;
 }
 
+.component-view-spec {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background: rgba(0, 113, 227, 0.1);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  flex-shrink: 0;
+  margin-left: 8rpx;
+}
+
 /* ========== 完整组件列表 ========== */
 .components-section {
   padding: 0 32rpx;
@@ -583,4 +597,148 @@
 .alternative-weight {
   font-size: 24rpx;
   color: var(--muted);
+}
+
+/* ========== 组件规格详情 ========== */
+.component-spec-modal .modal-content {
+  max-height: 80vh;
+}
+
+.spec-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 24rpx;
+  padding: 32rpx;
+  background: linear-gradient(135deg, rgba(0, 113, 227, 0.08), rgba(52, 199, 89, 0.05));
+  border-bottom: 1rpx solid var(--border-light);
+}
+
+.spec-icon {
+  font-size: 80rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 28rpx;
+  background: var(--surface-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.spec-header-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.spec-category {
+  display: inline-block;
+  padding: 8rpx 16rpx;
+  background: rgba(0, 113, 227, 0.1);
+  color: var(--primary);
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+
+.spec-name {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 8rpx;
+  letter-spacing: -0.01em;
+}
+
+.spec-brand {
+  font-size: 26rpx;
+  color: var(--secondary);
+}
+
+.spec-description {
+  font-size: 28rpx;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 12rpx;
+}
+
+.spec-stats-row {
+  display: flex;
+  gap: 32rpx;
+  padding: 28rpx 32rpx;
+  background: var(--surface-secondary);
+  border-bottom: 1rpx solid var(--border-light);
+}
+
+.spec-stat-item {
+  flex: 1;
+  text-align: center;
+}
+
+.spec-stat-value {
+  font-size: 38rpx;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 8rpx;
+}
+
+.spec-stat-value.price {
+  color: var(--primary);
+}
+
+.spec-stat-value.weight {
+  color: var(--secondary);
+}
+
+.spec-stat-label {
+  font-size: 22rpx;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.spec-details-section {
+  padding: 24rpx 32rpx;
+}
+
+.spec-section-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 20rpx;
+}
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+
+.spec-item {
+  background: var(--surface);
+  border-radius: 16rpx;
+  padding: 20rpx;
+  border: 1rpx solid var(--border-light);
+}
+
+.spec-item-key {
+  font-size: 22rpx;
+  color: var(--muted);
+  margin-bottom: 8rpx;
+}
+
+.spec-item-value {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.spec-actions {
+  padding: 24rpx 32rpx;
+  display: flex;
+  gap: 16rpx;
+  border-top: 1rpx solid var(--border-light);
+}
+
+.spec-actions .btn {
+  flex: 1;
 }

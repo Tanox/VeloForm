@@ -13,6 +13,7 @@
     "backgroundColor": "#f5f5f7"
   },
   "tabBar": {
+    "custom": true,
     "color": "#86868b",
     "selectedColor": "#0071e3",
     "backgroundColor": "#ffffff",
@@ -20,21 +21,15 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "assets/tab/home.png",
-        "selectedIconPath": "assets/tab/home-active.png"
+        "text": "首页"
       },
       {
         "pagePath": "pages/configurator/configurator",
-        "text": "配置器",
-        "iconPath": "assets/tab/config.png",
-        "selectedIconPath": "assets/tab/config-active.png"
+        "text": "配置器"
       },
       {
         "pagePath": "pages/library/library",
-        "text": "配置库",
-        "iconPath": "assets/tab/library.png",
-        "selectedIconPath": "assets/tab/library-active.png"
+        "text": "配置库"
       }
     ]
   },

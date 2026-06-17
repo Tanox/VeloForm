@@ -1,0 +1,13 @@
+/* assets/tab/home.wxss - 自定义tabBar图标样式 */
+.tab-icon {
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-text {
+  font-size: 20rpx;
+  color: var(--muted);
+}

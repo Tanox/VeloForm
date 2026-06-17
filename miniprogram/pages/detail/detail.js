@@ -29,9 +29,10 @@ Page({
   onLoad(options) {
     const configId = options.id;
     const type = options.type;
+    const data = options.data;
 
     if (type === 'recommended') {
-      this.loadRecommendedConfig(configId);
+      this.loadRecommendedConfig(configId, data);
     } else {
       this.loadConfig(configId);
     }
@@ -59,8 +60,20 @@ Page({
     this.processConfig(config);
   },
 
-  loadRecommendedConfig(configId) {
-    const recommended = RECOMMENDED_CONFIGS.find(r => r.id === configId);
+  loadRecommendedConfig(configId, data) {
+    let recommended;
+
+    // 如果有传递的完整数据，直接使用
+    if (data) {
+      try {
+        recommended = JSON.parse(decodeURIComponent(data));
+      } catch (e) {
+        // 解析失败，从数据中查找
+        recommended = RECOMMENDED_CONFIGS.find(r => r.id === configId);
+      }
+    } else {
+      recommended = RECOMMENDED_CONFIGS.find(r => r.id === configId);
+    }
 
     if (!recommended) {
       showToast('推荐配置不存在');
@@ -74,6 +87,16 @@ Page({
     const bikeTypeName = bikeTypeInfo ? bikeTypeInfo.name : '自行车';
     const bikeTypeIcon = bikeTypeInfo ? bikeTypeInfo.icon : '🚲';
 
+    // 处理组件数据
+    let processedComponents = [];
+    if (recommended.components && recommended.components.length > 0) {
+      processedComponents = recommended.components.map(comp => ({
+        ...comp,
+        priceFormatted: formatPrice(comp.price),
+        weightFormatted: formatWeight(comp.weight)
+      }));
+    }
+
     this.setData({
       config: {
         ...recommended,
@@ -83,10 +106,10 @@ Page({
       isRecommended: true,
       bikeTypeName,
       bikeTypeIcon,
-      componentCount: recommended.componentCount,
+      componentCount: recommended.componentCount || (recommended.components ? recommended.components.length : 0),
       totalPrice: formatPrice(recommended.totalPrice),
       totalWeight: formatWeight(recommended.totalWeight),
-      components: []
+      components: processedComponents
     });
   },
 
@@ -137,10 +160,30 @@ Page({
         cancelText: '取消'
       }).then(confirmed => {
         if (confirmed) {
+          const { config, components } = this.data;
           const newConfig = configStore.createConfiguration(
-            this.data.config.bikeType,
-            this.data.config.name
+            config.bikeType,
+            config.name
           );
+
+          // 如果有组件数据，添加到配置中
+          if (components && components.length > 0) {
+            components.forEach(comp => {
+              configStore.addComponent(newConfig.id, {
+                id: comp.id,
+                category: comp.category,
+                categoryName: comp.categoryName,
+                categoryIcon: comp.categoryIcon,
+                name: comp.name,
+                brand: comp.brand,
+                model: comp.model,
+                price: comp.price,
+                weight: comp.weight,
+                description: comp.description
+              });
+            });
+          }
+
           showToast('配置已创建', 'success');
           setTimeout(() => {
             wx.redirectTo({

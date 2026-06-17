@@ -27,6 +27,7 @@ Page({
     categories: [],
     alternatives: [],
     showAlternativeModal: false,
+    showSpecModal: false,
     selectedCategory: '',
     bikeTypeName: '',
     bikeTypeIcon: '',
@@ -35,7 +36,9 @@ Page({
     progress: 0,
     isEditingName: false,
     editedName: '',
-    componentList: []
+    componentList: [],
+    selectedComponent: null,
+    selectedSpecData: null
   },
 
   onLoad(options) {
@@ -202,6 +205,99 @@ Page({
 
   onCloseModal() {
     this.setData({ showAlternativeModal: false });
+  },
+
+  // 查看组件规格详情
+  onViewSpec(e) {
+    const { componentId } = e.currentTarget.dataset;
+    const component = this.data.components.find(c => c.id === componentId);
+
+    if (!component) return;
+
+    const catInfo = COMPONENT_CATEGORIES.find(c => c.key === component.category);
+
+    // 构建规格数据
+    let specsArray = [];
+    if (component.specs) {
+      specsArray = Object.entries(component.specs).map(([key, value]) => ({
+        key: this.formatSpecKey(key),
+        value: String(value)
+      }));
+    }
+
+    const specData = {
+      categoryName: catInfo ? catInfo.name : component.category,
+      categoryIcon: catInfo ? catInfo.icon : '🔧',
+      name: component.name,
+      brand: component.brand,
+      model: component.model,
+      description: component.description || '',
+      priceFormatted: formatPrice(component.price),
+      weightFormatted: formatWeight(component.weight),
+      specs: specsArray
+    };
+
+    this.setData({
+      showSpecModal: true,
+      selectedComponent: component,
+      selectedSpecData: specData
+    });
+  },
+
+  formatSpecKey(key) {
+    const keyMap = {
+      speeds: '速别',
+      cassetteRange: '飞轮范围',
+      chainrings: '牙盘',
+      shiftSpeed: '变速速度',
+      rimDepth: '框高',
+      rimWidth: '轮圈内宽',
+      material: '材质',
+      handlebarWidth: '把宽',
+      stemLength: '把立长度',
+      dropReach: 'Drop Reach',
+      size: '尺寸',
+      compound: '胶料配方',
+      tpi: 'TPI',
+      tubeless: '真空胎',
+      travel: '行程',
+      damping: '阻尼',
+      adjustability: '可调性',
+      geometry: '几何',
+      wheelSize: '轮径',
+      batteryLife: '电池续航'
+    };
+    return keyMap[key] || key;
+  },
+
+  onCloseSpecModal() {
+    this.setData({
+      showSpecModal: false,
+      selectedComponent: null,
+      selectedSpecData: null
+    });
+  },
+
+  onRemoveComponentFromSpec(e) {
+    const { componentId } = e.currentTarget.dataset;
+    const component = this.data.components.find(c => c.id === componentId);
+
+    showModal('删除组件', `确定要删除「${component.name}」吗？`, {
+      confirmText: '删除',
+      cancelText: '取消'
+    }).then(confirmed => {
+      if (confirmed) {
+        const updatedConfig = configStore.removeComponent(
+          this.data.config.id,
+          componentId
+        );
+        if (updatedConfig) {
+          this.processConfig(updatedConfig);
+          showToast('组件已删除');
+        }
+        this.onCloseSpecModal();
+      }
+    });
   },
 
   onRemoveComponent(e) {

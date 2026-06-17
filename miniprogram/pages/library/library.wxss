@@ -71,6 +71,46 @@
   margin: 0 24rpx;
 }
 
+/* ========== 筛选器 ========== */
+.filter-section {
+  margin-top: 32rpx;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 12rpx;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 8rpx;
+}
+
+.filter-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-tab {
+  flex-shrink: 0;
+  padding: 16rpx 28rpx;
+  background: var(--surface);
+  border-radius: 9999rpx;
+  border: 1rpx solid var(--border-light);
+  font-size: 26rpx;
+  color: var(--secondary);
+  transition: all 0.25s ease;
+}
+
+.filter-tab:active {
+  transform: scale(0.95);
+}
+
+.filter-tab.active {
+  background: linear-gradient(90deg, #0071e3, #34c759);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 4rpx 12rpx rgba(0, 113, 227, 0.25);
+}
+
 /* ========== 配置列表 ========== */
 .config-list {
   padding: 32rpx;
