@@ -1,0 +1,316 @@
+/* pages/index/index.wxss */
+
+.hero {
+  background: linear-gradient(180deg, rgba(229, 229, 234, 0.6) 0%, var(--surface) 100%);
+  padding: 100rpx 40rpx 80rpx;
+  text-align: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 16rpx 32rpx;
+  background: rgba(0, 113, 227, 0.1);
+  border-radius: 9999rpx;
+  font-size: 24rpx;
+  color: var(--primary);
+  font-weight: 500;
+  margin-bottom: 32rpx;
+}
+
+.hero-badge-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.hero-title {
+  font-size: 64rpx;
+  font-weight: 700;
+  color: var(--foreground);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 24rpx;
+}
+
+.hero-title text {
+  display: inline;
+}
+
+.hero-subtitle {
+  font-size: 30rpx;
+  color: var(--secondary);
+  line-height: 1.6;
+  max-width: 600rpx;
+  margin: 0 auto;
+  margin-bottom: 48rpx;
+}
+
+.hero-bike-icon {
+  margin: 48rpx 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bike-circle {
+  width: 300rpx;
+  height: 300rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 113, 227, 0.1), rgba(52, 199, 89, 0.1));
+  position: absolute;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20rpx); }
+}
+
+.bike-emoji {
+  font-size: 160rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-actions {
+  margin-top: 32rpx;
+}
+
+/* ========== 车型选择区域 ========== */
+.bike-selector-section {
+  padding: 64rpx 32rpx;
+  background: var(--surface);
+}
+
+.section-header {
+  margin-bottom: 48rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 42rpx;
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: -0.01em;
+  margin-bottom: 12rpx;
+}
+
+.section-subtitle {
+  display: block;
+  font-size: 28rpx;
+  color: var(--secondary);
+}
+
+.bike-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.bike-card {
+  background: var(--surface-secondary);
+  border-radius: 32rpx;
+  padding: 40rpx;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 3rpx solid transparent;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.04);
+}
+
+.bike-card-hover,
+.bike-card.active {
+  border-color: var(--primary);
+  background: var(--surface-secondary);
+  box-shadow: 0 8rpx 30rpx rgba(0, 113, 227, 0.15);
+}
+
+.bike-icon {
+  font-size: 64rpx;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 24rpx;
+  background: rgba(0, 113, 227, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24rpx;
+  transition: all 0.35s ease;
+}
+
+.bike-card.active .bike-icon {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  transform: scale(1.1);
+}
+
+.bike-name {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 12rpx;
+  letter-spacing: -0.01em;
+}
+
+.bike-desc {
+  font-size: 28rpx;
+  color: var(--secondary);
+  line-height: 1.6;
+}
+
+.bike-active-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-top: 24rpx;
+  padding-top: 24rpx;
+  border-top: 1rpx solid var(--border-light);
+}
+
+.indicator-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.bike-active-indicator text {
+  font-size: 26rpx;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* ========== 推荐配置区域 ========== */
+.recommended-section {
+  padding: 64rpx 32rpx;
+  background: var(--surface);
+  border-top: 1rpx solid var(--border-light);
+}
+
+.recommended-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.recommended-card {
+  background: var(--surface-secondary);
+  border-radius: 32rpx;
+  padding: 40rpx;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1rpx solid var(--border-light);
+}
+
+.recommended-card-hover {
+  transform: translateY(-4rpx);
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.08);
+}
+
+.recommended-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.recommended-icon {
+  font-size: 48rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 20rpx;
+  background: rgba(52, 199, 89, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recommended-tags {
+  display: flex;
+  gap: 12rpx;
+}
+
+.recommended-name {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 12rpx;
+  letter-spacing: -0.01em;
+}
+
+.recommended-desc {
+  font-size: 28rpx;
+  color: var(--secondary);
+  line-height: 1.6;
+  margin-bottom: 32rpx;
+}
+
+.recommended-meta {
+  display: flex;
+  gap: 32rpx;
+  margin-bottom: 32rpx;
+  padding-top: 32rpx;
+  border-top: 1rpx solid var(--border-light);
+}
+
+.meta-item {
+  flex: 1;
+}
+
+.meta-value {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 8rpx;
+}
+
+.meta-value.price {
+  color: var(--primary);
+}
+
+.meta-label {
+  font-size: 22rpx;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.recommended-action {
+  font-size: 28rpx;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* ========== 底部说明区域 ========== */
+.footer-section {
+  padding: 64rpx 32rpx 120rpx;
+  text-align: center;
+  background: var(--surface);
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.footer-brand {
+  font-size: 40rpx;
+  letter-spacing: -0.02em;
+}
+
+.footer-version {
+  font-size: 24rpx;
+  color: var(--muted);
+}
+
+.footer-tagline {
+  font-size: 26rpx;
+  color: var(--secondary);
+}

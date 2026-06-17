@@ -1,0 +1,586 @@
+/* pages/configurator/configurator.wxss */
+
+.configurator-page {
+  background: var(--surface);
+  min-height: 100vh;
+  padding-bottom: 200rpx;
+}
+
+/* ========== 配置头部 ========== */
+.config-header {
+  padding: 40rpx 32rpx;
+  background: var(--surface-secondary);
+  border-bottom: 1rpx solid var(--border-light);
+}
+
+.config-bike-info {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.bike-icon-lg {
+  font-size: 64rpx;
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 24rpx;
+  background: linear-gradient(135deg, rgba(0, 113, 227, 0.1), rgba(52, 199, 89, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bike-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.bike-type-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.config-update-time {
+  font-size: 24rpx;
+  color: var(--muted);
+}
+
+.config-name-section {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 16rpx;
+}
+
+.config-name {
+  font-size: 42rpx;
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: -0.01em;
+  flex: 1;
+}
+
+.edit-name-btn {
+  padding: 12rpx 20rpx;
+  border-radius: 16rpx;
+  background: var(--surface-tertiary);
+  font-size: 28rpx;
+}
+
+.config-name-edit {
+  margin-top: 16rpx;
+}
+
+.name-input {
+  font-size: 42rpx;
+  font-weight: 700;
+  padding: 16rpx 24rpx;
+  background: var(--surface);
+  border-radius: 16rpx;
+  border: 2rpx solid var(--primary);
+  margin-bottom: 20rpx;
+}
+
+.name-actions {
+  display: flex;
+  gap: 16rpx;
+  justify-content: flex-end;
+}
+
+/* ========== 统计面板 ========== */
+.stats-panel {
+  display: flex;
+  gap: 20rpx;
+  padding: 32rpx;
+  margin: 24rpx 32rpx;
+  background: var(--surface-secondary);
+  border-radius: 32rpx;
+  border: 1rpx solid var(--border-light);
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.04);
+}
+
+.stats-panel .stat-card {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  background: var(--surface);
+  border-radius: 24rpx;
+}
+
+.stat-value {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 8rpx;
+}
+
+.stat-value.price {
+  color: var(--primary);
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ========== 进度条 ========== */
+.progress-section {
+  padding: 0 32rpx;
+  margin-bottom: 32rpx;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+  font-size: 26rpx;
+  color: var(--secondary);
+}
+
+.progress-percent {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.progress-bar {
+  height: 16rpx;
+  background: var(--surface-tertiary);
+  border-radius: 9999rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 9999rpx;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========== 快捷操作栏 ========== */
+.quick-actions {
+  display: flex;
+  gap: 16rpx;
+  padding: 0 32rpx;
+  margin-bottom: 32rpx;
+}
+
+.quick-action-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  padding: 28rpx 20rpx;
+  background: var(--surface-secondary);
+  border-radius: 24rpx;
+  border: 1rpx solid var(--border-light);
+  font-size: 26rpx;
+  color: var(--foreground);
+  transition: all 0.25s ease;
+}
+
+.quick-action-btn:active {
+  transform: scale(0.95);
+  background: var(--surface-tertiary);
+}
+
+.quick-action-btn text:first-child {
+  font-size: 40rpx;
+}
+
+/* ========== 分类添加区域 ========== */
+.categories-section {
+  padding: 0 32rpx;
+  margin-bottom: 32rpx;
+}
+
+.section-title-bar {
+  margin-bottom: 24rpx;
+}
+
+.section-title-text {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: -0.01em;
+}
+
+.section-sub-text {
+  display: block;
+  font-size: 26rpx;
+  color: var(--secondary);
+  margin-top: 8rpx;
+}
+
+.categories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.category-card {
+  background: var(--surface-secondary);
+  border-radius: 28rpx;
+  border: 1rpx solid var(--border-light);
+  overflow: hidden;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  padding: 28rpx;
+  gap: 20rpx;
+}
+
+.category-icon {
+  font-size: 40rpx;
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 18rpx;
+  background: rgba(0, 113, 227, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.category-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.category-name {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 6rpx;
+}
+
+.category-status {
+  display: block;
+  font-size: 24rpx;
+  color: var(--muted);
+}
+
+.category-action {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 16rpx;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  font-weight: 300;
+  flex-shrink: 0;
+  box-shadow: 0 4rpx 12rpx rgba(0, 113, 227, 0.25);
+}
+
+.category-action:active {
+  transform: scale(0.95);
+}
+
+.category-components {
+  padding: 0 28rpx 28rpx;
+  border-top: 1rpx solid var(--border-light);
+  background: var(--surface);
+}
+
+.component-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 20rpx;
+  margin-top: 16rpx;
+  background: var(--surface-secondary);
+  border-radius: 20rpx;
+  gap: 20rpx;
+}
+
+.component-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.component-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: var(--foreground);
+  margin-bottom: 6rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.component-brand {
+  font-size: 24rpx;
+  color: var(--muted);
+}
+
+.component-meta {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.component-price {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 4rpx;
+}
+
+.component-weight {
+  font-size: 22rpx;
+  color: var(--muted);
+}
+
+.component-remove {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background: rgba(255, 59, 48, 0.1);
+  color: var(--error);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+/* ========== 完整组件列表 ========== */
+.components-section {
+  padding: 0 32rpx;
+  margin-bottom: 40rpx;
+}
+
+.components-card {
+  background: var(--surface-secondary);
+  border-radius: 28rpx;
+  border: 1rpx solid var(--border-light);
+  padding: 12rpx;
+}
+
+.components-list-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 20rpx;
+  gap: 20rpx;
+  border-bottom: 1rpx solid var(--border-light);
+}
+
+.components-list-item:last-child {
+  border-bottom: none;
+}
+
+.item-index {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 12rpx;
+  background: rgba(0, 113, 227, 0.08);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-header {
+  margin-bottom: 8rpx;
+}
+
+.item-category {
+  font-size: 22rpx;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.item-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 6rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-brand {
+  font-size: 24rpx;
+  color: var(--secondary);
+}
+
+.item-stats {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.item-price {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 4rpx;
+}
+
+.item-weight {
+  font-size: 24rpx;
+  color: var(--muted);
+}
+
+/* ========== 底部操作栏 ========== */
+.bottom-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 20rpx;
+  padding: 24rpx 32rpx;
+  background: var(--surface-secondary);
+  border-top: 1rpx solid var(--border-light);
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.04);
+  z-index: 100;
+}
+
+.bottom-actions .btn {
+  flex: 1;
+}
+
+/* ========== 弹窗 ========== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10rpx);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1000;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  width: 100%;
+  max-height: 70vh;
+  background: var(--surface-secondary);
+  border-radius: 32rpx 32rpx 0 0;
+  overflow: hidden;
+  animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx;
+  border-bottom: 1rpx solid var(--border-light);
+}
+
+.modal-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.modal-close {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: var(--surface-tertiary);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+}
+
+.modal-body {
+  padding: 20rpx 32rpx 48rpx;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.alternative-item {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 28rpx;
+  background: var(--surface);
+  border-radius: 24rpx;
+  margin-bottom: 16rpx;
+  border: 1rpx solid var(--border-light);
+  transition: all 0.2s ease;
+}
+
+.alternative-item-hover {
+  background: var(--surface-tertiary);
+  transform: scale(0.98);
+  border-color: var(--primary);
+}
+
+.alternative-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.alternative-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 8rpx;
+}
+
+.alternative-brand {
+  font-size: 24rpx;
+  color: var(--secondary);
+  line-height: 1.5;
+}
+
+.alternative-stats {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.alternative-price {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 4rpx;
+}
+
+.alternative-weight {
+  font-size: 24rpx;
+  color: var(--muted);
+}

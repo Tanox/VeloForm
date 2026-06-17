@@ -1,0 +1,132 @@
+<!-- pages/library/library.wxml -->
+<view class="page-container library-page">
+  <!-- 头部概览 -->
+  <view class="header">
+    <view class="header-title">我的配置库</view>
+    <view class="header-subtitle">管理你的所有自行车配置</view>
+
+    <view class="overview-card">
+      <view class="overview-item">
+        <view class="overview-value">{{totalConfigs}}</view>
+        <view class="overview-label">配置总数</view>
+      </view>
+      <view class="overview-divider"></view>
+      <view class="overview-item">
+        <view class="overview-value price">{{totalPrice}}</view>
+        <view class="overview-label">总价值</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{isEmpty}}">
+    <view class="empty-icon">📋</view>
+    <view class="empty-title">还没有配置</view>
+    <view class="empty-desc">开始创建你的第一个自行车配置，打造专属于你的骑行装备</view>
+    <view class="empty-actions">
+      <button class="btn btn-gradient" bindtap="onCreateNew">创建新配置</button>
+    </view>
+  </view>
+
+  <!-- 配置列表 -->
+  <view class="config-list" wx:if="{{!isEmpty}}">
+    <block wx:for="{{configurations}}" wx:key="id">
+      <view
+        class="config-card"
+        hover-class="config-card-hover"
+        hover-stay-time="150"
+      >
+        <!-- 卡片头部 -->
+        <view class="config-card-header">
+          <view class="config-bike-icon">{{item.bikeTypeIcon}}</view>
+          <view class="config-info">
+            <view class="config-name">{{item.name}}</view>
+            <view class="config-type">{{item.bikeTypeName}}</view>
+          </view>
+          <view class="config-status">
+            <view class="tag tag-primary">{{item.componentCount}} 组件</view>
+          </view>
+        </view>
+
+        <!-- 统计信息 -->
+        <view class="config-stats">
+          <view class="stat-block">
+            <view class="stat-value price">{{item.totalPriceFormatted}}</view>
+            <view class="stat-label">总价格</view>
+          </view>
+          <view class="stat-block">
+            <view class="stat-value">{{item.totalWeightFormatted}}</view>
+            <view class="stat-label">预估重量</view>
+          </view>
+          <view class="stat-block">
+            <view class="stat-value">{{item.componentCount}}</view>
+            <view class="stat-label">已选组件</view>
+          </view>
+        </view>
+
+        <!-- 分类统计 -->
+        <view class="config-categories" wx:if="{{item.categories.length > 0}}">
+          <block wx:for="{{item.categories}}" wx:key="name" wx:for-item="cat">
+            <view class="category-pill">
+              <text class="category-pill-icon">{{cat.icon}}</text>
+              <text class="category-pill-name">{{cat.name}}</text>
+              <text class="category-pill-count">{{cat.count}}</text>
+            </view>
+          </block>
+        </view>
+
+        <!-- 更新时间 -->
+        <view class="config-update-time">更新于 {{item.updatedAtFormatted}}</view>
+
+        <!-- 操作按钮 -->
+        <view class="config-actions">
+          <view
+            class="action-btn action-secondary"
+            bindtap="onShareConfig"
+            data-id="{{item.id}}"
+          >
+            <text>📋</text>
+            <text>分享</text>
+          </view>
+          <view
+            class="action-btn action-secondary"
+            bindtap="onDeleteConfig"
+            data-id="{{item.id}}"
+            data-name="{{item.name}}"
+          >
+            <text>🗑️</text>
+            <text>删除</text>
+          </view>
+          <view
+            class="action-btn action-primary"
+            bindtap="onEditConfig"
+            data-id="{{item.id}}"
+          >
+            <text>✏️</text>
+            <text>编辑</text>
+          </view>
+          <view
+            class="action-btn action-gradient"
+            bindtap="onViewConfig"
+            data-id="{{item.id}}"
+          >
+            <text>👁️</text>
+            <text>详情</text>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 创建新配置按钮 -->
+    <view class="create-new-btn" bindtap="onCreateNew">
+      <text class="plus-icon">＋</text>
+      <text class="btn-text">创建新配置</text>
+    </view>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="footer-info">
+    <text class="footer-brand text-gradient-brand font-bold">{{appInfo.name}}</text>
+    <text class="footer-version">Version {{appInfo.version}}</text>
+  </view>
+</view>
