@@ -1,8 +1,8 @@
 # Veloform 组件库规范
 
 > **路径**: `/prototype/component-library.md`
-> **版本**: v3.7.0
-> **更新日期**: 2026-06-14
+> **版本**: v3.8.0
+> **更新日期**: 2026-06-17
 
 ---
 
@@ -21,6 +21,13 @@
 > - L3 → `src/components/configurator/`
 > - L4 → `src/components/sections/`
 
+### 1.1 基础组件来源
+
+L1 基础组件（Button / Input / Card / Modal / Badge 等）基于 **shadcn/ui** 生成与扩展：
+- 组件源码通过 `shadcn/ui` CLI 初始化，放置于 `src/components/ui/`
+- 样式基于 **Tailwind CSS**，与设计系统规范中的 token 映射保持一致
+- 可访问性（键盘、focus ring、ARIA）由底层 Radix UI 提供
+
 ---
 
 ## 2. 基础组件规范 (L1 - Foundation)
@@ -37,6 +44,7 @@
 | `outline` | 透明背景，`--primary` 描边 | 次要可选操作 | 「了解更多」辅助链接 |
 | `ghost` | 透明背景，文字操作 | 轻量操作 | 工具栏、行内操作 |
 | `danger` | 填充 `--error`，白字 | 破坏性操作 | 删除、移除、取消订阅 |
+| `gradient` | 渐变背景 `#0071E3 → #34C759 → #AF52DE`，白字，glow shadow | 品牌强调 | Hero CTA、特殊行动号召 |
 
 #### 尺寸 (Sizes)
 
@@ -631,5 +639,5 @@ export const ComponentName = forwardRef<HTMLDivElement, ComponentNameProps>(
 ---
 
 **文档路径**: `/prototype/component-library.md`
-**最后更新**: 2026-06-14
-**版本**: v3.7.0
+**最后更新**: 2026-06-17
+**版本**: v3.8.0

@@ -1,8 +1,8 @@
 # Veloform 设计系统规范
 
 > **路径**: `/prototype/design-system-spec.md`
-> **版本**: v3.7.0
-> **更新日期**: 2026-06-14
+> **版本**: v3.8.0
+> **更新日期**: 2026-06-17
 
 ---
 
@@ -47,7 +47,14 @@
 - **语义色 (Semantic)**：`--success / --warning / --error / --info` 仅用于状态反馈，不可做装饰用途
 - **中性色 (Neutral)**：`--surface-*` 系列用于构建视觉层级，避免在单一界面混用多种表面色
 
-### 1.4 对比度要求 (WCAG 2.1 AA)
+### 1.5 品牌渐变色 (Brand Gradient)
+
+| Token | CSS 值 | 用途 |
+|-------|--------|------|
+| `--gradient-brand` | `linear-gradient(90deg, #0071E3, #34C759, #AF52DE)` | 品牌渐变 |
+| `--gradient-brand-subtle` | `linear-gradient(135deg, rgba(0,113,227,0.05), rgba(52,199,89,0.03))` | 卡片悬停背景 |
+
+### 1.6 对比度要求 (WCAG 2.1 AA)
 
 | 文本类型 | 最小对比度 | 示例组合 |
 |---------|-----------|---------|
@@ -300,6 +307,7 @@ animation: {
   "pulse": "pulse 2s ease-in-out infinite",       // 加载脉冲
   "float": "float 8s ease-in-out infinite",       // 缓慢浮动 (装饰元素)
   "glow-pulse": "glowPulse 4s ease-in-out infinite", // 光晕呼吸
+  "gradient-shift": "gradientShift 6s ease-in-out infinite", // 渐变呼吸位移动画
 }
 ```
 
@@ -344,6 +352,11 @@ animation: {
 @keyframes glowPulse {
   0%, 100% { opacity: 0.5; transform: scale(1); }
   50%      { opacity: 1; transform: scale(1.1); }
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
 }
 ```
 
@@ -403,6 +416,37 @@ const prefersReducedMotion =
 
 ---
 
+## 6. Utility Classes
+
+### 6.1 通用工具类
+
+| Class | 说明 |
+|-------|------|
+| `container` | `max-width: 1280px; margin: 0 auto;` — 页面内容容器 |
+| `sr-only` | 视觉隐藏，保留给无障碍读屏器 |
+| `truncate` | 单行截断溢出文本 |
+| `line-clamp-2` | 最多 2 行截断 |
+| `no-scrollbar` | 隐藏滚动条但保留滚动功能 |
+
+### 6.2 渐变与装饰工具
+
+```css
+.gradient-brand {
+  background: linear-gradient(90deg, #0071E3, #34C759, #AF52DE);
+  color: #ffffff;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #0071E3, #34C759, #AF52DE);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+```
+
+---
+
 ## 相关文档
 
 - [原型说明](./prototype-guide.md)
@@ -413,5 +457,5 @@ const prefersReducedMotion =
 ---
 
 **文档路径**: `/prototype/design-system-spec.md`
-**最后更新**: 2026-06-14
-**版本**: v3.7.0
+**最后更新**: 2026-06-17
+**版本**: v3.8.0

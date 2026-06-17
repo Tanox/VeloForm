@@ -1,8 +1,8 @@
 # Veloform 交互标准
 
 > **路径**: `/prototype/interaction-standards.md`
-> **版本**: v3.7.0
-> **更新日期**: 2026-06-14
+> **版本**: v3.8.0
+> **更新日期**: 2026-06-17
 
 ---
 
@@ -691,5 +691,5 @@ const prefersReducedMotion =
 ---
 
 **文档路径**: `/prototype/interaction-standards.md`
-**最后更新**: 2026-06-14
-**版本**: v3.7.0
+**最后更新**: 2026-06-17
+**版本**: v3.8.0
