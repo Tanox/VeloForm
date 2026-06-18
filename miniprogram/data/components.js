@@ -2,6 +2,23 @@
 
 const ROAD_DEFAULTS = [
   {
+    id: 'road-frame-1',
+    category: 'Frame',
+    bikeType: 'Road',
+    name: 'Specialized Tarmac SL8 Comp',
+    brand: 'Specialized',
+    model: 'Tarmac SL8',
+    price: 8500,
+    weight: 800,
+    description: '全新Tarmac SL8，极致轻量气动设计',
+    specs: {
+      material: 'FACT 10r Carbon',
+      geometry: 'Race',
+      wheelSize: '700c',
+      brakeType: 'Disc'
+    }
+  },
+  {
     id: 'road-drivetrain-1',
     category: 'Drivetrain',
     bikeType: 'Road',
@@ -10,6 +27,7 @@ const ROAD_DEFAULTS = [
     model: 'Dura-Ace Di2 R9200',
     price: 4200,
     weight: 2430,
+    description: '顶级电子变速，精准快速',
     specs: {
       speeds: 12,
       cassetteRange: '11-30T',
@@ -26,6 +44,7 @@ const ROAD_DEFAULTS = [
     model: 'Rapide CLX II',
     price: 2800,
     weight: 1520,
+    description: '碳纤轮组，高性能气动轮',
     specs: {
       rimDepth: '51mm',
       rimWidth: '21mm internal',
@@ -41,6 +60,7 @@ const ROAD_DEFAULTS = [
     model: 'Rapide Cockpit',
     price: 600,
     weight: 310,
+    description: '一体式气动座舱',
     specs: {
       handlebarWidth: '420mm',
       stemLength: '110mm',
@@ -56,16 +76,50 @@ const ROAD_DEFAULTS = [
     model: 'S-Works Turbo',
     price: 180,
     weight: 480,
+    description: '棉质胎体，极致抓地力',
     specs: {
       size: '700x28c',
       compound: 'GRIPTON',
       tpi: 120,
       tubeless: true
     }
+  },
+  {
+    id: 'road-saddle-1',
+    category: 'Saddle',
+    bikeType: 'Road',
+    name: 'Specialized Power Expert',
+    brand: 'Specialized',
+    model: 'Power Expert',
+    price: 220,
+    weight: 195,
+    description: '碳轨座垫，轻量舒适',
+    specs: {
+      width: '143mm',
+      rails: 'Carbon',
+      padding: 'Body Geometry'
+    }
   }
 ];
 
 const MTB_DEFAULTS = [
+  {
+    id: 'mtb-frame-1',
+    category: 'Frame',
+    bikeType: 'MTB',
+    name: 'Specialized Stumpjumper EVO Comp',
+    brand: 'Specialized',
+    model: 'Stumpjumper EVO',
+    price: 6500,
+    weight: 2100,
+    description: '150mm行程全地形越野车架',
+    specs: {
+      material: 'M5 Aluminum',
+      geometry: 'Trail',
+      wheelSize: '29er',
+      travel: '150mm'
+    }
+  },
   {
     id: 'mtb-drivetrain-1',
     category: 'Drivetrain',
@@ -75,6 +129,7 @@ const MTB_DEFAULTS = [
     model: 'XTR Di2 M9100',
     price: 3800,
     weight: 1920,
+    description: '顶级山地电子变速，即时响应',
     specs: {
       speeds: 12,
       cassetteRange: '10-51T',
@@ -90,6 +145,7 @@ const MTB_DEFAULTS = [
     model: '34 Float Factory',
     price: 1050,
     weight: 1738,
+    description: '140mm行程，四向可调阻尼',
     specs: {
       travel: '140mm',
       damping: 'GRIP2',
@@ -105,10 +161,27 @@ const MTB_DEFAULTS = [
     model: 'Traverse SL II',
     price: 1500,
     weight: 1720,
+    description: '29寸碳纤轮组，耐冲击设计',
     specs: {
       rimDepth: '25mm',
       rimWidth: '30mm internal',
       material: 'carbon'
+    }
+  },
+  {
+    id: 'mtb-cockpit-1',
+    category: 'Cockpit',
+    bikeType: 'MTB',
+    name: 'Roval Traverse Cockpit',
+    brand: 'Roval',
+    model: 'Traverse Cockpit',
+    price: 450,
+    weight: 380,
+    description: '山地专用铝合金座舱',
+    specs: {
+      handlebarWidth: '780mm',
+      stemLength: '50mm',
+      rise: '20mm'
     }
   },
   {
@@ -120,11 +193,28 @@ const MTB_DEFAULTS = [
     model: 'Minion DHR II',
     price: 140,
     weight: 790,
+    description: '29x2.4寸，山地越野专用',
     specs: {
       size: '29x2.4',
       compound: '3C MaxxTerra',
       tpi: 60,
       tubeless: true
+    }
+  },
+  {
+    id: 'mtb-saddle-1',
+    category: 'Saddle',
+    bikeType: 'MTB',
+    name: 'Specialized Bridge Comp',
+    brand: 'Specialized',
+    model: 'Bridge Comp',
+    price: 200,
+    weight: 340,
+    description: '山地专用座垫，耐磨耐用',
+    specs: {
+      width: '143mm',
+      rails: 'Cr-Mo',
+      padding: 'Body Geometry'
     }
   }
 ];
@@ -139,6 +229,7 @@ const FOLD_DEFAULTS = [
     model: 'Superlight Frame',
     price: 1400,
     weight: 1800,
+    description: '轻量化钢架，三步折叠设计',
     specs: {
       material: 'steel',
       geometry: 'compact',
@@ -154,6 +245,7 @@ const FOLD_DEFAULTS = [
     model: 'Alfine Di2 SG-S7051',
     price: 1200,
     weight: 1765,
+    description: '11速内变速，低维护保养',
     specs: {
       speeds: 11,
       cassetteRange: 'internal gear hub',
@@ -169,6 +261,7 @@ const FOLD_DEFAULTS = [
     model: 'Superlight Wheelset',
     price: 450,
     weight: 1240,
+    description: '16寸轻量轮组，铝合金材质',
     specs: {
       rimDepth: 'standard',
       rimWidth: '19mm',
@@ -184,6 +277,7 @@ const FOLD_DEFAULTS = [
     model: 'M-Type Handlebar',
     price: 120,
     weight: 310,
+    description: '经典M把，人体工学设计',
     specs: {
       handlebarWidth: '540mm',
       stemLength: 'integrated'
@@ -198,11 +292,28 @@ const FOLD_DEFAULTS = [
     model: 'Marathon Racer',
     price: 65,
     weight: 370,
+    description: '轻量通勤胎，低滚阻设计',
     specs: {
       size: '16x1-1/3',
       compound: 'RaceGuard',
       tpi: 67,
       tubeless: false
+    }
+  },
+  {
+    id: 'fold-saddle-1',
+    category: 'Saddle',
+    bikeType: 'Fold',
+    name: 'Brompton Aerolite Saddle',
+    brand: 'Brompton',
+    model: 'Aerolite',
+    price: 280,
+    weight: 280,
+    description: '轻量座垫，适合城市骑行',
+    specs: {
+      width: '140mm',
+      rails: 'Titanium',
+      padding: 'Minimal'
     }
   }
 ];
