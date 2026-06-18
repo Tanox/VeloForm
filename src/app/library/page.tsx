@@ -1,8 +1,10 @@
 'use client';
 
+import { Suspense } from 'react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useMyConfigs, useComparingConfigIds, useCompareStore, useConfigStore } from '@/lib/stores';
 import { formatCurrency, formatWeight } from '@/lib/utils';
 import { useTranslation } from '@/lib/i18n';
@@ -46,7 +48,24 @@ export default function LibraryPage() {
             </Link>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <Suspense
+            fallback={
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                {[1, 2, 3].map((i) => (
+                  <Card key={i} className="p-4 sm:p-5 space-y-3">
+                    <Skeleton className="h-5 w-3/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                    <div className="flex justify-between">
+                      <Skeleton className="h-8 w-20" />
+                      <Skeleton className="h-8 w-20" />
+                    </div>
+                    <Skeleton className="h-9 w-full" />
+                  </Card>
+                ))}
+              </div>
+            }
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {myConfigs.map((config, index) => (
               <motion.div
                 key={config.id || index}
@@ -108,7 +127,8 @@ export default function LibraryPage() {
               </motion.div>
             ))}
           </div>
-        )}
+            </Suspense>
+          )}
       </main>
       
       <ComparePanel />
