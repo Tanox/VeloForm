@@ -1,0 +1,4 @@
+<!-- assets/tab/config.wxml - 配置tab图标 -->
+<view class="tab-icon">
+  <text class="icon-text">配置</text>
+</view>

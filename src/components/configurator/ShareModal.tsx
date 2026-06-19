@@ -9,12 +9,10 @@ import { useTranslation } from '@/lib/i18n';
 import { Copy, Download, Check, Share2, Link2, FileJson, Sparkles } from 'lucide-react';
 import { toast } from '@/lib/toast';
 import { uiLogger } from '@/lib/logger';
-import { useConfigStore as useLegacyStore } from '@/lib/store';
+import { generateShareableLink, exportConfiguration as exportConfig } from '@/lib/config-service';
 
 export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const t = useTranslation();
-  const generateShareableLink = useLegacyStore((s) => s.generateShareableLink);
-  const exportConfiguration = useLegacyStore((s) => s.exportConfiguration);
   const [copied, setCopied] = useState(false);
 
   const handleCopyLink = async () => {
@@ -31,7 +29,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
   };
 
   const handleExportJSON = () => {
-    const data = exportConfiguration();
+    const data = exportConfig();
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -77,8 +75,10 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
                 />
                 <Button
                   onClick={handleCopyLink}
-                  variant={copied ? "outline" : "default"}
-                  className={copied ? "border-green-500/30 text-green-500 hover:bg-green-500/10" : ""}
+                  variant={copied ? 'outline' : 'default'}
+                  className={
+                    copied ? 'border-green-500/30 text-green-500 hover:bg-green-500/10' : ''
+                  }
                 >
                   {copied ? (
                     <>
@@ -141,7 +141,9 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
             <Sparkles className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
             <div className="text-sm text-muted leading-relaxed">
               <p>分享你的配置给朋友，或导出为 JSON 文件用于其他目的。</p>
-              <p className="mt-1">链接有效期为 <span className="text-foreground font-medium">30 天</span>。</p>
+              <p className="mt-1">
+                链接有效期为 <span className="text-foreground font-medium">30 天</span>。
+              </p>
             </div>
           </motion.div>
         </div>

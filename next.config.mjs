@@ -3,6 +3,14 @@ import withPWA from 'next-pwa';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    // Allow images from Firebase Storage and any HTTPS source
+    remotePatterns: [
+      { protocol: 'https', hostname: 'firebasestorage.googleapis.com' },
+      { protocol: 'https', hostname: '**.firebaseapp.com' },
+      { protocol: 'https', hostname: '**' },
+    ],
+  },
   webpack: (config, { isServer }) => {
     if (isServer) {
       config.externals = [...(config.externals || []), 'firebase', 'firebase-admin'];

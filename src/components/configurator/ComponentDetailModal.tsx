@@ -18,7 +18,12 @@ interface ComponentDetailModalProps {
   onSelect?: () => void;
 }
 
-export function ComponentDetailModal({ isOpen, onClose, componentId, onSelect }: ComponentDetailModalProps) {
+export function ComponentDetailModal({
+  isOpen,
+  onClose,
+  componentId,
+  onSelect,
+}: ComponentDetailModalProps) {
   const t = useTranslation();
   const detail = mockComponentDetails[componentId];
   const [imageError, setImageError] = useState(false);
@@ -44,17 +49,15 @@ export function ComponentDetailModal({ isOpen, onClose, componentId, onSelect }:
             className="relative"
           >
             <div className="relative aspect-square bg-gradient-to-br from-surface to-surface-secondary rounded-2xl overflow-hidden border border-border-light">
-              {imageError ? (
+              {!detail.imageUrl || imageError ? (
                 <div className="absolute inset-0 flex items-center justify-center bg-zinc-800">
                   <ImageOff className="w-12 h-12 text-zinc-500" />
                 </div>
               ) : (
                 <>
-                  {!imageLoaded && (
-                    <div className="absolute inset-0 bg-zinc-800 animate-pulse" />
-                  )}
+                  {!imageLoaded && <div className="absolute inset-0 bg-zinc-800 animate-pulse" />}
                   <Image
-                    src={detail.imageUrl || ''}
+                    src={detail.imageUrl}
                     alt={detail.name}
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
@@ -65,188 +68,180 @@ export function ComponentDetailModal({ isOpen, onClose, componentId, onSelect }:
                 </>
               )}
 
-            {/* 价格标签 */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="absolute top-4 right-4 bg-gradient-to-r from-primary to-accent backdrop-blur-md rounded-xl px-4 py-2 shadow-lg"
-            >
-              <span className="text-lg font-bold text-white">
-                {formatCurrency(detail.price)}
-              </span>
-            </motion.div>
-          </div>
-
-          {/* 缩略图列表（占位） */}
-          <div className="flex gap-2 mt-4">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="w-16 h-16 rounded-xl bg-surface-tertiary border border-border-light overflow-hidden"
+              {/* 价格标签 */}
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="absolute top-4 right-4 bg-gradient-to-r from-primary to-accent backdrop-blur-md rounded-xl px-4 py-2 shadow-lg"
               >
-                <div className="w-full h-full bg-gradient-to-br from-surface-tertiary to-surface" />
-              </div>
-            ))}
-          </div>
-        </motion.div>
+                <span className="text-lg font-bold text-white">{formatCurrency(detail.price)}</span>
+              </motion.div>
+            </div>
 
-        {/* 右侧：详情 */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="space-y-6"
-        >
-          {/* 品牌标签 */}
-          {detail.brand && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full border border-primary/20"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-primary" />
-              <span className="text-sm font-semibold text-primary uppercase tracking-wider">
-                {detail.brand}
-              </span>
-            </motion.div>
-          )}
-
-          {/* 描述 */}
-          <p className="text-secondary text-lg leading-relaxed">
-            {detail.description}
-          </p>
-
-          {/* 评分 */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <motion.div
+            {/* 缩略图列表（占位） */}
+            <div className="flex gap-2 mt-4">
+              {[1, 2, 3].map((i) => (
+                <div
                   key={i}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.3 + i * 0.05 }}
+                  className="w-16 h-16 rounded-xl bg-surface-tertiary border border-border-light overflow-hidden"
                 >
-                  <Star
-                    className={`w-5 h-5 ${
-                      i < Math.floor(detail.rating || 0)
-                        ? 'text-yellow-400 fill-yellow-400'
-                        : 'text-border'
-                    }`}
-                  />
-                </motion.div>
+                  <div className="w-full h-full bg-gradient-to-br from-surface-tertiary to-surface" />
+                </div>
               ))}
             </div>
-            <span className="text-sm text-muted font-medium">
-              {detail.rating} ({detail.reviewCount} 条评价)
-            </span>
-          </div>
+          </motion.div>
 
-          {/* 价格和重量 */}
-          <div className="grid grid-cols-2 gap-4 p-4 bg-surface-tertiary/50 rounded-2xl border border-border-light">
+          {/* 右侧：详情 */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="space-y-6"
+          >
+            {/* 品牌标签 */}
+            {detail.brand && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full border border-primary/20"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-primary" />
+                <span className="text-sm font-semibold text-primary uppercase tracking-wider">
+                  {detail.brand}
+                </span>
+              </motion.div>
+            )}
+
+            {/* 描述 */}
+            <p className="text-secondary text-lg leading-relaxed">{detail.description}</p>
+
+            {/* 评分 */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
-                <span className="text-lg font-bold text-primary">¥</span>
-              </div>
-              <div>
-                <p className="text-xs text-muted uppercase tracking-wider">价格</p>
-                <p className="text-xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                  {formatCurrency(detail.price)}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center">
-                <Scale className="w-5 h-5 text-accent" />
-              </div>
-              <div>
-                <p className="text-xs text-muted uppercase tracking-wider">重量</p>
-                <p className="text-xl font-bold bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
-                  {formatWeight(detail.weight / 1000)}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* 技术规格 */}
-          {detail.specs && (
-            <div>
-              <h4 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
-                <Package className="w-4 h-4 text-primary" />
-                技术规格
-              </h4>
-              <div className="grid grid-cols-2 gap-2">
-                {Object.entries(detail.specs ?? {}).map(([key, value], index) => {
-                  const displayValue = Array.isArray(value)
-                    ? value.join(', ')
-                    : value !== null && value !== undefined
-                      ? String(value)
-                      : '';
-                  return (
-                    <motion.div
-                      key={key}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 + index * 0.05 }}
-                      className="flex justify-between py-2.5 px-4 bg-surface-secondary/50 rounded-xl border border-border-light"
-                    >
-                      <span className="text-sm text-muted">{key}</span>
-                      <span className="text-sm font-semibold text-foreground">
-                        {displayValue}
-                      </span>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* 核心特性 */}
-          {detail.features && detail.features.length > 0 && (
-            <div>
-              <h4 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-primary" />
-                核心特性
-              </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {detail.features.map((feature, index) => (
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => (
                   <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.4 + index * 0.05 }}
-                    className="flex items-center gap-2 p-3 bg-surface-secondary/50 rounded-xl border border-border-light"
+                    key={i}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.3 + i * 0.05 }}
                   >
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-3.5 h-3.5 text-accent" />
-                    </div>
-                    <span className="text-sm text-foreground">{feature}</span>
+                    <Star
+                      className={`w-5 h-5 ${
+                        i < Math.floor(detail.rating || 0)
+                          ? 'text-yellow-400 fill-yellow-400'
+                          : 'text-border'
+                      }`}
+                    />
                   </motion.div>
                 ))}
               </div>
+              <span className="text-sm text-muted font-medium">
+                {detail.rating} ({detail.reviewCount} 条评价)
+              </span>
             </div>
-          )}
 
-          {/* 选择按钮 */}
-          {onSelect && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              <Button
-                size="lg"
-                onClick={onSelect}
-                className="w-full"
+            {/* 价格和重量 */}
+            <div className="grid grid-cols-2 gap-4 p-4 bg-surface-tertiary/50 rounded-2xl border border-border-light">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
+                  <span className="text-lg font-bold text-primary">¥</span>
+                </div>
+                <div>
+                  <p className="text-xs text-muted uppercase tracking-wider">价格</p>
+                  <p className="text-xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                    {formatCurrency(detail.price)}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center">
+                  <Scale className="w-5 h-5 text-accent" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted uppercase tracking-wider">重量</p>
+                  <p className="text-xl font-bold bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
+                    {formatWeight(detail.weight / 1000)}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* 技术规格 */}
+            {detail.specs && (
+              <div>
+                <h4 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <Package className="w-4 h-4 text-primary" />
+                  技术规格
+                </h4>
+                <div className="grid grid-cols-2 gap-2">
+                  {Object.entries(detail.specs ?? {}).map(([key, value], index) => {
+                    const displayValue = Array.isArray(value)
+                      ? value.join(', ')
+                      : value !== null && value !== undefined
+                        ? String(value)
+                        : '';
+                    return (
+                      <motion.div
+                        key={key}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 + index * 0.05 }}
+                        className="flex justify-between py-2.5 px-4 bg-surface-secondary/50 rounded-xl border border-border-light"
+                      >
+                        <span className="text-sm text-muted">{key}</span>
+                        <span className="text-sm font-semibold text-foreground">
+                          {displayValue}
+                        </span>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* 核心特性 */}
+            {detail.features && detail.features.length > 0 && (
+              <div>
+                <h4 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                  核心特性
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {detail.features.map((feature, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.4 + index * 0.05 }}
+                      className="flex items-center gap-2 p-3 bg-surface-secondary/50 rounded-xl border border-border-light"
+                    >
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center flex-shrink-0">
+                        <Check className="w-3.5 h-3.5 text-accent" />
+                      </div>
+                      <span className="text-sm text-foreground">{feature}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 选择按钮 */}
+            {onSelect && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
               >
-                选择此组件
-                <ChevronRight className="w-5 h-5 ml-2" />
-              </Button>
-            </motion.div>
-          )}
-        </motion.div>
-      </div>
+                <Button size="lg" onClick={onSelect} className="w-full">
+                  选择此组件
+                  <ChevronRight className="w-5 h-5 ml-2" />
+                </Button>
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
       </DialogContent>
     </Dialog>
   );
