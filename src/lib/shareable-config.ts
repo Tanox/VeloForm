@@ -58,12 +58,20 @@ export interface ValidationResult {
   error?: string;
 }
 
+/** Maximum encoded config length to prevent DoS attacks */
+const MAX_CONFIG_LENGTH = 10000; // ~10KB base64 encoded
+
 /**
  * Parse and validate a base64-encoded config string from URL.
  * Returns parsed data if valid, or error message if invalid.
  */
 export function parseShareableConfig(encoded: string): ValidationResult {
   try {
+    // Step 0: Length validation to prevent DoS
+    if (encoded.length > MAX_CONFIG_LENGTH) {
+      return { valid: false, error: 'Configuration too large' };
+    }
+
     // Step 1: Base64 decode
     let decoded: string;
     try {
