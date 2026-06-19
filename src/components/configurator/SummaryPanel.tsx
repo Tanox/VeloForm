@@ -11,12 +11,23 @@ import {
   useUserId,
 } from '@/lib/stores';
 import { formatCurrency, formatWeight } from '@/lib/utils';
-import { useConfigStore as useLegacyStore } from '@/lib/store';
+import { saveConfiguration as saveConfig } from '@/lib/config-service';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
 import { motion } from 'framer-motion';
-import { Save, RefreshCw, Loader2, TrendingUp, Scale, Share2, Zap, Bike, User, Sparkles } from 'lucide-react';
+import {
+  Save,
+  RefreshCw,
+  Loader2,
+  TrendingUp,
+  Scale,
+  Share2,
+  Zap,
+  Bike,
+  User,
+  Sparkles,
+} from 'lucide-react';
 import { ShareModal } from './ShareModal';
 import { CostBreakdownChart } from './CostBreakdownChart';
 
@@ -28,14 +39,13 @@ export function SummaryPanel() {
   const totalWeight = useTotalWeight();
   const manualConfigName = useManualConfigName();
   const resetToDefaults = useConfigStore((s) => s.resetToDefaults);
-  const saveConfiguration = useLegacyStore((s) => s.saveConfiguration);
   const isSaving = useIsSaving();
   const userId = useUserId();
 
   const isLoggedIn = userId !== null;
 
   const handleSave = async () => {
-    await saveConfiguration();
+    await saveConfig();
   };
 
   const getBikeTypeIcon = (type: string) => {
@@ -74,7 +84,10 @@ export function SummaryPanel() {
                 {manualConfigName || `${activeType} Build`}
               </p>
               <div className="flex items-center gap-2 mt-2">
-                <div className="p-1.5 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg" aria-hidden="true">
+                <div
+                  className="p-1.5 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg"
+                  aria-hidden="true"
+                >
                   <BikeIcon className="w-4 h-4 text-primary" />
                 </div>
                 <span className="text-xs text-muted uppercase tracking-wider">
@@ -93,7 +106,10 @@ export function SummaryPanel() {
               transition={{ duration: 0.2 }}
             >
               {/* 顶部装饰线 */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-transparent" aria-hidden="true" />
+              <div
+                className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-transparent"
+                aria-hidden="true"
+              />
 
               <div className="flex items-center gap-2 mb-3">
                 <div className="p-1.5 bg-primary/20 rounded-lg" aria-hidden="true">
@@ -122,7 +138,10 @@ export function SummaryPanel() {
               transition={{ duration: 0.2 }}
             >
               {/* 顶部装饰线 */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent to-transparent" aria-hidden="true" />
+              <div
+                className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent to-transparent"
+                aria-hidden="true"
+              />
 
               <div className="flex items-center gap-2 mb-3">
                 <div className="p-1.5 bg-accent/20 rounded-lg" aria-hidden="true">
@@ -151,17 +170,14 @@ export function SummaryPanel() {
           {/* 操作按钮 */}
           <div className="space-y-3 pt-2">
             {/* 保存按钮 - 使用 gradient 变体 */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button
                 variant="gradient"
                 size="lg"
                 className="w-full min-h-[48px] rounded-xl"
                 onClick={handleSave}
                 disabled={isSaving}
-                aria-label={isSaving ? "保存配置中" : "保存配置"}
+                aria-label={isSaving ? '保存配置中' : '保存配置'}
                 aria-busy={isSaving}
               >
                 {isSaving ? (
@@ -180,10 +196,7 @@ export function SummaryPanel() {
 
             {/* 次要操作 */}
             <div className="grid grid-cols-2 gap-3">
-              <motion.div
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-              >
+              <motion.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}>
                 <Button
                   variant="outline"
                   size="lg"
@@ -195,10 +208,7 @@ export function SummaryPanel() {
                   分享
                 </Button>
               </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-              >
+              <motion.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}>
                 <Button
                   variant="outline"
                   size="lg"
@@ -221,7 +231,10 @@ export function SummaryPanel() {
               className="p-4 bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl"
             >
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0" aria-hidden="true">
+                <div
+                  className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0"
+                  aria-hidden="true"
+                >
                   <User className="w-5 h-5 text-amber-500" aria-hidden="true" />
                 </div>
                 <div>

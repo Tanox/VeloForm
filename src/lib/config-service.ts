@@ -5,6 +5,7 @@ import { useUserStore } from '@/lib/stores/user-store';
 import { useConfigUIStore } from '@/lib/stores/config-ui-store';
 import { toast } from '@/lib/toast';
 import { configLogger } from '@/lib/logger';
+import { ShareableConfigSchema, parseShareableConfig } from '@/lib/shareable-config';
 import {
   saveConfigurationToFirebase,
   deleteConfigurationFromFirebase,
@@ -12,14 +13,8 @@ import {
 } from '@/lib/firebase-service';
 
 export function buildConfigurationFromStore(): Configuration {
-  const {
-    activeType,
-    components,
-    configId,
-    manualConfigName,
-    getTotalCost,
-    getTotalWeight,
-  } = useConfigStore.getState();
+  const { activeType, components, configId, manualConfigName, getTotalCost, getTotalWeight } =
+    useConfigStore.getState();
   const userId = useUserStore.getState().userId;
 
   return {
@@ -67,9 +62,7 @@ export async function saveConfiguration(): Promise<void> {
       }
     }
 
-    const existingIndex = compareStore.myConfigs.findIndex(
-      (c) => c.id === config.id
-    );
+    const existingIndex = compareStore.myConfigs.findIndex((c) => c.id === config.id);
     if (existingIndex >= 0) {
       const updated = [...compareStore.myConfigs];
       updated[existingIndex] = config;
@@ -108,14 +101,31 @@ export async function deleteConfiguration(configId: string): Promise<void> {
 
 export function generateShareableLink(): string {
   const { activeType, components, manualConfigName } = useConfigStore.getState();
-  const config = {
+  const configToShare = {
     bikeType: activeType,
-    components,
+    components: components.map((comp) => ({
+      id: comp.id,
+      name: comp.name,
+      category: comp.category,
+      bikeType: comp.bikeType,
+      price: comp.price,
+      weight: comp.weight,
+      brand: comp.brand,
+      description: comp.description,
+      imageUrl: comp.imageUrl,
+      specs: comp.specs as Record<string, unknown> | undefined,
+    })),
     name: manualConfigName || `${activeType} Build`,
   };
-  const encoded = btoa(JSON.stringify(config));
-  const origin =
-    typeof window !== 'undefined' ? window.location.origin : '';
+
+  const validated = ShareableConfigSchema.safeParse(configToShare);
+  if (!validated.success) {
+    configLogger.error('Shareable config validation failed:', validated.error);
+    throw new Error('Invalid configuration for sharing');
+  }
+
+  const encoded = btoa(JSON.stringify(validated.data));
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
   return `${origin}/?config=${encoded}`;
 }
 
