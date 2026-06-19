@@ -1,177 +1,278 @@
-# Veloform 安全最佳实践审查报告
+# Veloform 安全最佳实践审查报告（已迁移至 Supabase）
 
-> **审查日期**: 2026-06-18
-> **审查范围**: Next.js 应用、Firebase 集成、微信小程序
+> **审查日期**: 2026-06-19
+> **数据库**: Supabase (Postgres + Row Level Security)
 > **版本**: v3.8.0
 
 ---
 
 ## 执行摘要
 
-本次安全审查覆盖 Veloform 项目的 Next.js 前端应用、Firebase 集成层以及新增的微信小程序模块。审查发现项目在安全头配置、输入验证、类型安全等方面已有良好实践，但 **Firestore 安全规则缺失** 是需要立即解决的高优先级问题。
+本次迁移将 Veloform 的数据库后端从 Firebase (Firestore + Firebase Auth) 迁移至 Supabase，带来以下安全架构升级：
+
+1. **PostgreSQL + RLS**: 使用 Supabase 的行级安全策略，粒度控制数据访问权限
+2. **内置 Auth**: Supabase Auth 替代 Firebase Auth，支持邮箱/密码和 OAuth 登录
+3. **存储过程和触发器**: `updated_at` 触发器确保元数据完整性
+4. **索引优化**: 针对 `user_id`、`bike_type`、`updated_at` 建立索引确保查询性能
 
 ---
 
-## 发现的安全问题
+## 数据库架构
 
-### [严重] SF-001: 缺失 Firestore 安全规则
+### 核心表
 
-**严重程度**: P0 - 关键
+#### `public.configurations`
 
-**问题描述**:
-`openspec/security/security-guidelines.md` 中明确要求配置 Firestore 安全规则限制未认证用户访问，但项目根目录不存在 `firestore.rules` 文件。当前 Firestore 数据库对所有访问开放，存在数据泄露和未授权修改风险。
+| 列                 | 类型        | 约束                                        | 说明              |
+| ------------------ | ----------- | ------------------------------------------- | ----------------- |
+| `id`               | uuid        | PRIMARY KEY, DEFAULT uuid_generate_v4()     | 配置唯一标识      |
+| `user_id`          | uuid        | REFERENCES auth.users(id) ON DELETE CASCADE | 创建者用户 ID     |
+| `bike_type`        | text        | NOT NULL, CHECK IN ('Road', 'MTB', 'Fold')  | 车型分类          |
+| `name`             | text        | NOT NULL, CHECK (char_length(name) <= 200)  | 配置名称          |
+| `components`       | jsonb       | NOT NULL, DEFAULT '[]'::jsonb               | 组件列表（JSONB） |
+| `total_cost`       | integer     | NOT NULL, DEFAULT 0                         | 总造价            |
+| `estimated_weight` | integer     | NOT NULL, DEFAULT 0                         | 预计重量          |
+| `description`      | text        | NULLABLE                                    | 配置描述          |
+| `tags`             | text[]      | DEFAULT '{}'                                | 标签数组          |
+| `created_at`       | timestamptz | NOT NULL, DEFAULT now()                     | 创建时间          |
+| `updated_at`       | timestamptz | NOT NULL, DEFAULT now()                     | 最后更新时间      |
 
-**影响**:
+#### `public.components`（保留表，用于静态组件目录）
 
-- 未认证用户可读取所有配置数据
-- 未认证用户可删除或修改他人的配置
-- 用户配置数据（包含 bikeType、name、components 等）可被任意访问
+| 列            | 类型        | 约束                    | 说明         |
+| ------------- | ----------- | ----------------------- | ------------ |
+| `id`          | text        | PRIMARY KEY             | 组件 ID      |
+| `category`    | text        | NOT NULL                | 组件分类     |
+| `bike_type`   | text        | NOT NULL                | 适用车型     |
+| `name`        | text        | NOT NULL                | 组件名称     |
+| `brand`       | text        | NULLABLE                | 品牌         |
+| `model`       | text        | NULLABLE                | 型号         |
+| `price`       | integer     | NOT NULL, DEFAULT 0     | 价格         |
+| `weight`      | integer     | NOT NULL, DEFAULT 0     | 重量         |
+| `description` | text        | NULLABLE                | 描述         |
+| `image_url`   | text        | NULLABLE                | 图片地址     |
+| `specs`       | jsonb       | DEFAULT '{}'::jsonb     | 规格参数     |
+| `created_at`  | timestamptz | NOT NULL, DEFAULT now() | 创建时间     |
+| `updated_at`  | timestamptz | NOT NULL, DEFAULT now() | 最后更新时间 |
 
-**建议修复**:
-创建 `/workspace/firestore.rules` 文件：
+---
 
-```rules
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    // 配置集合 - 公开读取，认证用户仅可操作自己的数据
-    match /configurations/{configId} {
-      allow read: if true; // 允许公开读取（组件目录等）
-      allow write: if request.auth != null
-        && resource.data.userId == request.auth.uid;
-      allow create: if request.auth != null;
-      allow delete: if request.auth != null
-        && resource.data.userId == request.auth.uid;
-    }
+## 行级安全策略（RLS）
 
-    // 用户集合（预留）
-    match /users/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow write: if request.auth != null && request.auth.uid == userId;
-    }
-  }
-}
+### `configurations` 表策略
+
+| 策略名                                      | 操作   | 适用角色            | 逻辑                   |
+| ------------------------------------------- | ------ | ------------------- | ---------------------- |
+| `Configurations are publicly readable`      | SELECT | anon, authenticated | 公开可读（支持浏览）   |
+| `Users can insert their own configurations` | INSERT | authenticated       | `auth.uid() = user_id` |
+| `Users can update their own configurations` | UPDATE | authenticated       | `auth.uid() = user_id` |
+| `Users can delete their own configurations` | DELETE | authenticated       | `auth.uid() = user_id` |
+
+### `components` 表策略
+
+| 策略名                             | 操作   | 适用角色            | 逻辑     |
+| ---------------------------------- | ------ | ------------------- | -------- |
+| `Components are publicly readable` | SELECT | anon, authenticated | 公开可读 |
+
+> 注意：`components` 表禁止公开写入，需通过 Supabase Console 或服务角色 API 维护
+
+---
+
+## 数据库触发器
+
+### `handle_updated_at()`
+
+- **用途**: 自动更新 `updated_at` 字段为当前时间
+- **触发时机**: BEFORE UPDATE
+- **适用表**: `configurations`, `components`
+- **语言**: PL/pgSQL
+
+```sql
+CREATE OR REPLACE FUNCTION public.handle_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 ```
 
-**参考文件**:
+---
 
-- `/openspec/security/security-guidelines.md` (Section 2.3)
-- `/src/lib/firebase-service.ts`
+## 环境变量配置
+
+### 必需变量
+
+| 变量                            | 位置            | 描述                               |
+| ------------------------------- | --------------- | ---------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`      | 浏览器 + 服务端 | Supabase 项目 URL                  |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | 浏览器 + 服务端 | Supabase Anonymous Key（公开安全） |
+
+### 服务端专用（可选）
+
+| 变量                        | 位置     | 描述                                                     |
+| --------------------------- | -------- | -------------------------------------------------------- |
+| `SUPABASE_SERVICE_ROLE_KEY` | 仅服务端 | 服务角色密钥（跳过 RLS，高权限，**绝不能暴露给浏览器**） |
 
 ---
 
-### [高危] SF-002: 分享配置 URL 未校验最大长度
+## API / 客户端访问模式
 
-**严重程度**: P1 - 高
+### 浏览器端（`src/lib/supabase.ts`）
 
-**问题描述**:
-`shareable-config.ts` 中的 `parseShareableConfig` 函数对 base64 编码后的 URL 参数没有长度限制。超长配置可能导致 DoS 攻击或服务端处理异常。
+- **客户端**: 单例模式，浏览器加载后初始化
+- **认证 Session**: 持久化到 localStorage，自动刷新 token
+- **鉴权方式**: 用户登录后自动在请求头注入 `Authorization: Bearer <jwt>`
+- **安全保障**: RLS 在 Postgres 端强制执行，anon key 无权限写 `configurations`（除非 `user_id` 匹配）
 
-**当前代码位置**: `/workspace/src/lib/shareable-config.ts` (第 65-98 行)
+### 服务端组件 / Route Handlers（`createClient()` 内联）
 
-**建议修复**:
-在 `parseShareableConfig` 函数开头添加长度校验：
+- **SSR 场景**: 每次调用新建客户端，避免跨请求状态泄漏
+- **Cookie 同步**: 需要在 `middleware.ts` 中显式处理 Auth Cookie（见下方）
 
-```typescript
-const MAX_CONFIG_LENGTH = 10000; // 最大 10KB
+---
 
-export function parseShareableConfig(encoded: string): ValidationResult {
-  if (encoded.length > MAX_CONFIG_LENGTH) {
-    return { valid: false, error: 'Configuration too large' };
+## Middleware 安全头（`src/middleware.ts`）
+
+| Header                      | 值                                                     | 说明                   |
+| --------------------------- | ------------------------------------------------------ | ---------------------- |
+| `Content-Security-Policy`   | default-src 'self' + connect-src \*.supabase.co        | 阻止非白名单来源连接   |
+| `X-Content-Type-Options`    | `nosniff`                                              | 防止 MIME 类型嗅探     |
+| `X-Frame-Options`           | `DENY`                                                 | 防止点击劫持           |
+| `Referrer-Policy`           | `strict-origin-when-cross-origin`                      | 最小化 referrer 泄漏   |
+| `Permissions-Policy`        | `camera=(), microphone=(), geolocation=(), payment=()` | 禁用敏感 API           |
+| `Strict-Transport-Security` | `max-age=31536000; includeSubDomains; preload`         | 强制 HTTPS（生产环境） |
+
+---
+
+## 代码层面的数据安全保障
+
+### 服务层（`src/lib/supabase-service.ts`）
+
+| 函数                                          | 行为                 | 安全保障                                                                        |
+| --------------------------------------------- | -------------------- | ------------------------------------------------------------------------------- |
+| `saveConfigurationToSupabase(config, userId)` | Upsert configuration | RLS 会校验 `user_id = auth.uid()`；客户端使用 `isSupabaseConfigured()` 降级本地 |
+| `loadConfigurationsFromSupabase(userId)`      | 读取用户配置列表     | RLS + `eq('user_id', userId)` 双重过滤                                          |
+| `deleteConfigurationFromSupabase(configId)`   | 删除配置             | RLS 确保仅所有者可删                                                            |
+
+### 配置验证（`src/lib/shareable-config.ts`）
+
+- 使用 Zod 校验分享链接参数
+- 限制最大长度（`MAX_CONFIG_LENGTH = 10000`），防止超大 payload 攻击
+
+### 环境变量校验（`src/lib/env.ts`）
+
+- 在开发模式自动校验 `NEXT_PUBLIC_SUPABASE_URL` 和 `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- 缺失时给出警告，但不阻止生产构建
+
+---
+
+## 认证流程
+
+### 登录方式
+
+1. **邮箱 + 密码**: `loginWithEmail(email, password)`
+2. **Google OAuth**: `loginWithGoogle()`（需要在 Supabase Console 配置 Google Provider）
+3. **注册**: `signUpWithEmail(email, password)`
+
+### 登出
+
+```ts
+await logout(); // 清除 Supabase session + 本地 Zustand store
+```
+
+### Session 监听
+
+```ts
+const unsubscribe = subscribeToAuthChanges(async (user) => {
+  if (user) {
+    setUserId(user.uid);
+    const configs = await loadConfigurationsFromSupabase(user.uid);
+    setMyConfigs(configs);
+  } else {
+    setUserId(null);
+    setMyConfigs([]);
   }
-  // ... 现有逻辑
-}
+});
 ```
 
 ---
 
-### [中危] SF-003: localStorage 存储用户敏感信息
+## 迁移步骤（已完成）
 
-**严重程度**: P2 - 中
-
-**问题描述**:
-`/workspace/miniprogram/utils/store.js` 中的 `checkLoginStatus` 函数将 `userInfo` 存储在 localStorage，且未加密处理。在 XSS 攻击场景下，攻击者可窃取用户信息。
-
-**当前代码位置**: `/workspace/miniprogram/utils/store.js` (第 26-34 行)
-
-**建议修复**:
-
-1. 避免在 localStorage 中存储完整的用户敏感信息
-2. 如需存储，仅存储不敏感的标识符
-3. 使用 Firebase ID Token 而非完整用户对象
-
----
-
-### [低危] SF-004: 缺失 Content-Type 预检响应头
-
-**严重程度**: P3 - 低
-
-**问题描述**:
-middleware.ts 中未设置 `X-Content-Type-Options: nosniff`，虽然已有该头但在 CSP 严格模式下应明确声明。
-
-**当前代码位置**: `/workspace/src/middleware.ts` (第 29 行)
-
-**建议**:
-该头已存在，确认配置无误即可。
+| 步骤 | 文件                                                    | 说明                                        |
+| ---- | ------------------------------------------------------- | ------------------------------------------- |
+| 1    | `supabase/migrations/20260619000000_initial_schema.sql` | 创建数据库 schema + RLS 策略                |
+| 2    | `src/lib/supabase.ts`                                   | Supabase 客户端初始化                       |
+| 3    | `src/lib/supabase-service.ts`                           | 数据操作 API（替代 firebase-service.ts）    |
+| 4    | `src/lib/auth.ts`                                       | 重写认证模块（使用 Supabase Auth）          |
+| 5    | `src/lib/env.ts`                                        | 更新环境变量校验（从 Firebase → Supabase）  |
+| 6    | `src/lib/constants.ts`                                  | `FIRESTORE_COLLECTIONS` → `SUPABASE_TABLES` |
+| 7    | `src/components/SyncProvider.tsx`                       | 使用新的订阅函数                            |
+| 8    | `src/lib/config-service.ts`                             | 切换到 Supabase service                     |
+| 9    | `src/middleware.ts`                                     | 更新 CSP 白名单（允许 \*.supabase.co）      |
+| 10   | `package.json`                                          | `firebase` → `@supabase/supabase-js`        |
+| 11   | `README.md`                                             | 技术栈文档更新                              |
 
 ---
 
-## 已有的良好安全实践
+## 部署指南
 
-| 类别         | 实现位置                      | 描述                                                            |
-| ------------ | ----------------------------- | --------------------------------------------------------------- |
-| **安全头**   | `src/middleware.ts`           | CSP、HSTS、X-Frame-Options、Referrer-Policy、Permissions-Policy |
-| **输入验证** | `src/lib/shareable-config.ts` | Zod schema 验证分享配置 URL 参数                                |
-| **环境变量** | `src/lib/env.ts`              | 类型安全的环保变量校验                                          |
-| **认证**     | `src/lib/auth.ts`             | Firebase Auth 最佳实践                                          |
-| **类型安全** | 全局                          | TypeScript strict 模式，禁用 `any`                              |
-| **错误处理** | `src/lib/firebase-service.ts` | 优雅降级，失败时回退到本地存储                                  |
-| **日志脱敏** | `src/lib/logger.ts`           | 避免记录敏感信息                                                |
+### Supabase 项目准备
 
----
+1. 在 [https://supabase.com/dashboard](https://supabase.com/dashboard) 创建新项目
+2. 复制项目 URL 和 `anon` public key
+3. 在 SQL Editor 中运行 `supabase/migrations/20260619000000_initial_schema.sql`
+4. 在 **Authentication → URL Configuration** 配置站点 URL
+5. （可选）在 **Authentication → Providers** 启用 Google OAuth
 
-## 微信小程序安全审查
+### 应用部署
 
-### 已发现问题
+```bash
+# 1. 安装依赖
+npm install
 
-| 问题         | 严重程度 | 描述                                                           |
-| ------------ | -------- | -------------------------------------------------------------- |
-| **SF-M-001** | 中       | miniprogram/utils/store.js 中 userInfo 存储在明文 localStorage |
-| **SF-M-002** | 低       | miniprogram/pages/index/index.js 中未验证分享配置参数长度      |
+# 2. 配置环境变量
+cp .env.example .env.local
+# 填写 NEXT_PUBLIC_SUPABASE_URL 和 NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-### 建议
+# 3. 本地开发
+npm run dev
 
-1. 使用微信的 `wx.getStorageInfoSync()` 替代直接同步 API
-2. 对分享配置参数进行长度和格式校验
-3. 确保 HTTPS 在生产环境强制使用
+# 4. 生产构建
+npm run build
+npm run start
+```
 
 ---
 
 ## 安全审查清单
 
-| 检查项             | 状态    | 备注                          |
-| ------------------ | ------- | ----------------------------- |
-| Firestore 安全规则 | ❌ 缺失 | 需创建 firestore.rules        |
-| CSP 配置           | ✅ 完成 | 完整的 Next.js + Firebase CSP |
-| HSTS 配置          | ✅ 完成 | 生产环境启用                  |
-| XSS 防护           | ✅ 完成 | Zod 输入验证                  |
-| 依赖漏洞扫描       | ✅ 完成 | npm audit 已集成              |
-| 类型安全           | ✅ 完成 | TypeScript strict             |
-| 环境变量校验       | ✅ 完成 | validateEnv()                 |
-| 安全日志           | ✅ 完成 | firebaseLogger/authLogger     |
+| 检查项                                    | 状态 | 说明                                           |
+| ----------------------------------------- | ---- | ---------------------------------------------- |
+| RLS 在 `configurations` 表启用            | ✅   | `ALTER TABLE ... ENABLE ROW LEVEL SECURITY`    |
+| RLS 在 `components` 表启用                | ✅   | 公开只读，禁止写入                             |
+| Postgres 扩展 `uuid-ossp` 启用            | ✅   | 用于生成 UUID 主键                             |
+| Anon Key 仅拥有公开读取权限               | ✅   | RLS 强制在数据库端执行                         |
+| `updated_at` 自动更新触发器               | ✅   | `handle_updated_at()`                          |
+| `user_id` 外键约束 + CASCADE 删除         | ✅   | `REFERENCES auth.users(id) ON DELETE CASCADE`  |
+| `bike_type` 枚举 CHECK 约束               | ✅   | `CHECK (bike_type IN ('Road', 'MTB', 'Fold'))` |
+| `name` 长度 CHECK 约束                    | ✅   | `CHECK (char_length(name) <= 200)`             |
+| `user_id`、`bike_type`、`updated_at` 索引 | ✅   | 优化查询性能                                   |
+| CSP 包含 Supabase 域名白名单              | ✅   | `connect-src 'self' https://*.supabase.co`     |
+| 环境变量校验已更新为 Supabase 变量        | ✅   | `NEXT_PUBLIC_SUPABASE_URL` + `_ANON_KEY`       |
+| SSR / 浏览器客户端分离实现                | ✅   | 避免 session 泄漏和 hydration mismatch         |
 
 ---
 
-## 修复优先级
+## 后续优化建议（可选）
 
-| 优先级 | 问题 ID | 描述                        | 预估工作量 |
-| ------ | ------- | --------------------------- | ---------- |
-| **P0** | SF-001  | 创建 Firestore 安全规则     | 1-2h       |
-| **P1** | SF-002  | 分享配置 URL 长度校验       | 0.5h       |
-| **P2** | SF-003  | localStorage 用户信息加密   | 1h         |
-| **P3** | SF-004  | 确认 X-Content-Type-Options | -          |
+1. **存储桶**: 如果后续需要上传组件图片，建议创建 `config-images` 存储桶并设置公开读取 + 认证用户上传的策略
+2. **审计日志**: 添加 `audit_logs` 表和触发器，记录配置的创建/更新/删除事件
+3. **分页查询**: `loadConfigurationsFromSupabase()` 当前无分页，如用户配置数量增多，建议添加 `.range()` 或 `.limit()` 分页
+4. **实时订阅**: 使用 `client.channel('configurations').on('*', handler).subscribe()` 实现多设备实时同步
 
 ---
 
 **报告路径**: `/workspace/security_best_practices_report.md`
-**审查执行**: Claude Code (安全最佳实践技能)
+**上次更新**: 2026-06-19

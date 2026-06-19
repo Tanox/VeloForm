@@ -1,25 +1,25 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// Strict Content Security Policy for Next.js + Firebase
+// Strict Content Security Policy for Next.js + Supabase
 const CSP_POLICY = [
   "default-src 'self'",
-  // Allow Firebase Web SDK connections
-  "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.firebaseio.com https://*.googleapis.com https://apis.google.com",
-  // Firebase Auth uses these domains
-  "frame-src 'self' https://*.firebaseapp.com https://auth.localhost:5555/",
-  // Images from self, external CDNs, and Firebase Storage
+  // Allow Supabase PostgREST (REST API), Realtime, Auth connections
+  "connect-src 'self' https://*.supabase.co https://*.supabase.io",
+  // Frame: Supabase Auth redirects may use iframes
+  "frame-src 'self' https://*.supabase.co",
+  // Images from self, external CDNs, and Supabase Storage
   "img-src 'self' data: https: blob:",
-  // Styles - Next.js requires 'unsafe-inline' for CSS-in-JS
+  // Styles - Next.js requires 'unsafe-inline'
   "style-src 'self' 'unsafe-inline'",
   // Fonts
   "font-src 'self' data:",
-  // Connect to Firebase and Google APIs
-  "connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com",
   // Worker scripts for PWA
   "worker-src 'self' blob:",
   // Manifest for PWA
   "manifest-src 'self'",
+  // Scripts: Next.js hydration + any third-party with nonce (optional)
+  "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
 ].join('; ');
 
 export function middleware(request: NextRequest) {
@@ -53,10 +53,7 @@ export function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/_next/image') ||
     /\.(js|css|ico|svg|png|jpg|jpeg|gif|webp)$/.test(request.nextUrl.pathname)
   ) {
-    response.headers.set(
-      'Cache-Control',
-      'public, max-age=31536000, immutable'
-    );
+    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
   }
 
   return response;

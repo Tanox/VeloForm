@@ -2,15 +2,13 @@ import { Configuration } from '@/types';
 import { useConfigStore } from '@/lib/stores/config-store';
 import { useCompareStore } from '@/lib/stores/compare-store';
 import { useUserStore } from '@/lib/stores/user-store';
-import { useConfigUIStore } from '@/lib/stores/config-ui-store';
+import {
+  saveConfigurationToSupabase,
+  deleteConfigurationFromSupabase,
+} from '@/lib/supabase-service';
+import { isSupabaseConfigured } from '@/lib/supabase';
 import { toast } from '@/lib/toast';
 import { configLogger } from '@/lib/logger';
-import { ShareableConfigSchema, parseShareableConfig } from '@/lib/shareable-config';
-import {
-  saveConfigurationToFirebase,
-  deleteConfigurationFromFirebase,
-  isFirebaseConfigured,
-} from '@/lib/firebase-service';
 
 export function buildConfigurationFromStore(): Configuration {
   const { activeType, components, configId, manualConfigName, getTotalCost, getTotalWeight } =
@@ -31,33 +29,30 @@ export function buildConfigurationFromStore(): Configuration {
 }
 
 export async function saveConfiguration(): Promise<void> {
-  const configUI = useConfigUIStore.getState();
   const compareStore = useCompareStore.getState();
-
-  configUI.setSaving(true);
 
   try {
     const config = buildConfigurationFromStore();
 
     try {
-      if (!isFirebaseConfigured()) {
+      if (!isSupabaseConfigured()) {
         toast('warning', 'Cloud sync unavailable, saving locally');
       } else {
-        const savedId = await saveConfigurationToFirebase(
+        const savedId = await saveConfigurationToSupabase(
           config,
           useUserStore.getState().userId || undefined
         );
         config.id = savedId;
         toast('success', 'Configuration saved to cloud');
       }
-    } catch (firebaseError: unknown) {
-      const error = firebaseError as { code?: string };
-      if (error?.code === 'permission-denied') {
+    } catch (supabaseError: unknown) {
+      const error = supabaseError as { code?: string; message?: string };
+      if (error?.code === '42501') {
         toast('error', 'Permission denied. Please log in.');
-      } else if (error?.code === 'unavailable') {
+      } else if (error?.code === 'PGRST301') {
         toast('warning', 'Cloud service unavailable, saved locally');
       } else {
-        configLogger.error('Firebase error:', firebaseError);
+        configLogger.error('Supabase error:', error);
         toast('error', 'Failed to sync with cloud, saved locally');
       }
     }
@@ -78,8 +73,6 @@ export async function saveConfiguration(): Promise<void> {
   } catch (error) {
     configLogger.error('Critical save error:', error);
     toast('error', 'Failed to save configuration');
-  } finally {
-    configUI.setSaving(false);
   }
 }
 
@@ -87,12 +80,12 @@ export async function deleteConfiguration(configId: string): Promise<void> {
   const compareStore = useCompareStore.getState();
 
   try {
-    if (isFirebaseConfigured()) {
-      await deleteConfigurationFromFirebase(configId);
+    if (isSupabaseConfigured()) {
+      await deleteConfigurationFromSupabase(configId);
       toast('info', 'Configuration deleted from cloud');
     }
   } catch (error) {
-    configLogger.warn('Failed to delete from Firebase:', error);
+    configLogger.warn('Failed to delete from Supabase:', error);
     toast('warning', 'Deleted locally but may still exist in cloud');
   }
 
@@ -101,30 +94,12 @@ export async function deleteConfiguration(configId: string): Promise<void> {
 
 export function generateShareableLink(): string {
   const { activeType, components, manualConfigName } = useConfigStore.getState();
-  const configToShare = {
+  const config = {
     bikeType: activeType,
-    components: components.map((comp) => ({
-      id: comp.id,
-      name: comp.name,
-      category: comp.category,
-      bikeType: comp.bikeType,
-      price: comp.price,
-      weight: comp.weight,
-      brand: comp.brand,
-      description: comp.description,
-      imageUrl: comp.imageUrl,
-      specs: comp.specs as Record<string, unknown> | undefined,
-    })),
+    components,
     name: manualConfigName || `${activeType} Build`,
   };
-
-  const validated = ShareableConfigSchema.safeParse(configToShare);
-  if (!validated.success) {
-    configLogger.error('Shareable config validation failed:', validated.error);
-    throw new Error('Invalid configuration for sharing');
-  }
-
-  const encoded = btoa(JSON.stringify(validated.data));
+  const encoded = btoa(JSON.stringify(config));
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
   return `${origin}/?config=${encoded}`;
 }

@@ -98,7 +98,7 @@ export const logger = new Logger();
 
 // 导出特定模块的日志器
 export const authLogger = logger.child('[Auth]');
-export const firebaseLogger = logger.child('[Firebase]');
+export const supabaseLogger = logger.child('[Supabase]');
 export const configLogger = logger.child('[Config]');
 export const uiLogger = logger.child('[UI]');
 
