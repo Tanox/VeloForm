@@ -1,0 +1,116 @@
+<!-- pages/index/index.wxml - 首页模板 -->
+<view class="page-container">
+  <!-- Hero 区域 -->
+  <view class="hero">
+    <view class="hero-badge">
+      <view class="hero-badge-dot"></view>
+      <text>全新设计体验 v{{version}}</text>
+    </view>
+    <view class="hero-title">
+      <text>打造你的</text>
+      <text class="text-gradient-brand">梦想自行车</text>
+    </view>
+    <view class="hero-subtitle">{{appInfo.description}}</view>
+
+    <view class="hero-bike-icon" aria-hidden="true">
+      <view class="bike-circle"></view>
+      <text class="bike-emoji">🚴</text>
+    </view>
+
+    <view class="hero-actions">
+      <button class="btn btn-gradient" bindtap="onStartConfig">立即开始配置</button>
+    </view>
+  </view>
+
+  <!-- 车型选择区域 -->
+  <view class="section bike-selector-section">
+    <view class="section-header">
+      <text class="section-title">选择你的车型</text>
+      <text class="section-subtitle">三种精心设计的车型，满足不同骑行需求</text>
+    </view>
+
+    <view class="bike-grid">
+      <block wx:for="{{bikeTypes}}" wx:key="type" wx:for-index="index">
+        <view
+          class="bike-card {{activeBikeIndex === index ? 'active' : ''}}"
+          bindtap="onSelectBike"
+          data-type="{{item.type}}"
+          data-index="{{index}}"
+          hover-class="bike-card-hover"
+          hover-stay-time="150"
+        >
+          <view class="bike-icon">{{item.icon}}</view>
+          <view class="bike-name">{{item.name}}</view>
+          <view class="bike-desc">{{item.desc}}</view>
+          <view class="bike-active-indicator" wx:if="{{activeBikeIndex === index}}">
+            <view class="indicator-dot"></view>
+            <text>已选择</text>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <button class="btn btn-primary btn-block btn-lg mt-6" bindtap="onStartConfig">
+      开始配置 {{bikeTypes[activeBikeIndex].name}}
+    </button>
+  </view>
+
+  <!-- 推荐配置区域 -->
+  <view class="section recommended-section">
+    <view class="section-header">
+      <text class="section-title">推荐配置</text>
+      <text class="section-subtitle">精选的配置方案，一键使用</text>
+    </view>
+
+    <view class="recommended-grid">
+      <block wx:for="{{recommendedConfigs}}" wx:key="id">
+        <view
+          class="recommended-card"
+          bindtap="onViewRecommended"
+          data-id="{{item.id}}"
+          hover-class="recommended-card-hover"
+          hover-stay-time="150"
+        >
+          <view class="recommended-header">
+            <view class="recommended-icon">{{item.bikeTypeIcon}}</view>
+            <view class="recommended-tags">
+              <block wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">
+                <view class="tag tag-primary">{{tag}}</view>
+              </block>
+            </view>
+          </view>
+
+          <view class="recommended-name">{{item.name}}</view>
+          <view class="recommended-desc">{{item.description}}</view>
+
+          <view class="recommended-meta">
+            <view class="meta-item">
+              <view class="meta-value price">{{item.totalPriceFormatted}}</view>
+              <view class="meta-label">总价格</view>
+            </view>
+            <view class="meta-item">
+              <view class="meta-value">{{item.totalWeightFormatted}}</view>
+              <view class="meta-label">预估重量</view>
+            </view>
+          </view>
+
+          <view class="recommended-action">
+            <text>查看配置 →</text>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 底部说明 -->
+  <view class="section footer-section">
+    <view class="footer-info">
+      <text class="footer-brand text-gradient-brand font-bold">{{appInfo.name}}</text>
+      <text class="footer-version">Version {{appInfo.version}}</text>
+      <text class="footer-tagline">{{appInfo.tagline}}</text>
+    </view>
+  </view>
+
+  <!-- 自定义 TabBar -->
+  <tabbar />
+</view>

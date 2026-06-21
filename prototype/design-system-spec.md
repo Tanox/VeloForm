@@ -1,14 +1,31 @@
 # Veloform 设计系统规范
 
 > **路径**: `/prototype/design-system-spec.md`
-> **版本**: v3.7.0
-> **更新日期**: 2026-06-14
+> **版本**: v3.8.0
+> **更新日期**: 2026-06-17
+
+---
+
+## 设计理念
+
+Veloform 设计系统追求 **精致克制的 Apple 极简美学** 与 **现代科技感** 的融合。通过精确的间距系统、精心调配的色彩层级和微妙而克制的动效，营造专业、高端的自行车配置工具体验。
+
+### 核心设计原则
+
+| 原则 | 描述 | 实现方式 |
+|-----|------|---------|
+| **功能导向** | 设计服务于功能，不为装饰而装饰 | 清晰的视觉层级、明确的信息架构 |
+| **克制用色** | 中性灰底 + 蓝绿点缀 | 避免过度装饰，突出内容 |
+| **精确间距** | 4px 基础网格系统 | 像素级对齐，舒适的视觉节奏 |
+| **自然动效** | 模拟物理运动规律 | cubic-bezier 缓动曲线，克制时长 |
 
 ---
 
 ## 1. 色彩规范 (Color System)
 
 ### 1.1 核心色彩 Token
+
+> **设计说明**：中性灰色系营造专业的工具感，品牌蓝 `#0071E3` 传递科技与信任，绿色 `#34C759` 作为正向强调色用于价格、成功等重要信息。
 
 | Token | 浅色值 (HEX) | 深色值 (HEX) | 语义 | 典型使用场景 |
 |-------|---------------|---------------|------|-------------|
@@ -29,7 +46,21 @@
 | `--error` | `#ff3b30` | `#ff453a` | 错误态 | 错误 Toast、表单验证错误、删除操作 |
 | `--info` | `#0071e3` | `#2997ff` | 信息态 | 信息 Toast、帮助提示 |
 
-### 1.2 主色阶 (Primary Scale)
+### 1.2 色彩可视化
+
+```
+浅色模式                              深色模式
+┌─────────────────────────────────────────────────────────┐
+│  Background  ■ #ffffff       Background  ■ #000000     │
+│  Surface     ■ #f5f5f7       Surface     ■ #1d1d1f   │
+│  Primary     ■ #0071e3       Primary     ■ #2997ff   │
+│  Accent      ■ #34c759       Accent      ■ #30d158   │
+│  Error       ■ #ff3b30       Error       ■ #ff453a   │
+│  Warning     ■ #ff9500       Warning     ■ #ff9f0a   │
+└─────────────────────────────────────────────────────────┘
+```
+
+### 1.3 主色阶 (Primary Scale)
 
 | Token | HEX | 使用 |
 |-------|-----|------|
@@ -39,15 +70,34 @@
 | `--primary-600` | `#0077ed` | 悬停状态 |
 | `--primary-700` | `#006ed6` | 按下/聚焦状态 |
 
-### 1.3 色彩使用原则
+### 1.4 色彩使用原则
 
-- **主要操作 (Primary Action)**：永远使用 `--primary`
-- **次要操作 (Secondary Action)**：使用透明背景 + `--primary` 描边或文字
-- **强调信息 (Accent)**：使用 `--accent`（绿色），用于正向强调，如价格、成功
-- **语义色 (Semantic)**：`--success / --warning / --error / --info` 仅用于状态反馈，不可做装饰用途
-- **中性色 (Neutral)**：`--surface-*` 系列用于构建视觉层级，避免在单一界面混用多种表面色
+| 场景 | 正确做法 | 错误做法 |
+|-----|---------|---------|
+| 主要操作 | 使用 `--primary` | 使用 `--accent` 或自定义颜色 |
+| 次要操作 | 透明背景 + `--primary` 描边 | 使用 `--secondary` 作为按钮背景 |
+| 正向强调 | 使用 `--accent`（绿色） | 使用 `--primary` 传递成功含义 |
+| 语义状态 | `--success / --warning / --error / --info` | 使用语义色做装饰 |
+| 视觉层级 | `--surface-*` 系列 | 混用多种自定义背景色 |
 
-### 1.4 对比度要求 (WCAG 2.1 AA)
+### 1.5 品牌渐变色 (Brand Gradient)
+
+> **设计说明**：品牌渐变色用于 Hero CTA、特殊行动号召等需要强烈视觉吸引的场景。通过蓝 → 绿 → 紫的渐变传递品牌的创新与活力。
+
+| Token | CSS 值 | 用途 |
+|-------|--------|------|
+| `--gradient-brand` | `linear-gradient(90deg, #0071E3, #34C759, #AF52DE)` | 品牌渐变 |
+| `--gradient-brand-subtle` | `linear-gradient(135deg, rgba(0,113,227,0.05), rgba(52,199,89,0.03))` | 卡片悬停背景 |
+
+**渐变色可视化**：
+```
+品牌渐变 (Brand Gradient)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+■ #0071E3 → ■ #34C759 → ■ #AF52DE
+    科技蓝       活力绿       创新紫
+```
+
+### 1.6 对比度要求 (WCAG 2.1 AA)
 
 | 文本类型 | 最小对比度 | 示例组合 |
 |---------|-----------|---------|
@@ -97,6 +147,25 @@
 | `text-6xl` | 3.75 | 60 | Hero 标题 | 首页主标题（Tablet） |
 | `text-7xl` | 4.5 | 72 | Hero 标题 | 首页主标题（Desktop） |
 
+**字号可视化**：
+
+```
+Typography Scale
+═══════════════════════════════════════════════════════════
+text-7xl  72px  ████████████████████████████████████████
+text-6xl  60px  ██████████████████████████████████████
+text-5xl  48px  ███████████████████████████████████
+text-4xl  36px  ██████████████████████████████
+text-3xl  30px  ███████████████████████████
+text-2xl  24px  ███████████████████████
+text-xl   20px  ███████████████████
+text-lg   18px  █████████████████
+text-base 16px  ████████████████
+text-sm   14px  █████████████
+text-xs   12px  ███████████
+═══════════════════════════════════════════════════════════
+```
+
 ### 2.3 字重规范
 
 | 字重 | CSS 值 | 使用场景 |
@@ -141,6 +210,8 @@
 
 ### 3.1 间距 Token (基于 4px 网格)
 
+> **设计说明**：4px 网格系统确保所有元素间距成比例，创造和谐的视觉节奏。小间距用于紧凑元素，大间距用于区分内容区块。
+
 | Token | Rem | 像素 | 典型用途 |
 |-------|-----|------|---------|
 | `space-0` | 0 | 0 | 无间距 |
@@ -156,6 +227,23 @@
 | `space-16` | 4 | 64 | Page Section 间距 |
 | `space-20` | 5 | 80 | 超大间距（Hero 底部） |
 | `space-24` | 6 | 96 | 页面前后最大间距 |
+
+**间距可视化**：
+
+```
+Spacing Scale
+═══════════════════════════════════════════════════════════
+space-1   4px   ▏▎
+space-2   8px   ▏▎▏▎
+space-3   12px  ▏▎▏▎▏▎
+space-4   16px  ▏▎▏▎▏▎▏▎
+space-5   20px  ▏▎▏▎▏▎▏▎▏▎
+space-6   24px  ▏▎▏▎▏▎▏▎▏▎▏▎
+space-8   32px  ▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎
+space-12  48px  ▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎
+space-16  64px  ▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎▏▎
+═══════════════════════════════════════════════════════════
+```
 
 > **Tailwind 映射**：`space-N` 直接对应 `gap-N` / `p-N` / `m-N`
 
@@ -174,17 +262,32 @@
 
 ### 3.3 圆角规范
 
-| Token | 像素 | 典型元素 |
-|-------|------|---------|
-| `rounded-sm` | 4 | 小型标签、小图标 |
-| `rounded-md` | 6 | 输入框、表单项 |
-| `rounded-lg` | 8 | 小卡片、按钮辅助区 |
-| `rounded-xl` | 12 | 中型卡片 |
-| `rounded-2xl` | 16 | **小卡片默认**、图标容器 |
-| `rounded-3xl` | 28 | **大卡片默认**、Hero 图片、模态框 |
-| `rounded-full` | 9999 | 按钮胶囊形、头像、标签 |
+| Token | 像素 | 典型元素 | 视觉示例 |
+|-------|------|---------|---------|
+| `rounded-sm` | 4 | 小型标签、小图标 | `▭` |
+| `rounded-md` | 6 | 输入框、表单项 | `▭` |
+| `rounded-lg` | 8 | 小卡片、按钮辅助区 | `▭` |
+| `rounded-xl` | 12 | 中型卡片 | `▭` |
+| `rounded-2xl` | 16 | **小卡片默认**、图标容器 | `▭` |
+| `rounded-3xl` | 28 | **大卡片默认**、Hero 图片、模态框 | `▭` |
+| `rounded-full` | 9999 | 按钮胶囊形、头像、标签 | `◯` |
 
 > **设计规则**：容器越大圆角越大；主操作按钮使用胶囊形 (`rounded-full`)，增强识别度。
+
+**圆角可视化**：
+
+```
+Border Radius Scale
+═══════════════════════════════════════════════════════════
+rounded-sm   4px   ╭──╮
+rounded-md   6px   ╭───╮
+rounded-lg   8px   ╭────╮
+rounded-xl  12px   ╭─────╮
+rounded-2xl 16px   ╭───────╮
+rounded-3xl 28px  ╭───────────╮
+rounded-full      ╭─────────────╮
+═══════════════════════════════════════════════════════════
+```
 
 ### 3.4 响应式断点
 
@@ -283,9 +386,11 @@ import { Bike, Settings, ChevronRight } from 'lucide-react';
 
 ### 5.1 动效三原则
 
-1. **即时响应 (Responsive)**：用户操作 ≤ 100ms 内给予视觉反馈
-2. **自然过渡 (Natural)**：使用缓动曲线 `cubic-bezier(0.4, 0, 0.2, 1)`，模拟物理运动
-3. **适度克制 (Restrained)**：动画时长 ≤ 400ms，避免分散用户注意力
+| 原则 | 描述 | 量化指标 |
+|-----|------|---------|
+| **即时响应 (Responsive)** | 用户操作 ≤ 100ms 内给予视觉反馈 | ≤ 100ms |
+| **自然过渡 (Natural)** | 使用缓动曲线模拟物理运动 | cubic-bezier(0.4, 0, 0.2, 1) |
+| **适度克制 (Restrained)** | 动画时长 ≤ 400ms | ≤ 400ms |
 
 ### 5.2 预设动画库
 
@@ -300,6 +405,7 @@ animation: {
   "pulse": "pulse 2s ease-in-out infinite",       // 加载脉冲
   "float": "float 8s ease-in-out infinite",       // 缓慢浮动 (装饰元素)
   "glow-pulse": "glowPulse 4s ease-in-out infinite", // 光晕呼吸
+  "gradient-shift": "gradientShift 6s ease-in-out infinite", // 渐变呼吸位移动画
 }
 ```
 
@@ -345,6 +451,11 @@ animation: {
   0%, 100% { opacity: 0.5; transform: scale(1); }
   50%      { opacity: 1; transform: scale(1.1); }
 }
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
 ```
 
 ### 5.4 Framer Motion 预设
@@ -381,6 +492,19 @@ const pageIn = {
 | **页面入场** | 500 - 800ms | cubic-bezier(0.4,0,0.2,1) | 页面加载、首屏动画 |
 | **循环动画** | 2s - 8s | ease-in-out infinite | 浮动装饰、脉冲加载 |
 
+**动效时长可视化**：
+
+```
+Animation Duration Scale
+═══════════════════════════════════════════════════════════
+即时反馈   100-150ms  ▓▓▓▓
+微交互     200-300ms  ▓▓▓▓▓▓▓▓▓
+元素过渡   300-400ms  ▓▓▓▓▓▓▓▓▓▓▓▓▓
+页面入场   500-800ms  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+循环动画   2s-8s      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+═══════════════════════════════════════════════════════════
+```
+
 ### 5.6 动效禁用规则
 
 满足以下任一条件时，**必须禁用非必要动画**：
@@ -403,6 +527,89 @@ const prefersReducedMotion =
 
 ---
 
+## 6. Utility Classes
+
+### 6.1 通用工具类
+
+| Class | CSS | 说明 |
+|-------|-----|------|
+| `container` | `max-width: 1280px; margin: 0 auto;` | 页面内容容器 |
+| `sr-only` | `position: absolute; width: 1px; height: 1px; padding: 0; ...` | 视觉隐藏，保留给无障碍读屏器 |
+| `truncate` | `overflow: hidden; text-overflow: ellipsis; white-space: nowrap;` | 单行截断溢出文本 |
+| `line-clamp-2` | `-webkit-line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical;` | 最多 2 行截断 |
+| `no-scrollbar` | `scrollbar-width: none; -ms-overflow-style: none;` | 隐藏滚动条但保留滚动功能 |
+
+### 6.2 渐变与装饰工具
+
+```css
+/* 品牌渐变背景 */
+.gradient-brand {
+  background: linear-gradient(90deg, #0071E3, #34C759, #AF52DE);
+  background-size: 200% 200%;
+  color: #ffffff;
+}
+
+/* 品牌渐变文字 */
+.gradient-text {
+  background: linear-gradient(90deg, #0071E3, #34C759, #AF52DE);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* 品牌渐变动画 */
+.gradient-brand-animated {
+  background: linear-gradient(90deg, #0071E3, #34C759, #AF52DE);
+  background-size: 200% 200%;
+  animation: gradientShift 6s ease-in-out infinite;
+}
+```
+
+### 6.3 阴影工具类
+
+```css
+/* Apple 风格阴影 */
+.shadow-apple {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-apple-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-apple-lg {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* 悬停阴影 */
+.shadow-apple-hover {
+  transition: box-shadow 0.25s ease-out, transform 0.25s ease-out;
+}
+
+.shadow-apple-hover:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+```
+
+### 6.4 玻璃态工具类
+
+```css
+/* 毛玻璃背景 */
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+[data-theme="dark"] .glass {
+  background: rgba(0, 0, 0, 0.72);
+}
+```
+
+---
+
 ## 相关文档
 
 - [原型说明](./prototype-guide.md)
@@ -413,5 +620,5 @@ const prefersReducedMotion =
 ---
 
 **文档路径**: `/prototype/design-system-spec.md`
-**最后更新**: 2026-06-14
-**版本**: v3.7.0
+**最后更新**: 2026-06-17
+**版本**: v3.8.0

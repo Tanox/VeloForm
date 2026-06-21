@@ -1,0 +1,4 @@
+<!-- assets/tab/library.wxml - 库tab图标 -->
+<view class="tab-icon">
+  <text class="icon-text">库</text>
+</view>

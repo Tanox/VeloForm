@@ -1,0 +1,155 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ============================================
+    // Veloform Firestore 安全规则 v1.0.0
+    // ============================================
+    //
+    // 设计原则：
+    // 1. 公开数据（如组件目录）允许无认证读取
+    // 2. 用户私有数据（配置）需要认证，且仅所有者可读写
+    // 3. 防止未授权的数据访问和修改
+    //
+    // 使用方式：
+    // 1. 在 Firebase Console -> Firestore -> Rules 中粘贴此内容
+    // 2. 或使用 Firebase CLI: firebase deploy --only firestore:rules
+    // ============================================
+
+    // ----------------------------------------
+    // 辅助函数
+    // ----------------------------------------
+
+    // 检查是否是认证用户
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // 获取当前用户 ID
+    function currentUserId() {
+      return request.auth.uid;
+    }
+
+    // 检查资源是否属于当前用户
+    function isResourceOwner() {
+      return resource.data.userId == currentUserId();
+    }
+
+    // 检查请求数据是否属于当前用户
+    function isRequestDataOwner() {
+      return request.resource.data.userId == currentUserId();
+    }
+
+    // 验证配置数据结构
+    function isValidConfiguration() {
+      let data = request.resource.data;
+      return (
+        // 必填字段
+        data.bikeType is string &&
+        data.name is string &&
+        data.components is list &&
+        // 字段长度限制
+        data.name.size() <= 200 &&
+        data.components.size() <= 50 &&
+        // bikeType 必须是允许的值
+        data.bikeType in ['Road', 'MTB', 'Fold']
+      );
+    }
+
+    // ----------------------------------------
+    // 配置集合
+    // ----------------------------------------
+    //
+    // 公开读取：允许所有用户查看配置列表
+    // 写入控制：仅认证用户可创建/修改自己的配置
+    // 删除控制：仅配置所有者可删除
+    // ----------------------------------------
+
+    match /configurations/{configId} {
+      // 读取权限：公开（无认证可读）
+      // 这样可以让用户在不登录的情况下浏览公开配置
+      allow read: if true;
+
+      // 创建权限：仅认证用户可创建配置
+      // 配置的 userId 必须与当前用户匹配
+      allow create: if
+        isAuthenticated() &&
+        isRequestDataOwner() &&
+        isValidConfiguration();
+
+      // 更新权限：仅认证用户可更新配置
+      // 必须满足：1) 已认证 2) 是配置所有者 3) 数据结构有效
+      // 注意：不允许修改 userId（防止权限提升）
+      allow update: if
+        isAuthenticated() &&
+        isResourceOwner() &&
+        isValidConfiguration() &&
+        // 防止通过更新操作修改 ownership
+        request.resource.data.userId == resource.data.userId;
+
+      // 删除权限：仅配置所有者可删除
+      allow delete: if
+        isAuthenticated() &&
+        isResourceOwner();
+    }
+
+    // ----------------------------------------
+    // 用户集合（预留）
+    // ----------------------------------------
+    //
+    // 用户文档存储用户偏好和设置
+    // 访问控制：仅用户本人可读写
+    // ----------------------------------------
+
+    match /users/{userId} {
+      // 读取：仅用户本人
+      allow read: if
+        isAuthenticated() &&
+        currentUserId() == userId;
+
+      // 创建：仅用户本人，且需要有效数据结构
+      allow create: if
+        isAuthenticated() &&
+        currentUserId() == userId;
+
+      // 更新：仅用户本人
+      allow update: if
+        isAuthenticated() &&
+        currentUserId() == userId;
+
+      // 删除：仅用户本人
+      allow delete: if
+        isAuthenticated() &&
+        currentUserId() == userId;
+    }
+
+    // ----------------------------------------
+    // 组件目录集合（预留）
+    // ----------------------------------------
+    //
+    // 存储可配置的组件数据（车架、传动等）
+    // 公开读取：允许所有用户查看组件列表
+    // 写入控制：仅管理员可更新（预留）
+    // ----------------------------------------
+
+    match /components/{componentId} {
+      // 读取：公开（所有用户可查看组件列表）
+      allow read: if true;
+
+      // 写入：仅管理员（预留角色系统后实现）
+      // 目前禁止公开写入
+      allow write: if false;
+    }
+
+    // ----------------------------------------
+    // 推荐配置集合（预留）
+    // ----------------------------------------
+
+    match /recommendedConfigs/{configId} {
+      // 读取：公开
+      allow read: if true;
+
+      // 写入：仅管理员
+      allow write: if false;
+    }
+  }
+}

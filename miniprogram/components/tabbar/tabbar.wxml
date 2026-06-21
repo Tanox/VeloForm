@@ -1,0 +1,15 @@
+<!-- components/tabbar/tabbar.wxml -->
+<view class="tab-bar">
+  <view 
+    wx:for="{{list}}" 
+    wx:key="path"
+    class="tab-item {{selected === index ? 'active' : ''}}"
+    data-index="{{index}}"
+    bindtap="switchTab"
+  >
+    <view class="icon-wrapper">
+      <text class="icon-text">{{item.text}}</text>
+    </view>
+    <text class="tab-text">{{item.text}}</text>
+  </view>
+</view>

@@ -1,0 +1,4 @@
+<!-- assets/tab/home.wxml - 自定义tabBar图标组件 -->
+<view class="tab-icon">
+  <text class="icon-text">首页</text>
+</view>

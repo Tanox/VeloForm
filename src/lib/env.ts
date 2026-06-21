@@ -1,15 +1,14 @@
 /**
- * Environment variable validation.
- * 在开发模式下自动验证 NEXT_PUBLIC_* 环境变量是否齐全。
- * 类型推断到精确的字符串字面量类型，避免在代码中使用裸字符串 key。
+ * Environment variable validation (Supabase migration)
+ * 从 Firebase 迁移至 Supabase，使用 NEXT_PUBLIC_SUPABASE_URL 和
+ * NEXT_PUBLIC_SUPABASE_ANON_KEY 替代 Firebase 相关变量。
  */
 
 import { logger } from './logger';
 
 export const REQUIRED_ENV_KEYS = [
-  'NEXT_PUBLIC_FIREBASE_PROJECT_ID',
-  'NEXT_PUBLIC_FIREBASE_API_KEY',
-  'NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN',
+  'NEXT_PUBLIC_SUPABASE_URL',
+  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
 ] as const;
 
 export type RequiredEnvKey = (typeof REQUIRED_ENV_KEYS)[number];
@@ -43,12 +42,9 @@ export function validateEnv(): EnvValidationResult {
 }
 
 /**
- * 读取指定 env 变量，缺失时返回 fallback。类型安全且可被 tree-shake。
+ * 读取指定 env 变量，缺失时返回 fallback。类型安全。
  */
-export function getEnv<K extends RequiredEnvKey>(
-  key: K,
-  fallback?: string
-): string {
+export function getEnv<K extends RequiredEnvKey>(key: K, fallback?: string): string {
   const v = process.env[key];
   if (!v || v.trim().length === 0) {
     if (fallback !== undefined) return fallback;
