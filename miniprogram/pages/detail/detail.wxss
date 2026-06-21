@@ -1,0 +1,349 @@
+/* pages/detail/detail.wxss */
+
+.detail-page {
+  background: var(--surface);
+  min-height: 100vh;
+  padding-bottom: 200rpx;
+}
+
+/* ========== 头部信息 ========== */
+.detail-header {
+  padding: 40rpx 32rpx;
+  background: var(--surface-secondary);
+  border-bottom: 1rpx solid var(--border-light);
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.bike-icon {
+  font-size: 52rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 20rpx;
+  background: linear-gradient(135deg, rgba(0, 113, 227, 0.1), rgba(52, 199, 89, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bike-type-tag {
+  padding: 10rpx 24rpx;
+  background: var(--surface-tertiary);
+  border-radius: 9999rpx;
+  font-size: 24rpx;
+  color: var(--secondary);
+  font-weight: 500;
+}
+
+.config-name {
+  font-size: 52rpx;
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: -0.02em;
+  margin-bottom: 20rpx;
+}
+
+.config-description {
+  font-size: 28rpx;
+  color: var(--secondary);
+  line-height: 1.6;
+  margin-bottom: 32rpx;
+}
+
+.stats-grid {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 32rpx;
+}
+
+.detail-stat-card {
+  flex: 1;
+  background: var(--surface);
+  border-radius: 24rpx;
+  padding: 28rpx 20rpx;
+  text-align: center;
+  border: 1rpx solid var(--border-light);
+}
+
+.stat-value {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 8rpx;
+}
+
+.stat-value.price {
+  color: var(--primary);
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ========== 时间信息卡片 ========== */
+.time-info-card {
+  display: flex;
+  margin: 32rpx;
+  padding: 32rpx;
+  background: var(--surface-secondary);
+  border-radius: 24rpx;
+  border: 1rpx solid var(--border-light);
+}
+
+.time-item {
+  flex: 1;
+  text-align: center;
+}
+
+.time-label {
+  display: block;
+  font-size: 22rpx;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8rpx;
+}
+
+.time-value {
+  display: block;
+  font-size: 28rpx;
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.time-item-divider {
+  width: 1rpx;
+  background: var(--border-light);
+  margin: 0 24rpx;
+}
+
+/* ========== 推荐配置标识 ========== */
+.recommended-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  padding: 40rpx 32rpx;
+  margin: 0 32rpx 32rpx;
+  background: linear-gradient(135deg, rgba(0, 113, 227, 0.05), rgba(52, 199, 89, 0.05));
+  border-radius: 28rpx;
+  border: 1rpx solid rgba(0, 113, 227, 0.2);
+}
+
+.badge-icon {
+  font-size: 64rpx;
+}
+
+.badge-text {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.badge-desc {
+  font-size: 26rpx;
+  color: var(--secondary);
+}
+
+/* ========== 组件详细列表 ========== */
+.components-section {
+  padding: 0 32rpx;
+}
+
+.section-title-bar {
+  margin-bottom: 24rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: -0.01em;
+}
+
+.section-sub {
+  display: block;
+  font-size: 26rpx;
+  color: var(--secondary);
+  margin-top: 8rpx;
+}
+
+.components-card {
+  background: var(--surface-secondary);
+  border-radius: 28rpx;
+  border: 1rpx solid var(--border-light);
+  padding: 12rpx;
+}
+
+.component-detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+  padding: 32rpx 20rpx;
+  border-bottom: 1rpx solid var(--border-light);
+}
+
+.component-detail-item:last-child {
+  border-bottom: none;
+}
+
+.item-index {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 16rpx;
+  background: rgba(0, 113, 227, 0.08);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-header-info {
+  margin-bottom: 12rpx;
+}
+
+.item-category-tag {
+  font-size: 22rpx;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.item-name-lg {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 8rpx;
+}
+
+.item-brand-line {
+  font-size: 26rpx;
+  color: var(--secondary);
+  margin-bottom: 8rpx;
+}
+
+.item-description {
+  font-size: 26rpx;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 12rpx;
+}
+
+.item-stats-block {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.stat-row {
+  margin-bottom: 12rpx;
+}
+
+.stat-row:last-child {
+  margin-bottom: 0;
+}
+
+.stat-key {
+  font-size: 22rpx;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.stat-value-sm {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.stat-value-sm.price {
+  color: var(--primary);
+}
+
+/* ========== 总结卡片 ========== */
+.summary-card {
+  margin: 32rpx;
+  padding: 36rpx;
+  background: var(--surface-secondary);
+  border-radius: 28rpx;
+  border: 1rpx solid var(--border-light);
+}
+
+.summary-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 24rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid var(--border-light);
+}
+
+.summary-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-label {
+  font-size: 28rpx;
+  color: var(--secondary);
+}
+
+.summary-value {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.summary-value.price {
+  color: var(--primary);
+}
+
+/* ========== 底部操作栏 ========== */
+.bottom-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 20rpx;
+  padding: 24rpx 32rpx;
+  background: var(--surface-secondary);
+  border-top: 1rpx solid var(--border-light);
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.04);
+  z-index: 100;
+}
+
+.bottom-actions .btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}

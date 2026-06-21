@@ -14,9 +14,8 @@ describe('env', () => {
 
   describe('validateEnv', () => {
     it('should report missing required variables', async () => {
-      delete process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
-      delete process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
-      delete process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN;
+      delete process.env.NEXT_PUBLIC_SUPABASE_URL;
+      delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
       const { validateEnv } = await import('./env');
       const result = validateEnv();
@@ -27,9 +26,8 @@ describe('env', () => {
     });
 
     it('should succeed when all required variables are present', async () => {
-      process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID = 'test-project';
-      process.env.NEXT_PUBLIC_FIREBASE_API_KEY = 'test-key';
-      process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN = 'test.firebaseapp.com';
+      process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://example.supabase.co';
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiJ9...';
 
       const { validateEnv } = await import('./env');
       const result = validateEnv();
@@ -41,25 +39,22 @@ describe('env', () => {
 
   describe('getEnv', () => {
     it('should return env value when set', async () => {
-      process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID = 'my-project';
+      process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://my-project.supabase.co';
       const { getEnv } = await import('./env');
-      expect(getEnv('NEXT_PUBLIC_FIREBASE_PROJECT_ID')).toBe('my-project');
+      expect(getEnv('NEXT_PUBLIC_SUPABASE_URL')).toBe('https://my-project.supabase.co');
     });
 
     it('should return fallback when env is missing', async () => {
-      delete process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+      delete process.env.NEXT_PUBLIC_SUPABASE_URL;
       const { getEnv } = await import('./env');
-      expect(getEnv('NEXT_PUBLIC_FIREBASE_PROJECT_ID', 'fallback')).toBe(
-        'fallback'
-      );
+      expect(getEnv('NEXT_PUBLIC_SUPABASE_URL', 'fallback')).toBe('fallback');
     });
   });
 
   describe('getEnvSnapshot', () => {
     it('should return a snapshot containing required keys', async () => {
-      process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID = 'p';
-      process.env.NEXT_PUBLIC_FIREBASE_API_KEY = 'k';
-      process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN = 'd';
+      process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://example.supabase.co';
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiJ9...';
 
       const { getEnvSnapshot, REQUIRED_ENV_KEYS } = await import('./env');
       const snapshot = getEnvSnapshot();

@@ -15,10 +15,10 @@ import { configLogger } from '@/lib/logger';
 
 // 业务逻辑从 store 中剥离到独立的 service 模块，保持 store 聚焦状态管理
 import {
-  saveConfigurationToFirebase,
-  deleteConfigurationFromFirebase,
-  isFirebaseConfigured,
-} from '@/lib/firebase-service';
+  saveConfigurationToSupabase,
+  deleteConfigurationFromSupabase,
+} from '@/lib/supabase-service';
+import { isSupabaseConfigured } from '@/lib/supabase';
 
 export interface ConfigState {
   // 配置数据
@@ -123,8 +123,7 @@ export const useConfigStore = create<LegacyConfigStore>()(
         })),
 
       setConfigId: (id: string | null) => set({ configId: id }),
-      setManualConfigName: (name: string | null) =>
-        set({ manualConfigName: name }),
+      setManualConfigName: (name: string | null) => set({ manualConfigName: name }),
 
       // --- UI 操作 ---
       toggleComponentSelector: (componentId?: string) =>
@@ -148,10 +147,7 @@ export const useConfigStore = create<LegacyConfigStore>()(
       getTotalWeight: () => {
         const state = get();
         const baseWeight = APP_CONSTANTS.BASE_WEIGHTS[state.activeType];
-        const componentWeight = state.components.reduce(
-          (sum, comp) => sum + comp.weight,
-          0
-        );
+        const componentWeight = state.components.reduce((sum, comp) => sum + comp.weight, 0);
         return (baseWeight + componentWeight) / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR;
       },
 
@@ -181,31 +177,26 @@ export const useConfigStore = create<LegacyConfigStore>()(
           };
 
           try {
-            if (!isFirebaseConfigured()) {
+            if (!isSupabaseConfigured()) {
               toast('warning', 'Cloud sync unavailable, saving locally');
             } else {
-              const savedId = await saveConfigurationToFirebase(
-                config,
-                state.userId || undefined
-              );
+              const savedId = await saveConfigurationToSupabase(config, state.userId || undefined);
               config.id = savedId;
               toast('success', 'Configuration saved to cloud');
             }
-          } catch (firebaseError: unknown) {
-            const error = firebaseError as { code?: string };
-            if (error?.code === 'permission-denied') {
+          } catch (supabaseError: unknown) {
+            const error = supabaseError as { code?: string };
+            if (error?.code === '42501') {
               toast('error', 'Permission denied. Please log in.');
-            } else if (error?.code === 'unavailable') {
+            } else if (error?.code === 'PGRST301') {
               toast('warning', 'Cloud service unavailable, saved locally');
             } else {
-              configLogger.error('Firebase error:', firebaseError);
+              configLogger.error('Supabase error:', supabaseError);
               toast('error', 'Failed to sync with cloud, saved locally');
             }
           }
 
-          const existingIndex = state.myConfigs.findIndex(
-            (c) => c.id === config.id
-          );
+          const existingIndex = state.myConfigs.findIndex((c) => c.id === config.id);
           if (existingIndex >= 0) {
             const updated = [...state.myConfigs];
             updated[existingIndex] = config;
@@ -230,21 +221,19 @@ export const useConfigStore = create<LegacyConfigStore>()(
 
       deleteConfiguration: async (configId: string) => {
         try {
-          if (isFirebaseConfigured()) {
-            await deleteConfigurationFromFirebase(configId);
+          if (isSupabaseConfigured()) {
+            await deleteConfigurationFromSupabase(configId);
             toast('info', 'Configuration deleted from cloud');
           }
         } catch (error) {
-          configLogger.warn('Failed to delete from Firebase:', error);
+          configLogger.warn('Failed to delete from Supabase:', error);
           toast('warning', 'Deleted locally but may still exist in cloud');
         }
 
         set((state) => ({
           myConfigs: state.myConfigs.filter((c) => c.id !== configId),
           configId: state.configId === configId ? null : state.configId,
-          comparingConfigIds: state.comparingConfigIds.filter(
-            (id) => id !== configId
-          ),
+          comparingConfigIds: state.comparingConfigIds.filter((id) => id !== configId),
         }));
       },
 
@@ -256,8 +245,7 @@ export const useConfigStore = create<LegacyConfigStore>()(
           name: state.manualConfigName || `${state.activeType} Build`,
         };
         const encoded = btoa(JSON.stringify(config));
-        const origin =
-          typeof window !== 'undefined' ? window.location.origin : '';
+        const origin = typeof window !== 'undefined' ? window.location.origin : '';
         return `${origin}/?config=${encoded}`;
       },
 
@@ -284,9 +272,7 @@ export const useConfigStore = create<LegacyConfigStore>()(
           const isComparing = state.comparingConfigIds.includes(configId);
           if (isComparing) {
             return {
-              comparingConfigIds: state.comparingConfigIds.filter(
-                (id) => id !== configId
-              ),
+              comparingConfigIds: state.comparingConfigIds.filter((id) => id !== configId),
             };
           }
           if (state.comparingConfigIds.length >= MAX_COMPARE) {

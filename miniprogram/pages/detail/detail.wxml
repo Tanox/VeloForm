@@ -1,0 +1,126 @@
+<!-- pages/detail/detail.wxml -->
+<view class="page-container detail-page">
+  <!-- 头部信息 -->
+  <view class="detail-header">
+    <view class="header-top">
+      <view class="bike-icon">{{bikeTypeIcon}}</view>
+      <view class="bike-type-tag">{{bikeTypeName}}</view>
+    </view>
+
+    <view class="config-name">{{config.name}}</view>
+
+    <view class="config-description" wx:if="{{config.description}}">
+      {{config.description}}
+    </view>
+
+    <!-- 统计信息 -->
+    <view class="stats-grid">
+      <view class="detail-stat-card">
+        <view class="stat-value price">{{totalPrice}}</view>
+        <view class="stat-label">总价格</view>
+      </view>
+      <view class="detail-stat-card">
+        <view class="stat-value">{{totalWeight}}</view>
+        <view class="stat-label">预估重量</view>
+      </view>
+      <view class="detail-stat-card">
+        <view class="stat-value">{{componentCount}}</view>
+        <view class="stat-label">组件数量</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 配置时间信息 -->
+  <view class="time-info-card" wx:if="{{!isRecommended}}">
+    <view class="time-item">
+      <text class="time-label">创建时间</text>
+      <text class="time-value">{{createdTime}}</text>
+    </view>
+    <view class="time-item-divider"></view>
+    <view class="time-item">
+      <text class="time-label">更新时间</text>
+      <text class="time-value">{{updatedTime}}</text>
+    </view>
+  </view>
+
+  <!-- 推荐配置标识 -->
+  <view class="recommended-badge" wx:if="{{isRecommended}}">
+    <view class="badge-icon">⭐</view>
+    <view class="badge-text">推荐配置</view>
+    <view class="badge-desc">基于专业建议的平衡配置</view>
+  </view>
+
+  <!-- 组件详细列表 -->
+  <view class="components-section" wx:if="{{components.length > 0}}">
+    <view class="section-title-bar">
+      <text class="section-title">组件清单</text>
+      <text class="section-sub">共 {{componentCount}} 个组件</text>
+    </view>
+
+    <view class="components-card">
+      <block wx:for="{{components}}" wx:key="id" wx:for-index="idx">
+        <view class="component-detail-item">
+          <view class="item-index">{{idx + 1}}</view>
+
+          <view class="item-content">
+            <view class="item-header-info">
+              <text class="item-category-tag">{{item.categoryIcon}} {{item.categoryName}}</text>
+            </view>
+            <view class="item-name-lg">{{item.name}}</view>
+            <view class="item-brand-line" wx:if="{{item.brand}}">{{item.brand}} · {{item.model}}</view>
+            <view class="item-description" wx:if="{{item.description}}">{{item.description}}</view>
+          </view>
+
+          <view class="item-stats-block">
+            <view class="stat-row">
+              <text class="stat-key">价格</text>
+              <text class="stat-value-sm price">{{item.priceFormatted}}</text>
+            </view>
+            <view class="stat-row">
+              <text class="stat-key">重量</text>
+              <text class="stat-value-sm">{{item.weightFormatted}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{components.length === 0 && !isRecommended}}">
+    <view class="empty-icon">⚙️</view>
+    <view class="empty-title">暂无组件</view>
+    <view class="empty-desc">此配置还没有选择任何组件，点击下方按钮开始配置</view>
+  </view>
+
+  <!-- 总结卡片 -->
+  <view class="summary-card" wx:if="{{components.length > 0}}">
+    <view class="summary-title">配置总结</view>
+    <view class="summary-grid">
+      <view class="summary-item">
+        <text class="summary-label">总价格</text>
+        <text class="summary-value price">{{totalPrice}}</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-label">总重量</text>
+        <text class="summary-value">{{totalWeight}}</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-label">平均组件价格</text>
+        <text class="summary-value">{{'¥' + (config.totalPrice ? (config.totalPrice / config.componentCount) : 0)}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-actions safe-bottom">
+    <view class="btn btn-secondary" bindtap="onShare">
+      <text>📋</text>
+      <text>分享配置</text>
+    </view>
+    <view class="btn btn-gradient" bindtap="onEdit">
+      <text wx:if="{{isRecommended}}">使用此配置</text>
+      <text wx:else>编辑配置</text>
+    </view>
+  </view>
+</view>

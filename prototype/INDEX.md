@@ -1,12 +1,68 @@
-# Veloform 原型设计文档
+# Veloform 原型设计文档索引
 
-> **路径**: `/prototype/INDEX.md`  
-> **版本**: v2.0  
-> **更新日期**: 2026-06-05
+> **路径**: `/prototype/INDEX.md`
+> **版本**: v3.8.0
+> **更新日期**: 2026-06-17
+
+---
 
 ## 概述
 
-本目录包含 Veloform 自行车配置器的核心原型设计资源。所有原型均以 **高保真原型** 为规范标准。
+本目录包含 Veloform 自行车配置器的核心原型设计资源与规范文档。所有规范均以 **高保真原型** 为标准，采用 **shadcn/ui + Radix UI + Tailwind CSS** 技术栈。
+
+---
+
+## 规范体系
+
+Veloform 设计系统采用三层规范结构，确保设计与开发的一致性：
+
+| 层级 | 文档 | 作用 | 面向对象 |
+|-----|------|------|---------|
+| **L1 - 设计系统** | design-system-spec.md | 色彩、字体、间距、图标、动效基础规范 | 设计师 + 开发者 |
+| **L2 - 组件库** | component-library.md | 组件分类、变体、状态、使用规则 | 开发者 |
+| **L3 - 交互标准** | interaction-standards.md | 交互模式、反馈、错误处理、空状态 | 设计师 + 开发者 |
+
+---
+
+## 核心规范文档
+
+### 1. 设计系统规范 ⭐
+> `design-system-spec.md` · v3.8.0
+
+**核心内容**：
+- 色彩系统（Core Tokens、主色阶、渐变色）
+- 字体系统（SF Pro Display/Text、字号层级、字重）
+- 间距系统（4px 网格、组件内边距、圆角）
+- 图标规范（Lucide React、尺寸、语义）
+- 动效系统（预设动画、Keyframes、Framer Motion 预设）
+- Utility Classes（.gradient-brand、.gradient-text）
+
+**设计原则**：
+- 即时响应（≤100ms 反馈）
+- 自然过渡（cubic-bezier缓动）
+- 适度克制（≤400ms 动画）
+
+### 2. 组件库规范 ⭐
+> `component-library.md` · v3.8.0
+
+**组件层级**：
+- **L1 基础组件**：Button、Input、Card、Modal、Badge、Toast
+- **L2 复合组件**：Form、DataTable、Pagination、Dropdown
+- **L3 业务组件**：BikeTypeSelector、ComponentSelector、SummaryPanel
+- **L4 页面 Section**：Hero、Features、Pricing
+
+**技术来源**：shadcn/ui CLI + Radix UI + Tailwind CSS
+
+### 3. 交互标准 ⭐
+> `interaction-standards.md` · v3.8.0
+
+**核心内容**：
+- 交互模式库（导航、选择、列表、搜索）
+- 反馈规范（悬停、按下、焦点、加载、Toast）
+- 错误处理（输入错误、网络错误、错误边界）
+- 空状态设计（首次使用、搜索无结果、权限不足）
+- 键盘快捷键（全局、表单）
+- 无障碍规范（WCAG 2.1 AA）
 
 ---
 
@@ -14,106 +70,59 @@
 
 ```
 prototype/
-├── prototype-high-fidelity.html  # ⭐ 高保真原型（规范标准）
-├── prototype-guide.md           # 原型使用指南
-├── design-improvements.md       # UI/UX 优化建议
-└── INDEX.md                     # 本文档
+├── INDEX.md                          # 文档索引（本文档）
+├── README.md                         # 设计系统总览
+│
+├── design-system-spec.md             # 设计系统规范 ⭐
+├── component-library.md              # 组件库规范 ⭐
+├── interaction-standards.md          # 交互标准 ⭐
+│
+├── prototype.html                    # HTML 原型文件
+├── prototype-guide.md                # 原型使用指南
+├── design-critique.md               # 设计审视报告
+│
+├── design/                          # 辅助设计文档
+│   ├── ui-recommendations.md
+│   ├── responsive-guidelines.md
+│   ├── accessibility-guidelines.md
+│   └── design-optimization-report.md
+│
+└── documentation/                  # 参考文档
+    ├── design-system-summary.md
+    └── component-mapping.md
 ```
 
 ---
 
-## 核心文件
+## 技术栈
 
-### prototype-high-fidelity.html ⭐
+### 前端技术
+- **React 18** + TypeScript
+- **Next.js** (App Router)
+- **Tailwind CSS v3**
+- **shadcn/ui** + Radix UI
+- **Framer Motion**
+- **Lucide React**
+- **Sonner** (Toast)
 
-**高保真原型 - 规范标准**
-
-这是项目的核心原型文件，包含了完整的设计系统、交互逻辑和视觉效果。所有设计和开发均应以此文件为准。
-
-**特性**:
-- 完整的响应式设计（桌面端、平板、移动端）
-- 精致的微交互动画和过渡效果
-- 无障碍访问支持（ARIA 属性、键盘导航、prefers-reduced-motion）
-- SEO 优化元数据
-- 深色主题 + 玻璃态效果
-- 实时价格计算和性能评分
-- 组件选择器模态框
-- Toast 通知系统
-- 移动端底部导航栏
-
-**技术栈**:
-- HTML5 + Tailwind CSS CDN
-- Lucide Icons
-- Vanilla JavaScript
-- CSS 变量设计系统
-- Framer Motion 风格动画
-
-**预览方式**:
-```bash
-# 使用 Python 本地服务器
-cd prototype && python3 -m http.server 8080
-
-# 或直接在浏览器中打开
-open prototype-high-fidelity.html
-```
+### 设计工具
+- **Figma** - 设计与协作
+- **CSS Variables** - Design Tokens
+- **WCAG 2.1 AA** - 无障碍标准
 
 ---
 
-## 支持文档
+## 设计系统版本
 
-### prototype-guide.md
-
-原型使用指南，包含详细的功能说明、组件映射和交互流程。
-
-### design-improvements.md
-
-顶级 UI/UX 设计师视角的优化建议，包含 16 项专业改进方向。
-
----
-
-## 设计系统
-
-原型中使用的核心设计 tokens：
-
-### 色彩系统
-
-| 用途 | 变量 | 颜色 |
-|------|------|------|
-| 主背景 | `--bg-primary` | `#050505` |
-| 次背景 | `--bg-secondary` | `#0f0f11` |
-| 卡片背景 | `--bg-tertiary` | `#1a1a1f` |
-| 主强调 | `--accent-primary` | `#10b981` (翡翠绿) |
-| 次强调 | `--accent-secondary` | `#34d399` |
-| 金色强调 | `--accent-gold` | `#fbbf24` |
-| 主文本 | `--text-primary` | `#f8fafc` |
-| 次文本 | `--text-secondary` | `#94a3b8` |
-
-### 圆角系统
-
-| 名称 | 值 |
-|------|-----|
-| `--radius-sm` | 8px |
-| `--radius-md` | 12px |
-| `--radius-lg` | 16px |
-| `--radius-xl` | 20px |
-| `--radius-2xl` | 28px |
-
-### 字体系统
-
-- **标题字体**: DM Serif Display
-- **正文字体**: Plus Jakarta Sans
-- **字重**: 300 (Light), 400 (Regular), 500 (Medium), 600 (SemiBold), 700 (Bold)
-
-### 动画系统
-
-| 动画名称 | 用途 | 时长 |
-|---------|------|------|
-| `fadeIn` | 淡入效果 | 0.5s |
-| `slideUp` | 向上滑入 | 0.6s |
-| `slideInLeft` | 向左滑入 | 0.6s |
-| `slideInRight` | 向右滑入 | 0.6s |
-| `scaleIn` | 缩放进入 | 0.5s |
-| `float1/2/3` | 背景漂浮 | 20-30s |
+| 版本 | 日期 | 关键变更 |
+|-----|------|---------|
+| v3.8.0 | 2026-06-17 | 新增品牌渐变、gradient 按钮变体、Utility Classes |
+| v3.7.0 | 2026-06-14 | 完善交互标准、空状态设计 |
+| v3.6.0 | 2026-06-08 | shadcn/ui 集成、组件库重构 |
+| v3.5.0 | 2026-06-06 | 动效规范完善 |
+| v3.0.0 | 2026-06-01 | 设计系统 v3 重构 |
+| v2.0 | 2026-06-05 | 高保真原型规范化 |
+| v1.0 | 2026-06-01 | 初始原型创建 |
 
 ---
 
@@ -124,7 +133,8 @@ open prototype-high-fidelity.html
 - ✅ 所有交互元素支持键盘导航
 - ✅ 使用 ARIA 属性增强语义化
 - ✅ 支持 `prefers-reduced-motion` 用户偏好
-- ✅ 足够的色彩对比度（文本至少 4.5:1）
+- ✅ 色彩对比度：正文 ≥ 4.5:1，大文本 ≥ 3:1
+- ✅ 触控目标最小 44×44px
 - ✅ 使用语义化 HTML 标签
 
 ---
@@ -132,29 +142,51 @@ open prototype-high-fidelity.html
 ## 响应式断点
 
 | 断点 | 宽度 | 布局策略 |
-|------|------|----------|
-| Mobile | < 768px | 单列，底部导航栏 |
-| Tablet | 768px - 1023px | 双列，侧边栏折叠 |
-| Desktop | 1024px+ | 三列，完整功能 |
+|-----|------|----------|
+| base | < 640px | 单列，垂直布局 |
+| sm | ≥ 640px | 双列网格基础 |
+| md | ≥ 768px | 双列，侧边栏可展开 |
+| lg | ≥ 1024px | 三列，完整导航 |
+| xl | ≥ 1280px | 四列，最大内容宽度限制 |
 
 ---
 
-## 版本历史
+## 快速开始
 
-| 版本 | 日期 | 说明 |
-|------|------|------|
-| v2.0 | 2026-06-05 | 规范化单一原型，移除冗余文件，增强无障碍和微交互 |
-| v1.0 | 2026-06-01 | 初始高保真原型创建 |
+### 预览规范文档
+
+1. 查看 [设计系统规范](./design-system-spec.md) - 基础设计规范
+2. 查看 [组件库规范](./component-library.md) - 组件使用指南
+3. 查看 [交互标准](./interaction-standards.md) - 交互设计指南
+
+### 运行应用
+
+```bash
+# 从项目根目录
+npm install
+npm run dev
+# 访问 http://localhost:3000
+```
+
+### 预览 HTML 原型
+
+```bash
+cd prototype
+python3 -m http.server 8080
+# 访问 http://localhost:8080/prototype.html
+```
 
 ---
 
 ## 相关资源
 
-- [项目 README](../README.md) - 项目概述和快速开始
-- [规范文档](../openspec/README.md) - 完整技术规范
+- [项目 README](../README.md) - 项目概述
+- [openspec 规范](../openspec/README.md) - 完整技术规范
+- [UI 设计系统](../openspec/design/ui-design-system.md) - 官方设计系统
 - [变更日志](../CHANGELOG.md) - 版本历史
 
 ---
 
-**最后更新**: 2026-06-05  
-**版本**: v2.0
+**文档路径**: `/prototype/INDEX.md`
+**最后更新**: 2026-06-17
+**版本**: v3.8.0

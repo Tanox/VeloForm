@@ -5,7 +5,16 @@ import { useComparingConfigs, useCompareStore, useConfigStore } from '@/lib/stor
 import { useTranslation } from '@/lib/i18n';
 import { formatCurrency, formatWeight } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { X, TrendingDown, TrendingUp, Minus, GitCompare, Check, ArrowRight, Sparkles } from 'lucide-react';
+import {
+  X,
+  TrendingDown,
+  TrendingUp,
+  Minus,
+  GitCompare,
+  Check,
+  ArrowRight,
+  Sparkles,
+} from 'lucide-react';
 
 export function ComparePanel() {
   const t = useTranslation();
@@ -17,8 +26,14 @@ export function ComparePanel() {
   if (comparingConfigs.length < 2) return null;
 
   const categories = comparingConfigs[0]?.components.map((c) => c.category) || [];
-  const minCost = Math.min(...comparingConfigs.map((c) => c.totalCost));
-  const minWeight = Math.min(...comparingConfigs.map((c) => c.estimatedWeight));
+  const costs = comparingConfigs
+    .map((c) => c.totalCost)
+    .filter((v): v is number => typeof v === 'number');
+  const weights = comparingConfigs
+    .map((c) => c.estimatedWeight)
+    .filter((v): v is number => typeof v === 'number');
+  const minCost = costs.length > 0 ? Math.min(...costs) : 0;
+  const minWeight = weights.length > 0 ? Math.min(...weights) : 0;
 
   const getBestValue = (values: number[], lowerIsBetter: boolean = true) => {
     return lowerIsBetter ? Math.min(...values) : Math.max(...values);
@@ -152,22 +167,26 @@ export function ComparePanel() {
                                 <>
                                   <TrendingDown className="w-3.5 h-3.5 text-accent" />
                                   <span className="text-xs text-accent font-medium">
-                                    -{Math.abs(
+                                    -
+                                    {Math.abs(
                                       ((config.totalCost - comparingConfigs[idx - 1].totalCost) /
                                         comparingConfigs[idx - 1].totalCost) *
                                         100
-                                    ).toFixed(1)}%
+                                    ).toFixed(1)}
+                                    %
                                   </span>
                                 </>
                               ) : config.totalCost > comparingConfigs[idx - 1].totalCost ? (
                                 <>
                                   <TrendingUp className="w-3.5 h-3.5 text-red-500" />
                                   <span className="text-xs text-red-500 font-medium">
-                                    +{Math.abs(
+                                    +
+                                    {Math.abs(
                                       ((config.totalCost - comparingConfigs[idx - 1].totalCost) /
                                         comparingConfigs[idx - 1].totalCost) *
                                         100
-                                    ).toFixed(1)}%
+                                    ).toFixed(1)}
+                                    %
                                   </span>
                                 </>
                               ) : (

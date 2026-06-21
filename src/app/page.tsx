@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Hero } from '@/components/sections/Hero';
@@ -10,6 +11,7 @@ import { SummaryPanel } from '@/components/configurator/SummaryPanel';
 import { ComponentSelector } from '@/components/configurator/ComponentSelector';
 import { RecommendedConfigs } from '@/components/configurator/RecommendedConfigs';
 import { ErrorBoundary } from '@/components/ui/error-boundary';
+import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { motion } from 'framer-motion';
 import { uiLogger } from '@/lib/logger';
 
@@ -48,34 +50,38 @@ export default function Home() {
 
         {/* Main Configurator */}
         <ErrorBoundary>
+          <Suspense fallback={<LoadingScreen />}>
+            <motion.section
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+              className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20"
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
+                <div className="lg:col-span-2">
+                  <BuildList />
+                </div>
+                <div className="lg:col-span-1">
+                  <SummaryPanel />
+                </div>
+              </div>
+            </motion.section>
+          </Suspense>
+        </ErrorBoundary>
+
+        {/* Recommended Configurations */}
+        <Suspense fallback={<div className="max-w-7xl mx-auto px-4 h-64" />}>
           <motion.section
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
-            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20"
+            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 border-t border-border-light"
           >
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
-              <div className="lg:col-span-2">
-                <BuildList />
-              </div>
-              <div className="lg:col-span-1">
-                <SummaryPanel />
-              </div>
-            </div>
+            <RecommendedConfigs />
           </motion.section>
-        </ErrorBoundary>
-
-        {/* Recommended Configurations */}
-        <motion.section
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 border-t border-border-light"
-        >
-          <RecommendedConfigs />
-        </motion.section>
+        </Suspense>
       </main>
 
       <Footer />

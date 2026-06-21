@@ -1,0 +1,270 @@
+<!-- pages/configurator/configurator.wxml -->
+<view class="page-container configurator-page">
+  <!-- 配置头部信息 -->
+  <view class="config-header">
+    <view class="config-bike-info">
+      <view class="bike-icon-lg">{{bikeTypeIcon}}</view>
+      <view class="bike-meta">
+        <text class="bike-type-name">{{bikeTypeName}}</text>
+        <text class="config-update-time">更新于 {{config.updatedAtFormatted}}</text>
+      </view>
+    </view>
+
+    <view class="config-name-section" wx:if="{{!isEditingName}}">
+      <view class="config-name">{{config.name}}</view>
+      <view class="edit-name-btn" bindtap="onEditName">
+        <text>✏️</text>
+      </view>
+    </view>
+
+    <view class="config-name-edit" wx:if="{{isEditingName}}">
+      <input
+        class="name-input"
+        value="{{editedName}}"
+        bindinput="onNameInput"
+        placeholder="输入配置名称"
+        maxlength="50"
+        focus="{{isEditingName}}"
+      />
+      <view class="name-actions">
+        <view class="btn btn-secondary btn-sm" bindtap="onCancelEditName">取消</view>
+        <view class="btn btn-primary btn-sm" bindtap="onSaveName">保存</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 统计面板 -->
+  <view class="stats-panel">
+    <view class="stat-card">
+      <view class="stat-value price">{{totalPrice}}</view>
+      <view class="stat-label">总价格</view>
+    </view>
+    <view class="stat-card">
+      <view class="stat-value">{{totalWeight}}</view>
+      <view class="stat-label">预估重量</view>
+    </view>
+    <view class="stat-card">
+      <view class="stat-value">{{components.length}}</view>
+      <view class="stat-label">已选组件</view>
+    </view>
+  </view>
+
+  <!-- 进度条 -->
+  <view class="progress-section">
+    <view class="progress-label">
+      <text>配置进度</text>
+      <text class="progress-percent">{{progress}}%</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{progress}}%;"></view>
+    </view>
+  </view>
+
+  <!-- 快捷操作栏 -->
+  <view class="quick-actions">
+    <view class="quick-action-btn" bindtap="onLoadDefaults">
+      <text>⚡</text>
+      <text>默认配置</text>
+    </view>
+    <view class="quick-action-btn" bindtap="onShareConfig">
+      <text>📋</text>
+      <text>分享配置</text>
+    </view>
+    <view class="quick-action-btn" bindtap="onViewDetail">
+      <text>📊</text>
+      <text>详细信息</text>
+    </view>
+  </view>
+
+  <!-- 分类添加区域 -->
+  <view class="categories-section">
+    <view class="section-title-bar">
+      <text class="section-title-text">组件管理</text>
+      <text class="section-sub-text">选择或替换你的自行车组件</text>
+    </view>
+
+    <view class="categories-list">
+      <block wx:for="{{categories}}" wx:key="key">
+        <view class="category-card">
+          <view class="category-header">
+            <view class="category-icon">{{item.icon}}</view>
+            <view class="category-info">
+              <text class="category-name">{{item.name}}</text>
+              <text class="category-status">
+                {{item.hasComponents ? '已选择 ' + item.components.length + ' 个组件' : '未选择组件'}}
+              </text>
+            </view>
+            <view class="category-action" bindtap="onAddComponent" data-category="{{item.key}}">
+              <text>＋</text>
+            </view>
+          </view>
+
+          <view class="category-components" wx:if="{{item.hasComponents}}">
+            <block
+              wx:for="{{item.components}}"
+              wx:for-item="comp"
+              wx:key="id"
+            >
+              <view class="component-item">
+                <view class="component-info">
+                  <view class="component-name">{{comp.name}}</view>
+                  <view class="component-brand">{{comp.brand}}</view>
+                </view>
+                <view class="component-meta">
+                  <view class="component-price">{{comp.priceFormatted}}</view>
+                  <view class="component-weight">{{comp.weightFormatted}}</view>
+                </view>
+                <view
+                  class="component-view-spec"
+                  bindtap="onViewSpec"
+                  data-component-id="{{comp.id}}"
+                >
+                  <text>📋</text>
+                </view>
+                <view
+                  class="component-remove"
+                  bindtap="onRemoveComponent"
+                  data-component-id="{{comp.id}}"
+                >
+                  <text>✕</text>
+                </view>
+              </view>
+            </block>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 完整组件列表 -->
+  <view class="components-section" wx:if="{{componentList.length > 0}}">
+    <view class="section-title-bar">
+      <text class="section-title-text">已选组件清单</text>
+      <text class="section-sub-text">共 {{componentList.length}} 个组件</text>
+    </view>
+
+    <view class="components-card">
+      <block wx:for="{{componentList}}" wx:key="id" wx:for-index="idx">
+        <view class="components-list-item">
+          <view class="item-index">{{idx + 1}}</view>
+          <view class="item-content">
+            <view class="item-header">
+              <text class="item-category">{{item.categoryIcon}} {{item.categoryName}}</text>
+            </view>
+            <view class="item-name">{{item.name}}</view>
+            <view class="item-brand">{{item.brand}} · {{item.model}}</view>
+          </view>
+          <view class="item-stats">
+            <view class="item-price">{{item.priceFormatted}}</view>
+            <view class="item-weight">{{item.weightFormatted}}</view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{componentList.length === 0}}">
+    <view class="empty-icon">🔧</view>
+    <view class="empty-title">还没有选择任何组件</view>
+    <view class="empty-desc">点击上方分类卡片中的「＋」按钮开始配置你的自行车，或点击「默认配置」一键加载推荐组件</view>
+    <view class="empty-actions">
+      <view class="btn btn-primary" bindtap="onLoadDefaults">加载默认配置</view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-actions safe-bottom">
+    <button class="btn btn-secondary" bindtap="onBackToHome">返回首页</button>
+    <button class="btn btn-gradient" bindtap="onSaveConfig">保存配置</button>
+  </view>
+
+  <!-- 自定义 TabBar -->
+  <tabbar />
+
+  <!-- 组件选择弹窗 -->
+  <view class="modal-overlay" wx:if="{{showAlternativeModal}}" bindtap="onCloseModal">
+    <view class="modal-content" catchtap="">
+      <view class="modal-header">
+        <text class="modal-title">选择组件</text>
+        <view class="modal-close" bindtap="onCloseModal">✕</view>
+      </view>
+
+      <view class="modal-body">
+        <block wx:for="{{alternatives}}" wx:key="name" wx:for-index="idx">
+          <view
+            class="alternative-item"
+            bindtap="onSelectAlternative"
+            data-index="{{idx}}"
+            hover-class="alternative-item-hover"
+            hover-stay-time="100"
+          >
+            <view class="alternative-info">
+              <view class="alternative-name">{{item.name}}</view>
+              <view class="alternative-brand">{{item.brand}} · {{item.description}}</view>
+            </view>
+            <view class="alternative-stats">
+              <view class="alternative-price">{{item.priceFormatted}}</view>
+              <view class="alternative-weight">{{item.weightFormatted}}</view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <!-- 组件规格详情弹窗 -->
+  <view class="modal-overlay component-spec-modal" wx:if="{{showSpecModal}}" bindtap="onCloseSpecModal">
+    <view class="modal-content" catchtap="" wx:if="{{selectedSpecData}}">
+      <!-- 规格头部 -->
+      <view class="spec-header">
+        <view class="spec-icon">{{selectedSpecData.categoryIcon}}</view>
+        <view class="spec-header-info">
+          <view class="spec-category">{{selectedSpecData.categoryName}}</view>
+          <view class="spec-name">{{selectedSpecData.name}}</view>
+          <view class="spec-brand">{{selectedSpecData.brand}} · {{selectedSpecData.model}}</view>
+          <view class="spec-description" wx:if="{{selectedSpecData.description}}">
+            {{selectedSpecData.description}}
+          </view>
+        </view>
+      </view>
+
+      <!-- 价格和重量 -->
+      <view class="spec-stats-row">
+        <view class="spec-stat-item">
+          <view class="spec-stat-value price">{{selectedSpecData.priceFormatted}}</view>
+          <view class="spec-stat-label">价格</view>
+        </view>
+        <view class="spec-stat-item">
+          <view class="spec-stat-value weight">{{selectedSpecData.weightFormatted}}</view>
+          <view class="spec-stat-label">重量</view>
+        </view>
+      </view>
+
+      <!-- 详细规格 -->
+      <view class="spec-details-section" wx:if="{{selectedSpecData.specs.length > 0}}">
+        <view class="spec-section-title">详细规格</view>
+        <view class="spec-grid">
+          <block wx:for="{{selectedSpecData.specs}}" wx:key="key">
+            <view class="spec-item">
+              <view class="spec-item-key">{{item.key}}</view>
+              <view class="spec-item-value">{{item.value}}</view>
+            </view>
+          </block>
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="spec-actions">
+        <view class="btn btn-secondary" bindtap="onCloseSpecModal">关闭</view>
+        <view
+          class="btn btn-danger btn-sm"
+          bindtap="onRemoveComponentFromSpec"
+          data-component-id="{{selectedComponent.id}}"
+        >
+          删除组件
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
