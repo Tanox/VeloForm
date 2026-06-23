@@ -1,253 +1,278 @@
-# Veloform 应用测试报告
+# VeloForm Web 应用测试报告
 
-> **测试日期**: 2026-06-18
-> **测试范围**: 首页、配置器、配置库
-> **测试方式**: 代码审查 + 手动测试（agent-browser 工具不可用）
-> **版本**: v3.8.0
-
----
-
-## 测试概要
-
-本次测试对 Veloform Next.js 应用进行了全面审查，包括代码级别的安全检查、UX 审查和功能完整性验证。由于测试环境限制（agent-browser 工具不可用），采用代码审查结合 curl 验证的方式进行。
-
-**问题总数**: 6
-**严重问题**: 1 | **高危问题**: 2 | **中危问题**: 2 | **低危问题**: 1
+**测试日期**: 2026-06-23  
+**测试环境**: http://localhost:3000  
+**应用版本**: v3.8.0  
+**测试人员**: Trae Agent (Dogfood Test)
 
 ---
 
-## ISSUE-001: ComponentDetailModal 空图片 URL 处理
+## 摘要
 
-**严重程度**: 中
-**类型**: 潜在错误
-**可重现性**: 静态代码分析
+| 严重程度 | 数量  |
+| -------- | ----- |
+| 🔴 严重  | 3     |
+| 🟡 中等  | 2     |
+| 🟢 轻微  | 0     |
+| **总计** | **5** |
 
-### 问题描述
+### 关键发现
 
-`ComponentDetailModal.tsx` 第 57 行，当 `detail.imageUrl` 为空或 falsy 时，代码使用 `|| ''` 回退到空字符串传递给 `next/image` 组件的 `src` 属性。这可能导致图片加载失败或不可预期的行为。
-
-### 复现步骤
-
-1. 打开组件详情弹窗
-2. 查找任意 `imageUrl` 为空的组件
-3. 观察 Image 组件接收到空字符串时的行为
-
-### 当前代码
-
-```tsx
-// src/components/configurator/ComponentDetailModal.tsx:57
-<Image
-  src={detail.imageUrl || ''} // ← 问题：空字符串
-  alt={detail.name}
-  fill
-  sizes="(max-width: 1024px) 100vw, 50vw"
-  // ...
-/>
-```
-
-### 建议修复
-
-```tsx
-{
-  detail.imageUrl ? (
-    <Image
-      src={detail.imageUrl}
-      alt={detail.name}
-      fill
-      sizes="(max-width: 1024px) 100vw, 50vw"
-      // ...
-    />
-  ) : (
-    <div className="absolute inset-0 flex items-center justify-center bg-zinc-800">
-      <ImageOff className="w-12 h-12 text-zinc-500" />
-    </div>
-  );
-}
-```
+1. 导航栏按钮（配置器、配置库）点击无响应
+2. 组件选择器模态框无法打开
+3. 推荐配置加载功能失效
+4. 深色模式切换不工作
+5. 单元测试 4 个失败（货币格式化）
 
 ---
 
-## ISSUE-002: ComparePanel 数值计算未处理空状态
+## 测试范围
 
-**严重程度**: 中
-**类型**: 运行时错误
-**可重现性**: 理论可重现
+### 已测试功能
 
-### 问题描述
-
-`ComparePanel.tsx` 第 20-21 行使用 `Math.min(...array)` 计算最低成本和重量，但如果数组为空或包含 `undefined/null` 值，结果将是 `Infinity` 或 `NaN`，导致 UI 显示异常。
-
-### 复现步骤
-
-1. 进入对比面板
-2. 确认 `comparingConfigs` 数组长度为 2 或更多
-3. 检查 `totalCost` 或 `estimatedWeight` 是否可能为 undefined
-
-### 当前代码
-
-```tsx
-// src/components/configurator/ComparePanel.tsx:19-21
-const categories = comparingConfigs[0]?.components.map((c) => c.category) || [];
-const minCost = Math.min(...comparingConfigs.map((c) => c.totalCost)); // ← 问题
-const minWeight = Math.min(...comparingConfigs.map((c) => c.estimatedWeight)); // ← 问题
-```
-
-### 建议修复
-
-```tsx
-const costs = comparingConfigs.map((c) => c.totalCost).filter((v) => typeof v === 'number');
-const weights = comparingConfigs.map((c) => c.estimatedWeight).filter((v) => typeof v === 'number');
-const minCost = costs.length > 0 ? Math.min(...costs) : 0;
-const minWeight = weights.length > 0 ? Math.min(...weights) : 0;
-```
+- ✅ 页面初始加载
+- ✅ 车型切换（公路车/山地车/折叠车）
+- ❌ 导航栏按钮跳转
+- ❌ 组件选择器/编辑功能
+- ❌ 推荐配置加载
+- ❌ 深色模式切换
+- ✅ 配置库页面（直接访问 URL）
+- ❌ 保存/分享配置
+- ⚠️ 单元测试（4个失败）
 
 ---
 
-## ISSUE-003: 遗留 store 与新 store 并存导致的双写问题
+## 问题详情
 
-**严重程度**: 高
-**类型**: 数据一致性
-**可重现性**: 代码分析
+### ISSUE-001: 导航栏按钮点击无响应
 
-### 问题描述
+| 字段         | 值         |
+| ------------ | ---------- |
+| **严重程度** | 🔴 严重    |
+| **类型**     | 功能性 bug |
+| **影响页面** | 全站导航栏 |
+| **重现难度** | 容易       |
 
-项目中存在两套并行的状态管理系统：
+#### 问题描述
 
-1. 遗留 store (`@/lib/store.ts`) - 使用 `persist` 中间件，本地存储键为 `veloform-config-storage`
-2. 新模块化 store (`@/lib/stores/config-store.ts`) - 同样使用 `persist`，本地存储键相同
+点击导航栏中的"配置器"和"配置库"按钮后，页面没有发生跳转，URL 保持不变。
 
-`SummaryPanel.tsx` 第 14 行同时导入两个 store：
+#### 重现步骤
 
-```tsx
-import { useConfigStore as useLegacyStore } from '@/lib/store';
-import { useConfigStore } from '@/lib/stores';
-```
+1. 访问 http://localhost:3000/
+2. 点击导航栏中的"配置库"按钮
+3. 观察：页面没有跳转到 /library，URL 仍为 /
+4. 点击导航栏中的"配置器"按钮
+5. 观察：同样无响应
 
-这导致状态双写、不同步的问题，可能造成用户配置数据丢失。
+#### 预期行为
 
-### 影响
+- 点击"配置器"应导航到首页 /
+- 点击"配置库"应导航到 /library
 
-- 用户在配置器中修改配置，切换到配置库后发现数据不一致
-- 保存操作可能在两个 store 之间产生竞态条件
+#### 截图证据
 
-### 建议修复
-
-完成 store 迁移，统一使用 `@/lib/stores/` 中的模块化 store，移除遗留 store。
-
----
-
-## ISSUE-004: 分享链接生成未使用 Zod 验证
-
-**严重程度**: 低
-**类型**: 安全/数据验证
-**可重现性**: 代码分析
-
-### 问题描述
-
-`store.ts` 中的 `generateShareableLink` 函数（第 251-262 行）直接使用 `btoa(JSON.stringify(config))` 生成分享链接，未经过 `shareable-config.ts` 中的 Zod schema 验证。
-
-### 当前代码
-
-```tsx
-// src/lib/store.ts:251-262
-generateShareableLink: () => {
-  const state = get();
-  const config = {
-    bikeType: state.activeType,
-    components: state.components,
-    name: state.manualConfigName || `${state.activeType} Build`,
-  };
-  const encoded = btoa(JSON.stringify(config)); // ← 未验证
-  const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  return `${origin}/?config=${encoded}`;
-},
-```
-
-### 建议
-
-这是一个向后兼容性问题。`shareable-config.ts` 已实现独立的验证模块，建议逐步将 `generateShareableLink` 迁移到使用验证后的函数。
+- [首页截图](screenshots/01-homepage.png)
 
 ---
 
-## ISSUE-005: Firestore 安全规则缺失（已创建待部署）
+### ISSUE-002: 组件选择器模态框无法打开
 
-**严重程度**: 高
-**类型**: 安全漏洞
-**可重现性**: 已确认
+| 字段         | 值         |
+| ------------ | ---------- |
+| **严重程度** | 🔴 严重    |
+| **类型**     | 功能性 bug |
+| **影响页面** | 配置器页面 |
+| **重现难度** | 容易       |
 
-### 问题描述
+#### 问题描述
 
-项目中缺少 Firestore 安全规则文件，导致 Firestore 数据库对所有访问开放。
+点击组件卡片上的"编辑"按钮或"添加更多组件"按钮后，组件选择器模态框没有弹出。
 
-### 已采取措施
+#### 重现步骤
 
-已创建 `/workspace/firestore.rules` 文件，包含：
+1. 访问 http://localhost:3000/
+2. 点击任意组件卡片（如 Shimano XTR Di2 M9100）
+3. 观察：组件选择器模态框没有出现
+4. 点击"添加更多组件"按钮
+5. 观察：组件选择器模态框仍未出现
 
-- 公开读取规则（允许浏览组件目录）
-- 认证用户读写自己的配置
-- 用户集合的访问控制
-- 管理员写入限制
+#### 预期行为
 
-### 待办
+- 点击组件卡片或编辑按钮应打开组件选择器模态框
+- 点击"添加更多组件"按钮应打开组件选择器模态框
 
-在 Firebase Console 或使用 Firebase CLI 部署安全规则：
+#### 相关代码
+
+- [BuildList.tsx](file:///workspace/src/components/configurator/BuildList.tsx) - 编辑按钮点击处理
+- [config-ui-store.ts](file:///workspace/src/lib/stores/config-ui-store.ts) - UI 状态管理
+
+---
+
+### ISSUE-003: 推荐配置加载功能失效
+
+| 字段         | 值         |
+| ------------ | ---------- |
+| **严重程度** | 🔴 严重    |
+| **类型**     | 功能性 bug |
+| **影响页面** | 配置器页面 |
+| **重现难度** | 容易       |
+
+#### 问题描述
+
+点击推荐配置区域的"Load Configuration"按钮后，当前配置没有更新为推荐配置。
+
+#### 重现步骤
+
+1. 访问 http://localhost:3000/
+2. 记录当前配置（如 MTB Build，总价 ¥6,490）
+3. 点击 "Pro Race Build" 下方的 "Load Configuration" 按钮
+4. 观察：当前配置没有变化，车型仍为 MTB，价格仍为 ¥6,490
+
+#### 预期行为
+
+- 点击 "Load Configuration" 后，应加载对应的推荐配置
+- 车型、组件列表、总价、总重量都应更新
+
+#### 相关代码
+
+- [RecommendedConfigs.tsx](file:///workspace/src/components/configurator/RecommendedConfigs.tsx) - 推荐配置组件
+- [config-store.ts](file:///workspace/src/lib/stores/config-store.ts) - 配置状态管理
+
+---
+
+### ISSUE-004: 深色模式切换不工作
+
+| 字段         | 值         |
+| ------------ | ---------- |
+| **严重程度** | 🟡 中等    |
+| **类型**     | 功能性 bug |
+| **影响页面** | 全站       |
+| **重现难度** | 容易       |
+
+#### 问题描述
+
+点击导航栏中的深色模式切换按钮后，页面主题没有变化，按钮文本也保持"切换到深色模式"不变。
+
+#### 重现步骤
+
+1. 访问 http://localhost:3000/
+2. 点击导航栏中的"切换到深色模式"按钮
+3. 观察：页面颜色没有变化，按钮文本仍为"切换到深色模式"
+
+#### 预期行为
+
+- 点击后应切换到深色模式
+- 按钮文本应变为"切换到浅色模式"
+- 页面背景、文字颜色等应相应变化
+
+#### 截图证据
+
+- [深色模式测试截图](screenshots/03-dark-mode-test.png)
+
+#### 相关代码
+
+- [ThemeToggle.tsx](file:///workspace/src/components/ui/ThemeToggle.tsx) - 主题切换组件
+- [providers.tsx](file:///workspace/src/app/providers.tsx) - 主题提供者
+
+---
+
+### ISSUE-005: 单元测试 - formatCurrency 函数测试失败
+
+| 字段         | 值                    |
+| ------------ | --------------------- |
+| **严重程度** | 🟡 中等               |
+| **类型**     | 测试/代码不一致       |
+| **影响模块** | src/lib/utils.test.ts |
+| **重现难度** | 容易                  |
+
+#### 问题描述
+
+4 个 formatCurrency 相关的单元测试失败，实际输出与预期不符：
+
+- 货币符号：实际为 ¥，预期为 $
+- 小数位数：实际无小数，预期保留两位小数
+
+#### 失败的测试
+
+1. `should format currency with USD symbol` - 期望 `$1,000.00`，实际 `¥1,000`
+2. `should format currency with commas` - 期望 `$1,000,000.00`，实际 `¥1,000,000`
+3. `should format zero correctly` - 期望 `$0.00`，实际 `¥0`
+4. `should handle decimal amounts` - 期望 `$99.99`，实际 `¥100`
+
+#### 重现步骤
 
 ```bash
-firebase deploy --only firestore:rules
+cd /workspace
+npm run test -- --run
 ```
 
----
+#### 测试结果
 
-## ISSUE-006: 文档版本不同步
+```
+Test Files  1 failed | 13 passed (14)
+     Tests  4 failed | 71 passed (75)
+```
 
-**严重程度**: 低
-**类型**: 文档一致性
-**可重现性**: 静态分析
+#### 相关代码
 
-### 问题描述
+- [utils.test.ts](file:///workspace/src/lib/utils.test.ts) - 测试文件
+- [utils.ts](file:///workspace/src/lib/utils.ts) - 实现文件
 
-各设计文档版本不一致：
+#### 建议
 
-- `/prototype/` 文档: v3.8.0 (2026-06-17)
-- `/openspec/design/ui-design-system.md`: v2.1.0 (2026-06-08)
-- `/openspec/design/design-review.md`: v3.5.0 (2026-06-03)
+需要确认 `formatCurrency` 函数的预期行为：
 
-### 建议
-
-同步更新 OpenSpec 文档到 v3.8.0，确保设计规范的一致性。
-
----
-
-## 正面发现
-
-测试过程中确认以下良好实践：
-
-| 特性        | 位置                           | 描述                                                    |
-| ----------- | ------------------------------ | ------------------------------------------------------- |
-| ✅ 安全头   | `middleware.ts`                | CSP、HSTS、X-Frame-Options、Permissions-Policy 配置完整 |
-| ✅ Zod 验证 | `shareable-config.ts`          | 分享 URL 参数使用 Zod schema 验证                       |
-| ✅ 环境变量 | `env.ts`                       | 类型安全的环保变量校验                                  |
-| ✅ 组件库   | `shadcn/ui`                    | base-nova 风格，gradient 按钮变体已实现                 |
-| ✅ Suspense | `page.tsx`, `library/page.tsx` | 异步加载区域已添加 Suspense 边界                        |
-| ✅ 错误边界 | `ErrorBoundary.tsx`            | 全局错误处理已实现                                      |
-| ✅ 触摸目标 | `button.tsx`                   | 所有按钮 min-height >= 44px，符合 A11y 要求             |
-| ✅ 渐变动画 | `globals.css`                  | gradient-shift 动画已定义                               |
-| ✅ 无障碍   | 多处                           | ARIA 属性、aria-hidden、语义化标签                      |
+- 如果目标是中文市场（人民币），则测试用例需要更新
+- 如果目标是国际市场（美元），则实现代码需要修复
 
 ---
 
-## 测试结论
+## 功能验证
 
-Veloform 应用整体质量良好，安全最佳实践已大量应用。主要问题集中在：
+### 正常工作的功能
 
-1. **高优先级**: Firestore 安全规则缺失（已创建待部署）和遗留 store 双写问题
-2. **中优先级**: 空值处理和数值计算边界情况
-3. **低优先级**: 文档版本同步
-
-建议优先部署 Firestore 安全规则，然后推进 store 统一迁移工作。
+| 功能         | 状态    | 备注                         |
+| ------------ | ------- | ---------------------------- |
+| 页面加载     | ✅ 通过 | 首页和配置库页面都能正常加载 |
+| 车型切换     | ✅ 通过 | 公路车/山地车/折叠车切换正常 |
+| 价格计算     | ✅ 通过 | 总价和总重量计算正确         |
+| 成本分解图表 | ✅ 通过 | 百分比计算正确               |
+| 配置库页面   | ✅ 通过 | 直接访问 URL 可正常显示      |
+| 页面布局     | ✅ 通过 | 响应式布局正常               |
+| 控制台错误   | ✅ 通过 | 无 JavaScript 错误           |
 
 ---
 
-**报告路径**: `/workspace/dogfood-output/report.md`
-**测试执行**: Claude Code (Dogfood 技能)
-**备注**: agent-browser 工具在测试环境中不可用，采用代码审查方式
+## 测试环境信息
+
+- **操作系统**: Linux
+- **Node.js**: >= 18.x
+- **包管理器**: npm
+- **框架**: Next.js 14.1.0
+- **状态管理**: Zustand
+- **样式**: Tailwind CSS
+- **数据库**: Supabase (未配置)
+
+---
+
+## 建议优先级
+
+### 高优先级（立即修复）
+
+1. **ISSUE-001** - 导航栏按钮 - 影响全站导航
+2. **ISSUE-002** - 组件选择器 - 核心功能不可用
+3. **ISSUE-003** - 推荐配置加载 - 重要用户功能
+
+### 中优先级（近期修复）
+
+4. **ISSUE-004** - 深色模式切换 - 用户体验问题
+5. **ISSUE-005** - 单元测试失败 - 代码质量保证
+
+---
+
+## 备注
+
+1. 由于 Supabase 环境变量未配置，与云同步相关的功能（登录、保存到云端）未进行测试
+2. 测试主要基于 UI 交互和单元测试，未进行端到端测试
+3. 建议添加 Playwright 端到端测试以覆盖更多用户场景
