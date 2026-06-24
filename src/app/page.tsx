@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
+import { useRouter } from 'next/navigation';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Hero } from '@/components/sections/Hero';
@@ -13,12 +14,21 @@ import { RecommendedConfigs } from '@/components/configurator/RecommendedConfigs
 import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { motion } from 'framer-motion';
-import { uiLogger } from '@/lib/logger';
+import { useCallback } from 'react';
 
 export default function Home() {
-  const handleNavigate = (page: string) => {
-    uiLogger.debug('Navigate to:', page);
-  };
+  const router = useRouter();
+
+  const handleNavigate = useCallback(
+    (page: string) => {
+      if (page === 'home') {
+        router.push('/');
+      } else if (page === 'library') {
+        router.push('/library');
+      }
+    },
+    [router]
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -41,9 +51,7 @@ export default function Home() {
             <h2 className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-3">
               选择你的车型
             </h2>
-            <p className="text-muted text-lg">
-              我们为您提供公路车、山地车和折叠车三种选择
-            </p>
+            <p className="text-muted text-lg">我们为您提供公路车、山地车和折叠车三种选择</p>
           </div>
           <BikeTypeSelector />
         </motion.section>

@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+// Hoist RegExp to module level for better performance (js-hoist-regexp)
+const STATIC_ASSET_PATTERN = /\.(js|css|ico|svg|png|jpg|jpeg|gif|webp)$/;
+
 // Strict Content Security Policy for Next.js + Supabase
 const CSP_POLICY = [
   "default-src 'self'",
@@ -51,7 +54,7 @@ export function middleware(request: NextRequest) {
   if (
     request.nextUrl.pathname.startsWith('/_next/static') ||
     request.nextUrl.pathname.startsWith('/_next/image') ||
-    /\.(js|css|ico|svg|png|jpg|jpeg|gif|webp)$/.test(request.nextUrl.pathname)
+    STATIC_ASSET_PATTERN.test(request.nextUrl.pathname)
   ) {
     response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
   }

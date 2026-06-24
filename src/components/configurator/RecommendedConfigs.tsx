@@ -9,7 +9,8 @@ import { useTranslation } from '@/lib/i18n';
 import { recommendedConfigurations } from '@/lib/recommended-configs';
 import { Zap, Star, Sparkles, Bike } from 'lucide-react';
 
-const tagIcons: Record<string, typeof Zap> = {
+// Hoist static data to module level to avoid recreation on every render
+const TAG_ICONS: Record<string, typeof Zap> = {
   Recommended: Star,
   Lightweight: Zap,
   Popular: Sparkles,
@@ -19,7 +20,7 @@ const tagIcons: Record<string, typeof Zap> = {
   Compact: Star,
 };
 
-const tagColors: Record<string, string> = {
+const TAG_COLORS: Record<string, string> = {
   Recommended: 'bg-yellow-500/20 text-yellow-400',
   Lightweight: 'bg-green-500/20 text-green-400',
   Popular: 'bg-purple-500/20 text-purple-400',
@@ -34,11 +35,7 @@ export function RecommendedConfigs() {
   const loadConfiguration = useConfigStore((s) => s.loadConfiguration);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="mt-8"
-    >
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-8">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-display font-bold text-foreground">
           {t('recommended.title')}
@@ -56,15 +53,15 @@ export function RecommendedConfigs() {
           >
             <Card className="group relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/5 to-accent/5 rounded-bl-full" />
-              
+
               <div className="relative p-6">
                 <div className="flex items-center gap-2 mb-3">
                   {config.tags?.map((tag) => {
-                    const Icon = tagIcons[tag] || Star;
+                    const Icon = TAG_ICONS[tag] || Star;
                     return (
                       <span
                         key={tag}
-                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${tagColors[tag] || 'bg-zinc-800 text-zinc-400'}`}
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${TAG_COLORS[tag] || 'bg-zinc-800 text-zinc-400'}`}
                       >
                         <Icon className="w-3 h-3" />
                         {tag}

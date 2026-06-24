@@ -4,11 +4,11 @@ import withPWA from 'next-pwa';
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    // Allow images from Firebase Storage and any HTTPS source
+    // Allow images from Firebase Storage and Supabase
     remotePatterns: [
       { protocol: 'https', hostname: 'firebasestorage.googleapis.com' },
-      { protocol: 'https', hostname: '**.firebaseapp.com' },
-      { protocol: 'https', hostname: '**' },
+      { protocol: 'https', hostname: '*.supabase.co' },
+      { protocol: 'https', hostname: '*.supabase.in' },
     ],
   },
   webpack: (config, { isServer }) => {

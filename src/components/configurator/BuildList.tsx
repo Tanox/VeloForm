@@ -1,21 +1,39 @@
 'use client';
 
-import { useComponents, useConfigUIStore } from '@/lib/stores';
+import { useComponents, useConfigUIStore, useActiveType } from '@/lib/stores';
 import { formatCurrency, formatWeight } from '@/lib/utils';
 import { APP_CONSTANTS } from '@/lib/constants';
+import { mockAlternatives } from '@/lib/data/component-alternatives';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
 import { Edit3, Settings, Package, Check, ArrowRight, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 
 export function BuildList() {
   const t = useTranslation();
   const components = useComponents();
+  const activeType = useActiveType();
   const toggleComponentSelector = useConfigUIStore((state) => state.toggleComponentSelector);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Find first missing category component for quick add
+  const firstMissingCategoryComponent = useMemo(() => {
+    const existingCategories = new Set(components.map((c) => c.category));
+    const allCategories = APP_CONSTANTS.COMPONENT_CATEGORIES;
+
+    for (const category of allCategories) {
+      if (!existingCategories.has(category)) {
+        const alternatives = mockAlternatives[category] || [];
+        const matchingComponent = alternatives.find((c) => c.bikeType === activeType);
+        if (matchingComponent) return matchingComponent;
+        if (alternatives.length > 0) return alternatives[0];
+      }
+    }
+    return null;
+  }, [components, activeType]);
 
   const getCategoryTranslation = (category: string) => {
     const key = `categories.${category.toLowerCase()}`;
@@ -24,14 +42,27 @@ export function BuildList() {
   };
 
   const totalCategories = APP_CONSTANTS.COMPONENT_CATEGORIES.length;
-  const completedCategories = new Set(components.map(c => c.category)).size;
+  const completedCategories = new Set(components.map((c) => c.category)).size;
   const completionPercentage = Math.round((completedCategories / totalCategories) * 100);
 
-  const handleEdit = (componentId: string) => {
+  const handleEdit = useCallback(
+    (componentId: string) => {
+      setIsLoading(true);
+      toggleComponentSelector(componentId);
+      setTimeout(() => setIsLoading(false), 300);
+    },
+    [toggleComponentSelector]
+  );
+
+  const handleAddComponent = useCallback(() => {
     setIsLoading(true);
-    toggleComponentSelector(componentId);
+    if (firstMissingCategoryComponent) {
+      toggleComponentSelector(firstMissingCategoryComponent.id);
+    } else {
+      toggleComponentSelector();
+    }
     setTimeout(() => setIsLoading(false), 300);
-  };
+  }, [firstMissingCategoryComponent, toggleComponentSelector]);
 
   return (
     <div className="space-y-5 sm:space-y-6">
@@ -105,21 +136,14 @@ export function BuildList() {
               <p className="text-muted mb-6 max-w-md mx-auto leading-relaxed">
                 {t('configurator.emptyState.description')}
               </p>
-              <Button
-                onClick={() => toggleComponentSelector()}
-                variant="gradient"
-                size="lg"
-              >
+              <Button onClick={() => toggleComponentSelector()} variant="gradient" size="lg">
                 {t('configurator.emptyState.cta')}
                 <ArrowRight className="w-5 h-5 ml-2" aria-hidden="true" />
               </Button>
             </div>
           </motion.div>
         ) : (
-          <motion.div
-            key="component-list"
-            className="space-y-3"
-          >
+          <motion.div key="component-list" className="space-y-3">
             {components.map((component, index) => (
               <motion.div
                 key={component.id}
@@ -219,7 +243,7 @@ export function BuildList() {
                 transition={{ delay: components.length * 0.05 }}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
-                onClick={() => toggleComponentSelector()}
+                onClick={handleAddComponent}
                 className="w-full p-4 sm:p-5 rounded-2xl border-2 border-dashed border-border-light hover:border-primary/50 bg-transparent hover:bg-primary/5 transition-all duration-300 flex items-center justify-center gap-3 group"
               >
                 <div className="w-10 h-10 rounded-xl bg-surface-tertiary group-hover:bg-primary/10 flex items-center justify-center transition-colors">

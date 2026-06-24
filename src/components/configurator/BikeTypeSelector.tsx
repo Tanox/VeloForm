@@ -3,54 +3,58 @@
 import { BikeType } from '@/types';
 import { useActiveType } from '@/lib/stores';
 import { useConfigStore } from '@/lib/stores';
-import { useTranslation } from '@/lib/i18n';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { Bike, Zap, Mountain, Wind } from 'lucide-react';
+import { Zap, Mountain, Wind } from 'lucide-react';
+
+// Hoist static data to module level to avoid recreation on every render
+const TYPES: BikeType[] = ['Road', 'MTB', 'Fold'];
 
 interface BikeTypeInfo {
-  icon: typeof Bike;
+  icon: typeof Wind;
   label: string;
   description: string;
   gradient: string;
   hoverGradient: string;
 }
 
+const BIKE_TYPE_INFO: Record<BikeType, BikeTypeInfo> = {
+  Road: {
+    icon: Wind,
+    label: '公路车',
+    description: '速度与激情，专为竞速打造，轻量化设计让你风驰电掣',
+    gradient: 'from-blue-500 to-cyan-400',
+    hoverGradient: 'hover:from-blue-500/10 hover:to-cyan-400/10',
+  },
+  MTB: {
+    icon: Mountain,
+    label: '山地车',
+    description: '征服山野，强悍的悬挂系统应对各种复杂地形',
+    gradient: 'from-emerald-500 to-teal-400',
+    hoverGradient: 'hover:from-emerald-500/10 hover:to-teal-400/10',
+  },
+  Fold: {
+    icon: Zap,
+    label: '折叠车',
+    description: '灵活便携，轻松收纳，城市通勤的最佳伴侣',
+    gradient: 'from-purple-500 to-pink-400',
+    hoverGradient: 'hover:from-purple-500/10 hover:to-pink-400/10',
+  },
+};
+
 export function BikeTypeSelector() {
-  const t = useTranslation();
   const activeType = useActiveType();
   const setActiveType = useConfigStore((state) => state.setActiveType);
-  const types: BikeType[] = ['Road', 'MTB', 'Fold'];
-
-  const bikeTypeInfo: Record<BikeType, BikeTypeInfo> = {
-    Road: {
-      icon: Wind,
-      label: '公路车',
-      description: '速度与激情，专为竞速打造，轻量化设计让你风驰电掣',
-      gradient: 'from-blue-500 to-cyan-400',
-      hoverGradient: 'hover:from-blue-500/10 hover:to-cyan-400/10',
-    },
-    MTB: {
-      icon: Mountain,
-      label: '山地车',
-      description: '征服山野，强悍的悬挂系统应对各种复杂地形',
-      gradient: 'from-emerald-500 to-teal-400',
-      hoverGradient: 'hover:from-emerald-500/10 hover:to-teal-400/10',
-    },
-    Fold: {
-      icon: Zap,
-      label: '折叠车',
-      description: '灵活便携，轻松收纳，城市通勤的最佳伴侣',
-      gradient: 'from-purple-500 to-pink-400',
-      hoverGradient: 'hover:from-purple-500/10 hover:to-pink-400/10',
-    }
-  };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5" role="tablist" aria-label="选择车型">
-      {types.map((type, index) => {
+    <div
+      className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5"
+      role="tablist"
+      aria-label="选择车型"
+    >
+      {TYPES.map((type, index) => {
         const isActive = activeType === type;
-        const info = bikeTypeInfo[type];
+        const info = BIKE_TYPE_INFO[type];
         const Icon = info.icon;
 
         return (
@@ -65,7 +69,7 @@ export function BikeTypeSelector() {
             transition={{
               duration: 0.6,
               delay: index * 0.1,
-              ease: [0.4, 0, 0.2, 1]
+              ease: [0.4, 0, 0.2, 1],
             }}
             whileHover={{ scale: 1.02, y: -4 }}
             whileTap={{ scale: 0.98 }}
@@ -98,17 +102,20 @@ export function BikeTypeSelector() {
             />
 
             {/* 左侧装饰圆点 - 激活标识 */}
-            <div className={cn(
-              'absolute top-4 right-4 w-2.5 h-2.5 rounded-full transition-all duration-300',
-              isActive ? `bg-gradient-to-br ${info.gradient} shadow-lg scale-125` : 'bg-border'
-            )} aria-hidden="true" />
+            <div
+              className={cn(
+                'absolute top-4 right-4 w-2.5 h-2.5 rounded-full transition-all duration-300',
+                isActive ? `bg-gradient-to-br ${info.gradient} shadow-lg scale-125` : 'bg-border'
+              )}
+              aria-hidden="true"
+            />
 
             <div className="relative z-10">
               {/* 图标 */}
               <motion.div
                 animate={{
                   scale: isActive ? 1.1 : 1,
-                  rotate: isActive ? 5 : 0
+                  rotate: isActive ? 5 : 0,
                 }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
                 className={cn(
@@ -123,18 +130,22 @@ export function BikeTypeSelector() {
               </motion.div>
 
               {/* 标题 */}
-              <h3 className={cn(
-                'text-xl sm:text-2xl font-display font-bold mb-2 transition-colors',
-                isActive ? 'text-foreground' : 'text-secondary group-hover:text-foreground'
-              )}>
+              <h3
+                className={cn(
+                  'text-xl sm:text-2xl font-display font-bold mb-2 transition-colors',
+                  isActive ? 'text-foreground' : 'text-secondary group-hover:text-foreground'
+                )}
+              >
                 {info.label}
               </h3>
 
               {/* 描述 */}
-              <p className={cn(
-                'text-sm leading-relaxed transition-colors',
-                isActive ? 'text-secondary' : 'text-muted group-hover:text-secondary'
-              )}>
+              <p
+                className={cn(
+                  'text-sm leading-relaxed transition-colors',
+                  isActive ? 'text-secondary' : 'text-muted group-hover:text-secondary'
+                )}
+              >
                 {info.description}
               </p>
 
@@ -144,7 +155,11 @@ export function BikeTypeSelector() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-                  className={cn('mt-4 flex items-center gap-2 text-sm font-medium bg-gradient-to-r', info.gradient, 'bg-clip-text text-transparent')}
+                  className={cn(
+                    'mt-4 flex items-center gap-2 text-sm font-medium bg-gradient-to-r',
+                    info.gradient,
+                    'bg-clip-text text-transparent'
+                  )}
                 >
                   <span>已选择</span>
                   <motion.div

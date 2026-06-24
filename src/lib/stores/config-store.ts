@@ -46,11 +46,21 @@ export const useConfigStore = create<ConfigStore>()(
         }),
 
       replaceComponent: (newComponent: ConfigComponent) =>
-        set((state) => ({
-          components: state.components.map((comp) =>
-            comp.category === newComponent.category ? newComponent : comp
-          ),
-        })),
+        set((state) => {
+          const categoryIndex = state.components.findIndex(
+            (comp) => comp.category === newComponent.category
+          );
+          if (categoryIndex >= 0) {
+            return {
+              components: state.components.map((comp) =>
+                comp.category === newComponent.category ? newComponent : comp
+              ),
+            };
+          } else {
+            // Add new category component if not exists
+            return { components: [...state.components, newComponent] };
+          }
+        }),
 
       setComponents: (components: ConfigComponent[]) => set({ components }),
 
@@ -77,10 +87,7 @@ export const useConfigStore = create<ConfigStore>()(
       getTotalWeight: () => {
         const state = get();
         const baseWeight = APP_CONSTANTS.BASE_WEIGHTS[state.activeType];
-        const componentWeight = state.components.reduce(
-          (sum, comp) => sum + comp.weight,
-          0
-        );
+        const componentWeight = state.components.reduce((sum, comp) => sum + comp.weight, 0);
         return (baseWeight + componentWeight) / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR;
       },
     }),

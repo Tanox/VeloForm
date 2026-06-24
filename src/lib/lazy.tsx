@@ -3,10 +3,12 @@
 /**
  * 代码分割与懒加载工具。
  *
- * 使用 React.lazy + Suspense 实现组件级代码分割，
+ * 使用 next/dynamic 实现组件级代码分割，
  * 减少首屏 bundle 大小，按需加载非关键组件。
+ * Next.js dynamic import 支持 SSR 和服务端流式渲染。
  */
-import { lazy, Suspense, ReactNode } from 'react';
+import dynamic from 'next/dynamic';
+import { Suspense, ReactNode } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 /**
@@ -27,52 +29,59 @@ export function LazyComponent({
   );
 }
 
-// --- 预定义懒加载组件 ---
+// --- 预定义懒加载组件（使用 next/dynamic） ---
 
 /** ComponentDetailModal: 组件详情弹窗，仅用户点击时加载 */
-export const LazyComponentDetailModal = lazy(
+export const LazyComponentDetailModal = dynamic(
   () =>
-    import('@/components/configurator/ComponentDetailModal').then((m) => ({
-      default: m.ComponentDetailModal,
-    }))
+    import('@/components/configurator/ComponentDetailModal').then((m) => m.ComponentDetailModal),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-64 w-full rounded-2xl" />,
+  }
 );
 
 /** ShareModal: 分享弹窗，仅用户点击分享时加载 */
-export const LazyShareModal = lazy(
-  () =>
-    import('@/components/configurator/ShareModal').then((m) => ({
-      default: m.ShareModal,
-    }))
+export const LazyShareModal = dynamic(
+  () => import('@/components/configurator/ShareModal').then((m) => m.ShareModal),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-48 w-full rounded-2xl" />,
+  }
 );
 
 /** ComparePanel: 对比面板，按需加载 */
-export const LazyComparePanel = lazy(
-  () =>
-    import('@/components/configurator/ComparePanel').then((m) => ({
-      default: m.ComparePanel,
-    }))
+export const LazyComparePanel = dynamic(
+  () => import('@/components/configurator/ComparePanel').then((m) => m.ComparePanel),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-64 w-full rounded-2xl" />,
+  }
 );
 
 /** OnboardingGuide: 新手引导，按需加载 */
-export const LazyOnboardingGuide = lazy(
-  () =>
-    import('@/components/ui/OnboardingGuide').then((m) => ({
-      default: m.OnboardingGuide,
-    }))
+export const LazyOnboardingGuide = dynamic(
+  () => import('@/components/ui/OnboardingGuide').then((m) => m.OnboardingGuide),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-96 w-full rounded-2xl" />,
+  }
 );
 
 /** SupportModal: 支持弹窗，按需加载 */
-export const LazySupportModal = lazy(
-  () =>
-    import('@/components/ui/SupportModal').then((m) => ({
-      default: m.SupportModal,
-    }))
+export const LazySupportModal = dynamic(
+  () => import('@/components/ui/SupportModal').then((m) => m.SupportModal),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-48 w-full rounded-2xl" />,
+  }
 );
 
 /** CostBreakdownChart: 成本图表，按需加载 */
-export const LazyCostBreakdownChart = lazy(
-  () =>
-    import('@/components/configurator/CostBreakdownChart').then((m) => ({
-      default: m.CostBreakdownChart,
-    }))
+export const LazyCostBreakdownChart = dynamic(
+  () => import('@/components/configurator/CostBreakdownChart').then((m) => m.CostBreakdownChart),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-64 w-full rounded-2xl" />,
+  }
 );
