@@ -23,7 +23,7 @@ App({
     isLoggedIn: false,
     userInfo: null,
     appName: 'Veloform',
-    version: '3.8.0'
+    version: '3.9.0',
   },
 
   checkLoginStatus() {
@@ -36,5 +36,5 @@ App({
     } catch (e) {
       console.error('检查登录状态失败', e);
     }
-  }
+  },
 });

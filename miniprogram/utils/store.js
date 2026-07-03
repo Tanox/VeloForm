@@ -9,7 +9,7 @@ const {
   validateConfig,
   validateComponent,
   ERROR_CODES,
-  createError
+  createError,
 } = require('./util');
 
 let globalState = {
@@ -17,7 +17,7 @@ let globalState = {
   currentConfig: null,
   selectedBikeType: 'Road',
   isLoaded: false,
-  compareList: []
+  compareList: [],
 };
 
 function init() {
@@ -42,8 +42,8 @@ function init() {
 
 function validateConfigurations(configs) {
   if (!Array.isArray(configs)) return [];
-  
-  return configs.filter(config => {
+
+  return configs.filter((config) => {
     const validation = validateConfig(config);
     if (!validation.valid) {
       console.warn('过滤无效配置:', validation.errors);
@@ -100,7 +100,7 @@ function createDefaultConfig() {
     bikeType: 'Road',
     components: [],
     createdAt: Date.now(),
-    updatedAt: Date.now()
+    updatedAt: Date.now(),
   };
 
   globalState.configurations = [defaultConfig];
@@ -123,7 +123,7 @@ function getCurrentConfig() {
 }
 
 function setCurrentConfig(configId) {
-  const config = globalState.configurations.find(c => c.id === configId);
+  const config = globalState.configurations.find((c) => c.id === configId);
   if (config) {
     globalState.currentConfig = config;
     try {
@@ -148,7 +148,7 @@ function createConfiguration(bikeType, name) {
     bikeType: bikeType,
     components: [],
     createdAt: Date.now(),
-    updatedAt: Date.now()
+    updatedAt: Date.now(),
   };
 
   const validation = validateConfig(newConfig);
@@ -168,7 +168,7 @@ function createConfiguration(bikeType, name) {
 }
 
 function updateConfiguration(configId, updates) {
-  const index = globalState.configurations.findIndex(c => c.id === configId);
+  const index = globalState.configurations.findIndex((c) => c.id === configId);
   if (index === -1) {
     console.error('更新配置失败：未找到配置');
     return null;
@@ -177,7 +177,7 @@ function updateConfiguration(configId, updates) {
   const updatedConfig = {
     ...globalState.configurations[index],
     ...updates,
-    updatedAt: Date.now()
+    updatedAt: Date.now(),
   };
 
   const validation = validateConfig(updatedConfig);
@@ -200,7 +200,7 @@ function updateConfiguration(configId, updates) {
 }
 
 function deleteConfiguration(configId) {
-  const index = globalState.configurations.findIndex(c => c.id === configId);
+  const index = globalState.configurations.findIndex((c) => c.id === configId);
   if (index === -1) {
     console.error('删除配置失败：未找到配置');
     return false;
@@ -212,7 +212,7 @@ function deleteConfiguration(configId) {
     globalState.currentConfig = globalState.configurations[0] || null;
   }
 
-  globalState.compareList = globalState.compareList.filter(id => id !== configId);
+  globalState.compareList = globalState.compareList.filter((id) => id !== configId);
 
   if (!saveToStorage()) {
     showToast({ title: '删除失败，请重试', icon: 'error' });
@@ -223,7 +223,7 @@ function deleteConfiguration(configId) {
 }
 
 function addComponent(configId, component) {
-  const config = globalState.configurations.find(c => c.id === configId);
+  const config = globalState.configurations.find((c) => c.id === configId);
   if (!config) {
     console.error('添加组件失败：未找到配置');
     return null;
@@ -236,7 +236,7 @@ function addComponent(configId, component) {
   }
 
   const existingComponent = config.components.find(
-    c => c.category === component.category && c.name === component.name
+    (c) => c.category === component.category && c.name === component.name
   );
   if (existingComponent) {
     showToast({ title: '该组件已存在', icon: 'none' });
@@ -246,7 +246,7 @@ function addComponent(configId, component) {
   const newComponent = {
     ...component,
     id: generateId('comp'),
-    addedAt: Date.now()
+    addedAt: Date.now(),
   };
 
   config.components.push(newComponent);
@@ -264,10 +264,10 @@ function addComponent(configId, component) {
 }
 
 function removeComponent(configId, componentId) {
-  const config = globalState.configurations.find(c => c.id === configId);
+  const config = globalState.configurations.find((c) => c.id === configId);
   if (!config) return null;
 
-  const compIndex = config.components.findIndex(c => c.id === componentId);
+  const compIndex = config.components.findIndex((c) => c.id === componentId);
   if (compIndex !== -1) {
     config.components.splice(compIndex, 1);
     config.updatedAt = Date.now();
@@ -291,7 +291,7 @@ function getBikeTypeName(bikeType) {
   const names = {
     Road: '公路车',
     MTB: '山地车',
-    Fold: '折叠车'
+    Fold: '折叠车',
   };
   return names[bikeType] || '自行车';
 }
@@ -321,7 +321,7 @@ function addToCompare(configId) {
   }
 
   globalState.compareList.push(configId);
-  
+
   if (!saveToStorage()) {
     showToast({ title: '保存失败', icon: 'error' });
     return false;
@@ -339,7 +339,7 @@ function removeFromCompare(configId) {
   }
 
   globalState.compareList.splice(index, 1);
-  
+
   if (!saveToStorage()) {
     showToast({ title: '保存失败', icon: 'error' });
     return false;
@@ -354,13 +354,13 @@ function getCompareList() {
 
 function getCompareConfigurations() {
   return globalState.compareList
-    .map(id => globalState.configurations.find(c => c.id === id))
+    .map((id) => globalState.configurations.find((c) => c.id === id))
     .filter(Boolean);
 }
 
 function clearCompareList() {
   globalState.compareList = [];
-  
+
   if (!saveToStorage()) {
     showToast({ title: '保存失败', icon: 'error' });
     return false;
@@ -377,7 +377,7 @@ function exportData() {
       compareList: globalState.compareList,
       selectedBikeType: globalState.selectedBikeType,
       exportTime: Date.now(),
-      version: '3.8.0'
+      version: '3.9.0',
     };
     return JSON.stringify(data, null, 2);
   } catch (e) {
@@ -389,13 +389,15 @@ function exportData() {
 function importData(jsonString) {
   try {
     const data = JSON.parse(jsonString);
-    
+
     if (!data.configurations || !Array.isArray(data.configurations)) {
       throw createError(ERROR_CODES.VALIDATION_ERROR, '导入数据格式不正确');
     }
 
     globalState.configurations = validateConfigurations(data.configurations);
-    globalState.currentConfig = data.currentConfig ? validateAndFixConfig(data.currentConfig) : null;
+    globalState.currentConfig = data.currentConfig
+      ? validateAndFixConfig(data.currentConfig)
+      : null;
     globalState.compareList = data.compareList || [];
     globalState.selectedBikeType = data.selectedBikeType || 'Road';
 
@@ -431,5 +433,5 @@ module.exports = {
   getCompareConfigurations,
   clearCompareList,
   exportData,
-  importData
+  importData,
 };
