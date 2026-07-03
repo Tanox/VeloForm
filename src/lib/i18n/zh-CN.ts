@@ -58,6 +58,10 @@ export const translations = {
     subtitle: '专家精选配置方案',
     load: '加载配置',
   },
+  homePage: {
+    bikeTypeTitle: '选择你的车型',
+    bikeTypeSubtitle: '我们为您提供公路车、山地车和折叠车三种选择',
+  },
   compare: {
     title: '比较配置',
     configs: '个配置',

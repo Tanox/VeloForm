@@ -23,10 +23,21 @@ export interface EnvValidationResult {
   message?: string;
 }
 
+// 占位符集合：检测未替换的模板值
+const PLACEHOLDER_VALUES = new Set([
+  'YOUR_SUPABASE_URL',
+  'YOUR_SUPABASE_ANON_KEY',
+  'your-project.supabase.co',
+]);
+
+function isPlaceholder(value: string): boolean {
+  return PLACEHOLDER_VALUES.has(value.trim());
+}
+
 export function validateEnv(): EnvValidationResult {
   const missing = REQUIRED_ENV_KEYS.filter((key) => {
     const v = process.env[key];
-    return !v || v.trim().length === 0;
+    return !v || v.trim().length === 0 || isPlaceholder(v);
   });
 
   if (missing.length > 0) {
@@ -38,6 +49,19 @@ export function validateEnv(): EnvValidationResult {
         `Please copy .env.example to .env and fill in the required values.`,
     };
   }
+
+  // 安全检查：Supabase URL 必须使用 HTTPS，防止中间人攻击
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (supabaseUrl && !supabaseUrl.startsWith('https://')) {
+    return {
+      ok: false,
+      missing: [],
+      message:
+        `NEXT_PUBLIC_SUPABASE_URL must use HTTPS (got: ${supabaseUrl.slice(0, 8)}...).\n` +
+        `Using non-HTTPS URLs exposes credentials to man-in-the-middle attacks.`,
+    };
+  }
+
   return { ok: true, missing: [] };
 }
 

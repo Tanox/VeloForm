@@ -32,15 +32,15 @@ Veloform is an advanced bicycle configurator built with Next.js, Tailwind CSS, a
 
 For complete tech stack documentation, see [Architecture Overview](./openspec/architecture/overview.md).
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| Next.js | v14.1.0 | App Router architecture, React Server Components |
-| React | v18.2.0 | UI component library |
-| Zustand | v4.5.0 | Lightweight state management |
-| Tailwind CSS | v3.4.0 | Styling framework |
-| Firebase | v10.0.0 | Firestore database and Auth authentication |
-| Framer Motion | v10.16.4 | Animation effects |
-| Lucide React | v0.294.0 | Icon library |
+| Technology    | Version  | Purpose                                          |
+| ------------- | -------- | ------------------------------------------------ |
+| Next.js       | v14.2.35 | App Router architecture, React Server Components |
+| React         | v18.2.0  | UI component library                             |
+| Zustand       | v4.5.0   | Lightweight state management                     |
+| Tailwind CSS  | v3.4.0   | Styling framework                                |
+| Supabase      | v2.45.0  | Postgres database + Row Level Security           |
+| Framer Motion | v10.16.4 | Animation effects                                |
+| Lucide React  | v0.294.0 | Icon library                                     |
 
 ---
 
@@ -113,12 +113,14 @@ For detailed development guidelines, see [openspec/PROJECT_GUIDELINES.md](opensp
 ### Installation
 
 1. **Clone the repository**:
+
    ```bash
    git clone https://github.com/sutchan/Veloform.git
    cd Veloform
    ```
 
 2. **Install dependencies**:
+
    ```bash
    npm install
    # or using pnpm
@@ -126,12 +128,14 @@ For detailed development guidelines, see [openspec/PROJECT_GUIDELINES.md](opensp
    ```
 
 3. **Configure environment variables**:
+
    ```bash
    cp .env.example .env
    # Edit .env and fill in your Firebase configuration
    ```
 
 4. **Start development server**:
+
    ```bash
    npm run dev
    ```
@@ -152,14 +156,14 @@ For detailed development guidelines, see [openspec/PROJECT_GUIDELINES.md](opensp
 
 ## Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server (port 3000) |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
-| `npm run test` | Run unit tests |
-| `npm run test:coverage` | Run tests with coverage report |
+| Command                 | Description                          |
+| ----------------------- | ------------------------------------ |
+| `npm run dev`           | Start development server (port 3000) |
+| `npm run build`         | Build for production                 |
+| `npm run start`         | Start production server              |
+| `npm run lint`          | Run ESLint                           |
+| `npm run test`          | Run unit tests                       |
+| `npm run test:coverage` | Run tests with coverage report       |
 
 ---
 
@@ -197,6 +201,7 @@ Contributions are welcome! Please submit Issues and Pull Requests.
 5. Create a Pull Request
 
 Before submitting, please ensure:
+
 - All tests pass (`npm run test`)
 - Lint checks pass (`npm run lint`)
 - Follow the [coding standards](./openspec/development/coding-standards.md)
@@ -211,7 +216,7 @@ MIT License
 
 ## Version
 
-Current version: **v3.7.0**  
-Last updated: 2026-06-08
+Current version: **v3.9.0**  
+Last updated: 2026-07-02
 
 For detailed changelog, see [CHANGELOG.md](./CHANGELOG.md).

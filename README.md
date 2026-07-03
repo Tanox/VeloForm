@@ -35,7 +35,7 @@ Veloform 是一款基于 Next.js、Tailwind CSS 并由 **Supabase** 驱动的高
 
 | 技术          | 版本        | 用途                                     |
 | ------------- | ----------- | ---------------------------------------- |
-| Next.js       | v14.1.0     | App Router 架构，React Server Components |
+| Next.js       | v14.2.35    | App Router 架构，React Server Components |
 | React         | v18.2.0     | UI 组件库                                |
 | Zustand       | v4.5.0      | 轻量级状态管理                           |
 | Tailwind CSS  | v3.4.0      | 样式框架                                 |
@@ -218,7 +218,7 @@ MIT License
 
 ## 版本信息
 
-当前版本：**v3.7.0**  
-最后更新：2026-06-08
+当前版本：**v3.9.0**  
+最后更新：2026-07-02
 
 详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)。

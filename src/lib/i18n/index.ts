@@ -69,6 +69,10 @@ interface Translations {
     subtitle: string;
     load: string;
   };
+  homePage: {
+    bikeTypeTitle: string;
+    bikeTypeSubtitle: string;
+  };
   compare: {
     title: string;
     configs: string;

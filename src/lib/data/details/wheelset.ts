@@ -1,0 +1,73 @@
+import type { ComponentDetail } from '../component-details';
+
+export const wheelsetDetails: Record<string, ComponentDetail> = {
+  w1: {
+    id: 'w1',
+    category: 'Wheelset',
+    bikeType: 'Road',
+    name: 'Roval Rapide CLX II',
+    price: 2800,
+    weight: 1520,
+    brand: 'Roval',
+    model: 'Rapide CLX II',
+    description: 'Aero-optimized carbon wheels for maximum speed on the road.',
+    specs: {
+      'Rim Depth': '51mm',
+      'Internal Width': '21mm',
+      'Brake Type': 'Disc',
+      'Spoke Count': '24/24',
+      'Max Tire Size': '30mm',
+    },
+    features: ['Hookless rims', 'Tubeless ready', 'Aero shaping', 'DT Swiss hubs'],
+    rating: 4.8,
+    reviewCount: 156,
+    imageUrl:
+      'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Roval%20Rapide%20CLX%20II%20carbon%20road%20bike%20wheelset%20professional%20product%20photo&image_size=landscape_4_3',
+  },
+  w2: {
+    id: 'w2',
+    category: 'Wheelset',
+    bikeType: 'Road',
+    name: 'Zipp 454 NSW',
+    price: 3200,
+    weight: 1480,
+    brand: 'Zipp',
+    model: '454 NSW',
+    description: 'Wave-shaped rims for unparalleled aerodynamics and stability.',
+    specs: {
+      'Rim Depth': '45mm',
+      'Internal Width': '23mm',
+      'Brake Type': 'Disc',
+      'Spoke Count': '24/28',
+      'Max Tire Size': '32mm',
+    },
+    features: ['Wave rim technology', 'NSW hubset', 'Aero spokes', 'Hookless design'],
+    rating: 4.9,
+    reviewCount: 89,
+    imageUrl:
+      'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Zipp%20454%20NSW%20carbon%20wheelset%20with%20wave%20rim%20technology%20professional%20product%20photo&image_size=landscape_4_3',
+  },
+  w3: {
+    id: 'w3',
+    category: 'Wheelset',
+    bikeType: 'Road',
+    name: 'Enve SES 4.5',
+    price: 2900,
+    weight: 1550,
+    brand: 'Enve',
+    model: 'SES 4.5',
+    description: 'Engineered for all-day comfort without sacrificing speed.',
+    specs: {
+      'Rim Depth': '45mm',
+      'Internal Width': '25mm',
+      'Brake Type': 'Disc',
+      'Spoke Count': '24/24',
+      'Max Tire Size': '35mm',
+    },
+    features: ['Wide internal width', 'Tubeless ready', 'All-road capability', 'ENVE Alloy hubs'],
+    rating: 4.7,
+    reviewCount: 67,
+    imageUrl:
+      'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Enve%20SES%204.5%20carbon%20wheelset%20professional%20product%20photo&image_size=landscape_4_3',
+  },
+};

@@ -9,12 +9,18 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { supabaseLogger } from './logger';
 
+const SUPABASE_PLACEHOLDERS = new Set(['YOUR_SUPABASE_URL', 'YOUR_SUPABASE_ANON_KEY']);
+
 /**
  * 检查 Supabase 环境变量是否已配置
  */
 export function isSupabaseConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  return !!(url && url !== 'YOUR_SUPABASE_URL');
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !anonKey) return false;
+  if (SUPABASE_PLACEHOLDERS.has(url) || SUPABASE_PLACEHOLDERS.has(anonKey)) return false;
+  // 安全检查：URL 必须使用 HTTPS
+  return url.startsWith('https://');
 }
 
 let clientSingleton: SupabaseClient | null = null;
@@ -58,7 +64,14 @@ export function getSupabaseClient(): SupabaseClient | null {
           detectSessionInUrl: true,
         },
         global: {
-          fetch: (...args) => fetch(...args),
+          // 设置 30s 超时，防止请求长时间挂起
+          fetch: (url, options) => {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 30_000);
+            return fetch(url, { ...options, signal: controller.signal }).finally(() =>
+              clearTimeout(timeout)
+            );
+          },
         },
       }
     );

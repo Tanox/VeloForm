@@ -1,0 +1,83 @@
+import type { ComponentDetail } from '../component-details';
+
+export const suspensionDetails: Record<string, ComponentDetail> = {
+  s1: {
+    id: 's1',
+    category: 'Suspension',
+    bikeType: 'MTB',
+    name: 'Fox 34 Float Factory',
+    price: 1050,
+    weight: 1738,
+    brand: 'Fox',
+    model: '34 Float Factory',
+    description: "Fox's premium XC suspension fork with exceptional sensitivity and control.",
+    specs: {
+      Travel: '100mm',
+      'Wheel Size': '29"',
+      Offset: '44mm',
+      Steerer: '1.5" Tapered',
+      Damper: 'GRIP2',
+    },
+    features: [
+      'GRIP2 damper',
+      'Float EVOL air spring',
+      'Low speed compression',
+      'High speed rebound',
+    ],
+    rating: 4.8,
+    reviewCount: 145,
+    imageUrl:
+      'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Fox%2034%20Float%20Factory%20MTB%20suspension%20fork%20professional%20product%20photo&image_size=landscape_4_3',
+  },
+  s2: {
+    id: 's2',
+    category: 'Suspension',
+    bikeType: 'MTB',
+    name: 'RockShox SID Ultimate',
+    price: 950,
+    weight: 1650,
+    brand: 'RockShox',
+    model: 'SID Ultimate',
+    description: "RockShox's lightest XC fork with Charger Race Day damper.",
+    specs: {
+      Travel: '100mm',
+      'Wheel Size': '29"',
+      Offset: '44mm',
+      Steerer: '1.5" Tapered',
+      Damper: 'Charger Race Day',
+    },
+    features: [
+      'Charger Race Day damper',
+      'DebonAir spring',
+      'OneLoc remote ready',
+      'Lightweight design',
+    ],
+    rating: 4.7,
+    reviewCount: 98,
+    imageUrl:
+      'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=RockShox%20SID%20Ultimate%20MTB%20suspension%20fork%20professional%20product%20photo&image_size=landscape_4_3',
+  },
+  s3: {
+    id: 's3',
+    category: 'Suspension',
+    bikeType: 'MTB',
+    name: 'Fox 32 Step-Cast Factory',
+    price: 1100,
+    weight: 1580,
+    brand: 'Fox',
+    model: '32 Step-Cast Factory',
+    description: 'Ultra-lightweight XC fork for maximum climbing efficiency.',
+    specs: {
+      Travel: '100mm',
+      'Wheel Size': '29"',
+      Offset: '44mm',
+      Steerer: '1.5" Tapered',
+      Damper: 'GRIP',
+    },
+    features: ['Step-Cast chassis', 'Lightest Fox fork', 'GRIP damper', 'Float air spring'],
+    rating: 4.8,
+    reviewCount: 67,
+    imageUrl:
+      'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Fox%2032%20Step-Cast%20Factory%20ultra-light%20MTB%20fork%20professional%20product%20photo&image_size=landscape_4_3',
+  },
+};

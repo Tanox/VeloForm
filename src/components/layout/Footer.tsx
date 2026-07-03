@@ -38,6 +38,7 @@ const socialLinks = [
 ];
 
 export function Footer() {
+  const currentYear = new Date().getFullYear();
   return (
     <footer className="bg-surface-secondary/50 border-t border-border-light relative overflow-hidden">
       {/* 背景装饰 */}
@@ -107,7 +108,10 @@ export function Footer() {
                         whileHover={{ x: 2 }}
                       >
                         {link.label}
-                        <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" aria-hidden="true" />
+                        <ArrowUpRight
+                          className="w-3 h-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all"
+                          aria-hidden="true"
+                        />
                       </motion.a>
                     </li>
                   ))}
@@ -122,7 +126,7 @@ export function Footer() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-6">
               <p className="text-sm text-secondary">
-                © 2024 Veloform. All rights reserved.
+                © {currentYear} Veloform. All rights reserved.
               </p>
             </div>
 

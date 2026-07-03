@@ -58,6 +58,10 @@ export const translations = {
     subtitle: 'Expert-curated configurations',
     load: 'Load Configuration',
   },
+  homePage: {
+    bikeTypeTitle: 'Choose Your Bike Type',
+    bikeTypeSubtitle: 'We offer Road, MTB, and Fold bikes to suit every riding style',
+  },
   compare: {
     title: 'Compare Configurations',
     configs: 'configs',

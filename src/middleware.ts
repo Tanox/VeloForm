@@ -5,6 +5,8 @@ import type { NextRequest } from 'next/server';
 const STATIC_ASSET_PATTERN = /\.(js|css|ico|svg|png|jpg|jpeg|gif|webp)$/;
 
 // Strict Content Security Policy for Next.js + Supabase
+// 生产环境移除 'unsafe-eval'（仅开发模式需要），降低 XSS 风险
+const isProduction = process.env.NODE_ENV === 'production';
 const CSP_POLICY = [
   "default-src 'self'",
   // Allow Supabase PostgREST (REST API), Realtime, Auth connections
@@ -21,8 +23,10 @@ const CSP_POLICY = [
   "worker-src 'self' blob:",
   // Manifest for PWA
   "manifest-src 'self'",
-  // Scripts: Next.js hydration + any third-party with nonce (optional)
-  "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+  // Scripts: Next.js hydration 需要 'unsafe-inline'；'unsafe-eval' 仅开发模式需要
+  isProduction
+    ? "script-src 'self' 'unsafe-inline'"
+    : "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
 ].join('; ');
 
 export function middleware(request: NextRequest) {
@@ -30,7 +34,8 @@ export function middleware(request: NextRequest) {
 
   // Core Security Headers
   response.headers.set('X-Content-Type-Options', 'nosniff');
-  response.headers.set('X-Frame-Options', 'DENY');
+  // 使用 SAMEORIGIN 与 frame-src 保持一致（DENY 会与 frame-src 冲突）
+  response.headers.set('X-Frame-Options', 'SAMEORIGIN');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
   // Content Security Policy

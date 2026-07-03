@@ -15,9 +15,11 @@ import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { motion } from 'framer-motion';
 import { useCallback } from 'react';
+import { useTranslation } from '@/lib/i18n';
 
 export default function Home() {
   const router = useRouter();
+  const t = useTranslation();
 
   const handleNavigate = useCallback(
     (page: string) => {
@@ -49,9 +51,9 @@ export default function Home() {
         >
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-3">
-              选择你的车型
+              {t('homePage.bikeTypeTitle')}
             </h2>
-            <p className="text-muted text-lg">我们为您提供公路车、山地车和折叠车三种选择</p>
+            <p className="text-muted text-lg">{t('homePage.bikeTypeSubtitle')}</p>
           </div>
           <BikeTypeSelector />
         </motion.section>

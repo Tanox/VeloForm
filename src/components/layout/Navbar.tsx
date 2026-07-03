@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, User, Moon, Sun, Bike } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
+import { APP_CONSTANTS } from '@/lib/constants';
+import { useTranslation } from '@/lib/i18n';
 
 interface NavbarProps {
   onNavigate: (page: string) => void;
@@ -17,6 +19,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
   const [mounted, setMounted] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const t = useTranslation();
 
   useEffect(() => {
     setMounted(true);
@@ -31,14 +34,17 @@ export function Navbar({ onNavigate }: NavbarProps) {
   }, []);
 
   // Keyboard navigation for mobile menu
-  const handleMenuKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (!isMobileMenuOpen) return;
+  const handleMenuKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (!isMobileMenuOpen) return;
 
-    if (e.key === 'Escape') {
-      setIsMobileMenuOpen(false);
-      menuButtonRef.current?.focus();
-    }
-  }, [isMobileMenuOpen]);
+      if (e.key === 'Escape') {
+        setIsMobileMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    },
+    [isMobileMenuOpen]
+  );
 
   // Focus trap in mobile menu
   useEffect(() => {
@@ -69,8 +75,8 @@ export function Navbar({ onNavigate }: NavbarProps) {
   }, [isMobileMenuOpen]);
 
   const navItems = [
-    { label: '配置器', href: 'home' },
-    { label: '配置库', href: 'library' },
+    { label: t('nav.home'), href: 'home' },
+    { label: t('nav.library'), href: 'library' },
   ];
 
   const toggleTheme = () => {
@@ -100,7 +106,10 @@ export function Navbar({ onNavigate }: NavbarProps) {
               whileTap={{ scale: 0.98 }}
               aria-label="返回首页"
             >
-              <div className="relative w-10 h-10 rounded-xl bg-gradient-brand flex items-center justify-center shadow-glow group-hover:shadow-glow-lg transition-shadow duration-300" aria-hidden="true">
+              <div
+                className="relative w-10 h-10 rounded-xl bg-gradient-brand flex items-center justify-center shadow-glow group-hover:shadow-glow-lg transition-shadow duration-300"
+                aria-hidden="true"
+              >
                 <Bike className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-display font-bold text-foreground hidden sm:block">
@@ -150,11 +159,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
                     transition={{ duration: 0.2 }}
                     aria-hidden="true"
                   >
-                    {theme === 'dark' ? (
-                      <Sun className="w-5 h-5" />
-                    ) : (
-                      <Moon className="w-5 h-5" />
-                    )}
+                    {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                   </motion.div>
                 </motion.button>
               )}
@@ -245,11 +250,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
                     transition={{ delay: index * 0.1 }}
                   >
                     <span className="text-foreground font-medium text-lg">{item.label}</span>
-                    <motion.div
-                      className="ml-auto"
-                      animate={{ x: 0 }}
-                      whileHover={{ x: 4 }}
-                    >
+                    <motion.div className="ml-auto" animate={{ x: 0 }} whileHover={{ x: 4 }}>
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path
                           d="M7.5 5L12.5 10L7.5 15"
@@ -286,9 +287,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
                       <span className="text-foreground font-medium text-lg block">
                         {theme === 'dark' ? '浅色模式' : '深色模式'}
                       </span>
-                      <span className="text-sm text-muted">
-                        点击切换主题
-                      </span>
+                      <span className="text-sm text-muted">点击切换主题</span>
                     </div>
                   </motion.button>
                 )}
@@ -297,7 +296,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
               {/* Footer */}
               <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-border-light">
                 <p className="text-sm text-muted text-center">
-                  Veloform v3.7.0
+                  Veloform v{APP_CONSTANTS.APP_INFO.version}
                 </p>
               </div>
             </motion.div>
