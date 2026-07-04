@@ -19,9 +19,109 @@ interface Translations {
   nav: {
     home: string;
     library: string;
+    about: string;
+    faq: string;
     support: string;
     login: string;
     logout: string;
+  };
+  hero: {
+    badge: string;
+    titleLine1: string;
+    titleLine2: string;
+    subtitle: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+    trustedBy: string;
+    scrollHint: string;
+  };
+  features: {
+    badge: string;
+    title: string;
+    titleAccent: string;
+    titleSuffix: string;
+    subtitle: string;
+    items: ReadonlyArray<{
+      title: string;
+      description: string;
+    }>;
+  };
+  pricing: {
+    badge: string;
+    title: string;
+    titleAccent: string;
+    subtitle: string;
+    monthly: string;
+    yearly: string;
+    savePercent: string;
+    perMonth: string;
+    popular: string;
+    guarantee: string;
+    plans: ReadonlyArray<{
+      name: string;
+      description: string;
+      monthlyPrice: number;
+      yearlyPrice: number;
+      cta: string;
+      features: readonly string[];
+    }>;
+  };
+  cta: {
+    badge: string;
+    titleLine1: string;
+    titleLine2: string;
+    subtitle: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+    noCreditCard: string;
+    cancelAnytime: string;
+    freeForever: string;
+  };
+  about: {
+    title: string;
+    subtitle: string;
+    missionTitle: string;
+    missionText: string;
+    storyTitle: string;
+    storyText: string;
+    valuesTitle: string;
+    values: ReadonlyArray<{
+      title: string;
+      description: string;
+    }>;
+    teamTitle: string;
+    backToHome: string;
+  };
+  faq: {
+    title: string;
+    subtitle: string;
+    backToHome: string;
+    items: ReadonlyArray<{
+      question: string;
+      answer: string;
+    }>;
+  };
+  auth: {
+    loginTitle: string;
+    loginSubtitle: string;
+    signupTitle: string;
+    signupSubtitle: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    login: string;
+    signup: string;
+    loggingIn: string;
+    signingUp: string;
+    noAccount: string;
+    hasAccount: string;
+    forgotPassword: string;
+    orContinueWith: string;
+    continueWithGoogle: string;
+    agreeTerms: string;
+    termsOfService: string;
+    privacyPolicy: string;
+    backToHome: string;
   };
   configurator: {
     buildList: string;
@@ -63,6 +163,10 @@ interface Translations {
     weight: string;
     backToConfigurator: string;
     bikeType: string;
+    deleteConfirmTitle: string;
+    deleteConfirmDescription: string;
+    deleteSuccess: string;
+    deleteError: string;
   };
   recommended: {
     title: string;
@@ -126,6 +230,9 @@ interface Translations {
     edit: string;
     close: string;
     components: string;
+    themeLight: string;
+    themeDark: string;
+    toggleTheme: string;
   };
   componentDetail: {
     technicalSpecs: string;
@@ -148,6 +255,8 @@ const translations: Record<string, Translations> = {
   en: enTranslations satisfies Translations,
   'zh-CN': zhCNTranslations satisfies Translations,
 };
+
+export { translations };
 
 // ---------------------------------------------------------------------------
 // Store & helpers
@@ -209,6 +318,11 @@ export function useLanguage() {
 
 export function useSetLanguage() {
   return useI18nStore((state) => state.setLanguage);
+}
+
+export function useTranslationsObject(): Translations {
+  const language = useI18nStore((state) => state.language);
+  return translations[language];
 }
 
 // Export type for consumers

@@ -6,9 +6,221 @@ export const translations = {
   nav: {
     home: 'Home',
     library: 'Library',
+    about: 'About',
+    faq: 'FAQ',
     support: 'Support',
     login: 'Login',
     logout: 'Logout',
+  },
+  hero: {
+    badge: 'New version available',
+    titleLine1: 'Build Your',
+    titleLine2: 'Dream Bike',
+    subtitle:
+      'Choose your bike type, customize components, and create your perfect ride. Every detail is under your control.',
+    ctaPrimary: 'Start Building',
+    ctaSecondary: 'Watch Demo',
+    trustedBy: 'Trusted by top brands worldwide',
+    scrollHint: 'Scroll down',
+  },
+  features: {
+    badge: 'Core Features',
+    title: 'Built for',
+    titleAccent: 'Riders',
+    titleSuffix: '',
+    subtitle:
+      'Powerful features with simple controls make bike configuration effortless and enjoyable',
+    items: [
+      {
+        title: 'Unlimited Configuration',
+        description: 'Rich component selection, from frame to accessories, build your perfect ride',
+      },
+      {
+        title: 'Lightning Fast',
+        description:
+          'Millisecond response speed, smooth operation experience, no delay in creation',
+      },
+      {
+        title: 'Secure & Safe',
+        description:
+          'End-to-end encryption, automatic cloud backup, your configurations are secure',
+      },
+      {
+        title: 'Rich Resources',
+        description: 'Vast library of quality components, one-click use, endless inspiration',
+      },
+      {
+        title: 'Export & Share',
+        description: 'One-click export of build lists, share your perfect configuration',
+      },
+      {
+        title: 'Cloud Sync',
+        description: 'Seamless sync across devices, continue building anywhere',
+      },
+    ],
+  },
+  pricing: {
+    badge: 'Pricing Plans',
+    title: 'Choose the',
+    titleAccent: 'Right Plan',
+    subtitle: 'Flexible pricing to meet the needs of every rider and team',
+    monthly: 'Monthly',
+    yearly: 'Yearly',
+    savePercent: 'Save 20%',
+    perMonth: 'Only ${price}/mo',
+    popular: 'Most Popular',
+    guarantee:
+      "All plans include a 14-day money-back guarantee. If you're not satisfied, request a refund for any reason.",
+    plans: [
+      {
+        name: 'Personal',
+        description: 'For individual cycling enthusiasts',
+        monthlyPrice: 29,
+        yearlyPrice: 299,
+        cta: 'Start Free',
+        features: [
+          'Unlimited projects',
+          '5GB storage',
+          'Basic component library',
+          'Community templates',
+          'Standard support',
+        ],
+      },
+      {
+        name: 'Pro',
+        description: 'For professional riders and small teams',
+        monthlyPrice: 79,
+        yearlyPrice: 799,
+        cta: 'Upgrade Now',
+        features: [
+          'Unlimited projects',
+          '100GB storage',
+          'Advanced component library',
+          'Exclusive templates',
+          'Priority support',
+          'Team collaboration',
+          'Configuration export',
+        ],
+      },
+      {
+        name: 'Enterprise',
+        description: 'For teams and organizations',
+        monthlyPrice: 199,
+        yearlyPrice: 1999,
+        cta: 'Contact Sales',
+        features: [
+          'Unlimited projects',
+          'Unlimited storage',
+          'Full component library',
+          'Custom templates',
+          '24/7 dedicated support',
+          'Advanced team collaboration',
+          'Self-hosted deployment',
+          'SLA guarantee',
+        ],
+      },
+    ],
+  },
+  cta: {
+    badge: 'Free trial, no credit card required',
+    titleLine1: 'Ready to start building',
+    titleLine2: 'your dream bike?',
+    subtitle: 'Join over 100,000 cycling enthusiasts',
+    ctaPrimary: 'Get Started Free',
+    ctaSecondary: 'Learn More',
+    noCreditCard: 'No credit card',
+    cancelAnytime: 'Cancel anytime',
+    freeForever: 'Free forever plan',
+  },
+  about: {
+    title: 'About Veloform',
+    subtitle: "We're on a mission to build the best bike configuration experience",
+    missionTitle: 'Our Mission',
+    missionText:
+      "Veloform's mission is to empower every cycling enthusiast to easily build their perfect ride. We believe great tools should be simple, powerful, and delightful to use.",
+    storyTitle: 'Our Story',
+    storyText:
+      "Veloform was born from a team of engineers and designers who love cycling. Frustrated with complicated configuration tools, we set out to build one that's both beautiful and practical. From the initial idea to today's product, we always put user experience first.",
+    valuesTitle: 'Core Values',
+    values: [
+      {
+        title: 'Quality First',
+        description: 'Every detail is crafted carefully to deliver the best experience',
+      },
+      {
+        title: 'Constant Innovation',
+        description: 'Exploring new technologies to shape the future of bike configurators',
+      },
+      {
+        title: 'Community Driven',
+        description: 'Listening to users and growing together with the community',
+      },
+      {
+        title: 'Transparency & Trust',
+        description: 'Being honest with users and building long-term trust',
+      },
+    ],
+    teamTitle: 'Our Team',
+    backToHome: 'Back to Home',
+  },
+  faq: {
+    title: 'Frequently Asked Questions',
+    subtitle: 'Answers to common questions about Veloform',
+    backToHome: 'Back to Home',
+    items: [
+      {
+        question: 'Is Veloform free?',
+        answer:
+          'Veloform offers a free forever plan with basic configuration features. For more storage and advanced features, you can upgrade to Pro or Enterprise.',
+      },
+      {
+        question: 'Can I use it on multiple devices?',
+        answer:
+          'Absolutely! After logging in, your configurations sync automatically to the cloud, and you can continue editing on any device.',
+      },
+      {
+        question: 'How do I save my configuration?',
+        answer:
+          'Click the "Save Build" button in the summary panel on the right. Without logging in, configurations are saved only in your local browser. After logging in, they sync to the cloud.',
+      },
+      {
+        question: 'Can I share my configuration?',
+        answer:
+          'Of course! Click the share button to generate a shareable link, or export your configuration as a JSON file to share with others.',
+      },
+      {
+        question: 'What bike types are supported?',
+        answer:
+          'We currently support Road, MTB, and Fold bikes, each with a carefully curated component library.',
+      },
+      {
+        question: 'How do I delete a configuration?',
+        answer:
+          'Go to your library page, find the configuration you want to delete, and click the delete button. Deletion requires confirmation to prevent accidental removal.',
+      },
+    ],
+  },
+  auth: {
+    loginTitle: 'Welcome back',
+    loginSubtitle: 'Sign in to continue building your dream bike',
+    signupTitle: 'Create account',
+    signupSubtitle: 'Join Veloform and start your bike building journey',
+    email: 'Email address',
+    password: 'Password',
+    confirmPassword: 'Confirm password',
+    login: 'Sign in',
+    signup: 'Sign up',
+    loggingIn: 'Signing in...',
+    signingUp: 'Signing up...',
+    noAccount: "Don't have an account?",
+    hasAccount: 'Already have an account?',
+    forgotPassword: 'Forgot password?',
+    orContinueWith: 'Or continue with',
+    continueWithGoogle: 'Continue with Google',
+    agreeTerms: 'By signing up, you agree to our',
+    termsOfService: 'Terms of Service',
+    privacyPolicy: 'Privacy Policy',
+    backToHome: 'Back to Home',
   },
   configurator: {
     buildList: 'Build List',
@@ -52,6 +264,11 @@ export const translations = {
     weight: 'Weight',
     backToConfigurator: 'Back to Configurator',
     bikeType: 'Bike Type',
+    deleteConfirmTitle: 'Confirm Deletion',
+    deleteConfirmDescription:
+      'This action cannot be undone. Are you sure you want to delete this configuration?',
+    deleteSuccess: 'Configuration deleted',
+    deleteError: 'Failed to delete, please try again',
   },
   recommended: {
     title: 'Recommended Builds',
@@ -134,6 +351,9 @@ export const translations = {
     edit: 'Edit',
     close: 'Close',
     components: 'components',
+    themeLight: 'Light Mode',
+    themeDark: 'Dark Mode',
+    toggleTheme: 'Toggle theme',
   },
   componentDetail: {
     technicalSpecs: 'Technical Specifications',

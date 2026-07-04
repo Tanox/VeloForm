@@ -6,8 +6,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { SyncProvider } from '@/components/SyncProvider';
 import { ClientErrorBoundary } from '@/components/ClientErrorBoundary';
 import { logger } from '@/lib/logger';
-import { cn } from "@/lib/utils";
-
+import { cn } from '@/lib/utils';
 
 // Validate environment variables in development mode
 if (process.env.NODE_ENV === 'development') {
@@ -18,7 +17,8 @@ if (process.env.NODE_ENV === 'development') {
 
 export const metadata: Metadata = {
   title: 'Veloform Configurator — Build Your Dream Bike',
-  description: 'Advanced bicycle configurator for Road, MTB, and Fold bikes. Customize components, estimate costs, and save builds.',
+  description:
+    'Advanced bicycle configurator for Road, MTB, and Fold bikes. Customize components, estimate costs, and save builds.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
@@ -42,20 +42,20 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className="font-sans">
       <body className="min-h-screen bg-background font-sans antialiased">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-lg focus:shadow-lg"
+        >
+          跳转到主要内容
+        </a>
         <Providers>
           <TooltipProvider>
             <ClientErrorBoundary>
-              <SyncProvider>
-                {children}
-              </SyncProvider>
+              <SyncProvider>{children}</SyncProvider>
             </ClientErrorBoundary>
           </TooltipProvider>
           <Toaster richColors position="top-right" />

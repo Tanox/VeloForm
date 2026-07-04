@@ -11,6 +11,8 @@ import { BuildList } from '@/components/configurator/BuildList';
 import { SummaryPanel } from '@/components/configurator/SummaryPanel';
 import { ComponentSelector } from '@/components/configurator/ComponentSelector';
 import { RecommendedConfigs } from '@/components/configurator/RecommendedConfigs';
+import { Pricing } from '@/components/sections/Pricing';
+import { Cta } from '@/components/sections/Cta';
 import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { motion } from 'framer-motion';
@@ -27,6 +29,10 @@ export default function Home() {
         router.push('/');
       } else if (page === 'library') {
         router.push('/library');
+      } else if (page === 'about') {
+        router.push('/about');
+      } else if (page === 'faq') {
+        router.push('/faq');
       }
     },
     [router]
@@ -37,7 +43,7 @@ export default function Home() {
       <Navbar onNavigate={handleNavigate} />
       <Hero onNavigate={handleNavigate} />
 
-      <main>
+      <main id="main-content">
         {/* Core Features */}
         <Features />
 
@@ -92,6 +98,28 @@ export default function Home() {
             <RecommendedConfigs />
           </motion.section>
         </Suspense>
+
+        {/* Pricing */}
+        <motion.section
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24"
+        >
+          <Pricing />
+        </motion.section>
+
+        {/* CTA */}
+        <motion.section
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 sm:pb-24"
+        >
+          <Cta />
+        </motion.section>
       </main>
 
       <Footer />

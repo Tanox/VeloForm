@@ -77,6 +77,8 @@ export function Navbar({ onNavigate }: NavbarProps) {
   const navItems = [
     { label: t('nav.home'), href: 'home' },
     { label: t('nav.library'), href: 'library' },
+    { label: t('nav.about'), href: 'about' },
+    { label: t('nav.faq'), href: 'faq' },
   ];
 
   const toggleTheme = () => {
@@ -147,7 +149,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
                 <motion.button
                   onClick={toggleTheme}
                   className="relative min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl hover:bg-surface-tertiary/50 transition-colors text-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  aria-label={theme === 'dark' ? '切换到浅色模式' : '切换到深色模式'}
+                  aria-label={theme === 'dark' ? t('common.themeLight') : t('common.themeDark')}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -285,9 +287,9 @@ export function Navbar({ onNavigate }: NavbarProps) {
                     </div>
                     <div className="text-left">
                       <span className="text-foreground font-medium text-lg block">
-                        {theme === 'dark' ? '浅色模式' : '深色模式'}
+                        {theme === 'dark' ? t('common.themeLight') : t('common.themeDark')}
                       </span>
-                      <span className="text-sm text-muted">点击切换主题</span>
+                      <span className="text-sm text-muted">{t('common.toggleTheme')}</span>
                     </div>
                   </motion.button>
                 )}
