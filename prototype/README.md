@@ -1,122 +1,158 @@
 # Veloform 原型设计系统
 
-> **路径**: `/prototype/README.md`
-> **版本**: v3.8.0
-> **更新日期**: 2026-06-17
-
-## 设计理念
-
-Veloform 设计系统是一套面向高端自行车配置场景的设计规范体系，融合了 **Apple 极简美学** 与 **现代科技感**。整体风格追求精致、克制、功能导向，同时通过精心设计的动效与渐变传递品牌的专业与创新精神。
-
-### 核心美学方向
-
-| 维度 | 选择 | 说明 |
-|-----|------|------|
-| **视觉基调** | Apple 极简 + 科技渐变 | 大量留白、精确间距、微妙阴影、品牌渐变点缀 |
-| **色彩策略** | 中性灰底 + 蓝绿主色 | 营造高端、专业的工具型产品氛围 |
-| **字体系统** | SF Pro 系列 + 等宽数字 | Apple 平台原生体验，数字清晰易读 |
-| **动效哲学** | 即时响应 + 自然过渡 | 快速反馈、自然缓动、克制使用 |
-| **组件风格** | shadcn/ui + Radix UI | 可访问性优先、样式与逻辑分离 |
-
-## 目录结构
-
-```
-prototype/
-├── README.md                          # 设计系统总览（本文档）
-├── design-system-spec.md              # 设计系统规范 v3.8.0 ⭐
-├── component-library.md               # 组件库规范 v3.8.0 ⭐
-├── interaction-standards.md           # 交互标准 v3.8.0 ⭐
-├── prototype-guide.md                 # 原型使用指南
-├── design-critique.md                 # 设计审视报告
-│
-├── design/                            # 辅助设计文档
-│   ├── ui-recommendations.md          # UI/UX 优化建议
-│   ├── responsive-guidelines.md       # 响应式设计指南
-│   ├── accessibility-guidelines.md     # 可访问性指南
-│   └── design-optimization-report.md  # 世界级优化报告
-│
-├── documentation/                     # 设计文档
-│   ├── design-system-summary.md        # 设计系统摘要
-│   └── component-mapping.md            # 组件映射表
-│
-└── archive/                           # 已归档文件
-    └── README.md
-```
-
-## 规范文档
-
-### 核心规范（v3.8.0）
-
-| 文档 | 内容 | 状态 |
-|-----|------|------|
-| [设计系统规范](./design-system-spec.md) | 色彩、字体、间距、图标、动效、Utility Classes | ✅ v3.8.0 |
-| [组件库规范](./component-library.md) | 基础/复合/业务组件、使用规则、shadcn/ui 来源 | ✅ v3.8.0 |
-| [交互标准](./interaction-standards.md) | 交互模式库、反馈规范、错误处理、空状态设计 | ✅ v3.8.0 |
-
-### 快速导航
-
-- [原型说明](./prototype-guide.md) - 原型设计理念与使用方法
-- [UI/UX 优化建议](./design/ui-recommendations.md) - 详细改进方向
-- [响应式设计指南](./design/responsive-guidelines.md) - 多设备适配策略
-- [可访问性指南](./design/accessibility-guidelines.md) - WCAG 标准实现
-- [设计系统摘要](./documentation/design-system-summary.md) - 规范速查
-- [组件映射表](./documentation/component-mapping.md) - 原型与代码对照
-
-## 设计系统版本
-
-| 版本 | 日期 | 变更内容 |
-|-----|------|---------|
-| **v3.8.0** | 2026-06-17 | 新增品牌渐变 token、gradient-shift 动画、gradient 按钮变体、Utility Classes |
-| **v3.7.0** | 2026-06-14 | 完善交互标准、空状态设计、键盘快捷键规范 |
-| **v3.6.0** | 2026-06-08 | 组件库规范重构、shadcn/ui 集成 |
-| **v3.5.0** | 2026-06-06 | 动效规范完善、Framer Motion 预设 |
-| **v3.0.0** | 2026-06-01 | 设计系统 v3 重构 |
-
-## 技术栈
-
-### 前端框架
-- **React 18** + TypeScript
-- **Next.js** (App Router)
-- **Tailwind CSS v3** - 样式系统
-- **shadcn/ui** + Radix UI - 组件库
-- **Framer Motion** - 动画库
-- **Lucide React** - 图标库
-
-### 设计工具
-- **Figma** - 设计与协作
-- **CSS Variables** - 设计 token
-- **WCAG 2.1 AA** - 无障碍标准
-
-## 设计原则
-
-### 1. 即时响应 (Responsive)
-用户操作后 **100ms** 内给予视觉反馈，让用户感知系统的灵敏与可控。
-
-### 2. 自然过渡 (Natural)
-使用 `cubic-bezier(0.4, 0, 0.2, 1)` 缓动曲线，模拟物理运动规律，避免突兀的线性动画。
-
-### 3. 适度克制 (Restrained)
-动画时长 **≤ 400ms**，避免分散用户注意力。装饰性动画在 `prefers-reduced-motion` 下禁用。
-
-## 无障碍承诺
-
-所有组件遵循 WCAG 2.1 AA 标准：
-- ✅ 色彩对比度：正文 ≥ 4.5:1，大文本 ≥ 3:1
-- ✅ 键盘导航：所有交互元素可 Tab 聚焦
-- ✅ ARIA 属性：语义化标签与屏幕阅读器支持
-- ✅ 触控目标：最小 44×44px
-- ✅ 减少动效：尊重用户 `prefers-reduced-motion` 设置
-
-## 相关资源
-
-- [项目 README](../README.md) - 项目概述
-- [openspec 规范](../openspec/README.md) - 完整技术规范
-- [UI 设计系统](../openspec/design/ui-design-system.md) - 官方设计系统
-- [变更日志](../CHANGELOG.md) - 版本历史
+> **版本**: v4.0.0  
+> **更新日期**: 2026-07-05  
+> **设计风格**: 极简主义 · 国际顶尖水准
 
 ---
 
-**文档路径**: `/prototype/README.md`
-**最后更新**: 2026-06-17
-**版本**: v3.8.0
+## 快速导航
 
+欢迎来到 Veloform 原型设计系统！本目录包含完整的高保真原型设计资源。
+
+### 核心文档
+
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [设计系统规范](./design-system-spec.md) | 色彩、字体、间距、图标、动效 | ⭐⭐⭐ |
+| [组件库规范](./component-library.md) | 基础/复合/业务组件 | ⭐⭐⭐ |
+| [交互标准](./interaction-standards.md) | 模式、反馈、错误、空状态 | ⭐⭐⭐ |
+
+### 目录结构
+
+```
+prototype/
+├── README.md                          # 本文档
+├── design/                            # 设计规范和文档
+│   ├── design-system-spec.md         # 设计系统 ⭐
+│   ├── component-library.md          # 组件库 ⭐
+│   ├── interaction-standards.md      # 交互标准 ⭐
+│   └── ...
+├── components/                        # 组件原型
+├── interactions/                      # 交互原型
+├── shadcn/                           # shadcn/ui 配置
+├── archives/                         # 历史版本
+└── assets/                           # 图片和资源
+```
+
+---
+
+## 设计哲学
+
+### 极简主义原则
+
+1. **Less is More** - 每个元素必须有存在理由
+2. **清晰优先** - 信息层级清晰，视觉干扰最小化
+3. **自然交互** - 符合用户直觉，无需学习成本
+4. **完美细节** - 像素级精度，国际顶尖水准
+
+### 设计特质
+
+- **Apple 风格** - 简洁、精致、专注用户体验
+- **Material Design 3** - 合理的动效和深度
+- **Linear/Figma** - 高效的工作流程设计
+- **Stripe** - 清晰的金融级界面
+
+---
+
+## 技术栈
+
+### 前端
+- **Next.js 14** (App Router)
+- **React 18** + TypeScript
+- **Tailwind CSS v3** 
+- **shadcn/ui** (base-nova style)
+- **Framer Motion**
+- **Lucide React**
+
+### 设计工具
+- **Figma** - 设计协作
+- **CSS Variables** - Design Tokens
+- **WCAG 2.1 AA** - 无障碍标准
+
+---
+
+## 快速开始
+
+### 查看原型
+
+```bash
+# 启动开发服务器
+cd E:\Github\Veloform
+npm run dev
+
+# 访问 http://localhost:3000
+```
+
+### 查看设计规范
+
+1. 阅读 [设计系统规范](./design/design-system-spec.md)
+2. 阅读 [组件库规范](./design/component-library.md)
+3. 阅读 [交互标准](./design/interaction-standards.md)
+
+---
+
+## 版本历史
+
+| 版本 | 日期 | 关键变更 |
+|-----|------|---------|
+| v4.0.0 | 2026-07-05 | 重构原型系统、极简风格、shadcn/ui集成 |
+| v3.8.0 | 2026-06-17 | 品牌渐变、gradient按钮、Utility Classes |
+| v3.7.0 | 2026-06-14 | 交互标准完善 |
+| v3.6.0 | 2026-06-08 | shadcn/ui集成 |
+| v3.5.0 | 2026-06-06 | 动效规范 |
+
+---
+
+## 设计系统生成
+
+使用 `ui-ux-pro-max` 技能生成设计系统：
+
+```bash
+# 生成完整设计系统
+python3 scripts/search.py "sports fitness bike configuration minimal professional" --design-system -p "Veloform"
+
+# 搜索UI风格
+python3 scripts/search.py "minimal clean apple-style" --domain style
+
+# 搜索色彩方案
+python3 scripts/search.py "sports fitness outdoor" --domain color
+
+# 搜索字体搭配
+python3 scripts/search.py "professional modern clean" --domain typography
+```
+
+---
+
+## 贡献指南
+
+### 设计变更流程
+
+1. 更新设计规范和原型
+2. 同步更新代码实现
+3. 更新 OpenSpec 文档
+4. 提交 PR 并标注设计变更
+
+### 代码对齐检查
+
+- [ ] 组件使用正确的 shadcn/ui 变体
+- [ ] 间距符合 4px 网格系统
+- [ ] 色彩使用 Design Tokens
+- [ ] 动效使用预设动画
+- [ ] 响应式断点正确
+
+---
+
+## 相关资源
+
+- [项目 README](../README.md)
+- [OpenSpec 规范](../openspec/README.md)
+- [shadcn/ui 文档](https://ui.shadcn.com)
+- [Tailwind CSS 文档](https://tailwindcss.com)
+- [Framer Motion 文档](https://www.framer.com/motion/)
+
+---
+
+**最后更新**: 2026-07-05  
+**维护者**: Veloform Team  
+**版本**: v4.0.0

@@ -5,6 +5,8 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Hero } from '@/components/sections/Hero';
 import { Features } from '@/components/sections/Features';
+import { Pricing } from '@/components/sections/Pricing';
+import { Cta } from '@/components/sections/Cta';
 import { BikeTypeSelector } from '@/components/configurator/BikeTypeSelector';
 import { BuildList } from '@/components/configurator/BuildList';
 import { SummaryPanel } from '@/components/configurator/SummaryPanel';
@@ -81,6 +83,15 @@ export default function Home() {
           >
             <RecommendedConfigs />
           </motion.section>
+        </Suspense>
+        {/* Pricing Section */}
+        <Suspense fallback={<div className="h-96" />}>
+          <Pricing />
+        </Suspense>
+
+        {/* Final CTA */}
+        <Suspense fallback={<div className="h-64" />}>
+          <Cta />
         </Suspense>
       </main>
 

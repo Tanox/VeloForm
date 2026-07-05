@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, User, Moon, Sun, Bike } from 'lucide-react';
+import { Menu, X, User, Moon, Sun, Bike, HelpCircle } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
+import { OnboardingGuide } from '@/components/ui/OnboardingGuide';
+import { SupportModal } from '@/components/ui/SupportModal';
 
 interface NavbarProps {
   onNavigate: (page: string) => void;
@@ -13,6 +15,7 @@ interface NavbarProps {
 export function Navbar({ onNavigate }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSupportOpen, setIsSupportOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -71,6 +74,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
   const navItems = [
     { label: '配置器', href: 'home' },
     { label: '配置库', href: 'library' },
+    { label: '帮助', href: 'support', isSupport: true },
   ];
 
   const toggleTheme = () => {
@@ -113,7 +117,13 @@ export function Navbar({ onNavigate }: NavbarProps) {
               {navItems.map((item, index) => (
                 <motion.button
                   key={item.href}
-                  onClick={() => onNavigate(item.href)}
+                  onClick={() => {
+                    if (item.isSupport) {
+                      setIsSupportOpen(true);
+                    } else {
+                      onNavigate(item.href);
+                    }
+                  }}
                   className={cn(
                     'relative px-5 py-2.5 rounded-xl text-sm font-medium transition-colors min-h-[44px] min-w-[44px]',
                     'text-secondary hover:text-foreground',
@@ -127,7 +137,14 @@ export function Navbar({ onNavigate }: NavbarProps) {
                   whileTap={{ scale: 0.98 }}
                   aria-label={item.label}
                 >
-                  {item.label}
+                  {item.isSupport ? (
+                    <span className="flex items-center gap-1.5">
+                      <HelpCircle className="w-4 h-4" />
+                      {item.label}
+                    </span>
+                  ) : (
+                    item.label
+                  )}
                 </motion.button>
               ))}
             </div>
@@ -185,6 +202,12 @@ export function Navbar({ onNavigate }: NavbarProps) {
         </div>
       </motion.nav>
 
+      {/* Onboarding Guide - first visit walkthrough */}
+      <OnboardingGuide />
+
+      {/* Support Modal */}
+      <SupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
+
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -236,7 +259,11 @@ export function Navbar({ onNavigate }: NavbarProps) {
                   <motion.button
                     key={item.href}
                     onClick={() => {
-                      onNavigate(item.href);
+                      if (item.isSupport) {
+                        setIsSupportOpen(true);
+                      } else {
+                        onNavigate(item.href);
+                      }
                       setIsMobileMenuOpen(false);
                     }}
                     className="w-full flex items-center gap-4 px-5 py-4 min-h-[56px] rounded-2xl text-left hover:bg-surface-tertiary/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"

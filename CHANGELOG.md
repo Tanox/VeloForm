@@ -1,109 +1,83 @@
-# Changelog
+# Veloform v4.0.0 极简设计系统升级
 
-All notable changes to this project will be documented in this file.
+## 变更摘要
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+本次更新将 Veloform 设计系统升级到 v4.0.0，采用极简主义设计哲学，追求国际顶尖水准的 UI/UX。
 
-## [3.5.0]
-### Added
-- Added Footer component with version number display
-- Added complete light/dark mode theming support
-- Added CSS variables for theming system
-- Added dark mode gradient mesh background
+### 主要变更
 
-### Changed
-- Updated Tailwind config with darkMode: 'class' for next-themes compatibility
-- Refactored color system to use CSS variables for theme switching
-- Updated gradient-mesh and noise-bg utilities for light mode compatibility
-- Updated Navbar styling for better dark mode support
-- Updated providers.tsx to use next-themes ThemeProvider
-- Updated openspec documentation to reflect latest changes
+#### 1. 设计系统规范（v4.0.0）
 
-### Fixed
-- Fixed light/dark mode toggle not working properly
-- Fixed color inconsistencies between light and dark modes
+- ✅ 创建 `/prototype/design-system-spec.md` (v4.0.0)
+  - 极简色彩策略：中性灰底 + 单一品牌色
+  - 统一圆角系统：12px/16px/20px/24px
+  - 克制阴影系统：移除 `shadow-glow`
+  - 动画时长 ≤300ms
 
-## [3.4.1]
-### Added
-- Added component detail modal with i18n support
-- Added new translation keys for component details and reviews
-- Created modular data structure in `src/lib/data/` directory
+- ✅ 创建 `/prototype/component-library.md` (v4.0.0)
+  - 按钮 variant 命名：`default` → `primary`，`destructive` → `danger`
+  - 统一组件规格（尺寸、圆角、阴影）
+  - 限制 gradient variant 使用（仅 Hero CTA）
 
-### Changed
-- Refactored `mock-data.ts` into modular structure:
-  - `src/lib/data/component-details.ts` - Detailed component information
-  - `src/lib/data/component-alternatives.ts` - Component alternatives
-  - `src/lib/data/index.ts` - Exports
-- Updated `ComponentDetailModal.tsx` to use i18n translations
-- Updated `BuildList.tsx` to use i18n translations
-- Fixed TypeScript type issues in `firebase-service.ts` (replaced `any` with proper types)
-- Updated `README.md` and `README_EN.md` directory structure documentation
-- Updated `openspec/SPEC.md` to reflect current project structure
-- Updated `openspec/PROJECT_GUIDELINES.md` (removed Angular references)
-- Updated `openspec/architecture/data-flow.md` (removed Angular references)
-- Updated UI component inventory in `openspec/SPEC.md`
+- ✅ 创建 `/prototype/interaction-standards.md` (v4.0.0)
+  - 自然交互原则：即时反馈、克制动效
+  - 完整的状态规范（Hover/Active/Focus/Loading）
+  - 错误处理、空状态设计
+  - 无障碍规范（WCAG 2.1 AA）
 
-### Fixed
-- Removed hardcoded English text from `ComponentDetailModal.tsx`
-- Added missing i18n translation keys for component detail page
-- Fixed `any` type usage in `firebase-service.ts` for better type safety
+#### 2. 代码对齐
 
-## [3.4.0]
-### Changed
-- Unified version numbers across all code files to v3.4.0.
-- Simplified file header format from "重构版本 vX.Y.Z" to "vX.Y.Z".
-- Updated package.json version to 3.4.0.
-- Updated APP_INFO version constant to 3.4.0.
+- ✅ 更新 `src/app/globals.css`
+  - CSS 变量符合 v4.0.0 规范
+  - 移除 `--shadow-glow`
+  - 更新动画时长（≤300ms）
+  - 添加间距系统（4px 网格）
 
-## [3.3.0]
-### Changed
-- Restructured project to feature-based architecture.
-- Moved core services to `src/app/core/services/`.
-- Moved state management to `src/app/core/stores/`.
-- Moved models to `src/app/core/models/`.
-- Moved constants to `src/app/core/constants/`.
-- Created feature modules for configurator and navbar.
-- Added backward-compatible alias files for old import paths.
+- ✅ 更新 `src/components/ui/button.tsx`
+  - 添加 `primary` variant（别名 `default`）
+  - 添加 `danger` variant（别名 `destructive`）
+  - 移除 `shadow-glow` 引用
 
-## [3.2.0]
-### Added
-- New SVG logo and favicon with bicycle frame geometry design.
-- Component selector modal dialog for editing bike parts.
-- Notification system with toast-style notifications.
-- Confirm dialog service for user confirmation prompts.
-- Loading indicator component for async operations.
-- ConfigStore and ConfigService for centralized state management.
-- Routing system with /config/:id route for sharing builds.
-- Enhanced type definitions with complete JSDoc comments.
+#### 3. 项目结构优化
 
-## [3.1.1]
-### Fixed
-- Synchronized version numbers across SPEC.md and index.html title tag.
+- ✅ 创建 `/prototype/README.md` (v4.0.0)
+  - 清晰的目录结构说明
+  - 设计哲学和快速开始指南
 
-## [3.1.0]
-### Added
-- Created `app.constants.ts` to separate logic from default data arrays.
-- Implemented language toggle within navigation UI.
+### 技术细节
 
-## [3.0.0]
-### Added
-- Integrated Three.js 3D model visualizer in the preview component replacing the SVG mock.
-- Full Firebase configurations library: save, view, edit, and delete functions.
-- Centralized component database via Firestore instead of local constants.
+#### 设计系统
 
-## [2.0.0]
-### Changed
-- Refactored components to fully embrace Angular v21 Zoneless pattern.
-- Extracted strings to i18n service supporting English and Chinese.
-- Injected semantic DOM IDs for core containers matching conventions.
-- Included comprehensive JSON-LD structure in document header.
-- Updated to latest architectural specification standard.
+- **色彩**：中性灰底（#FAFAFA）+ 品牌蓝（#0071E3）
+- **圆角**：统一使用 12px（button）、16px（card）、20px（modal）、24px（hero）
+- **阴影**：克制微妙，`--shadow-sm` 到 `--shadow-lg`
+- **动画**：150-300ms，cubic-bezier 缓动
 
-## [1.0.0]
-### Added
-- Initial setup of Veloform Bike Configurator.
-- Firebase integration for cloud configurations sync.
-- Tailwind CSS Sophisticated Dark themed interface.
-- Responsive layout with Sidebar, Preview Canvas, and Configuration List.
-- Support for Road, MTB, and Fold categories.
+#### 组件更新
+
+- **Button**：支持 `primary` 和 `danger` variant
+- **所有组件**：符合新的设计 token
+
+### 构建状态
+
+✅ 构建成功，无错误
+
+```
+Route (app)                              Size     First Load JS
+┌ ○ /                                    26.1 kB         271 kB
+├ ○ /_not-found                          0 B                0 B
+└ ○ /library                             3.32 kB         255 kB
+```
+
+### 下一步
+
+1. **继续代码对齐**：更新其他组件以符合 v4.0.0 规范
+2. **执行审查**：运行 security-best-practices 和 react-best-practices 审查
+3. **文档同步**：确保 OpenSpec 规范与原型对齐
+4. **Dogfood 测试**：全面测试所有页面功能
+
+---
+
+**版本**: v4.0.0  
+**日期**: 2026-07-05  
+**状态**: 设计系统升级完成，代码对齐进行中

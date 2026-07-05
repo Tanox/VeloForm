@@ -1,21 +1,19 @@
-import withPWA from 'next-pwa';
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    // Allow images from Firebase Storage and any HTTPS source
+    // Allow images from Supabase Storage and common bike part image sources
     remotePatterns: [
-      { protocol: 'https', hostname: 'firebasestorage.googleapis.com' },
-      { protocol: 'https', hostname: '**.firebaseapp.com' },
+      { protocol: 'https', hostname: '**.supabase.co' },
+      { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: '**' },
     ],
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
-      config.externals = [...(config.externals || []), 'firebase', 'firebase-admin'];
+      config.externals = [...(config.externals || [])];
     } else {
-      // 防止 undici 和其他 Node.js 库被打包到客户端
+      // Prevent undici and other Node.js libraries from being bundled for client
       config.resolve.fallback = {
         ...config.resolve.fallback,
         undici: false,
@@ -28,11 +26,4 @@ const nextConfig = {
   },
 };
 
-const pwaConfig = {
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
-};
-
-export default withPWA(pwaConfig)(nextConfig);
+export default nextConfig;
