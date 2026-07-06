@@ -33,6 +33,12 @@ export default function Home() {
         router.push('/about');
       } else if (page === 'faq') {
         router.push('/faq');
+      } else if (page === 'configurator') {
+        // 滚动到页面上的配置器区域
+        const configuratorSection = document.getElementById('configurator-section');
+        if (configuratorSection) {
+          configuratorSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     },
     [router]
@@ -49,10 +55,11 @@ export default function Home() {
 
         {/* Bike Type Selector */}
         <motion.section
+          id="configurator-section"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+          transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
           className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 sm:mb-20"
         >
           <div className="text-center mb-10">

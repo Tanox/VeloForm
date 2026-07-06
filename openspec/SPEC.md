@@ -1,8 +1,8 @@
 # Veloform 规范概览
 
 > **路径**: `/openspec/SPEC.md`  
-> **版本**: v3.9.0  
-> **更新日期**: 2026-07-02
+> **版本**: v4.0.0  
+> **更新日期**: 2026-07-06
 
 ## 概述
 
@@ -55,8 +55,14 @@ Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，支
 src/
 ├── app/                          # Next.js App Router 路由
 │   ├── page.tsx                 # 首页/配置器
+│   ├── about/
+│   │   └── page.tsx             # 关于页面
+│   ├── faq/
+│   │   └── page.tsx             # FAQ 页面
 │   ├── library/
 │   │   └── page.tsx             # 配置库页面
+│   ├── login/
+│   │   └── page.tsx             # 登录页面
 │   ├── layout.tsx               # 根布局
 │   ├── providers.tsx            # 全局提供者
 │   └── globals.css              # 全局样式
@@ -75,6 +81,11 @@ src/
 │   ├── layout/                  # 布局组件
 │   │   ├── Navbar.tsx
 │   │   └── Footer.tsx
+│   ├── sections/                # 页面区块组件
+│   │   ├── Hero.tsx
+│   │   ├── Features.tsx
+│   │   ├── Pricing.tsx
+│   │   └── Cta.tsx
 │   └── ui/                      # 通用 UI 组件
 │       ├── Button.tsx
 │       ├── Card.tsx
@@ -94,13 +105,17 @@ src/
 │   │   ├── index.ts
 │   │   ├── component-details.ts
 │   │   └── component-alternatives.ts
-│   ├── store.ts                # Zustand 状态管理
+│   ├── stores/                 # Zustand 状态管理（模块化）
+│   │   ├── config-store.ts
+│   │   ├── config-ui-store.ts
+│   │   ├── compare-store.ts
+│   │   └── user-store.ts
 │   ├── constants.ts            # 应用常量
 │   ├── recommended-configs.ts  # 推荐配置
 │   ├── utils.ts                # 工具函数
 │   ├── toast.ts               # Toast 通知
-│   ├── firebase.ts             # Firebase 配置
-│   └── firebase-service.ts     # Firebase 服务
+│   ├── supabase.ts             # Supabase 配置
+│   └── supabase-service.ts     # Supabase 服务
 │
 └── types/                       # TypeScript 类型
     └── index.ts
@@ -121,13 +136,36 @@ src/
 
 ## API 接口
 
-### Firebase 服务
+### Supabase 服务
 
-- `saveConfiguration(config)` - 保存配置到 Firestore
+- `saveConfiguration(config)` - 保存配置到 Supabase
 - `getUserConfigurations()` - 获取用户配置列表
 - `deleteConfiguration(id)` - 删除配置
 
-完整 API 规范见 [Firestore API 规范](./api/firestore.md)
+完整 API 规范见 [Supabase API 规范](./api/firestore.md)
+
+---
+
+## 页面列表
+
+| 页面    | 路径       | 说明          |
+| ------- | ---------- | ------------- |
+| 首页    | `/`        | 配置器主页面  |
+| Library | `/library` | 保存的配置库  |
+| About   | `/about`   | 关于页面      |
+| FAQ     | `/faq`     | 常见问题页面  |
+| Login   | `/login`   | 登录/注册页面 |
+
+---
+
+## Sections 组件
+
+| 组件     | 文件                    | 说明         |
+| -------- | ----------------------- | ------------ |
+| Hero     | `sections/Hero.tsx`     | 首页英雄区块 |
+| Features | `sections/Features.tsx` | 功能特性展示 |
+| Pricing  | `sections/Pricing.tsx`  | 定价方案展示 |
+| Cta      | `sections/Cta.tsx`      | 行动号召区块 |
 
 ---
 
@@ -151,6 +189,8 @@ src/
 - 使用 `useTranslation()` Hook 获取翻译
 - 支持 EN 和 ZH-CN 语言切换
 - 翻译文件位于 `src/lib/i18n/`
+- 类型安全的翻译键验证（编译时检查）
+- 完整的 Translations 接口定义
 
 完整开发规范见：
 
@@ -242,6 +282,8 @@ src/
 
 | 规范版本 | 项目版本 | 更新日期   | 说明                                                                                |
 | -------- | -------- | ---------- | ----------------------------------------------------------------------------------- |
+| v4.0.0   | 4.0.0    | 2026-07-06 | 重大更新：同步设计系统 v4.0.0、新增页面列表和 Sections 组件文档、更新 i18n 支持状态 |
+| v3.9.0   | 3.9.0    | 2026-07-02 | 更新技术栈版本信息、同步 Supabase 后端                                              |
 | v3.6.1   | 3.6.0    | 2026-06-04 | 更新组件文档与实际代码对齐、统一版本号                                              |
 | v3.6.0   | 3.6.0    | 2026-06-04 | 完善规范文档体系、统一设计系统文档、优化原型说明、新增视觉效果规范                  |
 | v3.5.0   | 3.5.0    | 2026-06-03 | 新增页脚组件、深色/浅色主题切换、完整主题系统                                       |
@@ -255,5 +297,5 @@ src/
 
 ---
 
-**最后更新**: 2026-06-04  
-**版本**: v3.6.1
+**最后更新**: 2026-07-06  
+**版本**: v4.0.0

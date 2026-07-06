@@ -46,8 +46,11 @@ export const translations = {
     yearly: '年付',
     savePercent: '省20%',
     perMonth: '每月仅需 ¥{price}',
+    perYear: '/年',
+    perMonthShort: '/月',
     popular: '最受欢迎',
     guarantee: '所有方案均包含 14 天全额退款保障，如有任何不满意，无需任何理由即可申请退款',
+    tabListAria: '计费周期切换',
     plans: [
       {
         name: '个人版',
@@ -99,6 +102,8 @@ export const translations = {
     subtitle: '加入超过 100,000 名骑行爱好者的行列',
     ctaPrimary: '免费开始',
     ctaSecondary: '了解更多',
+    ctaPrimaryAria: '免费开始使用',
+    ctaSecondaryAria: '了解更多',
     noCreditCard: '无需信用卡',
     cancelAnytime: '随时取消',
     freeForever: '终身免费版',
@@ -313,5 +318,39 @@ export const translations = {
     price: '价格',
     weight: '重量',
     reviews: '条评价',
+  },
+  footer: {
+    description: '为骑行爱好者打造的专业自行车配置平台，让每一辆车都独一无二。',
+    categories: {
+      product: {
+        label: '产品',
+        features: '功能',
+        pricing: '定价',
+        changelog: '更新日志',
+        roadmap: '路线图',
+      },
+      company: {
+        label: '公司',
+        about: '关于我们',
+        blog: '博客',
+        careers: '招聘',
+        contact: '联系我们',
+      },
+      resources: {
+        label: '资源',
+        docs: '文档',
+        api: 'API 参考',
+        community: '社区',
+        help: '帮助中心',
+      },
+      legal: {
+        label: '法律',
+        privacy: '隐私政策',
+        terms: '服务条款',
+        security: '安全说明',
+        cookies: 'Cookie 设置',
+      },
+    },
+    copyright: '© {year} Veloform. 保留所有权利。',
   },
 } as const;

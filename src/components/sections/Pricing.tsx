@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useCallback, KeyboardEvent } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Check, Sparkles, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useTranslation, useTranslationsObject } from '@/lib/i18n';
+import { useTranslation, useTranslationsObject, useLanguage } from '@/lib/i18n';
 
 const planStyles = [
   { popular: false, gradient: 'from-slate-600 to-slate-700' },
@@ -16,12 +16,44 @@ export function Pricing() {
   const [isYearly, setIsYearly] = useState(true);
   const t = useTranslation();
   const tr = useTranslationsObject();
+  const language = useLanguage();
   const shouldReduceMotion = useReducedMotion();
   const transitionDuration = shouldReduceMotion ? 0 : undefined;
   const plans = tr.pricing.plans.map((plan, index) => ({
     ...plan,
     ...planStyles[index],
   }));
+
+  // Tab 键盘导航
+  const monthlyTabRef = useRef<HTMLButtonElement>(null);
+  const yearlyTabRef = useRef<HTMLButtonElement>(null);
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLButtonElement>) => {
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        const targetTab = isYearly ? monthlyTabRef.current : yearlyTabRef.current;
+        targetTab?.focus();
+        setIsYearly(!isYearly);
+      }
+    },
+    [isYearly]
+  );
+
+  // 使用 Intl.NumberFormat 格式化货币
+  const formatPrice = useCallback(
+    (price: number) => {
+      const locale = language === 'zh-CN' ? 'zh-CN' : 'en-US';
+      const currency = language === 'zh-CN' ? 'CNY' : 'USD';
+      return new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(price);
+    },
+    [language]
+  );
 
   return (
     <section aria-labelledby="pricing-title" className="py-24 sm:py-32 relative overflow-hidden">
@@ -54,12 +86,15 @@ export function Pricing() {
           <div
             className="inline-flex items-center gap-4 p-1.5 bg-surface-secondary/80 backdrop-blur-sm rounded-full border border-border-light"
             role="tablist"
-            aria-label="计费周期切换"
+            aria-label={t('pricing.tabListAria')}
           >
             <button
+              ref={monthlyTabRef}
               role="tab"
               aria-selected={!isYearly}
+              tabIndex={!isYearly ? 0 : -1}
               onClick={() => setIsYearly(false)}
+              onKeyDown={handleKeyDown}
               className={`relative min-w-[72px] min-h-[40px] px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                 !isYearly
                   ? 'bg-gradient-brand text-white shadow-lg shadow-primary/30'
@@ -69,9 +104,12 @@ export function Pricing() {
               {t('pricing.monthly')}
             </button>
             <button
+              ref={yearlyTabRef}
               role="tab"
               aria-selected={isYearly}
+              tabIndex={isYearly ? 0 : -1}
               onClick={() => setIsYearly(true)}
+              onKeyDown={handleKeyDown}
               className={`relative min-w-[72px] min-h-[40px] px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                 isYearly
                   ? 'bg-gradient-brand text-white shadow-lg shadow-primary/30'
@@ -163,10 +201,10 @@ export function Pricing() {
                   <span
                     className={`text-5xl font-bold ${plan.popular ? 'text-white' : 'text-foreground'}`}
                   >
-                    ¥{isYearly ? plan.yearlyPrice : plan.monthlyPrice}
+                    {formatPrice(isYearly ? plan.yearlyPrice : plan.monthlyPrice)}
                   </span>
                   <span className={`text-sm ${plan.popular ? 'text-white/60' : 'text-secondary'}`}>
-                    /{isYearly ? '年' : '月'}
+                    {isYearly ? t('pricing.perYear') : t('pricing.perMonthShort')}
                   </span>
                 </div>
                 {isYearly && (

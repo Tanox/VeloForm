@@ -68,9 +68,12 @@ export const translations = {
     yearly: 'Yearly',
     savePercent: 'Save 20%',
     perMonth: 'Only ${price}/mo',
+    perYear: '/year',
+    perMonthShort: '/mo',
     popular: 'Most Popular',
     guarantee:
       "All plans include a 14-day money-back guarantee. If you're not satisfied, request a refund for any reason.",
+    tabListAria: 'Billing cycle switcher',
     plans: [
       {
         name: 'Personal',
@@ -128,6 +131,8 @@ export const translations = {
     subtitle: 'Join over 100,000 cycling enthusiasts',
     ctaPrimary: 'Get Started Free',
     ctaSecondary: 'Learn More',
+    ctaPrimaryAria: 'Get started for free',
+    ctaSecondaryAria: 'Learn more',
     noCreditCard: 'No credit card',
     cancelAnytime: 'Cancel anytime',
     freeForever: 'Free forever plan',
@@ -362,5 +367,40 @@ export const translations = {
     price: 'Price',
     weight: 'Weight',
     reviews: 'reviews',
+  },
+  footer: {
+    description:
+      'A professional bike configuration platform for cycling enthusiasts, making every bike unique.',
+    categories: {
+      product: {
+        label: 'Product',
+        features: 'Features',
+        pricing: 'Pricing',
+        changelog: 'Changelog',
+        roadmap: 'Roadmap',
+      },
+      company: {
+        label: 'Company',
+        about: 'About Us',
+        blog: 'Blog',
+        careers: 'Careers',
+        contact: 'Contact Us',
+      },
+      resources: {
+        label: 'Resources',
+        docs: 'Documentation',
+        api: 'API Reference',
+        community: 'Community',
+        help: 'Help Center',
+      },
+      legal: {
+        label: 'Legal',
+        privacy: 'Privacy Policy',
+        terms: 'Terms of Service',
+        security: 'Security',
+        cookies: 'Cookie Settings',
+      },
+    },
+    copyright: '© {year} Veloform. All rights reserved.',
   },
 } as const;

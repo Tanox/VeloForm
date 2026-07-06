@@ -126,13 +126,10 @@ export function Cta() {
                   size="lg"
                   variant="secondary"
                   className="px-8 py-4 rounded-2xl font-semibold text-primary bg-white min-h-[56px] hover:bg-white/90 hover:text-primary shadow-lg shadow-black/10"
-                  aria-label="免费开始使用"
+                  aria-label={t('cta.ctaPrimaryAria')}
                 >
                   {t('cta.ctaPrimary')}
-                  <ArrowRight
-                    className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"
-                    aria-hidden="true"
-                  />
+                  <ArrowRight className="w-5 h-5 ml-2" aria-hidden="true" />
                 </Button>
               </motion.div>
 
@@ -140,7 +137,7 @@ export function Cta() {
                 variant="ghost"
                 size="lg"
                 className="text-white hover:bg-white/10 border border-white/20 min-h-[56px] rounded-2xl"
-                aria-label="了解更多"
+                aria-label={t('cta.ctaSecondaryAria')}
               >
                 {t('cta.ctaSecondary')}
               </Button>

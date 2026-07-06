@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, User, Moon, Sun, Bike } from 'lucide-react';
 import { useTheme } from 'next-themes';
@@ -75,10 +76,10 @@ export function Navbar({ onNavigate }: NavbarProps) {
   }, [isMobileMenuOpen]);
 
   const navItems = [
-    { label: t('nav.home'), href: 'home' },
-    { label: t('nav.library'), href: 'library' },
-    { label: t('nav.about'), href: 'about' },
-    { label: t('nav.faq'), href: 'faq' },
+    { label: t('nav.home'), href: 'home', path: '/' },
+    { label: t('nav.library'), href: 'library', path: '/library' },
+    { label: t('nav.about'), href: 'about', path: '/about' },
+    { label: t('nav.faq'), href: 'faq', path: '/faq' },
   ];
 
   const toggleTheme = () => {
@@ -122,24 +123,27 @@ export function Navbar({ onNavigate }: NavbarProps) {
             {/* Desktop Navigation - 统一导航链接样式 */}
             <div className="hidden md:flex items-center gap-2">
               {navItems.map((item, index) => (
-                <motion.button
+                <Link
                   key={item.href}
-                  onClick={() => onNavigate(item.href)}
+                  href={item.path}
                   className={cn(
                     'relative px-5 py-2.5 rounded-xl text-sm font-medium transition-colors min-h-[44px] min-w-[44px]',
                     'text-secondary hover:text-foreground',
                     'hover:bg-surface-tertiary/50',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2'
                   )}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  aria-label={item.label}
                 >
-                  {item.label}
-                </motion.button>
+                  <motion.span
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="block"
+                  >
+                    {item.label}
+                  </motion.span>
+                </Link>
               ))}
             </div>
 
@@ -185,7 +189,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Menu className="w-5 h-5 text-foreground" />
+                <Menu className="w-5 h-5 text-foreground" aria-hidden="true" />
               </motion.button>
             </div>
           </div>
@@ -233,7 +237,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-5 h-5" aria-hidden="true" />
                 </motion.button>
               </div>
 
@@ -253,7 +257,13 @@ export function Navbar({ onNavigate }: NavbarProps) {
                   >
                     <span className="text-foreground font-medium text-lg">{item.label}</span>
                     <motion.div className="ml-auto" animate={{ x: 0 }} whileHover={{ x: 4 }}>
-                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        aria-hidden="true"
+                      >
                         <path
                           d="M7.5 5L12.5 10L7.5 15"
                           stroke="currentColor"

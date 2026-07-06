@@ -55,8 +55,11 @@ interface Translations {
     yearly: string;
     savePercent: string;
     perMonth: string;
+    perYear: string;
+    perMonthShort: string;
     popular: string;
     guarantee: string;
+    tabListAria: string;
     plans: ReadonlyArray<{
       name: string;
       description: string;
@@ -73,6 +76,8 @@ interface Translations {
     subtitle: string;
     ctaPrimary: string;
     ctaSecondary: string;
+    ctaPrimaryAria: string;
+    ctaSecondaryAria: string;
     noCreditCard: string;
     cancelAnytime: string;
     freeForever: string;
@@ -241,6 +246,40 @@ interface Translations {
     price: string;
     weight: string;
     reviews: string;
+  };
+  footer: {
+    description: string;
+    categories: {
+      product: {
+        label: string;
+        features: string;
+        pricing: string;
+        changelog: string;
+        roadmap: string;
+      };
+      company: {
+        label: string;
+        about: string;
+        blog: string;
+        careers: string;
+        contact: string;
+      };
+      resources: {
+        label: string;
+        docs: string;
+        api: string;
+        community: string;
+        help: string;
+      };
+      legal: {
+        label: string;
+        privacy: string;
+        terms: string;
+        security: string;
+        cookies: string;
+      };
+    };
+    copyright: string;
   };
 }
 

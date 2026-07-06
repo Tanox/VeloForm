@@ -1,8 +1,8 @@
 # UI 设计系统
 
 > **路径**: `/openspec/design/ui-design-system.md`  
-> **版本**: v3.8.0  
-> **更新日期**: 2026-06-17
+> **版本**: v4.0.0  
+> **更新日期**: 2026-07-06
 
 ## 概述
 
@@ -182,21 +182,27 @@ const config: Config = {
 ### 字体家族
 
 ```css
-/* 标题字体 - SF Pro Display */
+/* 标题字体 - Clash Display */
 .font-display {
   font-family:
-    'SF Pro Display',
-    system-ui,
+    'Clash Display',
     -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'PingFang SC',
+    'Microsoft YaHei',
     sans-serif;
 }
 
-/* 正文字体 - SF Pro Text */
+/* 正文字体 - Satoshi */
 .font-sans {
   font-family:
-    'SF Pro Text',
-    system-ui,
+    'Satoshi',
     -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'PingFang SC',
+    'Microsoft YaHei',
     sans-serif;
 }
 
@@ -205,6 +211,32 @@ const config: Config = {
   font-family: 'SF Mono', 'JetBrains Mono', monospace;
 }
 ```
+
+### 字体加载
+
+使用 Variable Font 格式优化加载性能：
+
+```css
+/* Satoshi Variable Font */
+@font-face {
+  font-family: 'Satoshi';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url('/fonts/Satoshi-Variable.woff2') format('woff2');
+}
+
+/* Clash Display Variable Font */
+@font-face {
+  font-family: 'Clash Display';
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+  src: url('/fonts/ClashDisplay-Variable.woff2') format('woff2');
+}
+```
+
+**注意**：Tailwind CSS 配置中保留了 `SF Pro Text` 和 `SF Pro Display` 作为 fallback 字体名称，确保兼容性。实际项目使用 Satoshi 和 Clash Display 作为主字体。
 
 ### 字体权重
 
@@ -368,6 +400,29 @@ space-24 = 6rem     /* 96px */
 
 ## 动画系统
 
+### 动画时长规范
+
+所有动画时长不超过 **400ms**，确保流畅且快速的交互体验：
+
+| 时长类型 | 值    | 使用场景           |
+| -------- | ----- | ------------------ |
+| Fast     | 150ms | 悬停、点击反馈     |
+| Normal   | 300ms | 页面过渡、模态框   |
+| Slow     | 400ms | 复杂动画、入场效果 |
+
+### CSS 变量定义
+
+```css
+:root {
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms; /* 仅用于特殊装饰动画 */
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.4, 0, 0.2, 1);
+}
+```
+
 ### 预设动画
 
 ```typescript
@@ -378,6 +433,8 @@ animation: {
   "slide-in-right": "slideInRight 0.4s ease-out",
   "scale-in": "scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
   "bounce-in": "bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+  "shimmer": "shimmer 2s linear infinite",
+  "gradient-move": "gradientMove 3s linear infinite",
   pulse: "pulse 1s ease-in-out infinite",
   "pulse-slow": "pulseSlow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
   float: "float 6s ease-in-out infinite",
@@ -408,6 +465,14 @@ keyframes: {
     "50%": { transform: "scale(1.05)" },
     "100%": { opacity: "1", transform: "scale(1)" },
   },
+  shimmer: {
+    "0%": { backgroundPosition: "-200% 0" },
+    "100%": { backgroundPosition: "200% 0" },
+  },
+  gradientMove: {
+    "0%": { backgroundPosition: "0% 50%" },
+    "100%": { backgroundPosition: "200% 50%" },
+  },
 },
 ```
 
@@ -424,6 +489,21 @@ const spring = {
   stiffness: 300,
   damping: 30,
 };
+```
+
+### Reduced Motion 支持
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 ```
 
 ---
@@ -596,6 +676,7 @@ const spring = {
 
 | 版本       | 日期       | 变更内容                                                                                                                            |
 | ---------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **v4.0.0** | 2026-07-06 | 重大更新：字体系统升级为 Satoshi/Clash Display、新增动画时长规范（≤400ms）、同步实际代码实现、完善 Reduced Motion 支持              |
 | **v3.8.0** | 2026-06-17 | 设计系统全面升级：引入 gradient 渐变色、Shimmer 动画效果、完善组件库规范文档、新增交互标准文档、同步 prototype 与 openspec 设计规范 |
 | **v3.5.0** | 2026-06-03 | 架构重构：store 拆分模块化、Zod 配置验证、Firebase 安全规则、多语言 i18n 类型安全                                                   |
 | **v2.1.0** | 2026-06-08 | 参考 Apple 设计风格全面优化：更新 Hero 组件大图展示、Features 卡片布局、Pricing 定价卡片、Cta 行动号召、Navbar 和 Footer 导航组件   |
@@ -607,5 +688,5 @@ const spring = {
 ---
 
 **文档路径**: `/openspec/design/ui-design-system.md`  
-**最后更新**: 2026-06-17  
-**版本**: v3.8.0
+**最后更新**: 2026-07-06  
+**版本**: v4.0.0

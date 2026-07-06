@@ -80,19 +80,18 @@ export function Features() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6" role="list">
           {features.map((feature, index) => (
-            <motion.div
+            <motion.button
               key={feature.title}
-              role="listitem"
+              type="button"
               initial={{ opacity: 0, y: 30, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
               transition={{
-                duration: transitionDuration ?? 0.5,
+                duration: transitionDuration ?? 0.4,
                 delay: shouldReduceMotion ? 0 : index * 0.1,
               }}
               whileHover={shouldReduceMotion ? {} : { y: -8, transition: { duration: 0.3 } }}
-              tabIndex={0}
-              className="group relative bg-surface-secondary/80 backdrop-blur-sm rounded-2xl p-7 sm:p-8 border border-border-light hover:border-primary/30 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all duration-300 cursor-pointer overflow-hidden outline-none"
+              className="group relative bg-surface-secondary/80 backdrop-blur-sm rounded-2xl p-7 sm:p-8 border border-border-light hover:border-primary/30 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all duration-300 cursor-pointer overflow-hidden outline-none text-left w-full"
               aria-label={feature.title}
             >
               {/* 悬停渐变背景 */}
@@ -137,7 +136,7 @@ export function Features() {
                   <ArrowRight className="w-4 h-4 text-white" />
                 </div>
               </motion.div>
-            </motion.div>
+            </motion.button>
           ))}
         </div>
       </div>

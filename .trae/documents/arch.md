@@ -1,4 +1,8 @@
-## 1. Architecture Design
+# Architecture Design
+
+> **路径**: `/workspace/.trae/documents/arch.md`
+> **版本**: v4.0.0
+> **更新日期**: 2026-07-06
 
 ```mermaid
 graph TB
@@ -9,8 +13,8 @@ graph TB
     D[Tailwind CSS]
   end
   subgraph External Services
-    E[Firebase Auth]
-    F[Firestore Database]
+    E[Supabase Auth]
+    F[Supabase Database]
   end
   A --> B
   B --> C
@@ -19,19 +23,23 @@ graph TB
 ```
 
 ## 2. Technology Description
-- **Frontend**: Next.js 15 (App Router) + React 19 + TypeScript 5 + Tailwind CSS 4
+
+- **Frontend**: Next.js 14 (App Router) + React 18 + TypeScript 5 + Tailwind CSS 3
 - **Initialization Tool**: `create-next-app`
-- **State Management**: Zustand (lightweight, signal-friendly)
-- **Auth & Database**: Firebase (Auth + Firestore)
+- **State Management**: Zustand (模块化 stores)
+- **Auth & Database**: Supabase (Auth + Database)
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
 
 ## 3. Route Definitions
-| Route | Purpose |
-|-------|---------|
-| / | Home/Configurator main page |
-| /configurator | Bike configuration workspace |
+
+| Route    | Purpose                      |
+| -------- | ---------------------------- |
+| /        | Home/Configurator main page  |
+| /about   | About page                   |
+| /faq     | FAQ page                     |
 | /library | Saved configurations library |
+| /login   | Login/Signup page            |
 
 ## 4. Data Model
 
@@ -41,13 +49,13 @@ graph TB
 erDiagram
   USER ||--o{ CONFIGURATION : saves
   CONFIGURATION ||--|{ CONFIG_COMPONENT : contains
-  
+
   USER {
     string id PK
     string email
     string displayName
   }
-  
+
   CONFIGURATION {
     string id PK
     string userId FK
@@ -58,7 +66,7 @@ erDiagram
     timestamp createdAt
     timestamp updatedAt
   }
-  
+
   CONFIG_COMPONENT {
     string id PK
     string category
@@ -77,7 +85,8 @@ erDiagram
 ```typescript
 // src/types/index.ts
 export type BikeType = 'Road' | 'MTB' | 'Fold';
-export type ComponentCategory = 'Frame' | 'Drivetrain' | 'Wheelset' | 'Suspension' | 'Cockpit' | 'Tires';
+export type ComponentCategory =
+  'Frame' | 'Drivetrain' | 'Wheelset' | 'Suspension' | 'Cockpit' | 'Tires';
 
 export interface ConfigComponent {
   id: string;
@@ -126,35 +135,78 @@ export interface ConfigState {
 │   ├── app/
 │   │   ├── layout.tsx          # Root layout
 │   │   ├── page.tsx            # Home/Configurator
+│   │   ├── about/
+│   │   │   └── page.tsx        # About page
+│   │   ├── faq/
+│   │   │   └── page.tsx        # FAQ page
 │   │   ├── library/
 │   │   │   └── page.tsx        # Saved configs
+│   │   ├── login/
+│   │   │   └── page.tsx        # Login/Signup
 │   │   └── globals.css
 │   ├── components/
 │   │   ├── configurator/
 │   │   │   ├── BikeTypeSelector.tsx
 │   │   │   ├── BuildList.tsx
 │   │   │   ├── ComponentSelector.tsx
+│   │   │   ├── ComponentDetailModal.tsx
+│   │   │   ├── ComparePanel.tsx
+│   │   │   ├── CostBreakdownChart.tsx
+│   │   │   ├── RecommendedConfigs.tsx
+│   │   │   ├── ShareModal.tsx
 │   │   │   └── SummaryPanel.tsx
 │   │   ├── layout/
 │   │   │   ├── Navbar.tsx
-│   │   │   └── Sidebar.tsx
+│   │   │   └── Footer.tsx
+│   │   ├── sections/
+│   │   │   ├── Hero.tsx
+│   │   │   ├── Features.tsx
+│   │   │   ├── Pricing.tsx
+│   │   │   └── Cta.tsx
 │   │   └── ui/
 │   │       ├── Button.tsx
 │   │       ├── Card.tsx
-│   │       └── Modal.tsx
+│   │       ├── Modal.tsx
+│   │       ├── ErrorBoundary.tsx
+│   │       ├── LoadingScreen.tsx
+│   │       ├── Skeleton.tsx
+│   │       ├── ThemeToggle.tsx
+│   │       ├── OnboardingGuide.tsx
+│   │       ├── SupportModal.tsx
+│   │       └── ...shadcn components
 │   ├── lib/
-│   │   ├── store.ts            # Zustand store
-│   │   ├── firebase.ts         # Firebase client
-│   │   ├── constants.ts        # App constants
-│   │   └── utils.ts
+│   │   ├── stores/            # Zustand stores (模块化)
+│   │   │   ├── config-store.ts
+│   │   │   ├── config-ui-store.ts
+│   │   │   ├── compare-store.ts
+│   │   │   └── user-store.ts
+│   │   ├── i18n/              # 国际化
+│   │   │   ├── index.ts
+│   │   │   ├── en.ts
+│   │   │   └── zh-CN.ts
+│   │   ├── data/              # 模块化数据
+│   │   │   ├── index.ts
+│   │   │   ├── component-details.ts
+│   │   │   ├── component-alternatives.ts
+│   │   │   └── details/
+│   │   ├── supabase.ts        # Supabase client
+│   │   ├── supabase-service.ts # Supabase service
+│   │   ├── constants.ts       # App constants
+│   │   ├── recommended-configs.ts
+│   │   ├── utils.ts
+│   │   └── toast.ts
 │   ├── hooks/
 │   │   ├── useBikeConfig.ts
-│   │   └── useFirebaseAuth.ts
+│   │   └── useSupabaseAuth.ts
 │   └── types/
 │       └── index.ts
-├── public/                     # Static assets (unchanged)
-├── next.config.js
+├── public/                     # Static assets
+├── supabase/
+│   └── migrations/             # Supabase migrations
+├── next.config.mjs
 ├── tailwind.config.ts
+├── tsconfig.json
+├── vitest.config.ts
 └── package.json
 ```
 
@@ -164,9 +216,13 @@ export interface ConfigState {
 - ✅ Set up Next.js project structure
 - ✅ Migrate TypeScript types
 - ✅ Port constants and default component data
-- ✅ Set up Firebase in Next.js
+- ✅ Set up Supabase in Next.js
 - ✅ Build UI components
-- ✅ Implement state management with Zustand
+- ✅ Implement state management with Zustand (模块化 stores)
 - ✅ Add animation effects with Framer Motion
 - ✅ Update deployment configs (EdgeOne/Vercel)
 - ✅ Test and verify build
+- ✅ Add About/FAQ/Login pages
+- ✅ Add sections components (Hero/Features/Pricing/Cta)
+- ✅ Implement i18n system with type safety
+- ✅ Add Supabase migrations

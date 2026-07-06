@@ -86,7 +86,7 @@ export function Hero({ onNavigate }: HeroProps) {
         <motion.div
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: transitionDuration ?? 0.5 }}
+          transition={{ duration: transitionDuration ?? 0.4 }}
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-primary/20 bg-primary/5 backdrop-blur-sm mb-10 group hover:border-primary/40 transition-colors"
         >
           <motion.div
@@ -104,7 +104,7 @@ export function Hero({ onNavigate }: HeroProps) {
           id="hero-title"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: transitionDuration ?? 0.7, delay: shouldReduceMotion ? 0 : 0.1 }}
+          transition={{ duration: transitionDuration ?? 0.4, delay: shouldReduceMotion ? 0 : 0.1 }}
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-display font-bold leading-[0.95] mb-8 tracking-tight"
         >
           <span className="text-gradient-brand">{t('hero.titleLine1')}</span>
@@ -116,7 +116,7 @@ export function Hero({ onNavigate }: HeroProps) {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: transitionDuration ?? 0.6, delay: shouldReduceMotion ? 0 : 0.2 }}
+          transition={{ duration: transitionDuration ?? 0.4, delay: shouldReduceMotion ? 0 : 0.2 }}
           className="text-lg sm:text-xl text-secondary max-w-2xl mx-auto mb-14 leading-relaxed"
         >
           {t('hero.subtitle')}
@@ -126,7 +126,7 @@ export function Hero({ onNavigate }: HeroProps) {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: transitionDuration ?? 0.6, delay: shouldReduceMotion ? 0 : 0.3 }}
+          transition={{ duration: transitionDuration ?? 0.4, delay: shouldReduceMotion ? 0 : 0.3 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
         >
           <motion.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}>
@@ -157,7 +157,7 @@ export function Hero({ onNavigate }: HeroProps) {
         <motion.div
           initial={{ opacity: 0, y: 60, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: transitionDuration ?? 0.8, delay: shouldReduceMotion ? 0 : 0.4 }}
+          transition={{ duration: transitionDuration ?? 0.4, delay: shouldReduceMotion ? 0 : 0.4 }}
           className="relative mx-auto max-w-5xl w-full"
         >
           {/* 外发光边框 */}
@@ -201,7 +201,7 @@ export function Hero({ onNavigate }: HeroProps) {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: transitionDuration ?? 0.6, delay: shouldReduceMotion ? 0 : 0.6 }}
+          transition={{ duration: transitionDuration ?? 0.4, delay: shouldReduceMotion ? 0 : 0.6 }}
           className="mt-20 flex flex-col items-center gap-6"
         >
           <span className="text-sm text-muted uppercase tracking-widest">
@@ -214,7 +214,7 @@ export function Hero({ onNavigate }: HeroProps) {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: transitionDuration ?? 0.3,
+                  duration: transitionDuration ?? 0.4,
                   delay: shouldReduceMotion ? 0 : 0.7 + index * 0.1,
                 }}
                 className="text-sm sm:text-base font-semibold text-muted/60 hover:text-foreground transition-colors cursor-default"
@@ -230,7 +230,7 @@ export function Hero({ onNavigate }: HeroProps) {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: transitionDuration ?? 0.6, delay: shouldReduceMotion ? 0 : 1 }}
+        transition={{ duration: transitionDuration ?? 0.4, delay: shouldReduceMotion ? 0 : 1 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
         aria-hidden="true"
       >

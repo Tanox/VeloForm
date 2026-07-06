@@ -2,33 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Github, Twitter, Linkedin, Youtube, Bike, ArrowUpRight } from 'lucide-react';
-
-const footerLinks = {
-  产品: [
-    { label: '功能', href: '#' },
-    { label: '定价', href: '#' },
-    { label: '更新日志', href: '#' },
-    { label: '路线图', href: '#' },
-  ],
-  公司: [
-    { label: '关于我们', href: '#' },
-    { label: '博客', href: '#' },
-    { label: '招聘', href: '#' },
-    { label: '联系我们', href: '#' },
-  ],
-  资源: [
-    { label: '文档', href: '#' },
-    { label: 'API 参考', href: '#' },
-    { label: '社区', href: '#' },
-    { label: '帮助中心', href: '#' },
-  ],
-  法律: [
-    { label: '隐私政策', href: '#' },
-    { label: '服务条款', href: '#' },
-    { label: '安全说明', href: '#' },
-    { label: 'Cookie 设置', href: '#' },
-  ],
-};
+import { useTranslation } from '@/lib/i18n';
 
 const socialLinks = [
   { icon: Github, href: '#', label: 'GitHub' },
@@ -38,7 +12,36 @@ const socialLinks = [
 ];
 
 export function Footer() {
+  const t = useTranslation();
   const currentYear = new Date().getFullYear();
+
+  const footerLinks = {
+    [t('footer.categories.product.label')]: [
+      { label: t('footer.categories.product.features'), href: '#' },
+      { label: t('footer.categories.product.pricing'), href: '#' },
+      { label: t('footer.categories.product.changelog'), href: '#' },
+      { label: t('footer.categories.product.roadmap'), href: '#' },
+    ],
+    [t('footer.categories.company.label')]: [
+      { label: t('footer.categories.company.about'), href: '#' },
+      { label: t('footer.categories.company.blog'), href: '#' },
+      { label: t('footer.categories.company.careers'), href: '#' },
+      { label: t('footer.categories.company.contact'), href: '#' },
+    ],
+    [t('footer.categories.resources.label')]: [
+      { label: t('footer.categories.resources.docs'), href: '#' },
+      { label: t('footer.categories.resources.api'), href: '#' },
+      { label: t('footer.categories.resources.community'), href: '#' },
+      { label: t('footer.categories.resources.help'), href: '#' },
+    ],
+    [t('footer.categories.legal.label')]: [
+      { label: t('footer.categories.legal.privacy'), href: '#' },
+      { label: t('footer.categories.legal.terms'), href: '#' },
+      { label: t('footer.categories.legal.security'), href: '#' },
+      { label: t('footer.categories.legal.cookies'), href: '#' },
+    ],
+  };
+
   return (
     <footer className="bg-surface-secondary/50 border-t border-border-light relative overflow-hidden">
       {/* 背景装饰 */}
@@ -63,7 +66,7 @@ export function Footer() {
                   <span className="text-xl font-display font-bold text-foreground">Veloform</span>
                 </div>
                 <p className="text-sm text-secondary mb-6 max-w-[280px] leading-relaxed">
-                  为骑行爱好者打造的专业自行车配置平台，让每一辆车都独一无二。
+                  {t('footer.description')}
                 </p>
 
                 {/* 社交链接 */}
@@ -126,20 +129,24 @@ export function Footer() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-6">
               <p className="text-sm text-secondary">
-                © {currentYear} Veloform. All rights reserved.
+                {t('footer.copyright', { year: currentYear })}
               </p>
             </div>
 
             <div className="flex items-center gap-6" role="list">
-              {['隐私政策', '服务条款', 'Cookie 设置'].map((item, index) => (
+              {[
+                { label: t('footer.categories.legal.privacy'), href: '#' },
+                { label: t('footer.categories.legal.terms'), href: '#' },
+                { label: t('footer.categories.legal.cookies'), href: '#' },
+              ].map((item, index) => (
                 <motion.a
-                  key={item}
-                  href="#"
+                  key={item.label}
+                  href={item.href}
                   role="listitem"
                   className="text-sm text-secondary hover:text-foreground transition-colors focus-visible:outline-none focus-visible:underline focus-visible:decoration-primary focus-visible:underline-offset-2 min-h-[32px] inline-flex items-center"
                   whileHover={{ y: -1 }}
                 >
-                  {item}
+                  {item.label}
                 </motion.a>
               ))}
             </div>

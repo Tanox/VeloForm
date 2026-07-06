@@ -152,6 +152,7 @@ function LibraryContent() {
                         variant={comparingConfigIds.includes(config.id || '') ? 'default' : 'ghost'}
                         size="sm"
                         onClick={() => config.id && toggleCompare(config.id)}
+                        aria-label={t('library.compare')}
                       >
                         <GitCompare className="w-4 h-4" />
                       </Button>
@@ -160,6 +161,7 @@ function LibraryContent() {
                         size="sm"
                         onClick={() => config.id && handleDeleteClick(config.id)}
                         className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                        aria-label={t('library.delete')}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -198,7 +200,7 @@ function LibraryContent() {
               {isDeleting ? (
                 <>
                   <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                  {t('common.delete')}...
+                  {t('common.delete')}…
                 </>
               ) : (
                 t('common.delete')
