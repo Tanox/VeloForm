@@ -105,25 +105,19 @@ export function SupportModal({ isOpen, onClose }: SupportModalProps) {
                     <summary className="text-sm text-muted cursor-pointer hover:text-foreground">
                       {t('support.faq1')}
                     </summary>
-                    <p className="text-sm text-muted mt-2 pl-4">
-                      {t('support.faq1Answer')}
-                    </p>
+                    <p className="text-sm text-muted mt-2 pl-4">{t('support.faq1Answer')}</p>
                   </details>
                   <details className="border-b border-zinc-800 pb-3 last:border-0">
                     <summary className="text-sm text-muted cursor-pointer hover:text-foreground">
                       {t('support.faq2')}
                     </summary>
-                    <p className="text-sm text-muted mt-2 pl-4">
-                      {t('support.faq2Answer')}
-                    </p>
+                    <p className="text-sm text-muted mt-2 pl-4">{t('support.faq2Answer')}</p>
                   </details>
                   <details>
                     <summary className="text-sm text-muted cursor-pointer hover:text-foreground">
                       {t('support.faq3')}
                     </summary>
-                    <p className="text-sm text-muted mt-2 pl-4">
-                      {t('support.faq3Answer')}
-                    </p>
+                    <p className="text-sm text-muted mt-2 pl-4">{t('support.faq3Answer')}</p>
                   </details>
                 </div>
               </div>
@@ -134,7 +128,7 @@ export function SupportModal({ isOpen, onClose }: SupportModalProps) {
                   <Input
                     type="text"
                     name="name"
-                    placeholder={t('support.name')}
+                    placeholder={t('support.name') as string}
                     value={formData.name}
                     onChange={handleChange}
                     required
@@ -142,7 +136,7 @@ export function SupportModal({ isOpen, onClose }: SupportModalProps) {
                   <Input
                     type="email"
                     name="email"
-                    placeholder={t('support.email')}
+                    placeholder={t('support.email') as string}
                     value={formData.email}
                     onChange={handleChange}
                     required
@@ -150,7 +144,7 @@ export function SupportModal({ isOpen, onClose }: SupportModalProps) {
                 </div>
                 <Textarea
                   name="message"
-                  placeholder={t('support.message')}
+                  placeholder={t('support.message') as string}
                   value={formData.message}
                   onChange={handleChange}
                   rows={4}

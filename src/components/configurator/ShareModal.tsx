@@ -20,11 +20,11 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
     try {
       await navigator.clipboard.writeText(link);
       setCopied(true);
-      toast('success', t('share.copied'));
+      toast('success', t('share.copied') as string);
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       uiLogger.error('Failed to copy:', error);
-      toast('error', t('share.copyFailed'));
+      toast('error', t('share.copyFailed') as string);
     }
   };
 
@@ -39,7 +39,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    toast('success', t('share.exported'));
+    toast('success', t('share.exported') as string);
   };
 
   const shareLink = generateShareableLink();

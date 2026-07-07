@@ -22,6 +22,7 @@ interface Translations {
     support: string;
     login: string;
     logout: string;
+    language: string;
   };
   configurator: {
     buildList: string;
@@ -114,6 +115,18 @@ interface Translations {
     faq2Answer: string;
     faq3: string;
     faq3Answer: string;
+    faqCategories: {
+      configurator: string;
+      saveAndShare: string;
+      pricing: string;
+      technical: string;
+    };
+    faqItems: {
+      configurator: readonly { question: string; answer: string }[];
+      saveAndShare: readonly { question: string; answer: string }[];
+      pricing: readonly { question: string; answer: string }[];
+      technical: readonly { question: string; answer: string }[];
+    };
   };
   common: {
     cancel: string;
@@ -130,6 +143,97 @@ interface Translations {
     price: string;
     weight: string;
     reviews: string;
+  };
+  hero: {
+    badge: string;
+    title: string;
+    titlePart1: string;
+    titlePart2: string;
+    description: string;
+    descriptionLine1: string;
+    descriptionLine2: string;
+    cta: string;
+    demo: string;
+    trusted: string;
+    scrollHint: string;
+  };
+  features: {
+    title: string;
+    subtitle: string;
+    badge: string;
+    items: {
+      infinite: { title: string; description: string };
+      speed: { title: string; description: string };
+      security: { title: string; description: string };
+      assets: { title: string; description: string };
+      export: { title: string; description: string };
+      sync: { title: string; description: string };
+    };
+  };
+  pricing: {
+    title: string;
+    subtitle: string;
+    badge: string;
+    monthly: string;
+    yearly: string;
+    yearlyDiscount: string;
+    guarantee: string;
+    plans: {
+      personal: { name: string; description: string; cta: string; features: readonly string[] };
+      pro: {
+        name: string;
+        description: string;
+        cta: string;
+        popular: string;
+        features: readonly string[];
+      };
+      enterprise: { name: string; description: string; cta: string; features: readonly string[] };
+    };
+  };
+  cta: {
+    badge: string;
+    title: string;
+    description: string;
+    cta: string;
+    learnMore: string;
+    features: readonly string[];
+  };
+  footer: {
+    description: string;
+    categories: { product: string; company: string; resources: string; legal: string };
+    links: {
+      product: readonly string[];
+      company: readonly string[];
+      resources: readonly string[];
+      legal: readonly string[];
+    };
+    copyright: string;
+  };
+  about: {
+    brand: {
+      title: string;
+      description: string;
+    };
+    stats: {
+      activeUsers: { value: string; label: string };
+      components: { value: string; label: string };
+      satisfaction: { value: string; label: string };
+      countries: { value: string; label: string };
+    };
+    values: {
+      title: string;
+      loveRiding: { title: string; description: string };
+      excellence: { title: string; description: string };
+      userFirst: { title: string; description: string };
+    };
+    contact: {
+      title: string;
+      description: string;
+      email: string;
+      phone: string;
+      address: string;
+      sendMessage: string;
+    };
   };
 }
 
@@ -157,10 +261,10 @@ type Language = keyof typeof translations;
 interface I18nStore {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string, params?: Record<string, string | number>) => string;
+  t: (key: string, params?: Record<string, string | number>) => string | readonly string[];
 }
 
-function getNestedValue(obj: unknown, path: string): string {
+function getNestedValue(obj: unknown, path: string): string | readonly string[] {
   const result = path.split('.').reduce<unknown>((acc, part) => {
     if (typeof acc === 'object' && acc !== null) {
       return (acc as Record<string, unknown>)[part];
@@ -168,7 +272,13 @@ function getNestedValue(obj: unknown, path: string): string {
     return undefined;
   }, obj);
 
-  return typeof result === 'string' ? result : path;
+  if (typeof result === 'string') {
+    return result;
+  }
+  if (Array.isArray(result)) {
+    return result;
+  }
+  return path;
 }
 
 export const useI18nStore = create<I18nStore>((set, get) => ({
@@ -178,7 +288,7 @@ export const useI18nStore = create<I18nStore>((set, get) => ({
     const state = get();
     const translation = getNestedValue(translations[state.language], key);
 
-    if (params) {
+    if (params && typeof translation === 'string') {
       return Object.entries(params).reduce(
         (str, [paramKey, value]) => str.replace(`{${paramKey}}`, String(value)),
         translation
