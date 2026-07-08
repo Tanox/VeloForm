@@ -1,10 +1,51 @@
-# Veloform v4.0.0 极简设计系统升级
+# Changelog
 
-## 变更摘要
+All notable changes to this project will be documented in this file.
 
-本次更新将 Veloform 设计系统升级到 v4.0.0，采用极简主义设计哲学，追求国际顶尖水准的 UI/UX。
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### 主要变更
+## [4.0.0]
+
+### Added
+
+- Added complete i18n system with EN/ZH-CN translations for all pages and components
+- Added new FAQ page (`/faq`) with shadcn/ui Accordion component
+- Added new About page (`/about`) with brand introduction and statistics
+- Added language switch button in Navbar with Globe icon
+- Added `useReducedMotion` hook support for accessibility
+- Added global animation constants (`ANIMATION_DURATION = 0.3s`) in `lib/animation.ts`
+- Added smooth scroll navigation between sections
+- Added `sections/` directory with Hero, Features, Pricing, and Cta components
+- Added `Footer` component with i18n translations
+- Added design system specification documents (v4.0.0)
+
+### Changed
+
+- Upgraded project version to v4.0.0
+- Refactored all hardcoded Chinese text to use `useTranslation()` hook
+- Unified animation duration to 300ms across all components
+- Updated Navbar with language switcher and smooth scroll navigation
+- Updated Hero section with i18n and proper animation timing
+- Updated Features section with 6 feature cards using i18n
+- Updated Pricing section with 3 pricing plans using i18n
+- Updated Cta section with i18n translations
+- Updated Footer with i18n for all categories and links
+- Updated i18n type definitions to support array translations
+- Updated Translations interface with hero, features, pricing, cta, footer modules
+- Updated design system to minimalist philosophy (neutral colors, unified rounded corners, restrained shadows)
+
+### Fixed
+
+- Fixed animation duration exceeding design specification (>300ms)
+- Fixed i18n array type compatibility issues
+- Fixed README_EN.md still referencing Firebase (migrated to Supabase)
+
+---
+
+## Previous Changes
+
+### 设计系统规范（v4.0.0）
 
 #### 1. 设计系统规范（v4.0.0）
 
