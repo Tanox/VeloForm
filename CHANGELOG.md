@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0]
+
+### Added
+
+- Added complete i18n system with EN/ZH-CN translations for all pages and components
+- Added new FAQ page (`/faq`) with shadcn/ui Accordion component
+- Added new About page (`/about`) with brand introduction and statistics
+- Added language switch button in Navbar with Globe icon
+- Added `useReducedMotion` hook support for accessibility
+- Added global animation constants (`ANIMATION_DURATION = 0.3s`) in `lib/animation.ts`
+- Added smooth scroll navigation between sections
+- Added `sections/` directory with Hero, Features, Pricing, and Cta components
+- Added `Footer` component with i18n translations
+
+### Changed
+
+- Upgraded project version to v4.0.0
+- Refactored all hardcoded Chinese text to use `useTranslation()` hook
+- Unified animation duration to 300ms across all components
+- Updated Navbar with language switcher and smooth scroll navigation
+- Updated Hero section with i18n and proper animation timing
+- Updated Features section with 6 feature cards using i18n
+- Updated Pricing section with 3 pricing plans using i18n
+- Updated Cta section with i18n translations
+- Updated Footer with i18n for all categories and links
+- Updated i18n type definitions to support array translations
+- Updated Translations interface with hero, features, pricing, cta, footer modules
+
+### Fixed
+
+- Fixed animation duration exceeding design specification (>300ms)
+- Fixed i18n array type compatibility issues
+- Fixed README_EN.md still referencing Firebase (migrated to Supabase)
+
 ## [3.9.0]
 
 ### Added

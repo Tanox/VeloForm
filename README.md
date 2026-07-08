@@ -54,8 +54,14 @@ src/
 │   ├── page.tsx                  # 首页/配置器
 │   ├── providers.tsx             # 全局提供者
 │   ├── globals.css               # 全局样式
-│   └── library/
-│       └── page.tsx              # 配置库页面
+│   ├── about/
+│   │   └── page.tsx              # 关于页面
+│   ├── faq/
+│   │   └── page.tsx              # FAQ 页面
+│   ├── library/
+│   │   └── page.tsx              # 配置库页面
+│   └── login/
+│       └── page.tsx              # 登录页面
 ├── components/                   # UI 组件
 │   ├── configurator/             # 配置器组件
 │   │   ├── BikeTypeSelector.tsx  # 车型选择器
@@ -63,11 +69,18 @@ src/
 │   │   ├── ComponentDetailModal.tsx  # 组件详情模态框
 │   │   ├── ComponentSelector.tsx # 组件选择器
 │   │   ├── CostBreakdownChart.tsx    # 成本分解图表
+│   │   ├── ComparePanel.tsx      # 配置比较面板
 │   │   ├── RecommendedConfigs.tsx    # 推荐配置
 │   │   ├── ShareModal.tsx        # 分享模态框
 │   │   └── SummaryPanel.tsx      # 汇总面板
 │   ├── layout/                   # 布局组件
-│   │   └── Navbar.tsx            # 导航栏
+│   │   ├── Navbar.tsx            # 导航栏
+│   │   └── Footer.tsx            # 页脚
+│   ├── sections/                 # 页面区块组件
+│   │   ├── Hero.tsx              # 首页英雄区块
+│   │   ├── Features.tsx          # 功能特性展示
+│   │   ├── Pricing.tsx           # 定价方案展示
+│   │   └── Cta.tsx               # 行动号召区块
 │   ├── ui/                       # 通用 UI 组件
 │   │   ├── Button.tsx            # 按钮
 │   │   ├── Card.tsx              # 卡片
@@ -82,16 +95,29 @@ src/
 │   ├── auth.ts                   # Supabase 认证服务
 │   ├── constants.ts              # 应用常量
 │   ├── env.ts                    # 环境变量验证
-│   ├── supabase-service.ts      # Supabase 数据服务
-│   ├── supabase.ts              # Supabase 客户端配置
-│   ├── store.ts                # Zustand 状态管理（含选择性 hooks）
+│   ├── supabase-service.ts       # Supabase 数据服务
+│   ├── supabase.ts               # Supabase 客户端配置
+│   ├── store.ts                  # Zustand 状态管理（含选择性 hooks）
 │   ├── utils.ts                  # 工具函数
 │   ├── toast.ts                  # Toast 通知
 │   ├── recommended-configs.ts    # 推荐配置
+│   ├── animation.ts              # 全局动画配置
 │   ├── data/                     # 模块化数据
 │   │   ├── index.ts
 │   │   ├── component-details.ts
-│   │   └── component-alternatives.ts
+│   │   ├── component-alternatives.ts
+│   │   └── details/              # 按类别拆分的组件详情
+│   │       ├── cockpit.ts
+│   │       ├── drivetrain.ts
+│   │       ├── frames.ts
+│   │       ├── suspension.ts
+│   │       ├── tires.ts
+│   │       └── wheelset.ts
+│   ├── stores/                   # 模块化状态管理
+│   │   ├── config-store.ts       # 配置状态
+│   │   ├── config-ui-store.ts    # 配置UI状态
+│   │   ├── compare-store.ts      # 比较状态
+│   │   └── user-store.ts         # 用户状态
 │   └── i18n/                     # 国际化
 │       ├── index.ts
 │       ├── en.ts
@@ -218,7 +244,7 @@ MIT License
 
 ## 版本信息
 
-当前版本：**v3.9.0**  
-最后更新：2026-07-02
+当前版本：**v4.0.0**  
+最后更新：2026-07-08
 
 详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)。

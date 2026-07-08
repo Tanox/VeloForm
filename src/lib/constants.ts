@@ -26,7 +26,7 @@ export const APP_CONSTANTS = {
   } as const,
   APP_INFO: {
     name: 'Veloform',
-    version: '3.9.0',
+    version: '4.0.0',
     tagline: 'Bike Configurator',
   } as const,
 } as const;

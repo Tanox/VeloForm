@@ -6,7 +6,7 @@
 
 ## Overview
 
-Veloform is an advanced bicycle configurator built with Next.js, Tailwind CSS, and powered by Firebase. It allows users to browse and customize configuration lists for different types of bicycles, including Road, Mountain (MTB), and Folding bikes.
+Veloform is an advanced bicycle configurator built with Next.js, Tailwind CSS, and powered by Supabase. It allows users to browse and customize configuration lists for different types of bicycles, including Road, Mountain (MTB), and Folding bikes.
 
 **Production URL**: [https://veloform.app](https://veloform.app)  
 **Repository**: [https://github.com/sutchan/Veloform](https://github.com/sutchan/Veloform)
@@ -53,8 +53,14 @@ src/
 │   ├── page.tsx                  # Home/Configurator page
 │   ├── providers.tsx             # Global providers
 │   ├── globals.css               # Global styles
-│   └── library/
-│       └── page.tsx              # Configuration library page
+│   ├── about/
+│   │   └── page.tsx              # About page
+│   ├── faq/
+│   │   └── page.tsx              # FAQ page
+│   ├── library/
+│   │   └── page.tsx              # Configuration library page
+│   └── login/
+│       └── page.tsx              # Login page
 ├── components/                   # UI components
 │   ├── configurator/             # Configurator components
 │   │   ├── BikeTypeSelector.tsx  # Bike type selector
@@ -62,11 +68,18 @@ src/
 │   │   ├── ComponentDetailModal.tsx  # Component detail modal
 │   │   ├── ComponentSelector.tsx # Component selector
 │   │   ├── CostBreakdownChart.tsx    # Cost breakdown chart
+│   │   ├── ComparePanel.tsx      # Config comparison panel
 │   │   ├── RecommendedConfigs.tsx    # Recommended configs
 │   │   ├── ShareModal.tsx        # Share modal
 │   │   └── SummaryPanel.tsx      # Summary panel
 │   ├── layout/                   # Layout components
-│   │   └── Navbar.tsx            # Navigation bar
+│   │   ├── Navbar.tsx            # Navigation bar
+│   │   └── Footer.tsx            # Footer
+│   ├── sections/                 # Page section components
+│   │   ├── Hero.tsx              # Hero section
+│   │   ├── Features.tsx          # Features section
+│   │   ├── Pricing.tsx           # Pricing section
+│   │   └── Cta.tsx               # Call to action section
 │   └── ui/                       # General UI components
 │       ├── Button.tsx            # Button
 │       ├── Card.tsx              # Card
@@ -77,19 +90,32 @@ src/
 │       ├── ThemeToggle.tsx       # Theme toggle
 │       └── Toast.tsx             # Toast notification
 ├── lib/                          # Utility library
-│   ├── auth.ts                   # Firebase auth service
+│   ├── auth.ts                   # Supabase auth service
 │   ├── constants.ts              # App constants
 │   ├── env.ts                    # Environment variable validation
-│   ├── firebase-service.ts       # Firebase services
-│   ├── firebase.ts               # Firebase configuration
+│   ├── supabase-service.ts       # Supabase services
+│   ├── supabase.ts               # Supabase configuration
 │   ├── store.ts                  # Zustand state management
 │   ├── utils.ts                  # Utility functions
 │   ├── toast.ts                  # Toast notifications
 │   ├── recommended-configs.ts    # Recommended configurations
+│   ├── animation.ts              # Global animation config
 │   ├── data/                     # Modular data
 │   │   ├── index.ts
 │   │   ├── component-details.ts
-│   │   └── component-alternatives.ts
+│   │   ├── component-alternatives.ts
+│   │   └── details/              # Category-specific component details
+│   │       ├── cockpit.ts
+│   │       ├── drivetrain.ts
+│   │       ├── frames.ts
+│   │       ├── suspension.ts
+│   │       ├── tires.ts
+│   │       └── wheelset.ts
+│   ├── stores/                   # Modular state management
+│   │   ├── config-store.ts       # Config state
+│   │   ├── config-ui-store.ts    # Config UI state
+│   │   ├── compare-store.ts      # Compare state
+│   │   └── user-store.ts         # User state
 │   └── i18n/                     # Internationalization
 │       ├── index.ts
 │       ├── en.ts
@@ -108,7 +134,7 @@ For detailed development guidelines, see [openspec/PROJECT_GUIDELINES.md](opensp
 
 - Node.js >= 18.x
 - npm or pnpm
-- Firebase project (for backend services)
+- Supabase project (for Postgres database + Row Level Security)
 
 ### Installation
 
@@ -143,12 +169,12 @@ For detailed development guidelines, see [openspec/PROJECT_GUIDELINES.md](opensp
 5. **Open the app**:
    Visit `http://localhost:3000` in your browser
 
-### Firebase Configuration
+### Supabase Configuration
 
-1. Go to [Firebase Console](https://console.firebase.google.com/)
-2. Create a new project or select an existing one
-3. Enable Authentication (Email/Password)
-4. Enable Firestore Database
+1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
+2. Create a new project
+3. Run the migration script `supabase/migrations/20260619000000_initial_schema.sql` in SQL Editor
+4. Enable Email/Password and Google OAuth in Authentication
 5. Get Web App configuration from Project Settings
 6. Copy the values to your `.env` file
 
@@ -216,7 +242,7 @@ MIT License
 
 ## Version
 
-Current version: **v3.9.0**  
-Last updated: 2026-07-02
+Current version: **v4.0.0**  
+Last updated: 2026-07-08
 
 For detailed changelog, see [CHANGELOG.md](./CHANGELOG.md).
