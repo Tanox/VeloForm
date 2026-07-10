@@ -10,10 +10,10 @@ const CSP_POLICY = [
   "frame-src 'self' https://*.supabase.co",
   // Images from self, external CDNs, and Supabase Storage
   "img-src 'self' data: https: blob:",
-  // Styles - Next.js requires 'unsafe-inline'
-  "style-src 'self' 'unsafe-inline'",
+  // Styles - Next.js requires 'unsafe-inline'; fontshare.com for Satoshi & Clash Display fonts
+  "style-src 'self' 'unsafe-inline' https://api.fontshare.com",
   // Fonts
-  "font-src 'self' data:",
+  "font-src 'self' data: https://api.fontshare.com",
   // Worker scripts for PWA
   "worker-src 'self' blob:",
   // Manifest for PWA
