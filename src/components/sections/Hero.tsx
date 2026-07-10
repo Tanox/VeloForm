@@ -184,13 +184,13 @@ export function Hero({ onNavigate }: HeroProps) {
           />
 
           {/* 主卡片 */}
-          <div className="relative rounded-2xl overflow-hidden border border-border-light shadow-2xl">
+          <div className="relative rounded-2xl overflow-hidden border border-border-light shadow-2xl bg-surface">
             <div
               className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent z-10 pointer-events-none"
               aria-hidden="true"
             />
 
-            <div className="aspect-[16/9] bg-surface relative">
+            <div className="w-full" style={{ aspectRatio: '16/9', position: 'relative' }}>
               <Image
                 src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20bicycle%20configurator%20software%20interface%20on%20iMac%20screen%20minimalist%20clean%20UI%20apple%20style%20dark%20theme&image_size=landscape_16_9"
                 alt="Veloform 界面预览"

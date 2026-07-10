@@ -11,7 +11,7 @@
     X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
-    Content-Security-Policy = "default-src 'self'; connect-src 'self' https://*.supabase.co https://*.supabase.io; frame-src 'self' https://*.supabase.co; img-src 'self' data: https: blob:; style-src 'self' 'unsafe-inline' https://api.fontshare.com; font-src 'self' data: https://api.fontshare.com; worker-src 'self' blob:; manifest-src 'self'; script-src 'self' 'unsafe-inline'"
+    Content-Security-Policy = "default-src 'self'; connect-src 'self' https://*.supabase.co https://*.supabase.io; frame-src 'self' https://*.supabase.co; img-src 'self' data: https: blob:; style-src 'self' 'unsafe-inline' https://api.fontshare.com https://cdn.fontshare.com; font-src 'self' data: https://api.fontshare.com https://cdn.fontshare.com; worker-src 'self' blob:; manifest-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"
 
 [[headers]]
   for = "/assets/*"

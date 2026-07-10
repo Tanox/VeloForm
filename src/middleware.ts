@@ -11,15 +11,15 @@ const CSP_POLICY = [
   // Images from self, external CDNs, and Supabase Storage
   "img-src 'self' data: https: blob:",
   // Styles - Next.js requires 'unsafe-inline'; fontshare.com for Satoshi & Clash Display fonts
-  "style-src 'self' 'unsafe-inline' https://api.fontshare.com",
-  // Fonts
-  "font-src 'self' data: https://api.fontshare.com",
+  "style-src 'self' 'unsafe-inline' https://api.fontshare.com https://cdn.fontshare.com",
+  // Fonts - fontshare uses both api.fontshare.com and cdn.fontshare.com
+  "font-src 'self' data: https://api.fontshare.com https://cdn.fontshare.com",
   // Worker scripts for PWA
   "worker-src 'self' blob:",
   // Manifest for PWA
   "manifest-src 'self'",
-  // Scripts: Next.js requires 'unsafe-inline' for hydration in dev; eval only when needed
-  "script-src 'self' 'unsafe-inline'",
+  // Scripts: Next.js requires 'unsafe-inline' for hydration; 'unsafe-eval' needed for framer-motion
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
 ].join('; ');
 
 export function middleware(request: NextRequest) {

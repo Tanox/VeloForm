@@ -48,7 +48,10 @@ export function ComponentDetailModal({
             transition={{ duration: 0.4 }}
             className="relative"
           >
-            <div className="relative aspect-square bg-gradient-to-br from-surface to-surface-secondary rounded-2xl overflow-hidden border border-border-light">
+            <div
+              className="relative w-full h-auto bg-gradient-to-br from-surface to-surface-secondary rounded-2xl overflow-hidden border border-border-light"
+              style={{ aspectRatio: '1/1' }}
+            >
               {!detail.imageUrl || imageError ? (
                 <div className="absolute inset-0 flex items-center justify-center bg-zinc-800">
                   <ImageOff className="w-12 h-12 text-zinc-500" />
