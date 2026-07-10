@@ -18,8 +18,8 @@ const CSP_POLICY = [
   "worker-src 'self' blob:",
   // Manifest for PWA
   "manifest-src 'self'",
-  // Scripts: Next.js hydration + any third-party with nonce (optional)
-  "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+  // Scripts: Next.js requires 'unsafe-inline' for hydration in dev; eval only when needed
+  "script-src 'self' 'unsafe-inline'",
 ].join('; ');
 
 export function middleware(request: NextRequest) {

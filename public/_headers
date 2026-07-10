@@ -10,6 +10,8 @@
     X-Content-Type-Options = "nosniff"
     X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    Content-Security-Policy = "default-src 'self'; connect-src 'self' https://*.supabase.co https://*.supabase.io; frame-src 'self' https://*.supabase.co; img-src 'self' data: https: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; worker-src 'self' blob:; manifest-src 'self'; script-src 'self' 'unsafe-inline'"
 
 [[headers]]
   for = "/assets/*"
