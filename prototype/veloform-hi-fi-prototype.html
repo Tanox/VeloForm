@@ -1,0 +1,2360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VELOFORM — Precision Bike Configurator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       VELOFORM — Precision Engineering Prototype
+       ============================================================ */
+
+    :root {
+      /* Core Palette — Industrial Luxury */
+      --bg-primary: #0a0a0b;
+      --bg-secondary: #111113;
+      --bg-tertiary: #18181b;
+      --bg-elevated: #1c1c20;
+
+      --surface: #141417;
+      --surface-hover: #1a1a1e;
+      --surface-active: #222227;
+
+      --border-subtle: #1f1f23;
+      --border-default: #2a2a30;
+      --border-strong: #3a3a42;
+
+      --text-primary: #f4f4f5;
+      --text-secondary: #a1a1aa;
+      --text-tertiary: #71717a;
+      --text-muted: #52525b;
+
+      /* Accent — Burnt Sienna / Corten Steel */
+      --accent: #e85d2c;
+      --accent-hover: #f06b3a;
+      --accent-pressed: #d44d1f;
+      --accent-soft: rgba(232, 93, 44, 0.12);
+      --accent-glow: rgba(232, 93, 44, 0.3);
+
+      /* Steel Blue Secondary */
+      --steel: #6b8ba4;
+      --steel-soft: rgba(107, 139, 164, 0.1);
+
+      /* Status */
+      --success: #4ade80;
+      --warning: #fbbf24;
+      --error: #f87171;
+
+      /* Typography */
+      --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', 'Menlo', monospace;
+
+      /* Spacing — 4px base grid */
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --space-10: 40px;
+      --space-12: 48px;
+      --space-16: 64px;
+      --space-20: 80px;
+
+      /* Radii */
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+      --radius-xl: 14px;
+      --radius-full: 9999px;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --ease-precise: cubic-bezier(0.4, 0, 0.2, 1);
+      --duration-fast: 120ms;
+      --duration-normal: 200ms;
+      --duration-slow: 350ms;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+      --shadow-lg: 0 12px 32px rgba(0,0,0,0.6);
+      --shadow-xl: 0 24px 64px rgba(0,0,0,0.7);
+      --shadow-glow: 0 0 40px var(--accent-glow);
+    }
+
+    /* Reset & Base */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Grain / Noise Overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* Grid Background Pattern */
+    .grid-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 var(--space-4); }
+    }
+
+    /* Typography */
+    .mono { font-family: var(--font-mono); }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .display-xl {
+      font-size: clamp(42px, 7vw, 96px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+    }
+
+    .display-lg {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* ============================================================
+       Navigation
+       ============================================================ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      transition: all var(--duration-normal) var(--ease-out);
+      border-bottom: 1px solid transparent;
+    }
+
+    .nav.scrolled {
+      background: rgba(10, 10, 11, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom-color: var(--border-subtle);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .nav-logo-mark {
+      width: 32px;
+      height: 32px;
+      border: 1.5px solid var(--accent);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .nav-logo-mark::before {
+      content: '';
+      width: 14px;
+      height: 2px;
+      background: var(--accent);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .nav-logo-mark::after {
+      content: '';
+      width: 14px;
+      height: 2px;
+      background: var(--accent);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .nav-logo-text {
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      list-style: none;
+    }
+
+    .nav-link {
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+      border: none;
+      background: none;
+      font-family: var(--font-sans);
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+      background: var(--surface-hover);
+    }
+
+    .nav-link.active {
+      color: var(--text-primary);
+      background: var(--surface-active);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-default);
+      background: var(--surface);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+
+    .icon-btn:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+      background: var(--surface-hover);
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      color: #fff;
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+      letter-spacing: 0.01em;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px var(--accent-glow);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      background: var(--accent-pressed);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: var(--font-sans);
+      color: var(--text-primary);
+      background: var(--surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-ghost:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-strong);
+    }
+
+    .btn-ghost.small {
+      padding: 7px 12px;
+      font-size: 12px;
+    }
+
+    /* ============================================================
+       Hero Section
+       ============================================================ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 68px;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: var(--space-16);
+      align-items: center;
+      padding: var(--space-20) 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-12);
+        padding: var(--space-12) 0;
+      }
+    }
+
+    .hero-content {
+      animation: slideUp 0.8s var(--ease-out) both;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: var(--space-6);
+      padding: 6px 14px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(232, 93, 44, 0.25);
+      border-radius: var(--radius-full);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .hero-eyebrow-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s var(--ease-in-out) infinite;
+    }
+
+    .hero-title {
+      margin-bottom: var(--space-6);
+    }
+
+    .hero-title-line {
+      display: block;
+    }
+
+    .hero-title-accent {
+      background: linear-gradient(135deg, var(--accent) 0%, #ff8f6b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin-bottom: var(--space-8);
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-12);
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      padding-top: var(--space-6);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hero-meta-value {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .hero-meta-label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Hero Visual */
+    .hero-visual {
+      position: relative;
+      animation: fadeIn 1s var(--ease-out) 0.3s both;
+    }
+
+    .hero-visual-frame {
+      position: relative;
+      aspect-ratio: 4/5;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      border: 1px solid var(--border-default);
+      background: var(--bg-secondary);
+    }
+
+    .hero-visual-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.85) contrast(1.1);
+    }
+
+    .hero-visual-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        transparent 40%,
+        rgba(10, 10, 11, 0.8) 100%
+      );
+    }
+
+    .hero-visual-badge {
+      position: absolute;
+      top: var(--space-4);
+      left: var(--space-4);
+      padding: 6px 12px;
+      background: rgba(10, 10, 11, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+    }
+
+    .hero-visual-info {
+      position: absolute;
+      bottom: var(--space-5);
+      left: var(--space-5);
+      right: var(--space-5);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .hero-visual-spec {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hero-visual-spec-label {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .hero-visual-spec-value {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* Floating spec card */
+    .hero-spec-card {
+      position: absolute;
+      right: -24px;
+      top: 20%;
+      background: var(--surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      box-shadow: var(--shadow-lg);
+      min-width: 160px;
+      animation: float 6s var(--ease-in-out) infinite;
+    }
+
+    .hero-spec-card-label {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-2);
+    }
+
+    .hero-spec-card-value {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .hero-spec-card-unit {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .hero-spec-card-bar {
+      margin-top: var(--space-3);
+      height: 3px;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .hero-spec-card-fill {
+      height: 100%;
+      width: 72%;
+      background: linear-gradient(90deg, var(--accent), #ff8f6b);
+      border-radius: var(--radius-full);
+    }
+
+    /* ============================================================
+       Configurator Section
+       ============================================================ */
+    .config-section {
+      padding: var(--space-20) 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: var(--space-10);
+    }
+
+    .section-title-block {
+      max-width: 600px;
+    }
+
+    .section-title {
+      margin-top: var(--space-3);
+    }
+
+    .section-desc {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin-top: var(--space-4);
+      max-width: 480px;
+    }
+
+    /* Bike Type Selector */
+    .bike-type-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-3);
+      margin-bottom: var(--space-10);
+    }
+
+    @media (max-width: 640px) {
+      .bike-type-selector {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .bike-type-card {
+      position: relative;
+      padding: var(--space-5);
+      background: var(--surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: all var(--duration-normal) var(--ease-out);
+      overflow: hidden;
+    }
+
+    .bike-type-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--duration-normal) var(--ease-out);
+    }
+
+    .bike-type-card:hover {
+      border-color: var(--border-strong);
+      background: var(--surface-hover);
+      transform: translateY(-2px);
+    }
+
+    .bike-type-card.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .bike-type-card.active::before {
+      transform: scaleX(1);
+    }
+
+    .bike-type-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: var(--space-4);
+      color: var(--text-secondary);
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+
+    .bike-type-card.active .bike-type-icon {
+      color: var(--accent);
+    }
+
+    .bike-type-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .bike-type-desc {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .bike-type-specs {
+      display: flex;
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .bike-type-spec {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bike-type-spec-value {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .bike-type-spec-label {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* Configurator Grid */
+    .configurator-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .configurator-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Build List */
+    .build-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .build-list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-2) 0;
+      margin-bottom: var(--space-2);
+    }
+
+    .build-list-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .build-list-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      padding: 2px 8px;
+      background: var(--surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-sm);
+    }
+
+    .build-progress {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .build-progress-bar {
+      width: 120px;
+      height: 4px;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .build-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #ff8f6b);
+      border-radius: var(--radius-full);
+      transition: width var(--duration-slow) var(--ease-out);
+    }
+
+    .build-progress-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    /* Component Card */
+    .component-card {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      background: var(--surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .component-card::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 0;
+      background: var(--accent);
+      border-radius: 0 2px 2px 0;
+      transition: height var(--duration-fast) var(--ease-out);
+    }
+
+    .component-card:hover {
+      border-color: var(--border-strong);
+      background: var(--surface-hover);
+      transform: translateX(4px);
+    }
+
+    .component-card:hover::after {
+      height: 24px;
+    }
+
+    .component-category {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--bg-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--text-secondary);
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+
+    .component-card:hover .component-category {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .component-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .component-cat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 3px;
+    }
+
+    .component-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .component-brand {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    .component-price {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .component-price-value {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .component-price-weight {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    .component-edit {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-default);
+      background: var(--bg-tertiary);
+      color: var(--text-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+
+    .component-card:hover .component-edit {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .component-edit:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Add component button */
+    .add-component {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: var(--space-4);
+      border: 1px dashed var(--border-default);
+      border-radius: var(--radius-lg);
+      color: var(--text-tertiary);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+      background: transparent;
+      font-family: var(--font-sans);
+    }
+
+    .add-component:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    /* ============================================================
+       Summary Panel
+       ============================================================ */
+    .summary-panel {
+      position: sticky;
+      top: 88px;
+      background: var(--surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+
+    .summary-header {
+      padding: var(--space-5);
+      border-bottom: 1px solid var(--border-subtle);
+      background: var(--bg-secondary);
+    }
+
+    .summary-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: var(--space-2);
+    }
+
+    .summary-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .summary-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: var(--space-2);
+      padding: 4px 10px;
+      background: var(--accent-soft);
+      border-radius: var(--radius-full);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .summary-type-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    .summary-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-2);
+      padding: var(--space-5);
+    }
+
+    .summary-stat {
+      padding: var(--space-4);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+    }
+
+    .summary-stat-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-2);
+    }
+
+    .summary-stat-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    .summary-stat-value {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    /* Cost breakdown */
+    .summary-breakdown {
+      padding: 0 var(--space-5) var(--space-5);
+    }
+
+    .summary-breakdown-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-3);
+    }
+
+    .cost-chart {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .cost-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .cost-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .cost-bar-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width var(--duration-slow) var(--ease-out);
+    }
+
+    .cost-bar-fill.frame { background: var(--accent); }
+    .cost-bar-fill.drivetrain { background: var(--steel); }
+    .cost-bar-fill.wheels { background: #a78bfa; }
+    .cost-bar-fill.components { background: #34d399; }
+
+    .cost-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      width: 70px;
+      flex-shrink: 0;
+    }
+
+    .cost-value {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-primary);
+      width: 60px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* Summary actions */
+    .summary-actions {
+      padding: var(--space-5);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .summary-secondary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-2);
+    }
+
+    /* ============================================================
+       Component Selector Modal
+       ============================================================ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--duration-normal) var(--ease-out);
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-xl);
+      width: 100%;
+      max-width: 720px;
+      max-height: 80vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(20px) scale(0.98);
+      transition: transform var(--duration-normal) var(--ease-out);
+      box-shadow: var(--shadow-2xl);
+    }
+
+    .modal-overlay.active .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      padding: var(--space-5) var(--space-6);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .modal-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .modal-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-default);
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+
+    .modal-close:hover {
+      background: var(--surface-hover);
+      color: var(--text-primary);
+      border-color: var(--border-strong);
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-5) var(--space-6);
+    }
+
+    .modal-filter {
+      display: flex;
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+      font-family: var(--font-sans);
+    }
+
+    .filter-chip:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+
+    .filter-chip.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+    }
+
+    @media (max-width: 640px) {
+      .option-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .option-card {
+      padding: var(--space-4);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+      position: relative;
+    }
+
+    .option-card:hover {
+      border-color: var(--border-strong);
+      background: var(--surface-hover);
+      transform: translateY(-1px);
+    }
+
+    .option-card.selected {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .option-card.selected::before {
+      content: '';
+      position: absolute;
+      top: var(--space-3);
+      right: var(--space-3);
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .option-card.selected::after {
+      content: '';
+      position: absolute;
+      top: calc(var(--space-3) + 6px);
+      right: calc(var(--space-3) + 4px);
+      width: 5px;
+      height: 9px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .option-brand {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 4px;
+    }
+
+    .option-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-3);
+      line-height: 1.3;
+    }
+
+    .option-specs {
+      display: flex;
+      gap: var(--space-4);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .option-spec {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .option-spec-value {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .option-spec-label {
+      font-size: 9px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ============================================================
+       Features Section
+       ============================================================ */
+    .features-section {
+      padding: var(--space-20) 0;
+      border-top: 1px solid var(--border-subtle);
+      position: relative;
+      z-index: 2;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+
+    @media (max-width: 1024px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .feature-card {
+      padding: var(--space-8);
+      background: var(--surface);
+      transition: background var(--duration-fast) var(--ease-out);
+      position: relative;
+    }
+
+    .feature-card:hover {
+      background: var(--surface-hover);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: var(--space-5);
+      color: var(--accent);
+    }
+
+    .feature-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: var(--space-3);
+      letter-spacing: -0.01em;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    /* ============================================================
+       Footer
+       ============================================================ */
+    .footer {
+      padding: var(--space-12) 0 var(--space-8);
+      border-top: 1px solid var(--border-subtle);
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-text {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: var(--space-6);
+      list-style: none;
+    }
+
+    .footer-link {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+
+    .footer-link:hover {
+      color: var(--text-primary);
+    }
+
+    /* ============================================================
+       Animations
+       ============================================================ */
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: all 0.7s var(--ease-out);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       Measurement markers (decorative)
+       ============================================================ */
+    .ruler-marks {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .ruler-mark {
+      position: absolute;
+      background: var(--border-default);
+    }
+
+    .ruler-mark.major {
+      width: 1px;
+      height: 12px;
+    }
+
+    .ruler-mark.minor {
+      width: 1px;
+      height: 6px;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-strong);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-tertiary);
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="navbar">
+    <div class="container nav-inner">
+      <div class="nav-logo" onclick="scrollToSection('hero')">
+        <div class="nav-logo-mark"></div>
+        <span class="nav-logo-text">Veloform</span>
+      </div>
+      <ul class="nav-links">
+        <li><button class="nav-link active" onclick="scrollToSection('hero')">首页</button></li>
+        <li><button class="nav-link" onclick="scrollToSection('configurator')">配置器</button></li>
+        <li><button class="nav-link" onclick="scrollToSection('features')">特性</button></li>
+        <li><button class="nav-link" onclick="scrollToSection('footer')">关于</button></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="icon-btn" title="主题切换">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+          </svg>
+        </button>
+        <button class="btn-primary" onclick="scrollToSection('configurator')">
+          开始构建
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="hero-eyebrow">
+            <span class="hero-eyebrow-dot"></span>
+            Precision Configurator v2.0
+          </div>
+          <h1 class="hero-title display-xl">
+            <span class="hero-title-line">构建你的</span>
+            <span class="hero-title-line hero-title-accent">完美坐骑</span>
+          </h1>
+          <p class="hero-desc">
+            从车架到轮组，每一个零件都由你亲手挑选。
+            工业级精度的配置系统，让每一辆 Veloform 都成为独一无二的艺术品。
+          </p>
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="scrollToSection('configurator')">
+              启动配置器
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+            <button class="btn-ghost">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              观看演示
+            </button>
+          </div>
+          <div class="hero-meta">
+            <div class="hero-meta-item">
+              <span class="hero-meta-value mono">500+</span>
+              <span class="hero-meta-label">组件选项</span>
+            </div>
+            <div class="hero-meta-item">
+              <span class="hero-meta-value mono">12kg</span>
+              <span class="hero-meta-label">最轻配置</span>
+            </div>
+            <div class="hero-meta-item">
+              <span class="hero-meta-value mono">∞</span>
+              <span class="hero-meta-label">组合可能</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-visual-frame">
+            <img
+              class="hero-visual-img"
+              src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=high%20end%20road%20bike%20carbon%20frame%20studio%20photography%20dark%20background%20dramatic%20lighting%20industrial%20precision%20engineering&image_size=portrait_4_3"
+              alt="Veloform 公路车"
+            />
+            <div class="hero-visual-overlay"></div>
+            <div class="hero-visual-badge">
+              <span class="mono">FRAME — T800 CARBON</span>
+            </div>
+            <div class="hero-visual-info">
+              <div class="hero-visual-spec">
+                <span class="hero-visual-spec-label">重量</span>
+                <span class="hero-visual-spec-value mono">890g</span>
+              </div>
+              <div class="hero-visual-spec" style="text-align: right;">
+                <span class="hero-visual-spec-label">刚性</span>
+                <span class="hero-visual-spec-value mono">142 N/mm</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-spec-card">
+            <div class="hero-spec-card-label">配置完成度</div>
+            <div class="hero-spec-card-value mono">72%</div>
+            <div class="hero-spec-card-unit">COMPLETION</div>
+            <div class="hero-spec-card-bar">
+              <div class="hero-spec-card-fill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Configurator Section -->
+  <section class="config-section" id="configurator">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-title-block">
+          <span class="eyebrow">Configurator</span>
+          <h2 class="section-title display-lg">精密配置系统</h2>
+          <p class="section-desc">
+            从车架到把带，每一个细节都在你的掌控之中。
+            实时价格与重量计算，让你的决策有据可依。
+          </p>
+        </div>
+      </div>
+
+      <!-- Bike Type Selector -->
+      <div class="bike-type-selector reveal" id="bikeTypeSelector">
+        <div class="bike-type-card active" data-type="road" onclick="selectBikeType('road')">
+          <svg class="bike-type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="5.5" cy="17.5" r="3.5"></circle>
+            <circle cx="18.5" cy="17.5" r="3.5"></circle>
+            <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
+            <path d="m12 17.5 2-8h4l-3-5-3 5-4-2-2 5 4 5z"></path>
+          </svg>
+          <div class="bike-type-name">公路车 Road</div>
+          <div class="bike-type-desc">速度与效率的终极选择</div>
+          <div class="bike-type-specs">
+            <div class="bike-type-spec">
+              <span class="bike-type-spec-value mono">6.8kg</span>
+              <span class="bike-type-spec-label">起重量</span>
+            </div>
+            <div class="bike-type-spec">
+              <span class="bike-type-spec-value mono">¥32k</span>
+              <span class="bike-type-spec-label">起售价</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bike-type-card" data-type="mtb" onclick="selectBikeType('mtb')">
+          <svg class="bike-type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m19 10-2 7-3-1-2-3-2 2-2-1-2 3"></path>
+            <circle cx="7" cy="19" r="3"></circle>
+            <circle cx="17" cy="19" r="3"></circle>
+            <path d="M8 10h5l2-4 3 1-2 4"></path>
+          </svg>
+          <div class="bike-type-name">山地车 MTB</div>
+          <div class="bike-type-desc">征服一切地形的野性座驾</div>
+          <div class="bike-type-specs">
+            <div class="bike-type-spec">
+              <span class="bike-type-spec-value mono">10.5kg</span>
+              <span class="bike-type-spec-label">起重量</span>
+            </div>
+            <div class="bike-type-spec">
+              <span class="bike-type-spec-value mono">¥28k</span>
+              <span class="bike-type-spec-label">起售价</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bike-type-card" data-type="fold" onclick="selectBikeType('fold')">
+          <svg class="bike-type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="6.5" cy="17.5" r="3.5"></circle>
+            <circle cx="17.5" cy="17.5" r="3.5"></circle>
+            <path d="M14 10h-3.5L9 17.5"></path>
+            <path d="m11 10 2-5 3 1"></path>
+            <path d="M10 10H7.5L6 17.5"></path>
+          </svg>
+          <div class="bike-type-name">折叠车 Fold</div>
+          <div class="bike-type-desc">城市通勤的灵活伙伴</div>
+          <div class="bike-type-specs">
+            <div class="bike-type-spec">
+              <span class="bike-type-spec-value mono">9.2kg</span>
+              <span class="bike-type-spec-label">起重量</span>
+            </div>
+            <div class="bike-type-spec">
+              <span class="bike-type-spec-value mono">¥18k</span>
+              <span class="bike-type-spec-label">起售价</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Configurator Grid -->
+      <div class="configurator-grid reveal">
+        <!-- Build List -->
+        <div>
+          <div class="build-list">
+            <div class="build-list-header">
+              <div class="build-list-title">
+                组件清单
+                <span class="build-list-count mono" id="componentCount">5 / 7</span>
+              </div>
+              <div class="build-progress">
+                <div class="build-progress-bar">
+                  <div class="build-progress-fill" id="progressFill" style="width: 71%"></div>
+                </div>
+                <span class="build-progress-text mono" id="progressText">71%</span>
+              </div>
+            </div>
+
+            <div class="component-card" onclick="openComponentSelector('frame')">
+              <div class="component-category">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                </svg>
+              </div>
+              <div class="component-info">
+                <div class="component-cat-label">Frame / 车架</div>
+                <div class="component-name">Veloform Pro Carbon T800</div>
+                <div class="component-brand">Veloform · 碳纤维</div>
+              </div>
+              <div class="component-price">
+                <div class="component-price-value mono">¥12,800</div>
+                <div class="component-price-weight mono">890g</div>
+              </div>
+              <button class="component-edit">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20h9"></path>
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="component-card" onclick="openComponentSelector('drivetrain')">
+              <div class="component-category">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+              </div>
+              <div class="component-info">
+                <div class="component-cat-label">Drivetrain / 传动</div>
+                <div class="component-name">Dura-Ace Di2 R9200</div>
+                <div class="component-brand">Shimano · 12速</div>
+              </div>
+              <div class="component-price">
+                <div class="component-price-value mono">¥18,500</div>
+                <div class="component-price-weight mono">2,140g</div>
+              </div>
+              <button class="component-edit">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20h9"></path>
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="component-card" onclick="openComponentSelector('wheels')">
+              <div class="component-category">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <circle cx="12" cy="12" r="1"></circle>
+                  <line x1="12" y1="2" x2="12" y2="5"></line>
+                  <line x1="12" y1="19" x2="12" y2="22"></line>
+                  <line x1="4.93" y1="4.93" x2="7.05" y2="7.05"></line>
+                  <line x1="16.95" y1="16.95" x2="19.07" y2="19.07"></line>
+                  <line x1="2" y1="12" x2="5" y2="12"></line>
+                  <line x1="19" y1="12" x2="22" y2="12"></line>
+                  <line x1="4.93" y1="19.07" x2="7.05" y2="16.95"></line>
+                  <line x1="16.95" y1="7.05" x2="19.07" y2="4.93"></line>
+                </svg>
+              </div>
+              <div class="component-info">
+                <div class="component-cat-label">Wheels / 轮组</div>
+                <div class="component-name">ZIPP 454 NSW Carbon</div>
+                <div class="component-brand">ZIPP · 碟刹 700C</div>
+              </div>
+              <div class="component-price">
+                <div class="component-price-value mono">¥22,000</div>
+                <div class="component-price-weight mono">1,355g</div>
+              </div>
+              <button class="component-edit">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20h9"></path>
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="component-card" onclick="openComponentSelector('handlebar')">
+              <div class="component-category">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 14h-5V6h-2v8H6l6 6 6-6z"></path>
+                </svg>
+              </div>
+              <div class="component-info">
+                <div class="component-cat-label">Handlebar / 操控</div>
+                <div class="component-name">ENVE SES Aero Road</div>
+                <div class="component-brand">ENVE · 全内走线</div>
+              </div>
+              <div class="component-price">
+                <div class="component-price-value mono">¥5,200</div>
+                <div class="component-price-weight mono">238g</div>
+              </div>
+              <button class="component-edit">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20h9"></path>
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="component-card" onclick="openComponentSelector('saddle')">
+              <div class="component-category">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <ellipse cx="12" cy="7" rx="8" ry="3"></ellipse>
+                  <path d="M4 7v5c0 4 4 6 8 6s8-2 8-6V7"></path>
+                  <line x1="12" y1="13" x2="12" y2="22"></line>
+                </svg>
+              </div>
+              <div class="component-info">
+                <div class="component-cat-label">Saddle / 座垫</div>
+                <div class="component-name">S-Works Romin EVO</div>
+                <div class="component-brand">Specialized · 碳纤维导轨</div>
+              </div>
+              <div class="component-price">
+                <div class="component-price-value mono">¥1,680</div>
+                <div class="component-price-weight mono">168g</div>
+              </div>
+              <button class="component-edit">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20h9"></path>
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                </svg>
+              </button>
+            </div>
+
+            <button class="add-component" onclick="openComponentSelector('tires')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              添加轮胎组件
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary Panel -->
+        <div class="summary-panel">
+          <div class="summary-header">
+            <div class="summary-label">当前配置</div>
+            <div class="summary-name">Veloform Pro Build</div>
+            <div class="summary-type">
+              <span class="summary-type-dot"></span>
+              Road Bike
+            </div>
+          </div>
+
+          <div class="summary-stats">
+            <div class="summary-stat">
+              <div class="summary-stat-label">
+                <svg class="summary-stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                总价
+              </div>
+              <div class="summary-stat-value mono" id="totalPrice">¥60,180</div>
+            </div>
+            <div class="summary-stat">
+              <div class="summary-stat-label">
+                <svg class="summary-stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                总重
+              </div>
+              <div class="summary-stat-value mono" id="totalWeight">4,791g</div>
+            </div>
+          </div>
+
+          <div class="summary-breakdown">
+            <div class="summary-breakdown-title">成本分布</div>
+            <div class="cost-chart">
+              <div class="cost-row">
+                <span class="cost-label">车架</span>
+                <div class="cost-bar">
+                  <div class="cost-bar-fill frame" style="width: 21%"></div>
+                </div>
+                <span class="cost-value mono">21%</span>
+              </div>
+              <div class="cost-row">
+                <span class="cost-label">传动</span>
+                <div class="cost-bar">
+                  <div class="cost-bar-fill drivetrain" style="width: 31%"></div>
+                </div>
+                <span class="cost-value mono">31%</span>
+              </div>
+              <div class="cost-row">
+                <span class="cost-label">轮组</span>
+                <div class="cost-bar">
+                  <div class="cost-bar-fill wheels" style="width: 37%"></div>
+                </div>
+                <span class="cost-value mono">37%</span>
+              </div>
+              <div class="cost-row">
+                <span class="cost-label">其他</span>
+                <div class="cost-bar">
+                  <div class="cost-bar-fill components" style="width: 11%"></div>
+                </div>
+                <span class="cost-value mono">11%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="summary-actions">
+            <button class="btn-primary" style="justify-content: center;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+              </svg>
+              保存配置
+            </button>
+            <div class="summary-secondary">
+              <button class="btn-ghost" style="justify-content: center;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="18" cy="5" r="3"></circle>
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+                分享
+              </button>
+              <button class="btn-ghost" style="justify-content: center;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="23 4 23 10 17 10"></polyline>
+                  <polyline points="1 20 1 14 7 14"></polyline>
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                </svg>
+                重置
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-title-block">
+          <span class="eyebrow">Features</span>
+          <h2 class="section-title display-lg">工程级特性</h2>
+          <p class="section-desc">
+            每一个细节都经过精密调校，为你带来极致的配置体验。
+          </p>
+        </div>
+      </div>
+
+      <div class="features-grid reveal">
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <h3 class="feature-title">兼容性校验</h3>
+          <p class="feature-desc">
+            实时检查组件间的兼容性，自动提示不匹配的零件组合，
+            让你的配置从一开始就是正确的。
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <h3 class="feature-title">实时计算</h3>
+          <p class="feature-desc">
+            价格、重量、几何参数全部实时更新。
+            每一次选择都能立即看到对整车的影响。
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            <path d="M2 17l10 5 10-5"></path>
+            <path d="M2 12l10 5 10-5"></path>
+          </svg>
+          <h3 class="feature-title">3D 预览</h3>
+          <p class="feature-desc">
+            交互式 3D 模型让你从每一个角度审视你的作品，
+            配色方案实时预览。
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            <polyline points="7 3 7 8 15 8"></polyline>
+          </svg>
+          <h3 class="feature-title">云端保存</h3>
+          <p class="feature-desc">
+            多设备同步，随时从上次离开的地方继续。
+            支持无限版本历史，任意回退。
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+          <h3 class="feature-title">一键分享</h3>
+          <p class="feature-desc">
+            生成专属链接或精美海报，与朋友分享你的配置方案，
+            或者寻求社群建议。
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <h3 class="feature-title">BOM 导出</h3>
+          <p class="feature-desc">
+            一键导出详细的物料清单，包含规格参数、价格明细，
+            方便采购与预算管理。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="nav-logo-mark" style="width: 24px; height: 24px;"></div>
+          <span class="footer-text">© 2026 Veloform. Precision Engineering.</span>
+        </div>
+        <ul class="footer-links">
+          <li class="footer-link">隐私政策</li>
+          <li class="footer-link">使用条款</li>
+          <li class="footer-link">联系我们</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Component Selector Modal -->
+  <div class="modal-overlay" id="componentModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title-block">
+          <span class="modal-eyebrow" id="modalEyebrow">Frame / 车架</span>
+          <h3 class="modal-title" id="modalTitle">选择车架</h3>
+        </div>
+        <button class="modal-close" onclick="closeComponentSelector()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-filter">
+          <button class="filter-chip active">全部</button>
+          <button class="filter-chip">碳纤维</button>
+          <button class="filter-chip">铝合金</button>
+          <button class="filter-chip">钛合金</button>
+        </div>
+        <div class="option-grid">
+          <div class="option-card selected">
+            <div class="option-brand">Veloform</div>
+            <div class="option-name">Pro Carbon T800 车架组</div>
+            <div class="option-specs">
+              <div class="option-spec">
+                <span class="option-spec-value mono">¥12,800</span>
+                <span class="option-spec-label">价格</span>
+              </div>
+              <div class="option-spec">
+                <span class="option-spec-value mono">890g</span>
+                <span class="option-spec-label">重量</span>
+              </div>
+              <div class="option-spec">
+                <span class="option-spec-value mono">T800</span>
+                <span class="option-spec-label">材质</span>
+              </div>
+            </div>
+          </div>
+          <div class="option-card">
+            <div class="option-brand">Veloform</div>
+            <div class="option-name">Team Carbon T1000 车架组</div>
+            <div class="option-specs">
+              <div class="option-spec">
+                <span class="option-spec-value mono">¥18,500</span>
+                <span class="option-spec-label">价格</span>
+              </div>
+              <div class="option-spec">
+                <span class="option-spec-value mono">780g</span>
+                <span class="option-spec-label">重量</span>
+              </div>
+              <div class="option-spec">
+                <span class="option-spec-value mono">T1000</span>
+                <span class="option-spec-label">材质</span>
+              </div>
+            </div>
+          </div>
+          <div class="option-card">
+            <div class="option-brand">Veloform</div>
+            <div class="option-name">Alloy Pro 铝合金车架</div>
+            <div class="option-specs">
+              <div class="option-spec">
+                <span class="option-spec-value mono">¥4,200</span>
+                <span class="option-spec-label">价格</span>
+              </div>
+              <div class="option-spec">
+                <span class="option-spec-value mono">1,320g</span>
+                <span class="option-spec-label">重量</span>
+              </div>
+              <div class="option-spec">
+                <span class="option-spec-value mono">AL7075</span>
+                <span class="option-spec-label">材质</span>
+              </div>
+            </div>
+          </div>
+          <div class="option-card">
+            <div class="option-brand">Veloform</div>
+            <div class="option-name">Titanium 钛合金车架</div>
+            <div class="option-specs">
+              <div class="option-spec">
+                <span class="option-spec-value mono">¥22,000</span>
+                <span class="option-spec-label">价格</span>
+              </div>
+              <div class="option-spec">
+                <span class="option-spec-value mono">1,150g</span>
+                <span class="option-spec-label">重量</span>
+              </div>
+              <div class="option-spec">
+                <span class="option-spec-value mono">Ti-3Al</span>
+                <span class="option-spec-label">材质</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Scroll to section
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        const offset = 68;
+        const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    }
+
+    // Scroll reveal animation
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+    revealEls.forEach((el) => observer.observe(el));
+
+    // Bike type selector
+    let currentBikeType = 'road';
+    function selectBikeType(type) {
+      currentBikeType = type;
+      document.querySelectorAll('.bike-type-card').forEach((card) => {
+        card.classList.toggle('active', card.dataset.type === type);
+      });
+    }
+
+    // Component selector modal
+    const categoryLabels = {
+      frame: { eyebrow: 'Frame / 车架', title: '选择车架' },
+      drivetrain: { eyebrow: 'Drivetrain / 传动', title: '选择传动系统' },
+      wheels: { eyebrow: 'Wheels / 轮组', title: '选择轮组' },
+      handlebar: { eyebrow: 'Handlebar / 操控', title: '选择操控组件' },
+      saddle: { eyebrow: 'Saddle / 座垫', title: '选择座垫' },
+      tires: { eyebrow: 'Tires / 轮胎', title: '选择轮胎' },
+    };
+
+    function openComponentSelector(category) {
+      const modal = document.getElementById('componentModal');
+      const labels = categoryLabels[category] || { eyebrow: category, title: '选择组件' };
+      document.getElementById('modalEyebrow').textContent = labels.eyebrow;
+      document.getElementById('modalTitle').textContent = labels.title;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeComponentSelector() {
+      const modal = document.getElementById('componentModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on overlay click
+    document.getElementById('componentModal').addEventListener('click', (e) => {
+      if (e.target.id === 'componentModal') {
+        closeComponentSelector();
+      }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeComponentSelector();
+      }
+    });
+
+    // Option card selection
+    document.querySelectorAll('.option-card').forEach((card) => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.option-card').forEach((c) => c.classList.remove('selected'));
+        card.classList.add('selected');
+        setTimeout(closeComponentSelector, 300);
+      });
+    });
+
+    // Filter chips
+    document.querySelectorAll('.filter-chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach((c) => c.classList.remove('active'));
+        chip.classList.add('active');
+      });
+    });
+
+    // Animated counter for hero metrics
+    function animateCounter(el, target, suffix = '', duration = 1500) {
+      const start = 0;
+      const startTime = performance.now();
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(start + (target - start) * eased);
+        el.textContent = current + suffix;
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+  </script>
+</body>
+</html>
