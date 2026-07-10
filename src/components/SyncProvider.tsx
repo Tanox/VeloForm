@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useCompareStore, useUserStore } from '@/lib/stores';
+import { useConfigStore } from '@/lib/stores/config-store';
+import { useConfigUIStore } from '@/lib/stores/config-ui-store';
 import { subscribeToAuthChanges, SupabaseUser } from '@/lib/auth';
 import { loadConfigurationsFromSupabase } from '@/lib/supabase-service';
 import { supabaseLogger } from '@/lib/logger';
@@ -20,8 +22,13 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
 
   // 等待客户端完成 hydration 后再建立任何订阅
+  // 同时手动 rehydrate 所有 persist store，避免 SSR/CSR 不一致
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    useConfigStore.persist.rehydrate();
+    useUserStore.persist.rehydrate();
+    useCompareStore.persist.rehydrate();
+    useConfigUIStore.persist.rehydrate();
     setHydrated(true);
   }, []);
 

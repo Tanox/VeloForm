@@ -192,7 +192,7 @@ export function Hero({ onNavigate }: HeroProps) {
 
             <div className="aspect-[16/9] bg-surface relative">
               <Image
-                src="https://neeko-copilot.bytedance.net/api/text_to_image?prompt=modern%20bicycle%20configurator%20software%20interface%20on%20iMac%20screen%20minimalist%20clean%20UI%20apple%20style%20dark%20theme&image_size=landscape_16_9"
+                src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20bicycle%20configurator%20software%20interface%20on%20iMac%20screen%20minimalist%20clean%20UI%20apple%20style%20dark%20theme&image_size=landscape_16_9"
                 alt="Veloform 界面预览"
                 fill
                 priority

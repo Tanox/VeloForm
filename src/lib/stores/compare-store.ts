@@ -34,9 +34,7 @@ export const useCompareStore = create<CompareStore>()(
           const isComparing = state.comparingConfigIds.includes(configId);
           if (isComparing) {
             return {
-              comparingConfigIds: state.comparingConfigIds.filter(
-                (id) => id !== configId
-              ),
+              comparingConfigIds: state.comparingConfigIds.filter((id) => id !== configId),
             };
           }
           if (state.comparingConfigIds.length >= MAX_COMPARE) {
@@ -66,32 +64,26 @@ export const useCompareStore = create<CompareStore>()(
 
       updateMyConfig: (config: Configuration) =>
         set((state) => ({
-          myConfigs: state.myConfigs.map((c) =>
-            c.id === config.id ? config : c
-          ),
+          myConfigs: state.myConfigs.map((c) => (c.id === config.id ? config : c)),
         })),
 
       deleteConfiguration: (configId: string) =>
         set((state) => ({
           myConfigs: state.myConfigs.filter((c) => c.id !== configId),
-          comparingConfigIds: state.comparingConfigIds.filter(
-            (id) => id !== configId
-          ),
+          comparingConfigIds: state.comparingConfigIds.filter((id) => id !== configId),
         })),
     }),
     {
       name: 'veloform-compare-storage',
+      skipHydration: true,
     }
   )
 );
 
 export const useMyConfigs = () => useCompareStore((s) => s.myConfigs);
-export const useComparingConfigIds = () =>
-  useCompareStore((s) => s.comparingConfigIds);
+export const useComparingConfigIds = () => useCompareStore((s) => s.comparingConfigIds);
 export const useComparingConfigs = () => {
   const myConfigs = useCompareStore((s) => s.myConfigs);
   const ids = useCompareStore((s) => s.comparingConfigIds);
-  return ids
-    .map((id) => myConfigs.find((c) => c.id === id))
-    .filter(Boolean) as Configuration[];
+  return ids.map((id) => myConfigs.find((c) => c.id === id)).filter(Boolean) as Configuration[];
 };

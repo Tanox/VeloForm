@@ -77,15 +77,13 @@ export const useConfigStore = create<ConfigStore>()(
       getTotalWeight: () => {
         const state = get();
         const baseWeight = APP_CONSTANTS.BASE_WEIGHTS[state.activeType];
-        const componentWeight = state.components.reduce(
-          (sum, comp) => sum + comp.weight,
-          0
-        );
+        const componentWeight = state.components.reduce((sum, comp) => sum + comp.weight, 0);
         return (baseWeight + componentWeight) / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR;
       },
     }),
     {
       name: 'veloform-config-storage',
+      skipHydration: true,
     }
   )
 );

@@ -43,13 +43,13 @@ export const useConfigUIStore = create<ConfigUIStore>()(
           showComponentSelector: false,
         }),
 
-      setEditingComponentId: (componentId: string) =>
-        set({ editingComponentId: componentId }),
+      setEditingComponentId: (componentId: string) => set({ editingComponentId: componentId }),
 
       setSaving: (saving: boolean) => set({ isSaving: saving }),
     }),
     {
       name: 'veloform-config-ui-storage',
+      skipHydration: true,
       partialize: (state) => ({
         // 只持久化必要的UI状态，选择器打开状态不持久化
       }),
@@ -57,8 +57,6 @@ export const useConfigUIStore = create<ConfigUIStore>()(
   )
 );
 
-export const useShowComponentSelector = () =>
-  useConfigUIStore((s) => s.showComponentSelector);
-export const useEditingComponentId = () =>
-  useConfigUIStore((s) => s.editingComponentId);
+export const useShowComponentSelector = () => useConfigUIStore((s) => s.showComponentSelector);
+export const useEditingComponentId = () => useConfigUIStore((s) => s.editingComponentId);
 export const useIsSaving = () => useConfigUIStore((s) => s.isSaving);

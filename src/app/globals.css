@@ -10,31 +10,6 @@
 
 /* 字体加载策略 - 优化 LCP */
 @layer base {
-  /* -- 字体定义 -- */
-  @font-face {
-    font-family: 'Satoshi';
-    font-style: normal;
-    font-weight: 400 900;
-    font-display: swap;
-    src: url('/fonts/Satoshi-Variable.woff2') format('woff2');
-  }
-
-  @font-face {
-    font-family: 'Satoshi';
-    font-style: italic;
-    font-weight: 400 900;
-    font-display: swap;
-    src: url('/fonts/Satoshi-VariableItalic.woff2') format('woff2');
-  }
-
-  @font-face {
-    font-family: 'Clash Display';
-    font-style: normal;
-    font-weight: 200 700;
-    font-display: swap;
-    src: url('/fonts/ClashDisplay-Variable.woff2') format('woff2');
-  }
-
   /* -- 根变量与主题 -- */
   :root {
     /* ===========================
@@ -42,32 +17,32 @@
      * =========================== */
 
     /* 色彩系统 - 极简克制 */
-    --background: #FAFAFA;
-    --foreground: #1D1D1F;
+    --background: #fafafa;
+    --foreground: #1d1d1f;
 
     /* 主色调 */
-    --primary: #0071E3;
-    --primary-hover: #0066CC;
-    --primary-light: #E8F0FE;
-    --primary-foreground: #FFFFFF;
+    --primary: #0071e3;
+    --primary-hover: #0066cc;
+    --primary-light: #e8f0fe;
+    --primary-foreground: #ffffff;
 
     /* 语义色 */
-    --success: #34C759;
-    --warning: #FF9500;
-    --error: #FF3B30;
+    --success: #34c759;
+    --warning: #ff9500;
+    --error: #ff3b30;
 
     /* 文本层级 */
-    --foreground-secondary: #6E6E73;
-    --foreground-tertiary: #AEAEB2;
+    --foreground-secondary: #6e6e73;
+    --foreground-tertiary: #aeaeb2;
 
     /* 表面色 */
-    --surface: #FFFFFF;
-    --surface-secondary: #F5F5F7;
-    --surface-tertiary: #EBEBEB;
+    --surface: #ffffff;
+    --surface-secondary: #f5f5f7;
+    --surface-tertiary: #ebebeb;
 
     /* 边框 */
-    --border: #E5E5EA;
-    --border-light: #F0F0F0;
+    --border: #e5e5ea;
+    --border-light: #f0f0f0;
 
     /* 阴影系统 - 克制微妙 */
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
@@ -84,8 +59,12 @@
     --radius-full: 9999px;
 
     /* 字体设置 - 保留 Satoshi（类 SF Pro） */
-    --font-sans: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    --font-display: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    --font-sans:
+      'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei',
+      sans-serif;
+    --font-display:
+      'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+      'Microsoft YaHei', sans-serif;
 
     /* 动画系统 - ≤300ms */
     --duration-fast: 150ms;
@@ -121,7 +100,7 @@
   body {
     background-color: var(--background);
     color: var(--foreground);
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -174,7 +153,7 @@
   /* -- 核心工具类 -- */
   /* 渐变品牌文字 - 关键样式 */
   .text-gradient-brand {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 50%, #AF52DE 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 50%, #af52de 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -195,7 +174,8 @@
     background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
     color: var(--primary-foreground);
     box-shadow: var(--shadow-glow);
-    transition: transform var(--duration-normal) var(--ease-standard),
+    transition:
+      transform var(--duration-normal) var(--ease-standard),
       box-shadow var(--duration-normal) var(--ease-standard),
       opacity var(--duration-fast) var(--ease-standard);
   }
@@ -259,7 +239,7 @@
 
   /* -- 视觉工具类 -- */
   /* 图片加载错误 */
-  img[data-error="true"] {
+  img[data-error='true'] {
     content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23f5f5f7" width="100" height="100"/><circle cx="50" cy="40" r="20" fill="%23e5e5ea"/><rect x="30" y="70" width="40" height="20" rx="4" fill="%23e5e5ea"/></svg>');
   }
 }
@@ -385,11 +365,21 @@
 }
 
 /* 延迟变量 */
-.animation-delay-100 { animation-delay: 0.1s; }
-.animation-delay-200 { animation-delay: 0.2s; }
-.animation-delay-300 { animation-delay: 0.3s; }
-.animation-delay-500 { animation-delay: 0.5s; }
-.animation-delay-1000 { animation-delay: 1s; }
+.animation-delay-100 {
+  animation-delay: 0.1s;
+}
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+.animation-delay-300 {
+  animation-delay: 0.3s;
+}
+.animation-delay-500 {
+  animation-delay: 0.5s;
+}
+.animation-delay-1000 {
+  animation-delay: 1s;
+}
 
 /* ================================
  * 打印样式
@@ -435,7 +425,8 @@
 /* 渐变边框 - 使用 background-clip 技巧 */
 .gradient-border {
   position: relative;
-  background: linear-gradient(var(--background), var(--background)) padding-box,
+  background:
+    linear-gradient(var(--background), var(--background)) padding-box,
     linear-gradient(135deg, var(--primary), var(--accent)) border-box;
   border: 2px solid transparent;
 }

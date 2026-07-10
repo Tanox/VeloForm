@@ -6,8 +6,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { SyncProvider } from '@/components/SyncProvider';
 import { ClientErrorBoundary } from '@/components/ClientErrorBoundary';
 import { logger } from '@/lib/logger';
-import { cn } from "@/lib/utils";
-
+import { cn } from '@/lib/utils';
 
 // Validate environment variables in development mode
 if (process.env.NODE_ENV === 'development') {
@@ -18,7 +17,8 @@ if (process.env.NODE_ENV === 'development') {
 
 export const metadata: Metadata = {
   title: 'Veloform Configurator — Build Your Dream Bike',
-  description: 'Advanced bicycle configurator for Road, MTB, and Fold bikes. Customize components, estimate costs, and save builds.',
+  description:
+    'Advanced bicycle configurator for Road, MTB, and Fold bikes. Customize components, estimate costs, and save builds.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
@@ -42,20 +42,21 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className="font-sans">
+      <head>
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
+        <link
+          href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=clash-display@400,500,600,700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="min-h-screen bg-background font-sans antialiased">
         <Providers>
           <TooltipProvider>
             <ClientErrorBoundary>
-              <SyncProvider>
-                {children}
-              </SyncProvider>
+              <SyncProvider>{children}</SyncProvider>
             </ClientErrorBoundary>
           </TooltipProvider>
           <Toaster richColors position="top-right" />

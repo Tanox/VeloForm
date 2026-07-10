@@ -25,6 +25,7 @@ export const useUserStore = create<UserStore>()(
     }),
     {
       name: 'veloform-user-storage',
+      skipHydration: true,
     }
   )
 );

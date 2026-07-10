@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Button } from './button';
@@ -7,6 +8,11 @@ import { motion } from 'framer-motion';
 
 export function ThemeToggle() {
   const { theme, setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -15,7 +21,7 @@ export function ThemeToggle() {
   return (
     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
       <Button variant="ghost" onClick={toggleTheme} aria-label="Toggle theme">
-        {resolvedTheme === 'dark' ? (
+        {mounted && resolvedTheme === 'dark' ? (
           <Sun className="w-4 h-4" />
         ) : (
           <Moon className="w-4 h-4" />
