@@ -1,9 +1,10 @@
 /**
  * ErrorBoundary.test.tsx - 错误边界组件测试
  */
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeAll, afterAll, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ErrorBoundary } from './error-boundary';
+import { useI18nStore } from '@/lib/i18n';
 
 // 抑制 React 的错误边界警告
 const originalError = console.error;
@@ -16,6 +17,10 @@ afterAll(() => {
 });
 
 describe('ErrorBoundary', () => {
+  beforeEach(() => {
+    useI18nStore.setState({ language: 'zh-CN' });
+  });
+
   const ThrowError = ({ shouldThrow }: { shouldThrow: boolean }) => {
     if (shouldThrow) {
       throw new Error('Test error');

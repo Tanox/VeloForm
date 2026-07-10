@@ -135,6 +135,29 @@ interface Translations {
     edit: string;
     close: string;
     components: string;
+    retry: string;
+    backToHome: string;
+    loading: string;
+  };
+  error: {
+    title: string;
+    unexpectedError: string;
+    stackTrace: string;
+    homePageTitle: string;
+    homePageMessage: string;
+    libraryTitle: string;
+    libraryMessage: string;
+    backToConfigurator: string;
+    contactSupport: string;
+  };
+  notFound: {
+    title: string;
+    description: string;
+    backToHome: string;
+    library: string;
+  };
+  loading: {
+    message: string;
   };
   componentDetail: {
     technicalSpecs: string;

@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, RefreshCw, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslation } from '@/lib/i18n';
+import { uiLogger } from '@/lib/logger';
 
 export default function LibraryError({
   error,
@@ -12,8 +14,9 @@ export default function LibraryError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslation();
   useEffect(() => {
-    console.error('Library page error:', error);
+    uiLogger.error('Library page error:', error);
   }, [error]);
 
   return (
@@ -30,36 +33,28 @@ export default function LibraryError({
         {/* Error Content */}
         <div className="space-y-2">
           <h1 className="text-2xl font-display font-bold text-foreground">
-            配置库加载失败
+            {t('error.libraryTitle')}
           </h1>
-          <p className="text-muted text-sm sm:text-base">
-            保存的配置可能暂时无法读取。请重试或返回配置器。
-          </p>
+          <p className="text-muted text-sm sm:text-base">{t('error.libraryMessage')}</p>
         </div>
 
         {/* Error Details (Dev only) */}
         {process.env.NODE_ENV === 'development' && error.digest && (
           <div className="bg-surface-secondary/50 rounded-xl p-3">
-            <p className="text-xs text-muted font-mono break-all">
-              Error digest: {error.digest}
-            </p>
+            <p className="text-xs text-muted font-mono break-all">Error digest: {error.digest}</p>
           </div>
         )}
 
         {/* Action Buttons */}
         <div className="flex items-center justify-center gap-3">
-          <Button
-            variant="default"
-            onClick={reset}
-            className="gap-2"
-          >
+          <Button variant="default" onClick={reset} className="gap-2">
             <RefreshCw className="w-4 h-4" />
-            重试
+            {t('common.retry')}
           </Button>
           <Link href="/">
             <Button variant="outline" className="gap-2">
               <ArrowLeft className="w-4 h-4" />
-              返回配置器
+              {t('error.backToConfigurator')}
             </Button>
           </Link>
         </div>

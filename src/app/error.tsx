@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslation } from '@/lib/i18n';
+import { uiLogger } from '@/lib/logger';
 
 export default function HomeError({
   error,
@@ -12,8 +14,9 @@ export default function HomeError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslation();
   useEffect(() => {
-    console.error('Home page error:', error);
+    uiLogger.error('Home page error:', error);
   }, [error]);
 
   return (
@@ -30,44 +33,34 @@ export default function HomeError({
         {/* Error Content */}
         <div className="space-y-2">
           <h1 className="text-2xl font-display font-bold text-foreground">
-            页面出现了点小问题
+            {t('error.homePageTitle')}
           </h1>
-          <p className="text-muted text-sm sm:text-base">
-            别担心，这可能只是暂时的。你可以试试刷新页面，或者回到首页。
-          </p>
+          <p className="text-muted text-sm sm:text-base">{t('error.homePageMessage')}</p>
         </div>
 
         {/* Error Details (Dev only) */}
         {process.env.NODE_ENV === 'development' && error.digest && (
           <div className="bg-surface-secondary/50 rounded-xl p-3">
-            <p className="text-xs text-muted font-mono break-all">
-              Error digest: {error.digest}
-            </p>
+            <p className="text-xs text-muted font-mono break-all">Error digest: {error.digest}</p>
           </div>
         )}
 
         {/* Action Buttons */}
         <div className="flex items-center justify-center gap-3">
-          <Button
-            variant="default"
-            onClick={reset}
-            className="gap-2"
-          >
+          <Button variant="default" onClick={reset} className="gap-2">
             <RefreshCw className="w-4 h-4" />
-            重试
+            {t('common.retry')}
           </Button>
           <Link href="/">
             <Button variant="outline" className="gap-2">
               <Home className="w-4 h-4" />
-              返回首页
+              {t('common.backToHome')}
             </Button>
           </Link>
         </div>
 
         {/* Support */}
-        <p className="text-xs text-muted">
-          如果问题持续存在，请通过「帮助」按钮联系我们
-        </p>
+        <p className="text-xs text-muted">{t('error.contactSupport')}</p>
       </div>
     </div>
   );

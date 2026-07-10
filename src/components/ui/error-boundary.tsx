@@ -3,8 +3,9 @@
 import React, { Component, ReactNode } from 'react';
 import { Card } from './card';
 import { Button } from './button';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
+import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { uiLogger } from '@/lib/logger';
+import { useTranslation } from '@/lib/i18n';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -20,12 +21,12 @@ interface ErrorBoundaryState {
   error?: Error;
 }
 
-/**
- * 全局错误边界组件。
- * 捕获子组件树中的 JavaScript 错误，显示友好的 fallback UI。
- */
-export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
+interface ErrorBoundaryContentProps extends ErrorBoundaryProps {
+  t: (key: string, params?: Record<string, string | number>) => string | readonly string[];
+}
+
+class ErrorBoundaryInner extends Component<ErrorBoundaryContentProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryContentProps) {
     super(props);
     this.state = { hasError: false };
   }
@@ -44,6 +45,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   };
 
   render(): ReactNode {
+    const { t } = this.props;
     if (this.state.hasError) {
       if (this.props.fallback) {
         return this.props.fallback;
@@ -62,18 +64,16 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               </div>
 
               <div className="space-y-1">
-                <h2 className="text-lg font-semibold text-foreground">
-                  页面出现了一些问题
-                </h2>
+                <h2 className="text-lg font-semibold text-foreground">{t('error.title')}</h2>
                 <p className="text-sm text-muted">
-                  {this.state.error?.message || '发生了意外错误'}
+                  {this.state.error?.message || t('error.unexpectedError')}
                 </p>
               </div>
 
               {isDev && this.props.showStack !== false && this.state.error?.stack && (
                 <details className="text-left">
                   <summary className="text-xs text-muted cursor-pointer hover:text-foreground">
-                    错误堆栈（仅开发环境可见）
+                    {t('error.stackTrace')}
                   </summary>
                   <pre className="mt-2 p-3 bg-zinc-900 rounded-lg text-xs text-error overflow-x-auto">
                     {this.state.error.stack}
@@ -84,10 +84,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               <div className="flex gap-3 justify-center pt-2">
                 <Button variant="default" onClick={this.handleReset}>
                   <RefreshCw className="w-4 h-4 mr-2" />
-                  重试
+                  {t('common.retry')}
                 </Button>
-                <Button variant="outline" onClick={() => window.location.href = '/'}>
-                  返回首页
+                <Button variant="outline" onClick={() => (window.location.href = '/')}>
+                  <Home className="w-4 h-4 mr-2" />
+                  {t('common.backToHome')}
                 </Button>
               </div>
             </div>
@@ -98,4 +99,17 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
     return this.props.children;
   }
+}
+
+/**
+ * 全局错误边界组件。
+ * 捕获子组件树中的 JavaScript 错误，显示友好的 fallback UI。
+ */
+export function ErrorBoundary({ children, ...props }: ErrorBoundaryProps) {
+  const t = useTranslation();
+  return (
+    <ErrorBoundaryInner {...props} t={t}>
+      {children}
+    </ErrorBoundaryInner>
+  );
 }

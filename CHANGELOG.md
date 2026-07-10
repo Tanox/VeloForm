@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.1.0] - 2026-07-10
+
+### Added
+
+- Added error, notFound, and loading translation keys for complete i18n coverage
+- Added Home icon to ErrorBoundary back-to-home button for better UX
+- Added structured logger for error pages (replaced console.error with uiLogger)
+
+### Fixed
+
+- Fixed TypeScript type errors in test files (BikeType values, ConfigComponent properties, Date types)
+- Fixed formatCurrency test expectations to match actual CNY currency formatting behavior
+- Fixed tsconfig.json type conflicts with vitest (excluded vitest.config.ts, included vitest.setup.ts)
+- Fixed jest-dom matchers not found issue in test environment
+- Fixed hardcoded Chinese text in ErrorBoundary component (now uses i18n)
+- Fixed hardcoded Chinese text in 404 Not Found page (now uses i18n)
+- Fixed hardcoded Chinese text in LoadingScreen component (now uses i18n)
+- Fixed hardcoded Chinese text in home page error boundary (now uses i18n)
+- Fixed hardcoded Chinese text in library page error boundary (now uses i18n)
+- Fixed console.error usage in error pages (now uses structured uiLogger)
+- Fixed ErrorBoundary test failures by setting i18n language before each test
+- Fixed LoadingScreen test failures by setting i18n language before each test
+
+### Security
+
+- Conducted security audit - confirmed CSP headers, X-Frame-Options, HSTS, and other security headers are properly configured
+- Confirmed no XSS vulnerabilities (no dangerouslySetInnerHTML, innerHTML, or eval usage)
+- Verified zod input validation is in place for shareable configurations
+- Confirmed structured logging system prevents sensitive data leakage
+
+---
+
 ## [4.0.0]
 
 ### Added

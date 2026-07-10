@@ -6,11 +6,9 @@ import { useConfigStore } from './config-store';
 import type { ConfigComponent, BikeType } from '@/types';
 
 describe('ConfigStore', () => {
-  // 确保在测试前初始化 store
   beforeAll(() => {
     const state = useConfigStore.getState();
     if (!state.components || state.components.length === 0) {
-      // 触发 setActiveType 来初始化默认组件
       state.setActiveType('Road');
     }
   });
@@ -19,16 +17,16 @@ describe('ConfigStore', () => {
     it('应该设置车型并重置组件为默认值', () => {
       const { setActiveType } = useConfigStore.getState();
 
-      setActiveType('Mountain');
+      setActiveType('MTB');
 
       const state = useConfigStore.getState();
-      expect(state.activeType).toBe('Mountain');
+      expect(state.activeType).toBe('MTB');
       expect(state.configId).toBeNull();
       expect(state.manualConfigName).toBeNull();
     });
 
     it('应该支持所有车型类型', () => {
-      const types: BikeType[] = ['Road', 'Mountain', 'Gravel', 'E-Bike'];
+      const types: BikeType[] = ['Road', 'MTB', 'Fold'];
 
       types.forEach((type) => {
         useConfigStore.getState().setActiveType(type);
@@ -39,7 +37,6 @@ describe('ConfigStore', () => {
 
   describe('replaceComponent', () => {
     it('应该替换指定类别的组件', () => {
-      // 先设置一些初始组件
       const initialComponents: ConfigComponent[] = [
         {
           id: 'initial-frame',
@@ -47,6 +44,7 @@ describe('ConfigStore', () => {
           category: 'Frame',
           price: 400,
           weight: 900,
+          bikeType: 'Road',
           brand: 'InitialBrand',
           specs: {},
         },
@@ -56,6 +54,7 @@ describe('ConfigStore', () => {
           category: 'Wheelset',
           price: 200,
           weight: 1200,
+          bikeType: 'Road',
           brand: 'InitialBrand',
           specs: {},
         },
@@ -72,6 +71,7 @@ describe('ConfigStore', () => {
         category: 'Frame',
         price: 500,
         weight: 1000,
+        bikeType: 'Road',
         brand: 'TestBrand',
         specs: {},
       };
@@ -85,7 +85,6 @@ describe('ConfigStore', () => {
     });
 
     it('应该保留其他类别的组件不变', () => {
-      // 先设置一些初始组件
       const initialComponents: ConfigComponent[] = [
         {
           id: 'initial-frame',
@@ -93,6 +92,7 @@ describe('ConfigStore', () => {
           category: 'Frame',
           price: 400,
           weight: 900,
+          bikeType: 'Road',
           brand: 'InitialBrand',
           specs: {},
         },
@@ -102,6 +102,7 @@ describe('ConfigStore', () => {
           category: 'Wheelset',
           price: 200,
           weight: 1200,
+          bikeType: 'Road',
           brand: 'InitialBrand',
           specs: {},
         },
@@ -118,6 +119,7 @@ describe('ConfigStore', () => {
         category: 'Wheelset',
         price: 300,
         weight: 1500,
+        bikeType: 'Road',
         brand: 'TestBrand',
         specs: {},
       };
@@ -139,6 +141,7 @@ describe('ConfigStore', () => {
           category: 'Frame',
           price: 100,
           weight: 500,
+          bikeType: 'Road',
           brand: 'Brand',
           specs: {},
         },
@@ -148,6 +151,7 @@ describe('ConfigStore', () => {
           category: 'Drivetrain',
           price: 200,
           weight: 800,
+          bikeType: 'Road',
           brand: 'Brand',
           specs: {},
         },
@@ -162,29 +166,30 @@ describe('ConfigStore', () => {
   describe('loadConfiguration', () => {
     it('应该加载完整的配置', () => {
       const mockConfig = {
-        bikeType: 'Gravel' as BikeType,
+        bikeType: 'Road' as BikeType,
         components: [
           {
             id: 'test-frame',
-            name: 'Gravel Frame',
+            name: 'Road Frame',
             category: 'Frame',
             price: 600,
             weight: 1200,
+            bikeType: 'Road',
             brand: 'Brand',
             specs: {},
           },
         ] as ConfigComponent[],
         configId: 'config-123',
-        manualConfigName: 'My Gravel Build',
+        manualConfigName: 'My Road Build',
       };
 
       useConfigStore.getState().loadConfiguration(mockConfig);
 
       const state = useConfigStore.getState();
-      expect(state.activeType).toBe('Gravel');
+      expect(state.activeType).toBe('Road');
       expect(state.components).toEqual(mockConfig.components);
       expect(state.configId).toBe('config-123');
-      expect(state.manualConfigName).toBe('My Gravel Build');
+      expect(state.manualConfigName).toBe('My Road Build');
     });
   });
 
@@ -192,7 +197,7 @@ describe('ConfigStore', () => {
     it('应该重置组件为当前车型的默认值', () => {
       const { setActiveType, resetToDefaults } = useConfigStore.getState();
 
-      setActiveType('Mountain');
+      setActiveType('MTB');
       resetToDefaults();
 
       const state = useConfigStore.getState();
@@ -210,6 +215,7 @@ describe('ConfigStore', () => {
           category: 'Frame',
           price: 100,
           weight: 500,
+          bikeType: 'Road',
           brand: 'Brand',
           specs: {},
         },
@@ -219,6 +225,7 @@ describe('ConfigStore', () => {
           category: 'Drivetrain',
           price: 200,
           weight: 800,
+          bikeType: 'Road',
           brand: 'Brand',
           specs: {},
         },
@@ -240,6 +247,7 @@ describe('ConfigStore', () => {
           category: 'Frame',
           price: 100,
           weight: 1000,
+          bikeType: 'Road',
           brand: 'Brand',
           specs: {},
         },
@@ -251,7 +259,6 @@ describe('ConfigStore', () => {
       });
 
       const totalWeight = useConfigStore.getState().getTotalWeight();
-      // Road 基础重量 + 组件重量，然后除以转换因子
       expect(totalWeight).toBeGreaterThan(0);
     });
   });

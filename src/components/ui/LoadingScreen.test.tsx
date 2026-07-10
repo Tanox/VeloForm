@@ -1,11 +1,16 @@
 /**
  * LoadingScreen.test.tsx - 加载屏幕组件测试
  */
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { LoadingScreen, InlineLoading } from './LoadingScreen';
+import { useI18nStore } from '@/lib/i18n';
 
 describe('LoadingScreen', () => {
+  beforeEach(() => {
+    useI18nStore.setState({ language: 'zh-CN' });
+  });
+
   it('应该渲染全屏加载指示器', () => {
     render(<LoadingScreen />);
 

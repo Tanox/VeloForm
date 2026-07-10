@@ -2,12 +2,14 @@
 
 import { motion } from 'framer-motion';
 import { Bike } from 'lucide-react';
+import { useTranslation } from '@/lib/i18n';
 
 /**
  * 全屏加载指示器。
  * 适用于路由切换、页面初始加载等场景。
  */
 export function LoadingScreen({ message }: { message?: string }) {
+  const t = useTranslation();
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background">
       <motion.div
@@ -19,9 +21,7 @@ export function LoadingScreen({ message }: { message?: string }) {
       </motion.div>
       <div className="space-y-3 text-center">
         <h2 className="text-xl font-semibold text-foreground">Veloform</h2>
-        <p className="text-sm text-muted">
-          {message || '正在加载...'}
-        </p>
+        <p className="text-sm text-muted">{message || t('loading.message')}</p>
       </div>
       <div className="mt-8 w-48 h-1 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
         <motion.div

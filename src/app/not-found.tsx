@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { Bike, Home } from 'lucide-react';
+import { useTranslation } from '@/lib/i18n';
 
 export default function NotFound() {
+  const t = useTranslation();
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="max-w-md w-full text-center space-y-8">
@@ -24,11 +26,9 @@ export default function NotFound() {
         {/* Content */}
         <div className="space-y-3">
           <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground">
-            页面没有找到
+            {t('notFound.title')}
           </h1>
-          <p className="text-muted text-sm sm:text-base">
-            你找的页面可能已经被移走了，或者从未存在过。试试回到首页继续配置你的爱车吧。
-          </p>
+          <p className="text-muted text-sm sm:text-base">{t('notFound.description')}</p>
         </div>
 
         {/* Action */}
@@ -38,14 +38,14 @@ export default function NotFound() {
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-brand text-white font-medium hover:opacity-90 transition-opacity shadow-lg shadow-primary/25"
           >
             <Home className="w-4 h-4" />
-            返回首页
+            {t('notFound.backToHome')}
           </Link>
           <Link
             href="/library"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-surface-secondary/80 border border-border-light text-foreground font-medium hover:bg-surface-tertiary/50 transition-colors"
           >
             <Bike className="w-4 h-4" />
-            配置库
+            {t('notFound.library')}
           </Link>
         </div>
       </div>
