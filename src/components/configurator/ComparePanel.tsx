@@ -64,7 +64,7 @@ export function ComparePanel() {
                       {comparingConfigs.length} 个配置
                     </span>
                   </h3>
-                  <p className="text-sm text-muted">比较不同配置的成本和重量差异</p>
+                  <p className="text-sm text-muted-foreground">比较不同配置的成本和重量差异</p>
                 </div>
               </div>
 
@@ -84,14 +84,14 @@ export function ComparePanel() {
               <table className="w-full min-w-[700px]">
                 <thead>
                   <tr className="bg-surface-tertiary/50">
-                    <th className="text-left py-4 px-5 text-sm font-semibold text-muted w-1/5">
+                    <th className="text-left py-4 px-5 text-sm font-semibold text-muted-foreground w-1/5">
                       组件
                     </th>
                     {comparingConfigs.map((config) => (
                       <th key={config.id} className="text-center py-4 px-4">
                         <div className="flex flex-col items-center">
                           <span className="font-bold text-foreground">{config.name}</span>
-                          <span className="text-xs text-muted mt-1 px-2 py-0.5 bg-surface-tertiary/50 rounded-full">
+                          <span className="text-xs text-muted-foreground mt-1 px-2 py-0.5 bg-surface-tertiary/50 rounded-full">
                             {config.bikeType}
                           </span>
                         </div>
@@ -131,7 +131,7 @@ export function ComparePanel() {
                               >
                                 {comp ? formatCurrency(comp.price) : '-'}
                               </p>
-                              <p className="text-xs text-muted">
+                              <p className="text-xs text-muted-foreground">
                                 {comp ? formatWeight(comp.weight / 1000) : '-'}
                               </p>
                             </div>
@@ -191,8 +191,8 @@ export function ComparePanel() {
                                 </>
                               ) : (
                                 <>
-                                  <Minus className="w-3.5 h-3.5 text-muted" />
-                                  <span className="text-xs text-muted">持平</span>
+                                  <Minus className="w-3.5 h-3.5 text-muted-foreground" />
+                                  <span className="text-xs text-muted-foreground">持平</span>
                                 </>
                               )}
                             </div>
@@ -213,7 +213,7 @@ export function ComparePanel() {
                           className={`text-lg font-bold ${
                             config.estimatedWeight === minWeight && comparingConfigs.length > 1
                               ? 'text-accent'
-                              : 'text-muted'
+                              : 'text-muted-foreground'
                           }`}
                         >
                           {formatWeight(config.estimatedWeight)}

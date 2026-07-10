@@ -184,7 +184,7 @@ export function CostBreakdownChart() {
               </div>
 
               {/* 百分比 */}
-              <span className="text-xs text-muted font-medium w-10 text-right flex-shrink-0">
+              <span className="text-xs text-muted-foreground font-medium w-10 text-right flex-shrink-0">
                 {calculatePercentage(segment.price)}%
               </span>
             </motion.div>
@@ -194,7 +194,7 @@ export function CostBreakdownChart() {
           <div className="mt-4 pt-4 border-t border-border-light flex items-center justify-between">
             <div className="flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-primary" />
-              <span className="text-sm text-muted">共 {segments.length} 个组件</span>
+              <span className="text-sm text-muted-foreground">共 {segments.length} 个组件</span>
             </div>
             <span className="text-lg font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               {formatCurrency(totalCost)}

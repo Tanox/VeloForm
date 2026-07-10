@@ -9,6 +9,7 @@ import { SupportModal } from '@/components/ui/SupportModal';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
+import { APP_CONSTANTS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
 interface NavbarProps {
@@ -218,7 +219,9 @@ export function Navbar({ onNavigate }: NavbarProps) {
                   </div>
                   <div className="mt-auto pt-4">
                     <Separator className="mb-4" />
-                    <p className="text-sm text-muted-foreground text-center">Veloform v3.7.0</p>
+                    <p className="text-sm text-muted-foreground text-center">
+                      Veloform v{APP_CONSTANTS.APP_INFO.version}
+                    </p>
                   </div>
                 </SheetContent>
               </Sheet>

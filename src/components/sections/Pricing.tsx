@@ -49,7 +49,7 @@ export function Pricing() {
           transition={getTransition()}
           className="text-center mb-16"
         >
-          <span className="inline-block text-sm font-medium text-muted-foreground mb-4">
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/60 bg-surface-secondary/80 backdrop-blur-sm text-foreground-secondary text-sm font-medium mb-6">
             {t('pricing.badge')}
           </span>
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-foreground mb-6 tracking-tight">
@@ -60,7 +60,7 @@ export function Pricing() {
           </p>
 
           <div
-            className="inline-flex items-center gap-1 p-1 bg-muted rounded-full"
+            className="inline-flex items-center gap-1 p-1 bg-surface-secondary border border-border-light rounded-full"
             role="tablist"
             aria-label="计费周期切换"
           >
@@ -116,10 +116,10 @@ export function Pricing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={getTransition(index * ANIMATION_DELAY_STEP)}
-                className={`relative rounded-xl p-7 transition-colors duration-200 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:outline-none ${
+                className={`relative rounded-xl p-7 transition-all duration-300 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:outline-none ${
                   plan.popular
-                    ? 'bg-card border-2 border-primary'
-                    : 'bg-card border border-border hover:border-foreground/20'
+                    ? 'bg-card border border-primary/40 shadow-lg ring-1 ring-primary/20'
+                    : 'bg-card border border-border shadow-sm hover:border-foreground/20 hover:shadow-md'
                 }`}
                 aria-label={`${planName}方案`}
               >
@@ -139,7 +139,7 @@ export function Pricing() {
 
                 <div className="mb-6">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-bold text-card-foreground">
+                    <span className="text-4xl font-display font-bold text-card-foreground tracking-tight">
                       ¥{isYearly ? plan.yearlyPrice : plan.monthlyPrice}
                     </span>
                     <span className="text-sm text-muted-foreground">
@@ -157,10 +157,10 @@ export function Pricing() {
                   {planFeatures.map((feature) => (
                     <li key={feature} className="flex items-start gap-3" role="listitem">
                       <div
-                        className="w-5 h-5 rounded-full bg-muted flex items-center justify-center flex-shrink-0 mt-0.5"
+                        className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5"
                         aria-hidden="true"
                       >
-                        <Check className="w-3 h-3 text-foreground" aria-hidden="true" />
+                        <Check className="w-3 h-3 text-primary" aria-hidden="true" />
                       </div>
                       <span className="text-sm text-card-foreground">{feature}</span>
                     </li>

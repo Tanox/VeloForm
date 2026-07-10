@@ -52,7 +52,7 @@ export function Footer() {
                       key={social.label}
                       href={social.href}
                       role="listitem"
-                      className="min-w-[40px] min-h-[40px] rounded-md bg-background border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="min-w-[40px] min-h-[40px] rounded-lg bg-background border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground/20 hover:bg-muted/50 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                       aria-label={social.label}
                       initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
                       whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}

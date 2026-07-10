@@ -120,11 +120,11 @@ export function ComponentSelector() {
                         whileTap={{ scale: 0.99 }}
                       >
                         <div
-                          className={`relative cursor-pointer rounded-2xl p-5 transition-all duration-300 overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+                          className={`relative cursor-pointer rounded-xl p-5 transition-all duration-300 overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
                             isSelected
-                              ? 'bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border-2 border-primary shadow-lg shadow-primary/10'
-                              : 'bg-surface-secondary/80 border-2 border-border-light hover:border-primary/50 hover:bg-surface-secondary'
-                          } ${isPromotional ? 'before:absolute before:inset-0 before:bg-gradient-to-r before:from-red-500/5 before:to-transparent' : ''}`}
+                              ? 'bg-primary/5 border border-primary/40 shadow-sm'
+                              : 'bg-surface-secondary/60 border border-border-light hover:border-border hover:bg-surface-secondary'
+                          }`}
                           onClick={() => handleSelect(component)}
                           tabIndex={0}
                           role="button"
@@ -132,18 +132,17 @@ export function ComponentSelector() {
                           aria-pressed={isSelected}
                         >
                           {isPromotional && (
-                            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 to-orange-400" aria-hidden="true" />
+                            <div className="absolute top-0 left-0 right-0 h-[2px] bg-primary" aria-hidden="true" />
                           )}
 
                           <div className="flex items-center gap-4">
-                            <motion.div
-                              animate={{ scale: isSelected ? 1.1 : 1 }}
+                            <div
                               className={`relative flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
                                 isSelected
-                                  ? 'bg-gradient-to-br from-primary to-accent text-white shadow-lg shadow-primary/30'
+                                  ? 'bg-primary text-primary-foreground shadow-sm'
                                   : isPromotional
-                                  ? 'bg-red-500/10 text-red-500'
-                                  : 'bg-surface-tertiary text-muted'
+                                  ? 'bg-primary/10 text-primary'
+                                  : 'bg-surface-tertiary text-muted-foreground'
                               }`}
                               aria-hidden="true"
                             >
@@ -154,22 +153,22 @@ export function ComponentSelector() {
                               ) : (
                                 <Package className="w-5 h-5" />
                               )}
-                            </motion.div>
+                            </div>
 
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 flex-wrap">
                                 <h4 className="font-semibold text-foreground truncate">{component.name}</h4>
                                 {component.brand && (
-                                  <span className="px-2 py-0.5 bg-surface-tertiary/50 rounded-md text-xs text-muted">
+                                  <span className="px-2 py-0.5 bg-surface-tertiary/50 rounded-md text-xs text-muted-foreground">
                                     {component.brand}
                                   </span>
                                 )}
                               </div>
 
-                              <div className="flex items-center gap-2 mt-1 text-sm text-muted">
+                              <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
                                 {component.model && <span>{component.model}</span>}
                                 {component.description && (
-                                  <span className="hidden sm:inline text-muted/60 truncate max-w-[200px]">
+                                  <span className="hidden sm:inline text-muted-foreground/60 truncate max-w-[200px]">
                                     {component.description}
                                   </span>
                                 )}
@@ -183,7 +182,7 @@ export function ComponentSelector() {
                                   </span>
                                 )}
                                 {isPromotional && (
-                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500/10 text-red-500 text-xs font-bold rounded-full animate-pulse">
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-primary/10 text-primary text-xs font-bold rounded-full">
                                     <Zap className="w-3 h-3" aria-hidden="true" />
                                     -{promotionalComponents[component.id].discount}%
                                   </span>
@@ -196,20 +195,20 @@ export function ComponentSelector() {
                                 <div className="flex items-center gap-2 justify-end">
                                   {isPromotional ? (
                                     <>
-                                      <p className="text-lg font-bold bg-gradient-to-r from-red-500 to-orange-400 bg-clip-text text-transparent">
+                                      <p className="text-lg font-display font-bold text-primary">
                                         {formatCurrency(Math.round(promotionalComponents[component.id].originalPrice * (1 - promotionalComponents[component.id].discount / 100)))}
                                       </p>
                                     </>
                                   ) : (
-                                    <p className="text-lg font-semibold text-foreground">
+                                    <p className="text-lg font-display font-semibold text-foreground">
                                       {formatCurrency(component.price)}
                                     </p>
                                   )}
                                 </div>
                                 <div className="flex items-center justify-end gap-2 mt-0.5 text-sm">
-                                  <span className="text-muted">{formatWeight(component.weight / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR)}</span>
+                                  <span className="text-muted-foreground">{formatWeight(component.weight / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR)}</span>
                                   {isPromotional && (
-                                    <span className="text-xs text-red-500 font-medium flex items-center gap-1">
+                                    <span className="text-xs text-primary font-medium flex items-center gap-1">
                                       <span className="line-through opacity-60">{formatCurrency(promotionalComponents[component.id].originalPrice)}</span>
                                       <span>省{formatCurrency(savings)}</span>
                                     </span>
@@ -217,34 +216,30 @@ export function ComponentSelector() {
                                 </div>
                               </div>
 
-                              <motion.button
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
+                              <button
                                 onClick={(e) => handleViewDetail(component.id, e)}
-                                className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-surface-tertiary/50 hover:bg-primary/10 text-muted hover:text-primary transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                                className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-surface-tertiary/50 hover:bg-primary/10 text-muted-foreground hover:text-primary transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                                 aria-label={`查看 ${component.name} 详情`}
                               >
                                 <Eye className="w-5 h-5" aria-hidden="true" />
-                              </motion.button>
+                              </button>
                             </div>
                           </div>
 
                           {isPromotional && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              className="mt-4 pt-3 border-t border-red-500/20 flex items-center gap-4"
+                            <div
+                              className="mt-4 pt-3 border-t border-border-light flex items-center gap-4"
                               aria-hidden="true"
                             >
-                              <div className="flex items-center gap-2 text-red-500 text-sm">
+                              <div className="flex items-center gap-2 text-primary text-sm">
                                 <Truck className="w-4 h-4" aria-hidden="true" />
                                 <span className="font-medium">免费配送</span>
                               </div>
-                              <div className="flex items-center gap-2 text-orange-500 text-sm">
+                              <div className="flex items-center gap-2 text-foreground-secondary text-sm">
                                 <Sparkles className="w-4 h-4" aria-hidden="true" />
                                 <span className="font-medium">限时特惠</span>
                               </div>
-                            </motion.div>
+                            </div>
                           )}
                         </div>
                       </motion.div>
@@ -256,7 +251,7 @@ export function ComponentSelector() {
           </div>
 
           <div className="mt-4 pt-4 border-t border-border-light flex items-center justify-between">
-            <p className="text-sm text-muted">
+            <p className="text-sm text-muted-foreground">
               共 {alternatives.length} 个可选组件
             </p>
             <Button

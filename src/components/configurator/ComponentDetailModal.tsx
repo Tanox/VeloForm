@@ -140,7 +140,7 @@ export function ComponentDetailModal({
                   </motion.div>
                 ))}
               </div>
-              <span className="text-sm text-muted font-medium">
+              <span className="text-sm text-muted-foreground font-medium">
                 {detail.rating} ({detail.reviewCount} 条评价)
               </span>
             </div>
@@ -152,7 +152,7 @@ export function ComponentDetailModal({
                   <span className="text-lg font-bold text-primary">¥</span>
                 </div>
                 <div>
-                  <p className="text-xs text-muted uppercase tracking-wider">价格</p>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider">价格</p>
                   <p className="text-xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
                     {formatCurrency(detail.price)}
                   </p>
@@ -163,7 +163,7 @@ export function ComponentDetailModal({
                   <Scale className="w-5 h-5 text-accent" />
                 </div>
                 <div>
-                  <p className="text-xs text-muted uppercase tracking-wider">重量</p>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider">重量</p>
                   <p className="text-xl font-bold bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
                     {formatWeight(detail.weight / 1000)}
                   </p>
@@ -193,7 +193,7 @@ export function ComponentDetailModal({
                         transition={{ delay: 0.3 + index * 0.05 }}
                         className="flex justify-between py-2.5 px-4 bg-surface-secondary/50 rounded-xl border border-border-light"
                       >
-                        <span className="text-sm text-muted">{key}</span>
+                        <span className="text-sm text-muted-foreground">{key}</span>
                         <span className="text-sm font-semibold text-foreground">
                           {displayValue}
                         </span>

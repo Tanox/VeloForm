@@ -38,7 +38,7 @@ export function Hero({ onNavigate }: HeroProps) {
             initial={getInitial({ opacity: 0, y: 16 })}
             animate={{ opacity: 1, y: 0 }}
             transition={getTransition(0)}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted text-muted-foreground text-sm font-medium mb-8"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/60 bg-surface-secondary/80 backdrop-blur-sm text-foreground-secondary text-sm font-medium mb-8"
           >
             {t('hero.badge')}
           </motion.div>
@@ -97,7 +97,7 @@ export function Hero({ onNavigate }: HeroProps) {
             transition={getTransition(ANIMATION_DELAY_STEP * 4)}
             className="relative mx-auto max-w-5xl"
           >
-            <div className="rounded-lg overflow-hidden border border-border shadow-sm">
+            <div className="rounded-lg overflow-hidden border border-border shadow-xl">
               <div className="w-full" style={{ aspectRatio: '16/9', position: 'relative' }}>
                 <Image
                   src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20bicycle%20configurator%20software%20interface%20on%20iMac%20screen%20minimalist%20clean%20UI%20apple%20style%20dark%20theme&image_size=landscape_16_9"
@@ -127,7 +127,7 @@ export function Hero({ onNavigate }: HeroProps) {
                   transition={getTransition(
                     ANIMATION_DELAY_STEP * 7 + index * ANIMATION_DELAY_STEP
                   )}
-                  className="text-sm font-medium text-muted-foreground/60"
+                  className="text-sm font-medium text-muted-foreground/50 hover:text-foreground/70 transition-colors duration-300"
                 >
                   {company}
                 </motion.span>

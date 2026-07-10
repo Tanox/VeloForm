@@ -55,11 +55,11 @@ export function SummaryPanel() {
             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
               当前配置
             </p>
-            <p className="text-xl font-semibold text-foreground">
+            <p className="text-xl font-display font-semibold text-foreground tracking-tight">
               {manualConfigName || `${activeType} Build`}
             </p>
             <div className="flex items-center gap-2 mt-2">
-              <div className="p-1.5 bg-muted rounded-md" aria-hidden="true">
+              <div className="p-1.5 bg-surface-tertiary rounded-md" aria-hidden="true">
                 <BikeIcon className="w-4 h-4 text-muted-foreground" />
               </div>
               <span className="text-xs text-muted-foreground uppercase tracking-wider">
@@ -69,7 +69,7 @@ export function SummaryPanel() {
           </div>
 
           <div className="grid grid-cols-2 gap-3" role="list">
-            <div role="listitem" className="bg-muted/50 border border-border rounded-lg p-4">
+            <div role="listitem" className="bg-surface-secondary border border-border-light rounded-lg p-4">
               <div className="flex items-center gap-2 mb-3">
                 <div className="p-1.5 bg-background rounded-md" aria-hidden="true">
                   <TrendingUp className="w-4 h-4 text-muted-foreground" />
@@ -79,14 +79,14 @@ export function SummaryPanel() {
                 </p>
               </div>
               <p
-                className="text-2xl font-semibold text-foreground"
+                className="text-2xl font-display font-semibold text-foreground tracking-tight"
                 aria-label={`总价: ${formatCurrency(totalCost)}`}
               >
                 {formatCurrency(totalCost)}
               </p>
             </div>
 
-            <div role="listitem" className="bg-muted/50 border border-border rounded-lg p-4">
+            <div role="listitem" className="bg-surface-secondary border border-border-light rounded-lg p-4">
               <div className="flex items-center gap-2 mb-3">
                 <div className="p-1.5 bg-background rounded-md" aria-hidden="true">
                   <Scale className="w-4 h-4 text-muted-foreground" />
@@ -96,7 +96,7 @@ export function SummaryPanel() {
                 </p>
               </div>
               <p
-                className="text-2xl font-semibold text-foreground"
+                className="text-2xl font-display font-semibold text-foreground tracking-tight"
                 aria-label={`总重量: ${formatWeight(totalWeight)}`}
               >
                 {formatWeight(totalWeight)}
@@ -153,19 +153,19 @@ export function SummaryPanel() {
           </div>
 
           {!isLoggedIn && (
-            <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg dark:bg-amber-950/30 dark:border-amber-800/30">
+            <div className="p-4 bg-primary/5 border border-primary/15 rounded-lg">
               <div className="flex items-start gap-3">
                 <div
-                  className="w-8 h-8 rounded-md bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center flex-shrink-0"
+                  className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0"
                   aria-hidden="true"
                 >
-                  <User className="w-4 h-4 text-amber-600 dark:text-amber-400" aria-hidden="true" />
+                  <User className="w-4 h-4 text-primary" aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-amber-800 dark:text-amber-300">
+                  <p className="text-sm font-medium text-foreground">
                     {t('configurator.loginToSave')}
                   </p>
-                  <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
+                  <p className="text-xs text-muted-foreground mt-1">
                     {t('configurator.loginToSaveHint')}
                   </p>
                 </div>

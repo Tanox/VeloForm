@@ -88,7 +88,7 @@ export function BuildList() {
           {components.map((component) => (
             <Card
               key={component.id}
-              className="p-4 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
+              className="flex-row items-center justify-between p-4 cursor-pointer hover:bg-muted/50 transition-colors"
               onClick={() => handleEdit(component.id)}
             >
               <div className="flex-1 min-w-0">

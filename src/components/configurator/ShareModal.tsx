@@ -110,7 +110,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
               </div>
               <div className="relative text-center">
                 <span className="block font-semibold text-foreground">分享链接</span>
-                <span className="block text-xs text-muted mt-0.5">复制到剪贴板</span>
+                <span className="block text-xs text-muted-foreground mt-0.5">复制到剪贴板</span>
               </div>
             </motion.button>
 
@@ -127,7 +127,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
               </div>
               <div className="relative text-center">
                 <span className="block font-semibold text-foreground">导出配置</span>
-                <span className="block text-xs text-muted mt-0.5">下载 JSON 文件</span>
+                <span className="block text-xs text-muted-foreground mt-0.5">下载 JSON 文件</span>
               </div>
             </motion.button>
           </div>
@@ -139,7 +139,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
             className="flex items-start gap-3 p-4 rounded-xl bg-surface-tertiary/30 border border-border-light"
           >
             <Sparkles className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-            <div className="text-sm text-muted leading-relaxed">
+            <div className="text-sm text-muted-foreground leading-relaxed">
               <p>分享你的配置给朋友，或导出为 JSON 文件用于其他目的。</p>
               <p className="mt-1">
                 链接有效期为 <span className="text-foreground font-medium">30 天</span>。

@@ -24,7 +24,7 @@ export function Cta() {
           whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={getTransition()}
-          className="bg-card border border-border rounded-2xl overflow-hidden"
+          className="bg-card border border-border rounded-2xl overflow-hidden shadow-lg"
         >
           <div className="text-center py-16 sm:py-20 px-6 sm:px-12">
             <motion.div
@@ -32,7 +32,7 @@ export function Cta() {
               whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={getTransition(ANIMATION_DELAY_STEP)}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted text-muted-foreground mb-8"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/60 bg-surface-secondary/80 text-foreground-secondary mb-8"
             >
               <Sparkles className="w-4 h-4" aria-hidden="true" />
               <span className="text-sm font-medium">{t('cta.badge')}</span>

@@ -54,7 +54,7 @@ export function Features() {
           transition={getTransition()}
           className="text-center mb-16"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted text-muted-foreground text-sm font-medium mb-6">
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/60 bg-surface-secondary/80 text-foreground-secondary text-sm font-medium mb-6">
             {t('features.badge')}
           </span>
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-foreground mb-6 tracking-tight">
@@ -79,7 +79,7 @@ export function Features() {
                 viewport={{ once: true }}
                 transition={getTransition(index * ANIMATION_DELAY_STEP)}
                 tabIndex={0}
-                className="group bg-card rounded-xl p-7 sm:p-8 border border-border hover:border-foreground/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors duration-200"
+                className="group bg-card rounded-xl p-7 sm:p-8 border border-border shadow-sm hover:border-foreground/20 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all duration-300"
                 aria-label={title as string}
               >
                 <div
