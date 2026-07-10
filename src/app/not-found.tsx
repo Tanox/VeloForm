@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Bike, Home } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';

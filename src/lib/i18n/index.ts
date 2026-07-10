@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Type-safe i18n system with compile-time translation key validation.
  * Each language file must satisfy the Translations interface structure.

@@ -1,12 +1,17 @@
 # UI 设计系统
 
 > **路径**: `/openspec/design/ui-design-system.md`  
-> **版本**: v3.8.0  
-> **更新日期**: 2026-06-17
+> **版本**: v4.2.0  
+> **更新日期**: 2026-07-10  
+> **设计风格**: 极简主义 · Apple 风格 · 国际顶尖水准
+
+---
 
 ## 概述
 
 本文档定义 Veloform 项目的 UI 设计系统，包括颜色、字体、间距、组件库等设计规范。设计系统确保应用界面的一致性、可访问性和可扩展性，采用 Apple 设计风格的极简主义原则。
+
+本设计系统与 `src/components/ui/` 中的 shadcn/ui 组件库完全对齐，所有组件均基于 CSS 变量和 Tailwind CSS 配置实现。
 
 ---
 
@@ -42,6 +47,7 @@
 - WCAG 2.1 AA 级色彩对比度
 - 完整的键盘导航支持
 - ARIA 属性标注
+- 尊重 `prefers-reduced-motion`
 
 ---
 
@@ -51,12 +57,15 @@
 
 Veloform 采用苹果风格的蓝色作为品牌主色，象征科技、信任与创新。
 
+#### CSS 变量定义
+
 ```css
-/* 主色调完整色阶 */
---primary-50: #f0f7ff;
---primary-100: #e0ebff;
---primary-500: #0071e3; /* 主色基准 - Apple 风格蓝色 */
---primary-600: #0077ed; /* 悬停状态 */
+:root {
+  --primary: #0071e3;
+  --primary-hover: #0066cc;
+  --primary-light: #e8f0fe;
+  --primary-foreground: #ffffff;
+}
 ```
 
 **使用场景**：
@@ -74,15 +83,16 @@ Veloform 采用 CSS 变量系统实现深色/浅色主题切换，使用 Tailwin
 
 ```css
 :root {
-  --background: #ffffff; /* 页面主背景 */
-  --foreground: #1d1d1f; /* 主文本色 - Apple 深色文本 */
-  --surface: #fafafa; /* 卡片/表面背景 */
-  --surface-tertiary: #f5f5f7; /* 第三级表面色 */
-  --border: #d2d2d7; /* 默认边框 */
-  --border-light: rgba(0, 0, 0, 0.06); /* 浅色边框 */
-  --muted: #6e6e73; /* 弱化文本 */
-  --secondary: #86868b; /* 次要文本 */
-  --accent: #34c759; /* 强调色 - Apple 绿色 */
+  --background: #fafafa;
+  --foreground: #1d1d1f;
+  --surface: #ffffff;
+  --surface-secondary: #f5f5f7;
+  --surface-tertiary: #ebebeb;
+  --border: #e5e5ea;
+  --border-light: #f0f0f0;
+  --muted: #6e6e73;
+  --secondary: #86868b;
+  --accent: #34c759;
 }
 ```
 
@@ -90,89 +100,40 @@ Veloform 采用 CSS 变量系统实现深色/浅色主题切换，使用 Tailwin
 
 ```css
 .dark {
-  --background: #000000; /* 页面主背景 - 纯黑 */
-  --foreground: #ffffff; /* 主文本色 - 纯白 */
-  --surface: #1d1d1f; /* 卡片/表面背景 */
-  --surface-tertiary: #272729; /* 第三级表面色 */
-  --border: #3a3a3c; /* 默认边框 */
-  --border-light: rgba(255, 255, 255, 0.06); /* 浅色边框 */
-  --muted: #6e6e73; /* 弱化文本 */
-  --secondary: #86868b; /* 次要文本 */
-  --accent: #30d158; /* 强调色 - Apple 深色绿色 */
+  --background: #000000;
+  --foreground: #ffffff;
+  --surface: #1a1a1a;
+  --surface-secondary: #2c2c2e;
+  --surface-tertiary: #3a3a3c;
+  --border: #38383a;
+  --border-light: #2c2c2e;
+  --muted: #a1a1a6;
+  --secondary: #86868b;
+  --accent: #30d158;
 }
 ```
 
 ### 功能色
 
 ```css
-/* 成功 - 绿色 */
---success: #34c759;
-
-/* 警告 - 橙色 */
---warning: #ff9500;
-
-/* 错误 - 红色 */
---error: #ff3b30;
-
-/* 信息 - 蓝色 */
---info: #0071e3;
+:root {
+  --success: #34c759;
+  --warning: #ff9500;
+  --error: #ff3b30;
+  --info: #0071e3;
+}
 ```
 
-### Tailwind CSS 配置
+### 品牌渐变（限制使用）
 
-```typescript
-// tailwind.config.ts
-const config: Config = {
-  darkMode: 'class',
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: ['SF Pro Text', 'system-ui', 'sans-serif'],
-        display: ['SF Pro Display', 'system-ui', 'sans-serif'],
-      },
-      colors: {
-        background: {
-          DEFAULT: '#ffffff',
-          dark: '#000000',
-          light: '#ffffff',
-        },
-        foreground: {
-          DEFAULT: '#1d1d1f',
-          dark: '#ffffff',
-          light: '#1d1d1f',
-        },
-        primary: {
-          50: '#f0f7ff',
-          100: '#e0ebff',
-          500: '#0071e3',
-          600: '#0077ed',
-          DEFAULT: '#0071e3',
-        },
-        surface: {
-          DEFAULT: '#fafafa',
-          dark: '#1d1d1f',
-          light: '#fafafa',
-        },
-        border: {
-          DEFAULT: '#d2d2d7',
-          dark: '#3a3a3c',
-          light: '#d2d2d7',
-        },
-        muted: '#6e6e73',
-        secondary: '#86868b',
-        accent: {
-          DEFAULT: '#34c759',
-          dark: '#30d158',
-          light: '#34c759',
-        },
-        success: '#34c759',
-        warning: '#ff9500',
-        error: '#ff3b30',
-        info: '#0071e3',
-      },
-    },
-  },
-};
+> **使用场景**：仅用于 Hero CTA 按钮、特殊行动号召  
+> **禁止场景**：卡片背景、导航栏、页脚
+
+```css
+.gradient-brand {
+  background: linear-gradient(135deg, #0071e3 0%, #34c759 50%, #af52de 100%);
+  background-size: 200% 200%;
+}
 ```
 
 ---
@@ -181,28 +142,31 @@ const config: Config = {
 
 ### 字体家族
 
-```css
-/* 标题字体 - SF Pro Display */
-.font-display {
-  font-family:
-    'SF Pro Display',
-    system-ui,
-    -apple-system,
-    sans-serif;
-}
+Veloform 使用 **Satoshi** 字体族（类 SF Pro 风格），确保最佳的渲染效果和性能。
 
-/* 正文字体 - SF Pro Text */
+```css
+/* 正文字体 */
 .font-sans {
   font-family:
-    'SF Pro Text',
-    system-ui,
+    'Satoshi',
     -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'PingFang SC',
+    'Microsoft YaHei',
     sans-serif;
 }
 
-/* 等宽字体 - 代码显示 */
-.font-mono {
-  font-family: 'SF Mono', 'JetBrains Mono', monospace;
+/* 标题字体 */
+.font-display {
+  font-family:
+    'Clash Display',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'PingFang SC',
+    'Microsoft YaHei',
+    sans-serif;
 }
 ```
 
@@ -217,348 +181,282 @@ const config: Config = {
 
 ### 字号层级
 
-基于 Major Third 比例尺：
-
-```css
-.text-xs {
-  font-size: 0.75rem;
-} /* 12px */
-.text-sm {
-  font-size: 0.875rem;
-} /* 14px */
-.text-base {
-  font-size: 1rem;
-} /* 16px - 正文基准 */
-.text-lg {
-  font-size: 1.125rem;
-} /* 18px */
-.text-xl {
-  font-size: 1.25rem;
-} /* 20px */
-.text-2xl {
-  font-size: 1.5rem;
-} /* 24px */
-.text-3xl {
-  font-size: 1.875rem;
-} /* 30px */
-.text-4xl {
-  font-size: 2.25rem;
-} /* 36px */
-.text-5xl {
-  font-size: 3rem;
-} /* 48px */
-.text-6xl {
-  font-size: 3.75rem;
-} /* 60px */
-.text-7xl {
-  font-size: 4.5rem;
-} /* 72px */
-.text-8xl {
-  font-size: 5.5rem;
-} /* 88px - Hero 大标题 */
-```
-
-### 行高
-
-```css
-.leading-normal {
-  line-height: 1.47;
-} /* 正文默认 - Apple 风格 */
-```
+| Token  | 字号 | 行高 | 字重 | 用途                 |
+| ------ | ---- | ---- | ---- | -------------------- |
+| `xs`   | 12px | 16px | 400  | 辅助说明、标签       |
+| `sm`   | 14px | 20px | 400  | 次要正文、卡片描述   |
+| `base` | 16px | 24px | 400  | 正文、段落文字       |
+| `lg`   | 18px | 28px | 500  | 小标题、区块标题     |
+| `xl`   | 20px | 32px | 600  | 中标题、卡片标题     |
+| `2xl`  | 24px | 36px | 600  | 大标题、Section 标题 |
+| `3xl`  | 30px | 44px | 700  | 页面标题             |
+| `4xl`  | 36px | 52px | 700  | 超大标题             |
+| `5xl`  | 48px | 68px | 700  | Hero 标题            |
 
 ---
 
 ## 间距系统
 
-### 基础单位
+### 4px 网格系统
 
-基于 4px 网格系统（Tailwind 默认）：
+所有间距必须是 **4px 的倍数**，确保视觉的一致性和节奏感。
 
-```css
-space-1  = 0.25rem  /* 4px */
-space-2  = 0.5rem   /* 8px */
-space-3  = 0.75rem  /* 12px */
-space-4  = 1rem     /* 16px */
-space-5  = 1.25rem  /* 20px */
-space-6  = 1.5rem   /* 24px */
-space-8  = 2rem     /* 32px */
-space-10 = 2.5rem   /* 40px */
-space-12 = 3rem     /* 48px */
-space-16 = 4rem     /* 64px */
-space-20 = 5rem     /* 80px */
-space-24 = 6rem     /* 96px */
-```
+| Token | 值   | 用途                          |
+| ----- | ---- | ----------------------------- |
+| `1`   | 4px  | 最小间距、图标与文字间距      |
+| `2`   | 8px  | 小间距、紧凑布局              |
+| `3`   | 12px | 中间距、相关元素间距          |
+| `4`   | 16px | 基础间距、卡片内边距          |
+| `5`   | 20px | 中等间距、组件间距            |
+| `6`   | 24px | 大间距、Section 内边距        |
+| `8`   | 32px | 超大间距、区块间距            |
+| `10`  | 40px | 巨大间距、页面区块间距        |
+| `12`  | 48px | 最大间距、Hero 区块间距       |
+| `16`  | 64px | 页面级间距、主要 Section 间距 |
 
 ### 组件内边距规范
 
 | 组件类型  | Padding                    | 示例         |
 | --------- | -------------------------- | ------------ |
-| 按钮 (sm) | `px-4 py-2 min-h-[40px]`   | 小按钮       |
-| 按钮 (md) | `px-6 py-2.5 min-h-[44px]` | 默认按钮     |
-| 按钮 (lg) | `px-8 py-3.5 min-h-[52px]` | 大按钮       |
-| 卡片      | `p-6`                      | 内容卡片     |
-| 模态框    | `p-6`                      | 模态框内容区 |
-| 输入框    | `px-3 py-2`                | 表单输入     |
+| 按钮 (sm) | `px-3 py-2 min-h-[40px]`   | 小按钮       |
+| 按钮 (md) | `px-5 py-2.5 min-h-[44px]` | 默认按钮     |
+| 按钮 (lg) | `px-6 py-3 min-h-[48px]`   | 大按钮       |
+| 卡片      | `p-5`                      | 内容卡片     |
+| 模态框    | `p-4`                      | 模态框内容区 |
+| 输入框    | `px-2.5 py-1`              | 表单输入     |
 
 ---
 
 ## 圆角系统
 
-```css
-.rounded-none {
-  border-radius: 0;
-}
-.rounded-sm {
-  border-radius: 0.25rem;
-} /* 4px */
-.rounded-md {
-  border-radius: 0.375rem;
-} /* 6px */
-.rounded-lg {
-  border-radius: 0.5rem;
-} /* 8px */
-.rounded-xl {
-  border-radius: 0.75rem;
-} /* 12px */
-.rounded-2xl {
-  border-radius: 1rem;
-} /* 16px - 卡片 */
-.rounded-3xl {
-  border-radius: 1.5rem;
-} /* 24px - 大卡片/Hero 图片 */
-.rounded-full {
-  border-radius: 9999px;
-} /* 完全圆角 - 按钮 */
-```
+### 圆角 Token
 
-**使用规范**：
+| Token  | 值     | 用途     | 示例                   |
+| ------ | ------ | -------- | ---------------------- |
+| `sm`   | 8px    | 小圆角   | 输入框、标签           |
+| `md`   | 12px   | 基础圆角 | 按钮、卡片             |
+| `lg`   | 16px   | 中圆角   | 大卡片、Modal          |
+| `xl`   | 20px   | 大圆角   | Hero 区块、特色卡片    |
+| `2xl`  | 24px   | 超大圆角 | 特殊区块               |
+| `full` | 9999px | 圆形     | 头像、Badge、Pill 按钮 |
 
-| 元素       | 圆角           | 说明     |
-| ---------- | -------------- | -------- |
-| 按钮       | `rounded-full` | 胶囊形状 |
-| 小图标容器 | `rounded-xl`   | 12px     |
-| 卡片       | `rounded-2xl`  | 16px     |
-| 模态框     | `rounded-2xl`  | 16px     |
-| 头像       | `rounded-full` | 圆形     |
-| 标签/徽章  | `rounded-full` | 胶囊形状 |
-| Hero 图片  | `rounded-3xl`  | 24px     |
+### 使用规范
+
+| 元素       | 圆角                | 说明          |
+| ---------- | ------------------- | ------------- |
+| 按钮       | `rounded-xl` (12px) | 胶囊形状      |
+| 小图标容器 | `rounded-xl` (12px) | 12px          |
+| 卡片       | `rounded-xl` (12px) | 16px 视觉效果 |
+| 模态框     | `rounded-xl` (12px) | 16px 视觉效果 |
+| 头像       | `rounded-full`      | 圆形          |
+| 标签/徽章  | `rounded-full`      | 胶囊形状      |
+| Hero 图片  | `rounded-2xl`       | 24px          |
 
 ---
 
 ## 阴影系统
 
-```css
-/* Apple 风格柔和阴影 */
---shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
---shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.08);
---shadow-hero: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
-```
+### 阴影 Token
 
-**使用场景**：
+| Token | 浅色模式                       | 深色模式                      | 用途                    |
+| ----- | ------------------------------ | ----------------------------- | ----------------------- |
+| `sm`  | `0 1px 3px rgba(0,0,0,0.06)`   | `0 1px 3px rgba(0,0,0,0.3)`   | 轻微浮起（卡片 Hover）  |
+| `md`  | `0 4px 12px rgba(0,0,0,0.08)`  | `0 4px 12px rgba(0,0,0,0.4)`  | 基础阴影（卡片、Modal） |
+| `lg`  | `0 8px 24px rgba(0,0,0,0.1)`   | `0 8px 24px rgba(0,0,0,0.5)`  | 中等阴影（悬浮卡片）    |
+| `xl`  | `0 16px 48px rgba(0,0,0,0.12)` | `0 16px 48px rgba(0,0,0,0.6)` | 大阴影（Hero 区块）     |
 
-| 元素         | 阴影                             | 说明       |
-| ------------ | -------------------------------- | ---------- |
-| 卡片（默认） | `shadow-sm`                      | 轻微浮起感 |
-| 卡片（悬停） | `shadow-md`                      | 悬停时加深 |
-| Hero 图片    | `shadow-2xl` + `shadow-black/10` | 明显层级   |
-| 下拉菜单     | `shadow-lg`                      | 明显层级   |
-| 模态框       | `shadow-2xl`                     | 最高层级   |
+### 使用原则
+
+1. **克制使用** - 仅在需要建立层级时使用阴影
+2. **Hover 状态** - 使用 `--shadow-sm` 到 `--shadow` 的过渡
+3. **避免彩色阴影** - 不使用 `shadow-glow` 等彩色阴影
+4. **性能考虑** - 使用 `box-shadow` 而非 `filter: drop-shadow()`
 
 ---
 
 ## 动画系统
 
+### 设计理念
+
+**克制动效策略**：自然、即时、不干扰
+
+- 动画时长 ≤ 300ms
+- 使用 cubic-bezier 缓动曲线
+- 尊重 `prefers-reduced-motion` 用户设置
+- 避免布局偏移（Layout Shift）
+
+### 缓动曲线
+
+| Token         | 曲线                                   | 用途             |
+| ------------- | -------------------------------------- | ---------------- |
+| `ease-out`    | `cubic-bezier(0.25, 0.46, 0.45, 0.94)` | 退出动画（默认） |
+| `ease-in-out` | `cubic-bezier(0.65, 0, 0.35, 1)`       | 进出动画         |
+| `ease-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)`    | 弹性动画（轻微） |
+
+### 动画时长
+
+| Token    | 时长  | 用途                        |
+| -------- | ----- | --------------------------- |
+| `fast`   | 150ms | 微交互（悬停、焦点）        |
+| `normal` | 200ms | 常规动画（展开、收起）      |
+| `slow`   | 300ms | 大型动画（页面过渡、Modal） |
+
 ### 预设动画
 
-```typescript
-animation: {
-  "fade-in": "fadeIn 0.3s ease-out",
-  "fade-in-up": "fadeInUp 0.8s ease-out",
-  "slide-up": "slideUp 0.4s ease-out",
-  "slide-in-right": "slideInRight 0.4s ease-out",
-  "scale-in": "scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-  "bounce-in": "bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)",
-  pulse: "pulse 1s ease-in-out infinite",
-  "pulse-slow": "pulseSlow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-  float: "float 6s ease-in-out infinite",
-},
-keyframes: {
-  fadeIn: {
-    "0%": { opacity: "0" },
-    "100%": { opacity: "1" },
-  },
-  fadeInUp: {
-    "0%": { opacity: "0", transform: "translateY(30px)" },
-    "100%": { opacity: "1", transform: "translateY(0)" },
-  },
-  slideUp: {
-    "0%": { opacity: "0", transform: "translateY(10px)" },
-    "100%": { opacity: "1", transform: "translateY(0)" },
-  },
-  slideInRight: {
-    "0%": { opacity: "0", transform: "translateX(40px)" },
-    "100%": { opacity: "1", transform: "translateX(0)" },
-  },
-  scaleIn: {
-    "0%": { opacity: "0", transform: "scale(0.95)" },
-    "100%": { opacity: "1", transform: "scale(1)" },
-  },
-  bounceIn: {
-    "0%": { opacity: "0", transform: "scale(0.3)" },
-    "50%": { transform: "scale(1.05)" },
-    "100%": { opacity: "1", transform: "scale(1)" },
-  },
-},
+```css
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 ```
 
-### Framer Motion 配置
+### Reduced Motion 支持
 
-```typescript
-const transition = {
-  duration: 0.2,
-  ease: [0.4, 0, 0.2, 1],
-};
-
-const spring = {
-  type: 'spring',
-  stiffness: 300,
-  damping: 30,
-};
+```css
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 ```
+
+---
+
+## 图标系统
+
+### 图标库
+
+Veloform 使用 **Lucide React** 作为图标库。
+
+- 1000+ 精美 SVG 图标
+- 统一的 24x24 viewBox
+- 支持自定义尺寸和颜色
+- Tree-shakeable（仅打包使用的图标）
+
+### 图标尺寸
+
+| Token | 尺寸 | 用途             |
+| ----- | ---- | ---------------- |
+| `xs`  | 16px | 紧凑布局、列表项 |
+| `sm`  | 20px | 按钮内图标、表单 |
+| `md`  | 24px | 默认尺寸、导航   |
+| `lg`  | 32px | 特色区块、空状态 |
 
 ---
 
 ## 组件库规范
 
-### 通用组件类
+### 基础组件 (L1)
 
-```css
-/* 玻璃态卡片 */
-.glass-card {
-  @apply bg-surface/80 backdrop-blur-xl border border-border-light;
-}
+以下组件已在 `src/components/ui/` 中实现：
 
-/* 标准卡片 */
-.card {
-  @apply bg-surface rounded-2xl transition-all duration-200;
-}
+| 组件           | 文件                 | 状态 |
+| -------------- | -------------------- | ---- |
+| Button         | `button.tsx`         | ✅   |
+| Card           | `card.tsx`           | ✅   |
+| Input          | `input.tsx`          | ✅   |
+| Textarea       | `textarea.tsx`       | ✅   |
+| Label          | `label.tsx`          | ✅   |
+| Checkbox       | `checkbox.tsx`       | ✅   |
+| Radio Group    | `radio-group.tsx`    | ✅   |
+| Switch         | `switch.tsx`         | ✅   |
+| Slider         | `slider.tsx`         | ✅   |
+| Select         | `select.tsx`         | ✅   |
+| Badge          | `badge.tsx`          | ✅   |
+| Avatar         | `avatar.tsx`         | ✅   |
+| Progress       | `progress.tsx`       | ✅   |
+| Skeleton       | `skeleton.tsx`       | ✅   |
+| Separator      | `separator.tsx`      | ✅   |
+| Alert          | `alert.tsx`          | ✅   |
+| Tooltip        | `tooltip.tsx`        | ✅   |
+| Popover        | `popover.tsx`        | ✅   |
+| Dropdown Menu  | `dropdown-menu.tsx`  | ✅   |
+| Dialog         | `dialog.tsx`         | ✅   |
+| Alert Dialog   | `alert-dialog.tsx`   | ✅   |
+| Sheet          | `sheet.tsx`          | ✅   |
+| Tabs           | `tabs.tsx`           | ✅   |
+| Accordion      | `accordion.tsx`      | ✅   |
+| Scroll Area    | `scroll-area.tsx`    | ✅   |
+| Sonner (Toast) | `sonner.tsx`         | ✅   |
+| Error Boundary | `error-boundary.tsx` | ✅   |
 
-/* 组件选择项 */
-.component-item {
-  @apply flex items-center gap-4 p-4 bg-background rounded-xl cursor-pointer transition-all duration-200 hover:bg-surface-tertiary;
-}
+### 复合组件 (L2)
 
-/* 标签 */
-.tag {
-  @apply px-3 py-1 rounded-full text-xs font-medium;
-}
+| 组件             | 文件                  | 状态                |
+| ---------------- | --------------------- | ------------------- |
+| Modal            | `Modal.tsx`           | ✅ 基于 Dialog 封装 |
+| Loading Screen   | `LoadingScreen.tsx`   | ✅                  |
+| Async Boundary   | `AsyncBoundary.tsx`   | ✅                  |
+| Theme Toggle     | `ThemeToggle.tsx`     | ✅                  |
+| Onboarding Guide | `OnboardingGuide.tsx` | ✅                  |
+| Support Modal    | `SupportModal.tsx`    | ✅                  |
 
-.tag-primary {
-  @apply bg-primary/10 text-primary;
-}
+### 业务组件 (L3)
 
-.tag-secondary {
-  @apply bg-accent/10 text-accent;
-}
-```
-
-### 按钮 (Button)
-
-#### 变体
-
-```tsx
-<Button variant="primary">主要操作</Button>
-<Button variant="secondary">次要操作</Button>
-<Button variant="accent">强调操作</Button>
-<Button variant="outline">轮廓按钮</Button>
-<Button variant="ghost">轻量操作</Button>
-<Button variant="danger">危险操作</Button>
-```
-
-#### 尺寸
-
-```tsx
-<Button size="sm">小按钮</Button>     // px-4 py-2 min-h-[40px]
-<Button size="md">默认按钮</Button>   // px-6 py-2.5 min-h-[44px]
-<Button size="lg">大按钮</Button>     // px-8 py-3.5 min-h-[52px]
-<Button size="icon">图标按钮</Button> // p-2.5 min-w-[44px] min-h-[44px]
-```
-
-**样式特征**：
-
-- 圆角：`rounded-full`（胶囊形状）
-- 字体：`font-medium`
-- 动画：悬停缩放 `scale: 1.01`，点击缩放 `scale: 0.98`
-- 过渡：`duration-150`
-- 焦点：`focus:ring-2 focus:ring-primary/50`
-
-### 卡片 (Card)
-
-```tsx
-<Card variant="default" hoverable>
-  <CardHeader>标题</CardHeader>
-  <CardBody>内容</CardBody>
-  <CardFooter>操作区</CardFooter>
-</Card>
-```
-
-#### 变体
-
-```tsx
-<Card variant="default">默认卡片</Card>
-<Card variant="elevated">高阴影卡片</Card>
-<Card variant="outlined">轮廓卡片</Card>
-```
-
-**样式特征**：
-
-- 圆角：`rounded-2xl`
-- 内边距：`p-6`
-- 动画：悬停时 `y: -4`
-
-### 模态框 (Modal)
-
-```tsx
-<Modal isOpen={isOpen} onClose={onClose} title="标题" size="md">
-  模态框内容
-</Modal>
-```
-
-**样式特征**：
-
-- 遮罩：`fixed inset-0 bg-black/50 backdrop-blur-sm`
-- 内容：`bg-background rounded-2xl shadow-2xl`
-- 动画：`scaleIn` + `fadeIn`
+| 组件                 | 目录            | 状态 |
+| -------------------- | --------------- | ---- |
+| BikeTypeSelector     | `configurator/` | ✅   |
+| BuildList            | `configurator/` | ✅   |
+| ComponentSelector    | `configurator/` | ✅   |
+| ComponentDetailModal | `configurator/` | ✅   |
+| SummaryPanel         | `configurator/` | ✅   |
+| CostBreakdownChart   | `configurator/` | ✅   |
+| ComparePanel         | `configurator/` | ✅   |
+| RecommendedConfigs   | `configurator/` | ✅   |
+| ShareModal           | `configurator/` | ✅   |
 
 ---
 
-## 布局规范
+## 响应式断点
 
-### 网格系统
+### 断点定义
 
-```css
-.grid-cols-1    /* 单列（移动）*/
-.grid-cols-2    /* 双列（平板）*/
-.grid-cols-3    /* 三列（桌面）*/
-.grid-cols-4    /* 四列（大桌面）*/
-```
+| Token | 宽度   | 布局策略             |
+| ----- | ------ | -------------------- |
+| `sm`  | 640px  | 移动端横屏、大屏手机 |
+| `md`  | 768px  | 平板竖屏             |
+| `lg`  | 1024px | 平板横屏、小屏桌面   |
+| `xl`  | 1280px | 桌面                 |
+| `2xl` | 1536px | 大屏桌面             |
 
-### 响应式断点
+### 响应式策略
 
-```css
-@media (min-width: 640px) {
-  /* sm */
-}
-@media (min-width: 768px) {
-  /* md */
-}
-@media (min-width: 1024px) {
-  /* lg */
-}
-@media (min-width: 1280px) {
-  /* xl */
-}
-```
+| 断点           | 布局 | 导航     | 卡片网格 |
+| -------------- | ---- | -------- | -------- |
+| < 640px        | 单列 | 汉堡菜单 | 1 列     |
+| 640px - 768px  | 双列 | 展开导航 | 2 列     |
+| 768px - 1024px | 三列 | 完整导航 | 2-3 列   |
+| > 1024px       | 四列 | 完整导航 | 3-4 列   |
 
 ---
 
@@ -583,29 +481,92 @@ const spring = {
 
 ---
 
+## 实施指南
+
+### Tailwind CSS 配置
+
+设计系统通过 `tailwind.config.ts` 配置，与 CSS 变量完全集成：
+
+```typescript
+// tailwind.config.ts
+const config: Config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Satoshi', 'system-ui', 'sans-serif'],
+        display: ['Clash Display', 'system-ui', 'sans-serif'],
+      },
+      colors: {
+        // 通过 CSS 变量引用
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        primary: 'var(--primary)',
+        // ...
+      },
+      borderRadius: {
+        sm: '8px',
+        md: '12px',
+        lg: '16px',
+        xl: '20px',
+        '2xl': '24px',
+        full: '9999px',
+      },
+    },
+  },
+};
+```
+
+### shadcn/ui 组件库
+
+所有 UI 组件基于 shadcn/ui + @base-ui/react 实现，配置见 `components.json`：
+
+```json
+{
+  "style": "base-nova",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.ts",
+    "css": "src/app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui"
+  }
+}
+```
+
+---
+
 ## 相关文档
 
-- [原型图说明](../prototype-guide.md)
+- [组件库规范](../architecture/component-design.md)
+- [交互标准](../../prototype/interaction-standards.md)
 - [设计审查与优化建议](./design-review.md)
-- [组件设计规范](../architecture/component-design.md)
 - [编码规范](../development/coding-standards.md)
+- [原型指南](../../prototype/README.md)
 
 ---
 
 ## 版本历史
 
-| 版本       | 日期       | 变更内容                                                                                                                            |
-| ---------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **v3.8.0** | 2026-06-17 | 设计系统全面升级：引入 gradient 渐变色、Shimmer 动画效果、完善组件库规范文档、新增交互标准文档、同步 prototype 与 openspec 设计规范 |
-| **v3.5.0** | 2026-06-03 | 架构重构：store 拆分模块化、Zod 配置验证、Firebase 安全规则、多语言 i18n 类型安全                                                   |
-| **v2.1.0** | 2026-06-08 | 参考 Apple 设计风格全面优化：更新 Hero 组件大图展示、Features 卡片布局、Pricing 定价卡片、Cta 行动号召、Navbar 和 Footer 导航组件   |
-| v2.0.0     | 2026-06-04 | 全面更新为 Apple 设计风格：主色调改为 #0071e3，字体改为 SF Pro，优化圆角和阴影系统                                                  |
-| v1.3.0     | 2026-06-04 | 更新 Button、Card、Footer 组件文档                                                                                                  |
-| v1.2.0     | 2026-06-04 | 更新主题系统实现细节                                                                                                                |
-| v1.0.0     | 2026-06-01 | 初始版本                                                                                                                            |
+| 版本       | 日期       | 变更内容                                                                             |
+| ---------- | ---------- | ------------------------------------------------------------------------------------ |
+| **v4.2.0** | 2026-07-10 | 与 shadcn/ui 组件库完全对齐、更新组件清单、同步 CSS 变量规范、完善可访问性和动画系统 |
+| **v4.0.0** | 2026-07-05 | 极简主义重构、色彩克制、统一圆角、微妙阴影                                           |
+| v3.8.0     | 2026-06-17 | 设计系统全面升级：引入 gradient 渐变色、Shimmer 动画效果、完善组件库规范文档         |
+| v3.5.0     | 2026-06-03 | 架构重构：store 拆分模块化、Zod 配置验证、Firebase 安全规则                          |
+| v2.1.0     | 2026-06-08 | 参考 Apple 设计风格全面优化                                                          |
+| v2.0.0     | 2026-06-04 | 全面更新为 Apple 设计风格                                                            |
+| v1.0.0     | 2026-06-01 | 初始版本                                                                             |
 
 ---
 
 **文档路径**: `/openspec/design/ui-design-system.md`  
-**最后更新**: 2026-06-17  
-**版本**: v3.8.0
+**最后更新**: 2026-07-10  
+**版本**: v4.2.0

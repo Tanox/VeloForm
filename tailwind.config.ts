@@ -8,109 +8,119 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    container: {
+      center: true,
+      padding: '1.5rem',
+      screens: {
+        '2xl': '1200px',
+      },
+    },
     extend: {
       fontFamily: {
-        sans: ['Satoshi', 'system-ui', 'sans-serif'],
-        display: ['Clash Display', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-sans)', 'system-ui', 'sans-serif'],
       },
       colors: {
-        background: {
-          DEFAULT: '#ffffff',
-          dark: '#000000',
-          light: '#ffffff',
-        },
-        foreground: {
-          DEFAULT: '#1d1d1f',
-          dark: '#ffffff',
-          light: '#1d1d1f',
-        },
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
         primary: {
-          50: '#f0f7ff',
-          100: '#e0ebff',
-          500: '#0071e3',
-          600: '#0077ed',
-          DEFAULT: '#0071e3',
-        },
-        surface: {
-          DEFAULT: '#fafafa',
-          dark: '#1d1d1f',
-          light: '#fafafa',
-        },
-        border: {
-          DEFAULT: '#d2d2d7',
-          dark: '#3a3a3c',
-          light: '#d2d2d7',
-        },
-        muted: {
-          DEFAULT: '#6e6e73',
-          dark: '#6e6e73',
-          light: '#6e6e73',
-        },
-        accent: {
-          DEFAULT: '#34c759',
-          dark: '#30d158',
-          light: '#34c759',
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
-          DEFAULT: '#86868b',
-          dark: '#86868b',
-          light: '#86868b',
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
         },
-        success: '#34c759',
-        warning: '#ff9500',
-        error: '#ff3b30',
-        info: '#0071e3',
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
+        /* Veloform 扩展 - 语义色 */
+        success: {
+          DEFAULT: 'var(--success)',
+        },
+        warning: {
+          DEFAULT: 'var(--warning)',
+        },
+        error: {
+          DEFAULT: 'var(--error)',
+        },
+        info: {
+          DEFAULT: 'var(--info)',
+        },
+        /* Veloform 扩展 - 表面色层级 */
+        surface: {
+          DEFAULT: 'var(--surface)',
+          secondary: 'var(--surface-secondary)',
+          tertiary: 'var(--surface-tertiary)',
+        },
+        /* Veloform 扩展 - 文本层级 */
+        'foreground-secondary': 'var(--foreground-secondary)',
+        'foreground-tertiary': 'var(--foreground-tertiary)',
+        /* Veloform 扩展 - 边框层级 */
+        'border-light': 'var(--border-light)',
       },
-      animation: {
-        'fade-in': 'fadeIn 0.3s ease-out',
-        'fade-in-up': 'fadeInUp 0.8s ease-out',
-        'slide-up': 'slideUp 0.4s ease-out',
-        'slide-in-right': 'slideInRight 0.4s ease-out',
-        'scale-in': 'scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-        'bounce-in': 'bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-        shimmer: 'shimmer 2s linear infinite',
-        'gradient-move': 'gradientMove 3s linear infinite',
-        pulse: 'pulse 1s ease-in-out infinite',
-        'pulse-slow': 'pulseSlow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        float: 'float 6s ease-in-out infinite',
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 4px)',
+        sm: 'calc(var(--radius) - 8px)',
+        /* Veloform 扩展 */
+        xl: '20px',
+        '2xl': '24px',
       },
       keyframes: {
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+        /* Veloform 扩展动画 */
         fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
+          from: { opacity: '0' },
+          to: { opacity: '1' },
         },
         fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(30px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
+          from: { opacity: '0', transform: 'translateY(30px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
         },
         slideUp: {
-          '0%': { opacity: '0', transform: 'translateY(10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
+          from: { opacity: '0', transform: 'translateY(10px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
         },
         slideInRight: {
-          '0%': { opacity: '0', transform: 'translateX(40px)' },
-          '100%': { opacity: '1', transform: 'translateX(0)' },
+          from: { opacity: '0', transform: 'translateX(40px)' },
+          to: { opacity: '1', transform: 'translateX(0)' },
         },
         scaleIn: {
-          '0%': { opacity: '0', transform: 'scale(0.95)' },
-          '100%': { opacity: '1', transform: 'scale(1)' },
-        },
-        bounceIn: {
-          '0%': { opacity: '0', transform: 'scale(0.3)' },
-          '50%': { transform: 'scale(1.05)' },
-          '100%': { opacity: '1', transform: 'scale(1)' },
+          from: { opacity: '0', transform: 'scale(0.95)' },
+          to: { opacity: '1', transform: 'scale(1)' },
         },
         shimmer: {
           '0%': { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },
-        },
-        gradientMove: {
-          '0%': { backgroundPosition: '0% 50%' },
-          '100%': { backgroundPosition: '200% 50%' },
-        },
-        pulse: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.5' },
         },
         pulseSlow: {
           '0%, 100%': { opacity: '1' },
@@ -121,8 +131,28 @@ const config: Config = {
           '50%': { transform: 'translateY(-10px)' },
         },
       },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
+        /* Veloform 扩展 */
+        'fade-in': 'fadeIn 0.3s ease-out',
+        'fade-in-up': 'fadeInUp 0.8s ease-out',
+        'slide-up': 'slideUp 0.4s ease-out',
+        'slide-in-right': 'slideInRight 0.4s ease-out',
+        'scale-in': 'scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        shimmer: 'shimmer 2s linear infinite',
+        'pulse-slow': 'pulseSlow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        float: 'float 6s ease-in-out infinite',
+      },
       spacing: {
         '88': '22rem',
+      },
+      boxShadow: {
+        /* Veloform 扩展阴影 */
+        'sm-veloform': 'var(--shadow-sm)',
+        'md-veloform': 'var(--shadow)',
+        'lg-veloform': 'var(--shadow-md)',
+        'xl-veloform': 'var(--shadow-lg)',
       },
     },
   },

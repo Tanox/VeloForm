@@ -3,68 +3,91 @@
 @tailwind utilities;
 
 /* ================================
- * Veloform Design System v4.0.0
- * 极简主义 · 国际顶尖水准
+ * Veloform Design System v4.2.0
+ * 极简主义 · Apple 风格 · 国际顶尖水准
  * 全局样式与 CSS 变量
+ * 与 shadcn/ui 完全对齐
  * ================================ */
 
-/* 字体加载策略 - 优化 LCP */
 @layer base {
-  /* -- 根变量与主题 -- */
   :root {
     /* ===========================
-     * v4.0.0 极简设计系统 - CSS Variables
+     * shadcn/ui 标准变量 (base-nova)
+     * 与 Veloform 设计系统对齐
+     * 使用 HSL 格式以兼容 shadcn/ui
      * =========================== */
 
-    /* 色彩系统 - 极简克制 */
-    --background: #fafafa;
-    --foreground: #1d1d1f;
+    /* 背景与前景 */
+    --background: 0 0% 98%;
+    --foreground: 240 5% 12%;
 
-    /* 主色调 */
-    --primary: #0071e3;
-    --primary-hover: #0066cc;
-    --primary-light: #e8f0fe;
-    --primary-foreground: #ffffff;
+    /* 卡片 */
+    --card: 0 0% 100%;
+    --card-foreground: 240 5% 12%;
 
-    /* 语义色 */
-    --success: #34c759;
-    --warning: #ff9500;
-    --error: #ff3b30;
+    /* 弹出层 */
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 5% 12%;
+
+    /* 主色调 - Apple Blue */
+    --primary: 210 100% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    /* 次要色 */
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 5% 12%;
+
+    /* 柔和色 */
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 3% 45%;
+
+    /* 强调色 */
+    --accent: 240 5% 96%;
+    --accent-foreground: 240 5% 12%;
+
+    /* 破坏性操作 */
+    --destructive: 4 100% 59%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* 边框 */
+    --border: 240 6% 90%;
+
+    /* 输入框 */
+    --input: 240 6% 90%;
+
+    /* 焦点环 */
+    --ring: 210 100% 45%;
+
+    /* 圆角 */
+    --radius: 12px;
+
+    /* ===========================
+     * Veloform 扩展变量
+     * =========================== */
+
+    /* 表面色层级 */
+    --surface: #ffffff;
+    --surface-secondary: #f5f5f7;
+    --surface-tertiary: #ebebeb;
 
     /* 文本层级 */
     --foreground-secondary: #6e6e73;
     --foreground-tertiary: #aeaeb2;
 
-    /* 表面色 */
-    --surface: #ffffff;
-    --surface-secondary: #f5f5f7;
-    --surface-tertiary: #ebebeb;
-
-    /* 边框 */
-    --border: #e5e5ea;
+    /* 边框层级 */
     --border-light: #f0f0f0;
+
+    /* 语义色 */
+    --success: #34c759;
+    --warning: #ff9500;
+    --error: #ff3b30;
+    --info: #0071e3;
 
     /* 阴影系统 - 克制微妙 */
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
-
-    /* 圆角系统 */
-    --radius-sm: 8px;
-    --radius: 12px;
-    --radius-md: 16px;
-    --radius-lg: 20px;
-    --radius-xl: 24px;
-    --radius-full: 9999px;
-
-    /* 字体设置 - 保留 Satoshi（类 SF Pro） */
-    --font-sans:
-      'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei',
-      sans-serif;
-    --font-display:
-      'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
-      'Microsoft YaHei', sans-serif;
 
     /* 动画系统 - ≤300ms */
     --duration-fast: 150ms;
@@ -74,17 +97,64 @@
     --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-    /* 间距系统 - 4px 网格 */
-    --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-    --space-5: 20px;
-    --space-6: 24px;
-    --space-8: 32px;
-    --space-10: 40px;
-    --space-12: 48px;
-    --space-16: 64px;
+    /* 字体设置 - Satoshi（类 SF Pro） */
+    --font-sans:
+      'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei',
+      sans-serif;
+    --font-display:
+      'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+      'Microsoft YaHei', sans-serif;
+  }
+
+  /* 深色模式 */
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 210 100% 58%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 240 3% 18%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 240 3% 18%;
+    --muted-foreground: 240 3% 65%;
+
+    --accent: 240 3% 18%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 4 100% 61%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 3% 22%;
+    --input: 240 3% 22%;
+    --ring: 210 100% 58%;
+
+    /* Veloform 扩展 - 深色模式 */
+    --surface: #1a1a1a;
+    --surface-secondary: #2c2c2e;
+    --surface-tertiary: #3a3a3c;
+
+    --foreground-secondary: #a1a1a6;
+    --foreground-tertiary: #636366;
+
+    --border-light: #2c2c2e;
+
+    --success: #30d158;
+    --warning: #ff9f0a;
+    --error: #ff453a;
+    --info: #2997ff;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
   }
 
   /* -- 基础元素样式 -- */
@@ -131,18 +201,16 @@
   ::-webkit-scrollbar-thumb {
     background-color: var(--border-light);
     border-radius: 4px;
-    transition: background-color var(--duration-fast) var(--ease-standard);
+    transition: background-color var(--duration-fast) var(--ease-out);
   }
 
   ::-webkit-scrollbar-thumb:hover {
     background-color: var(--border);
   }
 
-  /* 聚焦轮廓 */
+  /* 聚焦轮廓 - 使用 shadcn/ui ring */
   :focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 2px;
-    border-radius: 6px;
+    outline: none;
   }
 }
 
@@ -151,48 +219,14 @@
  * ================================ */
 @layer components {
   /* -- 核心工具类 -- */
-  /* 渐变品牌文字 - 关键样式 */
+
+  /* 渐变品牌文字 - 关键样式（限制使用） */
   .text-gradient-brand {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 50%, #af52de 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--success) 50%, #af52de 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     color: transparent;
-  }
-
-  /* 渐变文字 - 悬停态 */
-  .group-hover\:text-gradient {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
-  }
-
-  /* 渐变背景按钮 */
-  .btn-gradient {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-    color: var(--primary-foreground);
-    box-shadow: var(--shadow-glow);
-    transition:
-      transform var(--duration-normal) var(--ease-standard),
-      box-shadow var(--duration-normal) var(--ease-standard),
-      opacity var(--duration-fast) var(--ease-standard);
-  }
-
-  .btn-gradient:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(0, 113, 227, 0.32);
-  }
-
-  .btn-gradient:active:not(:disabled) {
-    transform: translateY(0);
-  }
-
-  .btn-gradient:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    box-shadow: none;
   }
 
   /* 玻璃态效果 */
@@ -200,6 +234,10 @@
     background-color: rgba(255, 255, 255, 0.7);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
+  }
+
+  .dark .glass {
+    background-color: rgba(0, 0, 0, 0.7);
   }
 
   /* 触摸目标尺寸 - A11y */
@@ -235,12 +273,6 @@
 
   .slide-up {
     animation: slideUp var(--duration-slow) var(--ease-out);
-  }
-
-  /* -- 视觉工具类 -- */
-  /* 图片加载错误 */
-  img[data-error='true'] {
-    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23f5f5f7" width="100" height="100"/><circle cx="50" cy="40" r="20" fill="%23e5e5ea"/><rect x="30" y="70" width="40" height="20" rx="4" fill="%23e5e5ea"/></svg>');
   }
 }
 
@@ -316,19 +348,6 @@
   }
 }
 
-/* 粒子动画 */
-@keyframes particle-float {
-  0%,
-  100% {
-    opacity: 0.3;
-    transform: translateY(0) translateX(0);
-  }
-  50% {
-    opacity: 0.8;
-    transform: translateY(-30px) translateX(15px);
-  }
-}
-
 /* 旋转动画 */
 @keyframes spin-slow {
   from {
@@ -343,7 +362,6 @@
  * Tailwind 扩展样式支持
  * ================================ */
 
-/* 动画类 - 可在 Tailwind 中使用 */
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
@@ -358,10 +376,6 @@
 
 .animate-spin-slow {
   animation: spin-slow 20s linear infinite;
-}
-
-.animate-particle-float {
-  animation: particle-float 8s ease-in-out infinite;
 }
 
 /* 延迟变量 */
@@ -407,43 +421,6 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* ================================
- * 深色模式支持（可选）
- * ================================ */
-@media (prefers-color-scheme: dark) {
-  /* 深色模式变量 */
-  /* -- 项目当前使用浅色主题 -- */
-  /* 如需深色模式，在此定义变量覆盖 */
-}
-
-/* ================================
- * 实验性样式（beta）
- * ================================ */
-
-/* 渐变边框 - 使用 background-clip 技巧 */
-.gradient-border {
-  position: relative;
-  background:
-    linear-gradient(var(--background), var(--background)) padding-box,
-    linear-gradient(135deg, var(--primary), var(--accent)) border-box;
-  border: 2px solid transparent;
-}
-
-/* 文字阴影 - 用于浅色背景上的文字 */
-.text-shadow-sm {
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-/* 背景渐变 */
-.bg-gradient-apple {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-}
-
-/* 背景尺寸调整 - 配合渐变动画 */
-.bg-size-200 {
-  background-size: 200% 200%;
 }
 
 /* ================================
