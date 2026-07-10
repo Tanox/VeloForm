@@ -1,6 +1,7 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useClientReducedMotion } from '@/lib/hooks/use-client-reduced-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
@@ -8,7 +9,7 @@ import { ANIMATION_DURATION, ANIMATION_DELAY_STEP } from '@/lib/animation';
 
 export function Cta() {
   const t = useTranslation();
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useClientReducedMotion();
 
   const getTransition = (delay: number = 0) => ({
     duration: shouldReduceMotion ? 0 : ANIMATION_DURATION,

@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useClientReducedMotion } from '@/lib/hooks/use-client-reduced-motion';
 import { Check, Sparkles, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
@@ -34,7 +35,7 @@ const plans = [
 export function Pricing() {
   const [isYearly, setIsYearly] = useState(true);
   const t = useTranslation();
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useClientReducedMotion();
 
   const getTransition = (delay: number = 0) => ({
     duration: shouldReduceMotion ? 0 : ANIMATION_DURATION,

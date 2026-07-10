@@ -1,6 +1,7 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useClientReducedMotion } from '@/lib/hooks/use-client-reduced-motion';
 import {
   Bike,
   Award,
@@ -22,7 +23,7 @@ import { uiLogger } from '@/lib/logger';
 
 export default function AboutPage() {
   const t = useTranslation();
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useClientReducedMotion();
 
   const handleNavigate = (page: string) => {
     uiLogger.debug('Navigate to:', page);

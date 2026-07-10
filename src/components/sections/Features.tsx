@@ -1,6 +1,7 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useClientReducedMotion } from '@/lib/hooks/use-client-reduced-motion';
 import { Layers, Zap, Shield, Palette, Code, Cloud, ArrowRight } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 
@@ -42,7 +43,7 @@ const features = [
 
 export function Features() {
   const t = useTranslation();
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useClientReducedMotion();
 
   const getTransition = (delay: number = 0) => ({
     duration: shouldReduceMotion ? 0 : ANIMATION_DURATION,

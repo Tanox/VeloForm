@@ -1,6 +1,7 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useClientReducedMotion } from '@/lib/hooks/use-client-reduced-motion';
 import Image from 'next/image';
 import { ArrowRight, Play, Sparkles, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -15,7 +16,7 @@ interface HeroProps {
 
 export function Hero({ onNavigate }: HeroProps) {
   const t = useTranslation();
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useClientReducedMotion();
 
   const getInitial = (props: Record<string, number>) =>
     shouldReduceMotion ? { opacity: 1, y: 0, scale: 1, ...props } : props;

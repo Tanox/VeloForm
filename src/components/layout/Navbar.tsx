@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useClientReducedMotion } from '@/lib/hooks/use-client-reduced-motion';
 import { Menu, X, User, Moon, Sun, Bike, HelpCircle, Globe } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
@@ -26,7 +27,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
   const t = useTranslation();
   const language = useLanguage();
   const setLanguage = useSetLanguage();
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useClientReducedMotion();
 
   const handleNavigate = useCallback(
     (target: string) => {
