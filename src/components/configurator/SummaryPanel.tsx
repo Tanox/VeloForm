@@ -15,19 +15,7 @@ import { saveConfiguration as saveConfig } from '@/lib/config-service';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
-import { motion } from 'framer-motion';
-import {
-  Save,
-  RefreshCw,
-  Loader2,
-  TrendingUp,
-  Scale,
-  Share2,
-  Zap,
-  Bike,
-  User,
-  Sparkles,
-} from 'lucide-react';
+import { Save, RefreshCw, Loader2, TrendingUp, Scale, Share2, Zap, Bike, User } from 'lucide-react';
 import { ShareModal } from './ShareModal';
 import { CostBreakdownChart } from './CostBreakdownChart';
 
@@ -60,198 +48,134 @@ export function SummaryPanel() {
   const BikeIcon = getBikeTypeIcon(activeType);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 30 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-    >
-      <Card className="sticky top-24 overflow-hidden bg-gradient-to-br from-primary/5 to-accent/5">
-        {/* 装饰背景 */}
-        <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-radial from-primary/20 to-transparent rounded-bl-full" />
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-radial from-accent/10 to-transparent rounded-tr-full" />
-
-        <div className="relative space-y-5 sm:space-y-6 p-5 sm:p-6">
-          {/* 标题区 */}
-          <div className="flex items-start justify-between">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <Sparkles className="w-4 h-4 text-primary" aria-hidden="true" />
-                <span className="text-xs font-medium text-primary uppercase tracking-wider">
-                  当前配置
-                </span>
+    <>
+      <Card className="sticky top-24">
+        <div className="space-y-5 p-5">
+          <div>
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+              当前配置
+            </p>
+            <p className="text-xl font-semibold text-foreground">
+              {manualConfigName || `${activeType} Build`}
+            </p>
+            <div className="flex items-center gap-2 mt-2">
+              <div className="p-1.5 bg-muted rounded-md" aria-hidden="true">
+                <BikeIcon className="w-4 h-4 text-muted-foreground" />
               </div>
-              <p className="text-xl sm:text-2xl font-display font-bold text-foreground">
-                {manualConfigName || `${activeType} Build`}
-              </p>
-              <div className="flex items-center gap-2 mt-2">
-                <div
-                  className="p-1.5 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg"
-                  aria-hidden="true"
-                >
-                  <BikeIcon className="w-4 h-4 text-primary" />
-                </div>
-                <span className="text-xs text-muted uppercase tracking-wider">
-                  {t(`bikeTypes.${activeType.toLowerCase()}`) || activeType}
-                </span>
-              </div>
+              <span className="text-xs text-muted-foreground uppercase tracking-wider">
+                {t(`bikeTypes.${activeType.toLowerCase()}`) || activeType}
+              </span>
             </div>
           </div>
 
-          {/* 统计卡片 */}
-          <div className="grid grid-cols-2 gap-3 sm:gap-4" role="list">
-            <motion.div
-              role="listitem"
-              className="relative bg-surface-tertiary/50 backdrop-blur-sm border border-border-light rounded-2xl p-4 sm:p-5 overflow-hidden"
-              whileHover={{ scale: 1.02, y: -2 }}
-              transition={{ duration: 0.2 }}
-            >
-              {/* 顶部装饰线 */}
-              <div
-                className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-transparent"
-                aria-hidden="true"
-              />
-
+          <div className="grid grid-cols-2 gap-3" role="list">
+            <div role="listitem" className="bg-muted/50 border border-border rounded-lg p-4">
               <div className="flex items-center gap-2 mb-3">
-                <div className="p-1.5 bg-primary/20 rounded-lg" aria-hidden="true">
-                  <TrendingUp className="w-4 h-4 text-primary" />
+                <div className="p-1.5 bg-background rounded-md" aria-hidden="true">
+                  <TrendingUp className="w-4 h-4 text-muted-foreground" />
                 </div>
-                <p className="text-xs text-muted/80 uppercase tracking-wide font-medium">
+                <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
                   {t('configurator.totalCost')}
                 </p>
               </div>
-              <motion.p
-                key={totalCost}
-                initial={{ scale: 1 }}
-                animate={{ scale: [1, 1.05, 1] }}
-                transition={{ duration: 0.3 }}
-                className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent"
+              <p
+                className="text-2xl font-semibold text-foreground"
                 aria-label={`总价: ${formatCurrency(totalCost)}`}
               >
                 {formatCurrency(totalCost)}
-              </motion.p>
-            </motion.div>
+              </p>
+            </div>
 
-            <motion.div
-              role="listitem"
-              className="relative bg-surface-tertiary/50 backdrop-blur-sm border border-border-light rounded-2xl p-4 sm:p-5 overflow-hidden"
-              whileHover={{ scale: 1.02, y: -2 }}
-              transition={{ duration: 0.2 }}
-            >
-              {/* 顶部装饰线 */}
-              <div
-                className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent to-transparent"
-                aria-hidden="true"
-              />
-
+            <div role="listitem" className="bg-muted/50 border border-border rounded-lg p-4">
               <div className="flex items-center gap-2 mb-3">
-                <div className="p-1.5 bg-accent/20 rounded-lg" aria-hidden="true">
-                  <Scale className="w-4 h-4 text-accent" />
+                <div className="p-1.5 bg-background rounded-md" aria-hidden="true">
+                  <Scale className="w-4 h-4 text-muted-foreground" />
                 </div>
-                <p className="text-xs text-muted/80 uppercase tracking-wide font-medium">
+                <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
                   {t('configurator.estimatedWeight')}
                 </p>
               </div>
-              <motion.p
-                key={totalWeight}
-                initial={{ scale: 1 }}
-                animate={{ scale: [1, 1.05, 1] }}
-                transition={{ duration: 0.3 }}
-                className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent"
+              <p
+                className="text-2xl font-semibold text-foreground"
                 aria-label={`总重量: ${formatWeight(totalWeight)}`}
               >
                 {formatWeight(totalWeight)}
-              </motion.p>
-            </motion.div>
-          </div>
-
-          {/* 成本分解图表 */}
-          <CostBreakdownChart />
-
-          {/* 操作按钮 */}
-          <div className="space-y-3 pt-2">
-            {/* 保存按钮 - 使用 gradient 变体 */}
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button
-                variant="gradient"
-                size="lg"
-                className="w-full min-h-[48px] rounded-xl"
-                onClick={handleSave}
-                disabled={isSaving}
-                aria-label={isSaving ? '保存配置中' : '保存配置'}
-                aria-busy={isSaving}
-              >
-                {isSaving ? (
-                  <>
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" aria-hidden="true" />
-                    保存中...
-                  </>
-                ) : (
-                  <>
-                    <Save className="w-5 h-5 mr-2" aria-hidden="true" />
-                    保存配置
-                  </>
-                )}
-              </Button>
-            </motion.div>
-
-            {/* 次要操作 */}
-            <div className="grid grid-cols-2 gap-3">
-              <motion.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-full min-h-[48px] rounded-xl"
-                  onClick={() => setShowShareModal(true)}
-                  aria-label="分享配置"
-                >
-                  <Share2 className="w-4 h-4 mr-2" aria-hidden="true" />
-                  分享
-                </Button>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-full min-h-[48px] rounded-xl"
-                  onClick={resetToDefaults}
-                  aria-label="重置为默认配置"
-                >
-                  <RefreshCw className="w-4 h-4 mr-2" aria-hidden="true" />
-                  重置
-                </Button>
-              </motion.div>
+              </p>
             </div>
           </div>
 
-          {/* 登录提示 */}
-          {!isLoggedIn && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-4 bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl"
+          <CostBreakdownChart />
+
+          <div className="space-y-3 pt-2">
+            <Button
+              size="lg"
+              className="w-full"
+              onClick={handleSave}
+              disabled={isSaving}
+              aria-label={isSaving ? '保存配置中' : '保存配置'}
+              aria-busy={isSaving}
             >
+              {isSaving ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" />
+                  保存中...
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4 mr-2" aria-hidden="true" />
+                  保存配置
+                </>
+              )}
+            </Button>
+
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full"
+                onClick={() => setShowShareModal(true)}
+                aria-label="分享配置"
+              >
+                <Share2 className="w-4 h-4 mr-2" aria-hidden="true" />
+                分享
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full"
+                onClick={resetToDefaults}
+                aria-label="重置为默认配置"
+              >
+                <RefreshCw className="w-4 h-4 mr-2" aria-hidden="true" />
+                重置
+              </Button>
+            </div>
+          </div>
+
+          {!isLoggedIn && (
+            <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg dark:bg-amber-950/30 dark:border-amber-800/30">
               <div className="flex items-start gap-3">
                 <div
-                  className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0"
+                  className="w-8 h-8 rounded-md bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center flex-shrink-0"
                   aria-hidden="true"
                 >
-                  <User className="w-5 h-5 text-amber-500" aria-hidden="true" />
+                  <User className="w-4 h-4 text-amber-600 dark:text-amber-400" aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-amber-500">
+                  <p className="text-sm font-medium text-amber-800 dark:text-amber-300">
                     {t('configurator.loginToSave')}
                   </p>
-                  <p className="text-xs text-muted mt-1 leading-relaxed">
+                  <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
                     {t('configurator.loginToSaveHint')}
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           )}
         </div>
       </Card>
 
       <ShareModal isOpen={showShareModal} onClose={() => setShowShareModal(false)} />
-    </motion.div>
+    </>
   );
 }

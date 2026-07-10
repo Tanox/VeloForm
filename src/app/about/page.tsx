@@ -232,7 +232,7 @@ export default function AboutPage() {
               transition={getTransition(ANIMATION_DELAY_STEP * 2)}
               className="text-center"
             >
-              <Button variant="gradient" size="lg" className="rounded-2xl">
+              <Button size="lg">
                 {t('about.contact.sendMessage')}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
