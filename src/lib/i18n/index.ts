@@ -279,6 +279,7 @@ const translations: Record<string, Translations> = {
 // ---------------------------------------------------------------------------
 
 import { create } from 'zustand';
+import type { StateCreator } from 'zustand';
 import { useCallback } from 'react';
 
 type Language = keyof typeof translations;
@@ -306,7 +307,7 @@ function getNestedValue(obj: unknown, path: string): string | readonly string[] 
   return path;
 }
 
-export const useI18nStore = create<I18nStore>((set, get) => ({
+const i18nStoreCreator: StateCreator<I18nStore> = (set, get) => ({
   language: 'en',
   setLanguage: (lang: Language) => set({ language: lang }),
   t: (key: string, params?: Record<string, string | number>) => {
@@ -322,7 +323,9 @@ export const useI18nStore = create<I18nStore>((set, get) => ({
 
     return translation;
   },
-}));
+});
+
+export const useI18nStore = create<I18nStore>()(i18nStoreCreator);
 
 export function useTranslation() {
   const t = useI18nStore((state) => state.t);

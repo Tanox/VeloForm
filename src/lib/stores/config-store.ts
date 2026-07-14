@@ -2,6 +2,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import type { StateCreator } from 'zustand';
 import { BikeType, ConfigComponent } from '@/types';
 import { getDefaultsForType, APP_CONSTANTS } from '@/lib/constants';
 
@@ -29,63 +30,62 @@ export interface ConfigStoreActions {
 
 export type ConfigStore = ConfigStoreState & ConfigStoreActions;
 
-export const useConfigStore = create<ConfigStore>()(
-  persist(
-    (set, get) => ({
-      activeType: 'Road',
-      components: getDefaultsForType('Road'),
+const configStoreCreator: StateCreator<ConfigStore> = (set, get) => ({
+  activeType: 'Road',
+  components: getDefaultsForType('Road'),
+  configId: null,
+  manualConfigName: null,
+
+  setActiveType: (type: BikeType) =>
+    set({
+      activeType: type,
+      components: getDefaultsForType(type),
       configId: null,
       manualConfigName: null,
-
-      setActiveType: (type: BikeType) =>
-        set({
-          activeType: type,
-          components: getDefaultsForType(type),
-          configId: null,
-          manualConfigName: null,
-        }),
-
-      replaceComponent: (newComponent: ConfigComponent) =>
-        set((state) => ({
-          components: state.components.map((comp) =>
-            comp.category === newComponent.category ? newComponent : comp
-          ),
-        })),
-
-      setComponents: (components: ConfigComponent[]) => set({ components }),
-
-      loadConfiguration: (config) =>
-        set({
-          activeType: config.bikeType,
-          components: config.components,
-          configId: config.configId ?? null,
-          manualConfigName: config.manualConfigName ?? null,
-        }),
-
-      resetToDefaults: () =>
-        set((state) => ({
-          components: getDefaultsForType(state.activeType),
-          configId: null,
-          manualConfigName: null,
-        })),
-
-      getTotalCost: () => {
-        const state = get();
-        return state.components.reduce((sum, comp) => sum + comp.price, 0);
-      },
-
-      getTotalWeight: () => {
-        const state = get();
-        const baseWeight = APP_CONSTANTS.BASE_WEIGHTS[state.activeType];
-        const componentWeight = state.components.reduce((sum, comp) => sum + comp.weight, 0);
-        return (baseWeight + componentWeight) / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR;
-      },
     }),
-    {
-      name: 'veloform-config-storage',
-      skipHydration: true,
-    }
-  )
+
+  replaceComponent: (newComponent: ConfigComponent) =>
+    set((state) => ({
+      components: state.components.map((comp) =>
+        comp.category === newComponent.category ? newComponent : comp
+      ),
+    })),
+
+  setComponents: (components: ConfigComponent[]) => set({ components }),
+
+  loadConfiguration: (config) =>
+    set({
+      activeType: config.bikeType,
+      components: config.components,
+      configId: config.configId ?? null,
+      manualConfigName: config.manualConfigName ?? null,
+    }),
+
+  resetToDefaults: () =>
+    set((state) => ({
+      components: getDefaultsForType(state.activeType),
+      configId: null,
+      manualConfigName: null,
+    })),
+
+  getTotalCost: () => {
+    const state = get();
+    return state.components.reduce((sum, comp) => sum + comp.price, 0);
+  },
+
+  getTotalWeight: () => {
+    const state = get();
+    const baseWeight = APP_CONSTANTS.BASE_WEIGHTS[state.activeType];
+    const componentWeight = state.components.reduce((sum, comp) => sum + comp.weight, 0);
+    return (baseWeight + componentWeight) / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR;
+  },
+});
+
+export const useConfigStore = create<ConfigStore>()(
+  persist(configStoreCreator, {
+    name: 'veloform-config-storage',
+    skipHydration: true,
+  })
 );
 
 // Selective hooks for fine-grained reactivity

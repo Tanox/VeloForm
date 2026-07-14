@@ -2,7 +2,7 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     // ============================================
-    // Veloform Firestore 安全规则 v1.0.0
+    // Veloform Firestore 安全规则 v4.1.0
     // ============================================
     //
     // 设计原则：

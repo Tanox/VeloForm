@@ -33,15 +33,45 @@ Veloform 是一款基于 Next.js、Tailwind CSS 并由 **Supabase** 驱动的高
 
 完整技术栈说明见 [架构概览](./openspec/architecture/overview.md)。
 
-| 技术          | 版本        | 用途                                     |
-| ------------- | ----------- | ---------------------------------------- |
-| Next.js       | v14.1.0     | App Router 架构，React Server Components |
-| React         | v18.2.0     | UI 组件库                                |
-| Zustand       | v4.5.0      | 轻量级状态管理                           |
-| Tailwind CSS  | v3.4.0      | 样式框架                                 |
-| **Supabase**  | **v2.45.0** | **Postgres 数据库 + Row Level Security** |
-| Framer Motion | v10.16.4    | 动画效果                                 |
-| Lucide React  | v0.294.0    | 图标库                                   |
+### 核心框架
+
+| 技术       | 版本    | 用途                                     |
+| ---------- | ------- | ---------------------------------------- |
+| Next.js    | v14.1.0 | App Router 架构，React Server Components |
+| React      | v18.2.0 | UI 组件库                                |
+| TypeScript | v5.x    | 类型安全                                 |
+
+### 状态管理
+
+| 技术    | 版本   | 用途           |
+| ------- | ------ | -------------- |
+| Zustand | v4.5.0 | 轻量级状态管理 |
+
+### 样式和 UI
+
+| 技术                     | 版本     | 用途             |
+| ------------------------ | -------- | ---------------- |
+| Tailwind CSS             | v3.4.0   | 样式框架         |
+| Framer Motion            | v10.16.4 | 动画效果         |
+| Lucide React             | v0.294.0 | 图标库           |
+| @base-ui/react           | v1.5.0   | 无样式 UI 组件库 |
+| class-variance-authority | v0.7.1   | 组件变体管理     |
+
+### 后端服务
+
+| 技术         | 版本        | 用途                                     |
+| ------------ | ----------- | ---------------------------------------- |
+| **Supabase** | **v2.45.0** | **Postgres 数据库 + Row Level Security** |
+
+### 开发工具
+
+| 技术       | 版本    | 用途         |
+| ---------- | ------- | ------------ |
+| Vitest     | v1.2.0  | 单元测试框架 |
+| ESLint     | v8.x    | 代码检查     |
+| Prettier   | v3.2.0  | 代码格式化   |
+| Husky      | v9.0.0  | Git Hooks    |
+| Playwright | v1.60.0 | E2E 测试     |
 
 ---
 
@@ -54,8 +84,17 @@ src/
 │   ├── page.tsx                  # 首页/配置器
 │   ├── providers.tsx             # 全局提供者
 │   ├── globals.css               # 全局样式
-│   └── library/
-│       └── page.tsx              # 配置库页面
+│   ├── error.tsx                 # 全局错误页面
+│   ├── loading.tsx               # 全局加载状态
+│   ├── not-found.tsx             # 404 页面
+│   ├── about/                    # 关于页面
+│   │   └── page.tsx
+│   ├── faq/                      # FAQ 页面
+│   │   └── page.tsx
+│   └── library/                  # 配置库页面
+│       ├── page.tsx
+│       ├── loading.tsx
+│       └── error.tsx
 ├── components/                   # UI 组件
 │   ├── configurator/             # 配置器组件
 │   │   ├── BikeTypeSelector.tsx  # 车型选择器
@@ -64,40 +103,62 @@ src/
 │   │   ├── ComponentSelector.tsx # 组件选择器
 │   │   ├── CostBreakdownChart.tsx    # 成本分解图表
 │   │   ├── RecommendedConfigs.tsx    # 推荐配置
+│   │   ├── ComparePanel.tsx      # 配置对比面板
 │   │   ├── ShareModal.tsx        # 分享模态框
 │   │   └── SummaryPanel.tsx      # 汇总面板
 │   ├── layout/                   # 布局组件
-│   │   └── Navbar.tsx            # 导航栏
+│   │   ├── Navbar.tsx            # 导航栏
+│   │   └── Footer.tsx            # 页脚
+│   ├── sections/                 # 页面区块组件
+│   │   ├── Hero.tsx              # 英雄区块
+│   │   ├── Features.tsx          # 功能特性区块
+│   │   ├── Pricing.tsx           # 定价区块
+│   │   └── Cta.tsx               # 行动召唤区块
 │   ├── ui/                       # 通用 UI 组件
-│   │   ├── Button.tsx            # 按钮
-│   │   ├── Card.tsx              # 卡片
+│   │   ├── button.tsx            # 按钮组件
+│   │   ├── card.tsx              # 卡片组件
 │   │   ├── ErrorBoundary.tsx     # 错误边界
+│   │   ├── AsyncBoundary.tsx     # 异步边界
+│   │   ├── LoadingScreen.tsx     # 加载屏幕
 │   │   ├── Modal.tsx             # 模态框
 │   │   ├── OnboardingGuide.tsx   # 新手引导
 │   │   ├── SupportModal.tsx      # 支持模态框
 │   │   ├── ThemeToggle.tsx       # 主题切换
-│   │   └── Toast.tsx             # Toast 通知
-│   └── SyncProvider.tsx          # 云同步提供者（Auth + Supabase）
+│   │   └── ...                   # 更多 UI 组件
+│   ├── SyncProvider.tsx          # 云同步提供者（Auth + Supabase）
+│   └── ClientErrorBoundary.tsx   # 客户端错误边界
 ├── lib/                          # 工具库
+│   ├── stores/                   # Zustand 状态管理
+│   │   ├── config-store.ts       # 配置状态
+│   │   ├── config-ui-store.ts    # UI 状态
+│   │   ├── compare-store.ts      # 对比状态
+│   │   ├── user-store.ts         # 用户状态
+│   │   └── index.ts              # 状态导出
+│   ├── hooks/                    # 自定义 Hooks
+│   │   └── use-client-reduced-motion.ts
+│   ├── data/                     # 模块化数据
+│   │   ├── index.ts
+│   │   ├── component-details.ts
+│   │   └── component-alternatives.ts
+│   ├── i18n/                     # 国际化
+│   │   ├── index.ts              # i18n 核心逻辑
+│   │   ├── en.ts                 # 英语翻译
+│   │   └── zh-CN.ts              # 简体中文翻译
 │   ├── auth.ts                   # Supabase 认证服务
 │   ├── constants.ts              # 应用常量
 │   ├── env.ts                    # 环境变量验证
 │   ├── supabase-service.ts      # Supabase 数据服务
 │   ├── supabase.ts              # Supabase 客户端配置
-│   ├── store.ts                # Zustand 状态管理（含选择性 hooks）
-│   ├── utils.ts                  # 工具函数
-│   ├── toast.ts                  # Toast 通知
+│   ├── config-service.ts        # 配置服务
+│   ├── shareable-config.ts      # 可分享配置
 │   ├── recommended-configs.ts    # 推荐配置
-│   ├── data/                     # 模块化数据
-│   │   ├── index.ts
-│   │   ├── component-details.ts
-│   │   └── component-alternatives.ts
-│   └── i18n/                     # 国际化
-│       ├── index.ts
-│       ├── en.ts
-│       └── zh-CN.ts
-└── types/                        # TypeScript 类型定义
-    └── index.ts                  # 强化类型定义（含组件规格接口）
+│   ├── utils.ts                  # 工具函数
+│   ├── animation.ts              # 动画配置
+│   ├── lazy.tsx                  # 懒加载组件
+│   └── logger.ts                 # 日志工具
+├── types/                        # TypeScript 类型定义
+│   └── index.ts                  # 强化类型定义（含组件规格接口）
+└── middleware.ts                 # Next.js 中间件
 ```
 
 详细开发规范请参阅 [openspec/PROJECT_GUIDELINES.md](openspec/PROJECT_GUIDELINES.md)。
@@ -156,16 +217,83 @@ src/
 
 ---
 
-## 可用命令
+## 可用脚本
 
-| 命令                    | 说明                        |
-| ----------------------- | --------------------------- |
-| `npm run dev`           | 启动开发服务器（端口 3000） |
-| `npm run build`         | 构建生产版本                |
-| `npm run start`         | 启动生产服务器              |
-| `npm run lint`          | 运行 ESLint 检查            |
-| `npm run test`          | 运行单元测试                |
-| `npm run test:coverage` | 运行测试并生成覆盖率报告    |
+### 开发命令
+
+| 命令            | 说明                        |
+| --------------- | --------------------------- |
+| `npm run dev`   | 启动开发服务器（端口 3000） |
+| `npm run build` | 构建生产版本                |
+| `npm run start` | 启动生产服务器              |
+
+### 代码质量
+
+| 命令                   | 说明                     |
+| ---------------------- | ------------------------ |
+| `npm run lint`         | 运行 ESLint 检查         |
+| `npm run lint:fix`     | 自动修复 ESLint 错误     |
+| `npm run format`       | 使用 Prettier 格式化代码 |
+| `npm run format:check` | 检查代码格式是否符合规范 |
+
+### 测试
+
+| 命令                    | 说明                     |
+| ----------------------- | ------------------------ |
+| `npm run test`          | 运行单元测试             |
+| `npm run test:coverage` | 运行测试并生成覆盖率报告 |
+
+### 其他
+
+| 命令                     | 说明                     |
+| ------------------------ | ------------------------ |
+| `npm run analyze`        | 分析打包体积             |
+| `npm run generate-icons` | 生成图标资源             |
+| `npm run prepare`        | 初始化 Git Hooks (Husky) |
+
+---
+
+## 国际化支持
+
+本项目内置完整的国际化系统，当前支持以下语言：
+
+- **英语 (English)** - `en`
+- **简体中文** - `zh-CN`
+
+### 特性
+
+- **类型安全**: 编译时验证翻译键，避免运行时错误
+- **嵌套翻译**: 支持多层级的翻译结构
+- **参数插值**: 支持动态参数替换 `{param}`
+- **数组支持**: 支持返回字符串数组的翻译键
+
+### 使用方法
+
+```typescript
+import { useTranslation, useLanguage, useSetLanguage } from '@/lib/i18n';
+
+function MyComponent() {
+  const t = useTranslation();
+  const language = useLanguage();
+  const setLanguage = useSetLanguage();
+
+  return (
+    <div>
+      <h1>{t('app.name')}</h1>
+      <p>{t('configurator.totalCost', { cost: '¥12,000' })}</p>
+      <button onClick={() => setLanguage(language === 'en' ? 'zh-CN' : 'en')}>
+        {language === 'en' ? '切换到中文' : 'Switch to English'}
+      </button>
+    </div>
+  );
+}
+```
+
+### 添加新语言
+
+1. 在 `src/lib/i18n/` 目录下创建新的语言文件（如 `ja.ts`）
+2. 实现 `Translations` 接口的所有翻译键
+3. 在 `src/lib/i18n/index.ts` 中导入并注册新语言
 
 ---
 
@@ -210,15 +338,17 @@ src/
 
 ---
 
-## 许可证
+## 版本信息
 
-MIT License
+当前版本：**v4.1.0**
+最后更新：2026-07-14
+
+详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)。
 
 ---
 
-## 版本信息
+## 许可证
 
-当前版本：**v4.1.0**  
-最后更新：2026-07-10
+本项目采用 **MIT License** 开源协议。
 
-详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)。
+详见 [LICENSE](./LICENSE) 文件。

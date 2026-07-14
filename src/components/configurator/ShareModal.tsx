@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -15,13 +15,20 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
   const t = useTranslation();
   const [copied, setCopied] = useState(false);
 
+  // 清理 setTimeout 定时器
+  useEffect(() => {
+    if (copied) {
+      const timer = setTimeout(() => setCopied(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [copied]);
+
   const handleCopyLink = async () => {
     const link = generateShareableLink();
     try {
       await navigator.clipboard.writeText(link);
       setCopied(true);
       toast('success', t('share.copied') as string);
-      setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       uiLogger.error('Failed to copy:', error);
       toast('error', t('share.copyFailed') as string);
