@@ -24,15 +24,26 @@ export function Hero({ onNavigate }: HeroProps) {
   const getTransition = (delay: number = 0) => ({
     duration: shouldReduceMotion ? 0 : ANIMATION_DURATION,
     delay: shouldReduceMotion ? 0 : delay,
-    ease: [0.25, 0.46, 0.45, 0.94],
+    ease: [0.22, 1, 0.36, 1],
   });
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center py-24 sm:py-32"
+      className="relative min-h-screen flex flex-col items-center justify-center py-24 sm:py-32 overflow-hidden"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }}
+        />
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={getInitial({ opacity: 0, y: 16 })}
@@ -40,6 +51,7 @@ export function Hero({ onNavigate }: HeroProps) {
             transition={getTransition(0)}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/60 bg-surface-secondary/80 backdrop-blur-sm text-foreground-secondary text-sm font-medium mb-8"
           >
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             {t('hero.badge')}
           </motion.div>
 
@@ -73,20 +85,20 @@ export function Hero({ onNavigate }: HeroProps) {
           >
             <Button
               size="lg"
-              className="w-full sm:w-auto px-6"
+              className="w-full sm:w-auto px-6 h-14 text-base font-semibold"
               onClick={() => onNavigate('configurator')}
               aria-label={t('hero.cta') as string}
             >
               {t('hero.cta')}
-              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              <ArrowRight className="w-4 h-4 ml-2" aria-hidden="true" />
             </Button>
             <Button
               variant="outline"
               size="lg"
-              className="w-full sm:w-auto px-6"
+              className="w-full sm:w-auto px-6 h-14 text-base"
               aria-label={t('hero.demo') as string}
             >
-              <Play className="w-4 h-4" aria-hidden="true" />
+              <Play className="w-4 h-4 mr-2" aria-hidden="true" />
               {t('hero.demo')}
             </Button>
           </motion.div>
@@ -97,10 +109,10 @@ export function Hero({ onNavigate }: HeroProps) {
             transition={getTransition(ANIMATION_DELAY_STEP * 4)}
             className="relative mx-auto max-w-5xl"
           >
-            <div className="rounded-lg overflow-hidden border border-border shadow-xl">
+            <div className="rounded-xl overflow-hidden border border-border shadow-xl">
               <div className="w-full" style={{ aspectRatio: '16/9', position: 'relative' }}>
                 <Image
-                  src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20bicycle%20configurator%20software%20interface%20on%20iMac%20screen%20minimalist%20clean%20UI%20apple%20style%20dark%20theme&image_size=landscape_16_9"
+                  src="https://images.unsplash.com/photo-1571068316384-4e6e9a41b2b6?w=1280&h=720&fit=crop&q=80"
                   alt="Veloform 界面预览"
                   fill
                   priority
@@ -134,6 +146,12 @@ export function Hero({ onNavigate }: HeroProps) {
               ))}
             </div>
           </motion.div>
+        </div>
+      </div>
+
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex justify-center pt-2">
+          <div className="w-1.5 h-3 rounded-full bg-muted-foreground/50" />
         </div>
       </div>
     </section>

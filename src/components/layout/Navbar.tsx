@@ -97,8 +97,10 @@ export function Navbar({ onNavigate }: NavbarProps) {
     <>
       <nav
         className={cn(
-          'fixed top-0 left-0 right-0 z-40 transition-colors',
-          isScrolled ? 'bg-background/80 backdrop-blur border-b border-border' : 'bg-transparent'
+          'fixed top-0 left-0 right-0 z-40 transition-all duration-300',
+          isScrolled
+            ? 'bg-background/80 backdrop-blur-lg border-b border-border-subtle'
+            : 'bg-transparent'
         )}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -108,8 +110,8 @@ export function Navbar({ onNavigate }: NavbarProps) {
               className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md px-2 py-1"
               aria-label="返回首页"
             >
-              <div className="w-8 h-8 rounded-md bg-secondary flex items-center justify-center">
-                <Bike className="w-4 h-4 text-secondary-foreground" />
+              <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
+                <Bike className="w-4 h-4 text-primary-foreground" />
               </div>
               <span className="text-lg font-semibold text-foreground hidden sm:block">
                 Veloform
@@ -130,6 +132,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
                     }
                   }}
                   aria-label={item.label}
+                  className="h-9 px-4"
                 >
                   {item.isSupport ? (
                     <span className="flex items-center gap-1.5">
@@ -149,6 +152,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
                 size="icon"
                 onClick={() => setLanguage(language === 'en' ? 'zh-CN' : 'en')}
                 aria-label={String(t('nav.language'))}
+                className="h-9 w-9"
               >
                 <Globe className="w-4 h-4" />
               </Button>
@@ -159,6 +163,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
                   size="icon"
                   onClick={toggleTheme}
                   aria-label={theme === 'dark' ? '切换到浅色模式' : '切换到深色模式'}
+                  className="h-9 w-9"
                 >
                   {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                 </Button>
@@ -172,11 +177,14 @@ export function Navbar({ onNavigate }: NavbarProps) {
                     </Button>
                   }
                 />
-                <SheetContent side="right" className="w-full sm:max-w-sm">
+                <SheetContent
+                  side="right"
+                  className="w-full sm:max-w-sm bg-card border-l border-border"
+                >
                   <SheetHeader>
                     <SheetTitle className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-md bg-secondary flex items-center justify-center">
-                        <Bike className="w-4 h-4 text-secondary-foreground" />
+                      <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
+                        <Bike className="w-4 h-4 text-primary-foreground" />
                       </div>
                       Veloform
                     </SheetTitle>

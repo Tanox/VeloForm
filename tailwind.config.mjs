@@ -75,6 +75,7 @@ export default {
         'foreground-secondary': 'var(--foreground-secondary)',
         'foreground-tertiary': 'var(--foreground-tertiary)',
         'border-light': 'var(--border-light)',
+        'border-subtle': 'var(--border-subtle)',
       },
       borderRadius: {
         lg: 'var(--radius)',

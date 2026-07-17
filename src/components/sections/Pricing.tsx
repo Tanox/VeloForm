@@ -40,8 +40,19 @@ export function Pricing() {
   });
 
   return (
-    <section id="pricing" className="py-24 sm:py-32">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="pricing" className="py-24 sm:py-32 relative">
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }}
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -50,9 +61,10 @@ export function Pricing() {
           className="text-center mb-16"
         >
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/60 bg-surface-secondary/80 backdrop-blur-sm text-foreground-secondary text-sm font-medium mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary" />
             {t('pricing.badge')}
           </span>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-foreground mb-6 tracking-tight">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-6 tracking-tight">
             {t('pricing.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
@@ -68,7 +80,7 @@ export function Pricing() {
               role="tab"
               aria-selected={!isYearly}
               onClick={() => setIsYearly(false)}
-              className={`relative min-w-[72px] px-5 py-2 rounded-full text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+              className={`relative min-w-[72px] px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
                 !isYearly
                   ? 'bg-card text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
@@ -80,7 +92,7 @@ export function Pricing() {
               role="tab"
               aria-selected={isYearly}
               onClick={() => setIsYearly(true)}
-              className={`relative min-w-[72px] px-5 py-2 rounded-full text-sm font-medium transition-colors duration-200 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+              className={`relative min-w-[72px] px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
                 isYearly
                   ? 'bg-card text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
@@ -119,7 +131,7 @@ export function Pricing() {
                 className={`relative rounded-xl p-7 transition-all duration-300 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:outline-none ${
                   plan.popular
                     ? 'bg-card border border-primary/40 shadow-lg ring-1 ring-primary/20'
-                    : 'bg-card border border-border shadow-sm hover:border-foreground/20 hover:shadow-md'
+                    : 'bg-card border border-border shadow-sm hover:border-primary/30 hover:shadow-md'
                 }`}
                 aria-label={`${planName}方案`}
               >
@@ -139,7 +151,7 @@ export function Pricing() {
 
                 <div className="mb-6">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-display font-bold text-card-foreground tracking-tight">
+                    <span className="text-4xl font-bold text-card-foreground tracking-tight">
                       ¥{isYearly ? plan.yearlyPrice : plan.monthlyPrice}
                     </span>
                     <span className="text-sm text-muted-foreground">

@@ -24,7 +24,7 @@ export function Footer() {
   });
 
   return (
-    <footer className="bg-muted/50 border-t border-border">
+    <footer className="bg-muted/30 border-t border-border-subtle">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="py-12 sm:py-16">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 sm:gap-12">
@@ -40,7 +40,7 @@ export function Footer() {
                   <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
                     <Bike className="w-5 h-5 text-primary-foreground" />
                   </div>
-                  <span className="text-xl font-display font-bold text-foreground">Veloform</span>
+                  <span className="text-xl font-bold text-foreground">Veloform</span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-6 max-w-[280px] leading-relaxed">
                   {t('footer.description')}
@@ -52,7 +52,7 @@ export function Footer() {
                       key={social.label}
                       href={social.href}
                       role="listitem"
-                      className="min-w-[40px] min-h-[40px] rounded-lg bg-background border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground/20 hover:bg-muted/50 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="min-w-[40px] min-h-[40px] rounded-lg bg-surface border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 hover:bg-primary/5 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                       aria-label={social.label}
                       initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
                       whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
@@ -83,7 +83,7 @@ export function Footer() {
                     <li key={linkLabel} role="listitem">
                       <a
                         href="#"
-                        className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:underline focus-visible:decoration-primary focus-visible:underline-offset-2 min-h-[32px]"
+                        className="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:underline focus-visible:decoration-primary focus-visible:underline-offset-2 min-h-[32px]"
                       >
                         {linkLabel}
                       </a>
@@ -95,7 +95,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="py-6 border-t border-border">
+        <div className="py-6 border-t border-border-subtle">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground">{t('footer.copyright')}</p>
 
@@ -105,7 +105,7 @@ export function Footer() {
                   key={item}
                   href="#"
                   role="listitem"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:underline focus-visible:decoration-primary focus-visible:underline-offset-2 min-h-[32px] inline-flex items-center"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:underline focus-visible:decoration-primary focus-visible:underline-offset-2 min-h-[32px] inline-flex items-center"
                 >
                   {item}
                 </a>
