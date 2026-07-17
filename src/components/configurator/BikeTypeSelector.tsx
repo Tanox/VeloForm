@@ -6,14 +6,20 @@ import { useConfigStore } from '@/lib/stores';
 import { useTranslation } from '@/lib/i18n';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { Bike, Zap, Mountain, Wind } from 'lucide-react';
 
 interface BikeTypeInfo {
-  icon: typeof Bike;
+  icon: string;
   label: string;
   description: string;
-  accent: string;
+  weight: string;
+  price: string;
 }
+
+const bikeTypeIcons: Record<BikeType, string> = {
+  Road: `<circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="18.5" cy="17.5" r="3.5"></circle><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path><path d="m12 17.5 2-8h4l-3-5-3 5-4-2-2 5 4 5z"></path>`,
+  MTB: `<path d="m19 10-2 7-3-1-2-3-2 2-2-1-2 3"></path><circle cx="7" cy="19" r="3"></circle><circle cx="17" cy="19" r="3"></circle><path d="M8 10h5l2-4 3 1-2 4"></path>`,
+  Fold: `<circle cx="6.5" cy="17.5" r="3.5"></circle><circle cx="17.5" cy="17.5" r="3.5"></circle><path d="M14 10h-3.5L9 17.5"></path><path d="m11 10 2-5 3 1"></path><path d="M10 10H7.5L6 17.5"></path>`,
+};
 
 export function BikeTypeSelector() {
   const t = useTranslation();
@@ -21,34 +27,35 @@ export function BikeTypeSelector() {
   const setActiveType = useConfigStore((state) => state.setActiveType);
   const types: BikeType[] = ['Road', 'MTB', 'Fold'];
 
-  // 车型配色 — 柔和暖色调，与 Editorial Minimalism 调色板协调
   const bikeTypeInfo: Record<BikeType, BikeTypeInfo> = {
     Road: {
-      icon: Wind,
-      label: '公路车',
-      description: '速度与激情，专为竞速打造，轻量化设计让你风驰电掣',
-      accent: 'hsl(200 70% 50%)',
+      icon: bikeTypeIcons.Road,
+      label: '公路车 Road',
+      description: '速度与效率的终极选择',
+      weight: '6.8kg',
+      price: '¥32k',
     },
     MTB: {
-      icon: Mountain,
-      label: '山地车',
-      description: '征服山野，强悍的悬挂系统应对各种复杂地形',
-      accent: 'hsl(150 60% 40%)',
+      icon: bikeTypeIcons.MTB,
+      label: '山地车 MTB',
+      description: '征服一切地形的野性座驾',
+      weight: '10.5kg',
+      price: '¥28k',
     },
     Fold: {
-      icon: Zap,
-      label: '折叠车',
-      description: '灵活便携，轻松收纳，城市通勤的最佳伴侣',
-      accent: 'hsl(35 85% 55%)',
-    }
+      icon: bikeTypeIcons.Fold,
+      label: '折叠车 Fold',
+      description: '城市通勤的灵活伙伴',
+      weight: '9.2kg',
+      price: '¥18k',
+    },
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5" role="tablist" aria-label="选择车型">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3" role="tablist" aria-label="选择车型">
       {types.map((type, index) => {
         const isActive = activeType === type;
         const info = bikeTypeInfo[type];
-        const Icon = info.icon;
 
         return (
           <motion.button
@@ -60,85 +67,66 @@ export function BikeTypeSelector() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
-              duration: 0.4,
-              delay: index * 0.08,
-              ease: [0.25, 0.46, 0.45, 0.94]
+              duration: 0.3,
+              delay: index * 0.1,
+              ease: [0.22, 1, 0.36, 1],
             }}
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.99 }}
             className={cn(
-              'relative overflow-hidden p-6 sm:p-7 rounded-xl text-left transition-all duration-300 touch-target group min-h-[180px] sm:min-h-[200px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+              'relative overflow-hidden p-5 rounded-xl text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
               isActive
-                ? 'bg-card border border-primary/30 shadow-md ring-1 ring-primary/10'
-                : 'bg-surface-secondary/60 border border-border-light hover:border-border hover:bg-surface-secondary'
+                ? 'bg-primary/5 border border-primary shadow-md'
+                : 'bg-card border border-border hover:border-border-strong hover:bg-surface-hover'
             )}
           >
-            {/* 顶部装饰线 — 激活时显示车型专属色调 */}
             <motion.div
-              className="absolute top-0 left-0 right-0 h-[2px]"
-              style={{ backgroundColor: info.accent }}
+              className="absolute top-0 left-0 right-0 h-[2px] bg-primary"
               initial={{ scaleX: 0 }}
               animate={{ scaleX: isActive ? 1 : 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               aria-hidden="true"
             />
 
-            {/* 右上角激活指示点 */}
-            <div
+            <svg
               className={cn(
-                'absolute top-5 right-5 w-2 h-2 rounded-full transition-all duration-300',
-                isActive ? 'scale-125' : 'bg-border scale-100'
+                'w-10 h-10 mb-4 transition-colors duration-200',
+                isActive ? 'text-primary' : 'text-muted-foreground'
               )}
-              style={isActive ? { backgroundColor: info.accent } : undefined}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               aria-hidden="true"
+              dangerouslySetInnerHTML={{ __html: info.icon }}
             />
 
-            <div className="relative z-10">
-              {/* 图标 */}
-              <div
-                className={cn(
-                  'w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center mb-5 transition-all duration-300',
-                  isActive
-                    ? 'bg-primary text-primary-foreground shadow-sm'
-                    : 'bg-surface-tertiary text-muted-foreground group-hover:text-foreground'
-                )}
-                aria-hidden="true"
-              >
-                <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
+            <div className="text-base font-bold text-foreground mb-1">
+              {info.label}
+            </div>
+            <div className="text-xs text-muted-foreground mb-4">
+              {info.description}
+            </div>
+
+            <div className="flex gap-4 pt-3 border-t border-border-subtle">
+              <div className="flex flex-col">
+                <span className="text-sm font-mono font-semibold text-foreground">
+                  {info.weight}
+                </span>
+                <span className="text-[10px] text-muted-foreground uppercase tracking-wider">
+                  起重量
+                </span>
               </div>
-
-              {/* 标题 */}
-              <h3 className={cn(
-                'text-xl sm:text-2xl font-display font-bold mb-2 transition-colors tracking-tight',
-                isActive ? 'text-foreground' : 'text-foreground/80 group-hover:text-foreground'
-              )}>
-                {info.label}
-              </h3>
-
-              {/* 描述 */}
-              <p className={cn(
-                'text-sm leading-relaxed transition-colors',
-                isActive ? 'text-foreground-secondary' : 'text-muted-foreground'
-              )}>
-                {info.description}
-              </p>
-
-              {/* 激活状态标识 */}
-              {isActive && (
-                <motion.div
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                  className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-foreground-secondary"
-                >
-                  <span
-                    className="w-1.5 h-1.5 rounded-full"
-                    style={{ backgroundColor: info.accent }}
-                    aria-hidden="true"
-                  />
-                  <span>已选择</span>
-                </motion.div>
-              )}
+              <div className="flex flex-col">
+                <span className="text-sm font-mono font-semibold text-foreground">
+                  {info.price}
+                </span>
+                <span className="text-[10px] text-muted-foreground uppercase tracking-wider">
+                  起售价
+                </span>
+              </div>
             </div>
           </motion.button>
         );

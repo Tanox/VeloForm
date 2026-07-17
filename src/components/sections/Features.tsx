@@ -45,25 +45,14 @@ export function Features() {
   });
 
   return (
-    <section id="features" className="py-24 sm:py-32 relative">
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
-          }}
-        />
-      </div>
-
+    <section id="features" className="py-24 sm:py-32 relative border-t border-border-subtle">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={getTransition()}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/60 bg-surface-secondary/80 text-foreground-secondary text-sm font-medium mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-primary" />
@@ -77,7 +66,7 @@ export function Features() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6" role="list">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border-subtle border border-border-subtle rounded-xl overflow-hidden">
           {features.map((feature, index) => {
             const title = t(`${feature.translationKey}.title`);
             const description = t(`${feature.translationKey}.description`);
@@ -85,24 +74,23 @@ export function Features() {
             return (
               <motion.div
                 key={feature.translationKey}
-                role="listitem"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={getTransition(index * ANIMATION_DELAY_STEP)}
                 tabIndex={0}
-                className="group bg-card rounded-xl p-7 sm:p-8 border border-border hover:border-primary/30 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all duration-300"
+                className="bg-card p-8 hover:bg-surface-hover transition-colors duration-200"
                 aria-label={title as string}
               >
                 <div
-                  className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors"
+                  className="w-12 h-12 mb-5 flex items-center justify-center"
                   aria-hidden="true"
                 >
                   <feature.icon className="w-6 h-6 text-primary" />
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-card-foreground mb-2">{title}</h3>
+                  <h3 className="text-lg font-semibold text-card-foreground mb-3">{title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
                 </div>
               </motion.div>
