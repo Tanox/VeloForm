@@ -4,16 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VELOFORM — Precision Bike Configurator</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- SF Pro 使用系统字体，无需网络加载 -->
+  <!-- SF Pro Display/Text 为 Apple 设备原生字体 -->
   <style>
     /* ============================================================
        VELOFORM — Precision Engineering Prototype
        ============================================================ */
 
     :root {
-      /* Core Palette — Industrial Luxury */
+      /* Core Palette — Industrial Luxury (Dark Mode Default) */
       --bg-primary: #0a0a0b;
       --bg-secondary: #111113;
       --bg-tertiary: #18181b;
@@ -48,9 +47,85 @@
       --warning: #fbbf24;
       --error: #f87171;
 
-      /* Typography */
-      --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      --font-mono: 'JetBrains Mono', 'SF Mono', 'Menlo', monospace;
+      /* Typography — SF Pro 系统字体 */
+      --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      --font-mono: 'SF Mono', ui-monospace, 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+    }
+
+    /* 浅色模式 */
+    [data-theme="light"],
+    .light {
+      --bg-primary: #fafafa;
+      --bg-secondary: #f5f5f7;
+      --bg-tertiary: #ebebeb;
+      --bg-elevated: #ffffff;
+
+      --surface: #ffffff;
+      --surface-hover: #f5f5f7;
+      --surface-active: #e8e8ed;
+
+      --border-subtle: #e5e5ea;
+      --border-default: #d1d1d6;
+      --border-strong: #c7c7cc;
+
+      --text-primary: #1d1d1f;
+      --text-secondary: #6e6e73;
+      --text-tertiary: #aeaeb2;
+      --text-muted: #d1d1d6;
+
+      --accent: #d44d1f;
+      --accent-hover: #e85d2c;
+      --accent-pressed: #b84018;
+      --accent-soft: rgba(212, 77, 31, 0.08);
+      --accent-glow: rgba(212, 77, 31, 0.2);
+
+      --steel: #5a7a94;
+      --steel-soft: rgba(90, 122, 148, 0.1);
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+      --shadow-xl: 0 24px 64px rgba(0,0,0,0.15);
+      --shadow-glow: 0 0 40px var(--accent-glow);
+    }
+
+    /* 自动跟随系统 */
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        --bg-primary: #fafafa;
+        --bg-secondary: #f5f5f7;
+        --bg-tertiary: #ebebeb;
+        --bg-elevated: #ffffff;
+
+        --surface: #ffffff;
+        --surface-hover: #f5f5f7;
+        --surface-active: #e8e8ed;
+
+        --border-subtle: #e5e5ea;
+        --border-default: #d1d1d6;
+        --border-strong: #c7c7cc;
+
+        --text-primary: #1d1d1f;
+        --text-secondary: #6e6e73;
+        --text-tertiary: #aeaeb2;
+        --text-muted: #d1d1d6;
+
+        --accent: #d44d1f;
+        --accent-hover: #e85d2c;
+        --accent-pressed: #b84018;
+        --accent-soft: rgba(212, 77, 31, 0.08);
+        --accent-glow: rgba(212, 77, 31, 0.2);
+
+        --steel: #5a7a94;
+        --steel-soft: rgba(90, 122, 148, 0.1);
+
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+        --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+        --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+        --shadow-xl: 0 24px 64px rgba(0,0,0,0.15);
+        --shadow-glow: 0 0 40px var(--accent-glow);
+      }
+    }
 
       /* Spacing — 4px base grid */
       --space-1: 4px;
@@ -1528,6 +1603,36 @@
     }
 
     /* ============================================================
+       无障碍支持：减少动效
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .hero-content,
+      .hero-visual,
+      .hero-spec-card {
+        animation: none !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+
+      .hero-eyebrow-dot {
+        animation: none !important;
+      }
+    }
+
+    /* ============================================================
        Measurement markers (decorative)
        ============================================================ */
     .ruler-marks {
@@ -1587,10 +1692,17 @@
         <li><button class="nav-link" onclick="scrollToSection('footer')">关于</button></li>
       </ul>
       <div class="nav-actions">
-        <button class="icon-btn" title="主题切换">
+        <button id="themeToggle" class="icon-btn" title="主题切换" onclick="toggleTheme()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="4"></circle>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
           </svg>
         </button>
         <button class="btn-primary" onclick="scrollToSection('configurator')">
@@ -1655,7 +1767,8 @@
           <div class="hero-visual-frame">
             <img
               class="hero-visual-img"
-              src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=high%20end%20road%20bike%20carbon%20frame%20studio%20photography%20dark%20background%20dramatic%20lighting%20industrial%20precision%20engineering&image_size=portrait_4_3"
+              src="https://images.unsplash.com/photo-1571068316384-4e6e9a41b2b6?w=800&h=1000&fit=crop&q=80"
+              data-src-fallback="https://images.unsplash.com/photo-1571068316384-4e6e9a41b2b6?w=800&h=1000&fit=crop&q=80"
               alt="Veloform 公路车"
             />
             <div class="hero-visual-overlay"></div>
@@ -2238,7 +2351,76 @@
   </div>
 
   <script>
-    // Navbar scroll effect
+    // ============================================================
+    // 主题切换功能
+    // ============================================================
+    const themes = ['dark', 'light'];
+    let currentThemeIndex = 0;
+
+    // 初始化：检查系统偏好或本地存储
+    function initTheme() {
+      const stored = localStorage.getItem('veloform-theme');
+      if (stored && themes.includes(stored)) {
+        document.documentElement.setAttribute('data-theme', stored);
+        currentThemeIndex = themes.indexOf(stored);
+      } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+        document.documentElement.setAttribute('data-theme', 'light');
+        currentThemeIndex = 1;
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        currentThemeIndex = 0;
+      }
+      updateThemeIcon();
+    }
+
+    // 切换主题
+    function toggleTheme() {
+      currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+      const newTheme = themes[currentThemeIndex];
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('veloform-theme', newTheme);
+      updateThemeIcon();
+    }
+
+    // 更新主题图标
+    function updateThemeIcon() {
+      const themeBtn = document.getElementById('themeToggle');
+      if (!themeBtn) return;
+
+      const isDark = currentThemeIndex === 0;
+      themeBtn.innerHTML = isDark
+        ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>`
+        : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>`;
+      themeBtn.setAttribute('title', isDark ? '切换到浅色模式' : '切换到深色模式');
+    }
+
+    // 监听系统主题变化
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('veloform-theme')) {
+        currentThemeIndex = e.matches ? 0 : 1;
+        document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        updateThemeIcon();
+      }
+    });
+
+    // 初始化主题
+    initTheme();
+
+    // ============================================================
+    // 导航栏滚动效果
+    // ============================================================
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 20) {
