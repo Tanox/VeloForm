@@ -6,7 +6,7 @@
 
 ## Overview
 
-Veloform is an advanced bicycle configurator built with Next.js, Tailwind CSS, and powered by Firebase. It allows users to browse and customize configuration lists for different types of bicycles, including Road, Mountain (MTB), and Folding bikes.
+Veloform is an advanced bicycle configurator built with Next.js, Tailwind CSS, and powered by Supabase. It allows users to browse and customize configuration lists for different types of bicycles, including Road, Mountain (MTB), and Folding bikes.
 
 **Production URL**: [https://veloform.app](https://veloform.app)  
 **Repository**: [https://github.com/sutchan/Veloform](https://github.com/sutchan/Veloform)
@@ -15,10 +15,10 @@ Veloform is an advanced bicycle configurator built with Next.js, Tailwind CSS, a
 
 ## Core Features
 
-- **Apple-style Design**: Minimalist design philosophy with generous whitespace, clear visual hierarchy, large image showcase, SF Pro fonts, Apple Blue primary color
+- **Industrial Luxury Design**: Minimalist and restrained with generous whitespace, clear visual hierarchy, and a single Burnt Sienna brand color, paired with SF Pro fonts
 - **Dual Theme Support**: Support for both dark and light themes with unified design consistency
 - **Real-time Price & Weight Calculation**: Dynamically calculates and displays total build cost and estimated weight
-- **Configuration Cloud Sync**: Deeply integrated with Firebase Firestore to securely save your unique builds
+- **Configuration Cloud Sync**: Deeply integrated with Supabase Postgres and Row Level Security to securely save your unique builds
 - **Bike Categorization**: Seamlessly switch between Road, MTB, and Folding bike presets
 - **Fully Responsive**: Mobile-first approach with uncompromising desktop aesthetics
 - **Bilingual Support**: Built-in EN/ZH-CN i18n system with one-click language switching
@@ -38,7 +38,7 @@ For complete tech stack documentation, see [Architecture Overview](./openspec/ar
 | React         | v18.2.0  | UI component library                             |
 | Zustand       | v4.5.0   | Lightweight state management                     |
 | Tailwind CSS  | v3.4.0   | Styling framework                                |
-| Firebase      | v10.0.0  | Firestore database and Auth authentication       |
+| Supabase      | v2.45.0  | Postgres database and Row Level Security         |
 | Framer Motion | v10.16.4 | Animation effects                                |
 | Lucide React  | v0.294.0 | Icon library                                     |
 
@@ -77,18 +77,18 @@ src/
 │       ├── ThemeToggle.tsx       # Theme toggle
 │       └── Toast.tsx             # Toast notification
 ├── lib/                          # Utility library
-│   ├── auth.ts                   # Firebase auth service
+│   ├── auth.ts                   # Supabase auth service
 │   ├── constants.ts              # App constants
 │   ├── env.ts                    # Environment variable validation
-│   ├── firebase-service.ts       # Firebase services
-│   ├── firebase.ts               # Firebase configuration
-│   ├── store.ts                  # Zustand state management
+│   ├── supabase-service.ts       # Supabase data service
+│   ├── supabase.ts               # Supabase client configuration
+│   ├── stores/                   # Zustand state management
 │   ├── utils.ts                  # Utility functions
 │   ├── toast.ts                  # Toast notifications
 │   ├── recommended-configs.ts    # Recommended configurations
 │   ├── data/                     # Modular data
 │   │   ├── index.ts
-│   │   ├── component-details.ts
+│   │   ├── component-details/    # Component detail data (modularized)
 │   │   └── component-alternatives.ts
 │   └── i18n/                     # Internationalization
 │       ├── index.ts
@@ -108,7 +108,7 @@ For detailed development guidelines, see [openspec/PROJECT_GUIDELINES.md](opensp
 
 - Node.js >= 18.x
 - npm or pnpm
-- Firebase project (for backend services)
+- Supabase project (for Postgres database + Row Level Security)
 
 ### Installation
 
@@ -131,7 +131,7 @@ For detailed development guidelines, see [openspec/PROJECT_GUIDELINES.md](opensp
 
    ```bash
    cp .env.example .env
-   # Edit .env and fill in your Firebase configuration
+   # Edit .env and fill in your Supabase URL and anon key
    ```
 
 4. **Start development server**:
@@ -143,13 +143,13 @@ For detailed development guidelines, see [openspec/PROJECT_GUIDELINES.md](opensp
 5. **Open the app**:
    Visit `http://localhost:3000` in your browser
 
-### Firebase Configuration
+### Supabase Configuration
 
-1. Go to [Firebase Console](https://console.firebase.google.com/)
-2. Create a new project or select an existing one
-3. Enable Authentication (Email/Password)
-4. Enable Firestore Database
-5. Get Web App configuration from Project Settings
+1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
+2. Create a new project
+3. In the SQL Editor, run all migration scripts under `supabase/migrations/`
+4. Enable Email/Password and Google OAuth in **Authentication**
+5. Get the Web App configuration (URL and anon key) from Project Settings
 6. Copy the values to your `.env` file
 
 ---
@@ -217,6 +217,6 @@ MIT License
 ## Version
 
 Current version: **v4.2.0**
-Last updated: 2026-07-10
+Last updated: 2026-07-18
 
 For detailed changelog, see [CHANGELOG.md](./CHANGELOG.md).

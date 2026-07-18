@@ -15,7 +15,7 @@ Veloform 是一款基于 Next.js、Tailwind CSS 并由 **Supabase** 驱动的高
 
 ## 核心功能
 
-- **Apple 风格设计**: 采用极简主义设计理念，充足留白、清晰视觉层次、大图展示、SF Pro 字体、Apple Blue 主色调
+- **工业奢华设计**: 极简克制、充足留白与清晰视觉层次，烧锡色 (Burnt Sienna) 单一品牌主色，SF Pro 字体
 - **双主题支持**: 支持深色/浅色双主题模式，风格统一
 - **实时价格与重量计算**: 动态计算并展示整车造价及预计重量
 - **配置云同步**: 深度集成 **Supabase** Postgres 数据库与 Row Level Security，安全留存用户的独家配置方案
@@ -138,7 +138,7 @@ src/
 │   │   └── use-client-reduced-motion.ts
 │   ├── data/                     # 模块化数据
 │   │   ├── index.ts
-│   │   ├── component-details.ts
+│   │   ├── component-details/    # 组件详情数据（已模块化拆分）
 │   │   └── component-alternatives.ts
 │   ├── i18n/                     # 国际化
 │   │   ├── index.ts              # i18n 核心逻辑
@@ -210,7 +210,7 @@ src/
 
 1. 访问 [Supabase Dashboard](https://supabase.com/dashboard)
 2. 创建新项目
-3. 在 SQL Editor 中运行 `supabase/migrations/20260619000000_initial_schema.sql`
+3. 在 SQL Editor 中按顺序运行 `supabase/migrations/` 目录下的所有迁移脚本（含初始表结构与 RLS 安全策略加固）
 4. 在 **Authentication** 中启用 Email/Password 和 Google OAuth 登录
 5. 在项目设置中获取 Web App 配置
 6. 将配置值填入 `.env` 文件
@@ -341,7 +341,7 @@ function MyComponent() {
 ## 版本信息
 
 当前版本：**v4.2.0**
-最后更新：2026-07-14
+最后更新：2026-07-18
 
 详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)。
 
