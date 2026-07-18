@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.2.0] - 2026-07-18
+
+### Fixed
+
+- Fixed compile error blocking production builds
+- Fixed i18n runtime language switching bug
+- Fixed `btoa` Unicode crash on non-ASCII share payloads
+
+### Security
+
+- Added service-layer ownership checks to guard user-scoped resources
+- Scoped RLS SELECT policies to the resource owner
+
+### Performance
+
+- Memoized configurator components to reduce re-render overhead
+
+### Changed
+
+- Modularized all source files exceeding 200 lines
+- Persisted and added fallback for i18n locale selection
+- Unified project version references to v4.2.0
+- Synced README and CHANGELOG documentation
+
+---
+
 ## [4.1.0] - 2026-07-10
 
 ### Added

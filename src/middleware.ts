@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// src/middleware.ts v4.1.1 - 改进的 CSP 策略
+// src/middleware.ts v4.2.0 - 改进的 CSP 策略
 // 改进说明：
 // 1. script-src：移除 'unsafe-inline'，使用 'strict-dynamic' + 'unsafe-eval'（framer-motion 需要）
 // 2. style-src：保留 'unsafe-inline'（Next.js styled-jsx 和 Tailwind 必需）

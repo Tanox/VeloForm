@@ -62,6 +62,27 @@ export interface ValidationResult {
 const MAX_CONFIG_LENGTH = 10000; // ~10KB base64 encoded
 
 /**
+ * UTF-8 safe base64 encoding.
+ * `btoa` only accepts Latin1 characters and throws on Unicode (e.g. Chinese
+ * component names), so we encode via TextEncoder first.
+ */
+function encodeBase64Utf8(input: string): string {
+  const bytes = new TextEncoder().encode(input);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
+
+/** UTF-8 safe base64 decoding (counterpart to encodeBase64Utf8). */
+function decodeBase64Utf8(input: string): string {
+  const binary = atob(input);
+  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
+
+/**
  * Parse and validate a base64-encoded config string from URL.
  * Returns parsed data if valid, or error message if invalid.
  */
@@ -72,10 +93,10 @@ export function parseShareableConfig(encoded: string): ValidationResult {
       return { valid: false, error: 'Configuration too large' };
     }
 
-    // Step 1: Base64 decode
+    // Step 1: Base64 decode (UTF-8 safe)
     let decoded: string;
     try {
-      decoded = atob(encoded);
+      decoded = decodeBase64Utf8(encoded);
     } catch {
       return { valid: false, error: 'Invalid base64 encoding' };
     }
@@ -134,7 +155,7 @@ export function encodeShareableConfig(
     })),
   };
 
-  return btoa(JSON.stringify(config));
+  return encodeBase64Utf8(JSON.stringify(config));
 }
 
 /**

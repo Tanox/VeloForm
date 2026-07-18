@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import {
   useActiveType,
   useTotalCost,
@@ -19,6 +19,15 @@ import { Save, RefreshCw, Loader2, TrendingUp, Scale, Share2, Zap, Bike, User } 
 import { ShareModal } from './ShareModal';
 import { CostBreakdownChart } from './CostBreakdownChart';
 
+const getBikeTypeIcon = (type: string): typeof Bike => {
+  const icons: Record<string, typeof Bike> = {
+    Road: Bike,
+    MTB: Zap,
+    Fold: Scale,
+  };
+  return icons[type] || Bike;
+};
+
 export function SummaryPanel() {
   const t = useTranslation();
   const [showShareModal, setShowShareModal] = useState(false);
@@ -32,20 +41,11 @@ export function SummaryPanel() {
 
   const isLoggedIn = userId !== null;
 
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     await saveConfig();
-  };
+  }, []);
 
-  const getBikeTypeIcon = (type: string) => {
-    const icons: Record<string, typeof Bike> = {
-      Road: Bike,
-      MTB: Zap,
-      Fold: Scale,
-    };
-    return icons[type] || Bike;
-  };
-
-  const BikeIcon = getBikeTypeIcon(activeType);
+  const BikeIcon = useMemo(() => getBikeTypeIcon(activeType), [activeType]);
 
   return (
     <>

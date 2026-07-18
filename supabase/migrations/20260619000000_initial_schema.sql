@@ -89,11 +89,11 @@ ALTER TABLE public.configurations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.components ENABLE ROW LEVEL SECURITY;
 
 -- 6.1 configurations 表策略
--- 匿名/已认证用户可读（用于公开配置浏览）
+-- 仅配置所有者可读自己的配置，消除任意用户（含 anon key）读取他人配置的隐私泄露风险（IDOR）
 DROP POLICY IF EXISTS "Configurations are publicly readable" ON public.configurations;
-CREATE POLICY "Configurations are publicly readable"
+CREATE POLICY "Users can read their own configurations"
     ON public.configurations FOR SELECT
-    USING (true);
+    USING (auth.uid() = user_id);
 
 -- 仅已认证用户可插入，且必须归属到自己的 user_id
 DROP POLICY IF EXISTS "Users can insert their own configurations" ON public.configurations;

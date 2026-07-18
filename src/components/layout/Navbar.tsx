@@ -1,16 +1,16 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { Menu, Moon, Sun, Bike, HelpCircle, Globe } from 'lucide-react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { Bike, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useTranslation, useLanguage, useSetLanguage } from '@/lib/i18n';
 import { OnboardingGuide } from '@/components/ui/OnboardingGuide';
 import { SupportModal } from '@/components/ui/SupportModal';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Separator } from '@/components/ui/separator';
-import { APP_CONSTANTS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
+import { NavbarNavLinks, type NavItem } from './NavbarNavLinks';
+import { LanguageToggle } from './LanguageToggle';
+import { NavbarMobileMenu } from './NavbarMobileMenu';
 
 interface NavbarProps {
   onNavigate: (page: string) => void;
@@ -74,24 +74,34 @@ export function Navbar({ onNavigate }: NavbarProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
-    { label: String(t('nav.home')), href: 'home' },
-    { label: String(t('nav.library')), href: 'library' },
-    { label: String(t('nav.support')), href: 'support', isSupport: true },
-  ];
+  const navItems = useMemo<NavItem[]>(
+    () => [
+      { label: String(t('nav.home')), href: 'home' },
+      { label: String(t('nav.library')), href: 'library' },
+      { label: String(t('nav.support')), href: 'support', isSupport: true },
+    ],
+    [t]
+  );
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
-  const handleNavItemClick = (item: { href: string; isSupport?: boolean }) => {
-    if (item.isSupport) {
-      setIsSupportOpen(true);
-    } else {
-      handleNavigate(item.href);
-    }
-    setIsMobileMenuOpen(false);
-  };
+  const handleNavItemClick = useCallback(
+    (item: NavItem) => {
+      if (item.isSupport) {
+        setIsSupportOpen(true);
+      } else {
+        handleNavigate(item.href);
+      }
+      setIsMobileMenuOpen(false);
+    },
+    [handleNavigate]
+  );
+
+  const handleToggleLanguage = useCallback(() => {
+    setLanguage(language === 'en' ? 'zh-CN' : 'en');
+  }, [setLanguage, language]);
 
   return (
     <>
@@ -119,43 +129,11 @@ export function Navbar({ onNavigate }: NavbarProps) {
             </button>
 
             <div className="hidden md:flex items-center gap-1">
-              {navItems.map((item) => (
-                <Button
-                  key={item.href}
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    if (item.isSupport) {
-                      setIsSupportOpen(true);
-                    } else {
-                      handleNavigate(item.href);
-                    }
-                  }}
-                  aria-label={item.label}
-                  className="h-9 px-4"
-                >
-                  {item.isSupport ? (
-                    <span className="flex items-center gap-1.5">
-                      <HelpCircle className="w-4 h-4" />
-                      {item.label}
-                    </span>
-                  ) : (
-                    item.label
-                  )}
-                </Button>
-              ))}
+              <NavbarNavLinks items={navItems} onItemClick={handleNavItemClick} className="h-9 px-4" />
             </div>
 
             <div className="flex items-center gap-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setLanguage(language === 'en' ? 'zh-CN' : 'en')}
-                aria-label={String(t('nav.language'))}
-                className="h-9 w-9"
-              >
-                <Globe className="w-4 h-4" />
-              </Button>
+              <LanguageToggle language={language} onToggle={handleToggleLanguage} />
 
               {mounted && (
                 <Button
@@ -169,70 +147,17 @@ export function Navbar({ onNavigate }: NavbarProps) {
                 </Button>
               )}
 
-              <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-                <SheetTrigger
-                  render={
-                    <Button variant="ghost" size="icon" className="md:hidden" aria-label="打开菜单">
-                      <Menu className="w-4 h-4" />
-                    </Button>
-                  }
-                />
-                <SheetContent
-                  side="right"
-                  className="w-full sm:max-w-sm bg-card border-l border-border"
-                >
-                  <SheetHeader>
-                    <SheetTitle className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
-                        <Bike className="w-4 h-4 text-primary-foreground" />
-                      </div>
-                      Veloform
-                    </SheetTitle>
-                  </SheetHeader>
-                  <div className="flex flex-col gap-1 py-4">
-                    {navItems.map((item) => (
-                      <Button
-                        key={item.href}
-                        variant="ghost"
-                        className="justify-start h-10"
-                        onClick={() => handleNavItemClick(item)}
-                      >
-                        {item.label}
-                      </Button>
-                    ))}
-                  </div>
-                  <Separator />
-                  <div className="flex flex-col gap-1 py-4">
-                    <Button
-                      variant="ghost"
-                      className="justify-start h-10"
-                      onClick={() => setLanguage(language === 'en' ? 'zh-CN' : 'en')}
-                    >
-                      <Globe className="w-4 h-4 mr-2" />
-                      {t('nav.language')}
-                      <span className="ml-auto text-muted-foreground text-sm">
-                        {language === 'en' ? 'English' : '中文'}
-                      </span>
-                    </Button>
-                    {mounted && (
-                      <Button variant="ghost" className="justify-start h-10" onClick={toggleTheme}>
-                        {theme === 'dark' ? (
-                          <Sun className="w-4 h-4 mr-2" />
-                        ) : (
-                          <Moon className="w-4 h-4 mr-2" />
-                        )}
-                        {theme === 'dark' ? '浅色模式' : '深色模式'}
-                      </Button>
-                    )}
-                  </div>
-                  <div className="mt-auto pt-4">
-                    <Separator className="mb-4" />
-                    <p className="text-sm text-muted-foreground text-center">
-                      Veloform v{APP_CONSTANTS.APP_INFO.version}
-                    </p>
-                  </div>
-                </SheetContent>
-              </Sheet>
+              <NavbarMobileMenu
+                open={isMobileMenuOpen}
+                onOpenChange={setIsMobileMenuOpen}
+                items={navItems}
+                onItemClick={handleNavItemClick}
+                language={language}
+                onToggleLanguage={handleToggleLanguage}
+                mounted={mounted}
+                theme={theme}
+                onToggleTheme={toggleTheme}
+              />
             </div>
           </div>
         </div>

@@ -7,6 +7,7 @@ import {
   deleteConfigurationFromSupabase,
 } from '@/lib/supabase-service';
 import { isSupabaseConfigured } from '@/lib/supabase';
+import { generateShareableLink as generateShareableConfigLink } from '@/lib/shareable-config';
 import { toast } from '@/lib/toast';
 import { configLogger } from '@/lib/logger';
 
@@ -81,7 +82,10 @@ export async function deleteConfiguration(configId: string): Promise<void> {
 
   try {
     if (isSupabaseConfigured()) {
-      await deleteConfigurationFromSupabase(configId);
+      await deleteConfigurationFromSupabase(
+        configId,
+        useUserStore.getState().userId || undefined
+      );
       toast('info', 'Configuration deleted from cloud');
     }
   } catch (error) {
@@ -94,14 +98,12 @@ export async function deleteConfiguration(configId: string): Promise<void> {
 
 export function generateShareableLink(): string {
   const { activeType, components, manualConfigName } = useConfigStore.getState();
-  const config = {
-    bikeType: activeType,
+  // Delegate to the validated, UTF-8 safe encoder in shareable-config.ts
+  return generateShareableConfigLink(
+    activeType,
     components,
-    name: manualConfigName || `${activeType} Build`,
-  };
-  const encoded = btoa(JSON.stringify(config));
-  const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  return `${origin}/?config=${encoded}`;
+    manualConfigName || `${activeType} Build`
+  );
 }
 
 export function exportConfiguration(): string {

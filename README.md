@@ -340,7 +340,7 @@ function MyComponent() {
 
 ## 版本信息
 
-当前版本：**v4.1.0**
+当前版本：**v4.2.0**
 最后更新：2026-07-14
 
 详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)。

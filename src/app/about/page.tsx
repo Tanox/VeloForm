@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useCallback } from 'react';
 import { useClientReducedMotion } from '@/lib/hooks/use-client-reduced-motion';
 import {
   Bike,
@@ -9,17 +10,15 @@ import {
   Globe,
   Heart,
   Target,
-  Mail,
-  Phone,
-  MapPin,
-  ArrowRight,
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
-import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
 import { ANIMATION_DURATION, ANIMATION_DELAY_STEP } from '@/lib/animation';
 import { uiLogger } from '@/lib/logger';
+import { AboutStatCard } from './AboutStatCard';
+import { AboutValueCard } from './AboutValueCard';
+import { AboutContactSection } from './AboutContactSection';
 
 export default function AboutPage() {
   const t = useTranslation();
@@ -29,13 +28,19 @@ export default function AboutPage() {
     uiLogger.debug('Navigate to:', page);
   };
 
-  const getInitial = (props: Record<string, number>) =>
-    shouldReduceMotion ? { opacity: 1, y: 0, ...props } : props;
+  const getInitial = useCallback(
+    (props: Record<string, number>) =>
+      shouldReduceMotion ? { opacity: 1, y: 0, ...props } : props,
+    [shouldReduceMotion]
+  );
 
-  const getTransition = (delay: number = 0) => ({
-    duration: shouldReduceMotion ? 0 : ANIMATION_DURATION,
-    delay: shouldReduceMotion ? 0 : delay,
-  });
+  const getTransition = useCallback(
+    (delay: number = 0) => ({
+      duration: shouldReduceMotion ? 0 : ANIMATION_DURATION,
+      delay: shouldReduceMotion ? 0 : delay,
+    }),
+    [shouldReduceMotion]
+  );
 
   const stats = [
     { icon: Users, key: 'activeUsers', label: 'about.stats.activeUsers' },
@@ -112,20 +117,14 @@ export default function AboutPage() {
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
               {stats.map((stat, index) => (
-                <motion.div
+                <AboutStatCard
                   key={stat.key}
-                  initial={getInitial({ opacity: 0, y: 20 })}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={getTransition(index * ANIMATION_DELAY_STEP)}
-                  className="text-center p-6 rounded-2xl bg-surface border border-border-light hover:border-primary/30 transition-colors"
-                >
-                  <stat.icon className="w-10 h-10 text-primary mx-auto mb-4" />
-                  <div className="text-3xl sm:text-4xl font-display font-bold text-foreground mb-2">
-                    {t(`${stat.label}.value`)}
-                  </div>
-                  <div className="text-sm text-muted">{t(`${stat.label}.label`)}</div>
-                </motion.div>
+                  icon={stat.icon}
+                  labelKey={stat.label}
+                  index={index}
+                  getInitial={getInitial}
+                  getTransition={getTransition}
+                />
               ))}
             </div>
           </div>
@@ -154,91 +153,21 @@ export default function AboutPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {values.map((value, index) => (
-                <motion.div
+                <AboutValueCard
                   key={value.key}
-                  initial={getInitial({ opacity: 0, y: 20 })}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={getTransition(index * ANIMATION_DELAY_STEP)}
-                  className="p-8 rounded-2xl bg-surface border border-border-light hover:border-primary/30 hover:shadow-lg transition-all"
-                >
-                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
-                    <value.icon className="w-7 h-7 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-display font-semibold text-foreground mb-3">
-                    {t(`${value.label}.title`)}
-                  </h3>
-                  <p className="text-secondary leading-relaxed">
-                    {t(`${value.label}.description`)}
-                  </p>
-                </motion.div>
+                  icon={value.icon}
+                  labelKey={value.label}
+                  index={index}
+                  getInitial={getInitial}
+                  getTransition={getTransition}
+                />
               ))}
             </div>
           </div>
         </motion.section>
 
         {/* Contact Section */}
-        <motion.section
-          initial={getInitial({ opacity: 0, y: 40 })}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={getTransition(0)}
-          className="py-20 px-4 sm:px-6 lg:px-8 bg-surface-secondary/50"
-        >
-          <div className="max-w-4xl mx-auto">
-            <motion.div
-              initial={getInitial({ opacity: 0, y: 20 })}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={getTransition(0)}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mb-4">
-                {t('about.contact.title')}
-              </h2>
-              <p className="text-lg text-secondary">{t('about.contact.description')}</p>
-            </motion.div>
-
-            <motion.div
-              initial={getInitial({ opacity: 0, y: 20 })}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={getTransition(ANIMATION_DELAY_STEP)}
-              className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12"
-            >
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-surface border border-border-light">
-                <Mail className="w-6 h-6 text-primary" />
-                <a
-                  href={`mailto:${t('about.contact.email')}`}
-                  className="text-foreground hover:text-primary transition-colors"
-                >
-                  {t('about.contact.email')}
-                </a>
-              </div>
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-surface border border-border-light">
-                <Phone className="w-6 h-6 text-primary" />
-                <span className="text-foreground">{t('about.contact.phone')}</span>
-              </div>
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-surface border border-border-light">
-                <MapPin className="w-6 h-6 text-primary" />
-                <span className="text-foreground">{t('about.contact.address')}</span>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={getInitial({ opacity: 0, y: 20 })}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={getTransition(ANIMATION_DELAY_STEP * 2)}
-              className="text-center"
-            >
-              <Button size="lg">
-                {t('about.contact.sendMessage')}
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </motion.div>
-          </div>
-        </motion.section>
+        <AboutContactSection getInitial={getInitial} getTransition={getTransition} />
       </main>
 
       <Footer />

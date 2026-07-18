@@ -135,7 +135,10 @@ export async function loadConfigurationsFromSupabase(userId?: string): Promise<C
 /**
  * 从 Supabase 删除配置
  */
-export async function deleteConfigurationFromSupabase(configId: string): Promise<void> {
+export async function deleteConfigurationFromSupabase(
+  configId: string,
+  userId?: string
+): Promise<void> {
   if (!isSupabaseConfigured()) {
     return;
   }
@@ -146,7 +149,12 @@ export async function deleteConfigurationFromSupabase(configId: string): Promise
       return;
     }
 
-    const { error } = await client.from('configurations').delete().eq('id', configId);
+    let query = client.from('configurations').delete().eq('id', configId);
+    // Defense in depth: scope deletes to the owner even though RLS also enforces it
+    if (userId) {
+      query = query.eq('user_id', userId);
+    }
+    const { error } = await query;
 
     if (error) {
       throw error;
