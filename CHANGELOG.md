@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.2.1] - 2026-07-28
+
+### 文档与版本
+- 统一项目版本号至 **v4.2.1**（package.json、README、openspec/*、prototype/* 当前版本头与更新日期）
+- 同步更新各规范文档的版本 / 更新日期标记至 2026-07-28
+
+### 质量复查（基于 v4.2.0）
+- 复核并确认 v4.2.0 全部修复仍然有效：i18n 运行时切换、btoa Unicode 安全、服务层归属校验、RLS 收敛、>200 行文件拆分、84 项测试通过
+- 修复 Whimsy / Delight 新特性的 Konami 彩蛋失效 bug（按键序列大小写不匹配）
+- 修复上一轮新增回归测试导致的 tsc --noEmit 编译错误（补充 vitest 全局导入）
+- 为加载页动画补齐 prefers-reduced-motion 守卫，落实无障碍规范
+
 ## [4.2.0] - 2026-07-18
 
 ### Fixed
