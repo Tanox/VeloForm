@@ -19,6 +19,7 @@ function BuildListItemBase({ component, index, onEdit }: BuildListItemProps) {
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
+      whileHover={{ scale: 1.01, y: -2 }}
       transition={{ delay: index * 0.05, duration: 0.3 }}
       className="relative flex items-center gap-4 p-4 bg-card border border-border rounded-xl cursor-pointer overflow-hidden group hover:border-border-strong hover:bg-surface-hover transition-all duration-200"
       onClick={() => onEdit(component.id)}

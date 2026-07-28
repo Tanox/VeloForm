@@ -1,5 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
 import { useTranslation, useI18nStore } from '@/lib/i18n';
+import { describe, it, expect, beforeEach } from 'vitest';
 
 describe('i18n runtime behavior', () => {
   beforeEach(() => {

@@ -1,4 +1,5 @@
 import { parseShareableConfig, encodeShareableConfig, generateShareableLink } from '@/lib/shareable-config';
+import { describe, it, expect } from 'vitest';
 
 const chineseComponents = [
   {

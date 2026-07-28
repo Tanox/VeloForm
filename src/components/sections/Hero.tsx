@@ -90,7 +90,7 @@ export function Hero({ onNavigate }: HeroProps) {
             >
               <Button
                 size="lg"
-                className="w-full sm:w-auto px-6 h-12 text-sm font-semibold"
+                className="w-full sm:w-auto px-6 h-12 text-sm font-semibold btn-shine"
                 onClick={() => onNavigate('configurator')}
                 aria-label={t('hero.cta') as string}
               >

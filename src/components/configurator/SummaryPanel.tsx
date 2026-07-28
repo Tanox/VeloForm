@@ -15,6 +15,7 @@ import { saveConfiguration as saveConfig } from '@/lib/config-service';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
+import { useWhimsy } from '@/lib/whimsy-copy';
 import { Save, RefreshCw, Loader2, TrendingUp, Scale, Share2, Zap, Bike, User } from 'lucide-react';
 import { ShareModal } from './ShareModal';
 import { CostBreakdownChart } from './CostBreakdownChart';
@@ -30,6 +31,7 @@ const getBikeTypeIcon = (type: string): typeof Bike => {
 
 export function SummaryPanel() {
   const t = useTranslation();
+  const w = useWhimsy();
   const [showShareModal, setShowShareModal] = useState(false);
   const activeType = useActiveType();
   const totalCost = useTotalCost();
@@ -43,7 +45,19 @@ export function SummaryPanel() {
 
   const handleSave = useCallback(async () => {
     await saveConfig();
-  }, []);
+    const savedId = useConfigStore.getState().configId;
+    if (savedId) {
+      window.dispatchEvent(
+        new CustomEvent('veloform:celebrate', {
+          detail: {
+            title: w('save.savedTitle'),
+            message: w('save.savedMsg'),
+            icon: '🚀',
+          },
+        })
+      );
+    }
+  }, [w]);
 
   const BikeIcon = useMemo(() => getBikeTypeIcon(activeType), [activeType]);
 
@@ -107,26 +121,26 @@ export function SummaryPanel() {
           <CostBreakdownChart />
 
           <div className="space-y-3 pt-2">
-            <Button
-              size="lg"
-              className="w-full"
-              onClick={handleSave}
-              disabled={isSaving}
-              aria-label={isSaving ? '保存配置中' : '保存配置'}
-              aria-busy={isSaving}
-            >
-              {isSaving ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" />
-                  保存中...
-                </>
-              ) : (
-                <>
-                  <Save className="w-4 h-4 mr-2" aria-hidden="true" />
-                  保存配置
-                </>
-              )}
-            </Button>
+              <Button
+                size="lg"
+                className="w-full btn-shine"
+                onClick={handleSave}
+                disabled={isSaving}
+                aria-label={isSaving ? '保存配置中' : w('save.label')}
+                aria-busy={isSaving}
+              >
+                {isSaving ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" />
+                    保存中...
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-4 h-4 mr-2" aria-hidden="true" />
+                    {w('save.label')}
+                  </>
+                )}
+              </Button>
 
             <div className="grid grid-cols-2 gap-3">
               <Button

@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useComponents, useConfigUIStore } from '@/lib/stores';
 import { APP_CONSTANTS } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
+import { useWhimsy } from '@/lib/whimsy-copy';
 import { Plus, ArrowRight } from 'lucide-react';
 import { BuildListItem } from './BuildListItem';
 
@@ -24,6 +25,45 @@ export function BuildList() {
     toggleComponentSelector(componentId);
     setTimeout(() => setIsLoading(false), 300);
   }, [toggleComponentSelector]);
+
+  // --- Delightful milestones -------------------------------------------------
+  const w = useWhimsy();
+  const prevCompletion = useRef<number | null>(null);
+  const prevCount = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (
+      prevCompletion.current !== null &&
+      completionPercentage === 100 &&
+      prevCompletion.current < 100
+    ) {
+      window.dispatchEvent(
+        new CustomEvent('veloform:celebrate', {
+          detail: {
+            title: w('build.completeTitle'),
+            message: w('build.completeMsg'),
+            icon: '🎉',
+          },
+        })
+      );
+    }
+    prevCompletion.current = completionPercentage;
+  }, [completionPercentage, w]);
+
+  useEffect(() => {
+    if (prevCount.current !== null && components.length > 0 && prevCount.current === 0) {
+      window.dispatchEvent(
+        new CustomEvent('veloform:celebrate', {
+          detail: {
+            title: w('build.firstTitle'),
+            message: w('build.firstMsg'),
+            icon: '✨',
+          },
+        })
+      );
+    }
+    prevCount.current = components.length;
+  }, [components.length, w]);
 
   return (
     <div className="space-y-2">
@@ -53,13 +93,13 @@ export function BuildList() {
             <Plus className="w-8 h-8 text-muted-foreground" />
           </div>
           <h4 className="text-lg font-semibold text-foreground mb-2">
-            {t('configurator.emptyState.title')}
+            {w('build.emptyTitle')}
           </h4>
           <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
-            {t('configurator.emptyState.description')}
+            {w('build.emptyDesc')}
           </p>
-          <Button onClick={() => toggleComponentSelector()} size="lg">
-            {t('configurator.emptyState.cta')}
+          <Button onClick={() => toggleComponentSelector()} size="lg" className="btn-shine">
+            {w('build.emptyCta')}
             <ArrowRight className="w-4 h-4 ml-2" aria-hidden="true" />
           </Button>
         </div>

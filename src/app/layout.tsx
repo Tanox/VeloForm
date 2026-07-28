@@ -1,11 +1,13 @@
 import type { Metadata, Viewport } from 'next';
 import { Fraunces, Hanken_Grotesk } from 'next/font/google';
 import './globals.css';
+import './whimsy.css';
 import { Providers } from './providers';
 import { Toaster } from 'sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { SyncProvider } from '@/components/SyncProvider';
 import { ClientErrorBoundary } from '@/components/ClientErrorBoundary';
+import { DelightLayer } from '@/components/ui/DelightLayer';
 import { logger } from '@/lib/logger';
 import { cn } from '@/lib/utils';
 
@@ -68,6 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <SyncProvider>{children}</SyncProvider>
             </ClientErrorBoundary>
           </TooltipProvider>
+          <DelightLayer />
           <Toaster richColors position="top-right" />
         </Providers>
       </body>

@@ -1,7 +1,27 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Bike } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card } from '@/components/ui/card';
+import { useWhimsy, useWhimsyPhrases } from '@/lib/whimsy-copy';
+import { useClientReducedMotion } from '@/lib/hooks/use-client-reduced-motion';
 
 export default function LibraryLoading() {
+  const w = useWhimsy();
+  const phrases = useWhimsyPhrases();
+  const [idx, setIdx] = useState(0);
+  const reduceMotion = useClientReducedMotion();
+
+  useEffect(() => {
+    const timer = window.setInterval(
+      () => setIdx((p) => (p + 1) % phrases.length),
+      1900
+    );
+    return () => window.clearInterval(timer);
+  }, [phrases.length]);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navbar Skeleton */}
@@ -23,11 +43,29 @@ export default function LibraryLoading() {
       </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-6 sm:pb-8">
-        {/* Header Skeleton */}
-        <div className="mb-6 sm:mb-8 space-y-4">
-          <Skeleton className="w-24 h-8" />
-          <Skeleton className="w-64 h-8" />
-          <Skeleton className="w-96 h-5" />
+        {/* Themed loader header */}
+        <div className="mb-6 sm:mb-8 flex items-center gap-3">
+          <motion.div
+            animate={reduceMotion ? undefined : { rotate: 360 }}
+            transition={reduceMotion ? undefined : { duration: 1.6, repeat: Infinity, ease: 'linear' }}
+            className="flex-shrink-0"
+          >
+            <Bike className="w-7 h-7 text-primary" aria-hidden="true" />
+          </motion.div>
+          <div className="h-6 relative flex items-center overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={idx}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="text-sm text-muted-foreground"
+              >
+                {phrases[idx]}
+              </motion.p>
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* Config Cards Grid Skeleton */}
