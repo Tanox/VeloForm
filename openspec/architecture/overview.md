@@ -1,8 +1,8 @@
-# Veloform 架构概览 (v3.4.1)
+# Veloform 架构概览 (v4.2.1)
 
 ## 项目概述
 
-Veloform 是一个本地化（EN/ZH）、高性能的自行车配置器，专为骑行者设计，支持 **公路车**、**山地车** 和 **折叠车** 三类车型的自定义构建模拟。它具备实时价格和重量计算、Firebase 后端持久化。
+Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，专为骑行者设计，支持 **公路车**、**山地车** 和 **折叠车** 三类车型的自定义构建模拟。具备实时价格和重量计算、Supabase 后端持久化，采用工业奢华极简设计风格。
 
 - **生产地址**: `https://veloform.app`
 - **代码仓库**: `https://github.com/sutchan/Veloform`
@@ -15,15 +15,19 @@ Veloform 是一个本地化（EN/ZH）、高性能的自行车配置器，专为
 | :--- | :--- | :--- |
 | **框架** | Next.js (App Router) | ^14.1.0 |
 | **UI 库** | React | ^18.2.0 |
-| **语言** | TypeScript | ~5.3.0 |
+| **语言** | TypeScript | ^5 |
 | **样式** | Tailwind CSS (Mobile-first) | ^3.4.0 |
+| **组件系统** | shadcn/ui (base-nova) + @base-ui/react | ^1.5.0 |
 | **状态管理** | Zustand | ^4.5.0 |
-| **后端/数据库** | Firebase (Firestore) | ^10.0.0 |
+| **后端/数据库** | Supabase (PostgreSQL) | ^2.45.0 |
 | **动画** | Framer Motion | ^10.16.4 |
-| **代码检查** | ESLint + Prettier | ^9.39.1 / ^3.16.0 |
-| **测试** | Vitest | ^4.0.0 |
-| **部署** | Vercel | — |
-| **国际化** | Custom I18n hook | — |
+| **图标** | Lucide React | ^0.294.0 |
+| **通知** | Sonner | ^2.0.7 |
+| **代码检查** | ESLint + Prettier | ^8 / ^3.2.0 |
+| **测试** | Vitest + Testing Library | ^1.2.0 / ^14.2.0 |
+| **部署** | Vercel / EdgeOne Pages | — |
+| **PWA** | next-pwa | ^5.6.0 |
+| **国际化** | Custom I18n hook (locales/) | — |
 
 ---
 
@@ -53,14 +57,14 @@ export default async function ConfiguratorPage() {
 
 ### 2. Zustand 状态管理
 
-使用 Zustand 实现全局状态管理，提供轻量级、类型安全且支持 React Suspense 的状态解决方案。
+使用 Zustand 实现全局状态管理，提供轻量级、类型安全且支持 React Suspense 的状态解决方案。Store 拆分按职责划分（config、auth、ui）。
 
 ```
 app.tsx (root)
-  ├── Zustand Store: useConfigStore
-  │     ├── state: activeType, components, isSaving, configId, showLibrary, myConfigs
-  │     ├── actions: setActiveType, addComponent, removeComponent, saveConfig, loadConfig
-  │     └── computed: configName, totalCost, baseWeight, totalWeight (via selectors)
+  ├── Zustand Stores
+  │     ├── useConfigStore: activeType, components, isSaving, configId
+  │     ├── useAuthStore: user, session, isLoading
+  │     └── useUIStore: theme, language, onboarding
   │
   ├── Navbar (Client Component)
   │     ├── hooks: useTheme, useLanguage
@@ -75,42 +79,34 @@ app.tsx (root)
         └── Framer Motion animations (panel transitions)
 ```
 
-### 3. 动态导入与 Firebase
+### 3. 服务端数据与 Supabase
 
-Firebase SDK 仅在客户端加载，使用 Next.js 动态导入避免服务端 bundle 膨胀：
+Supabase 在客户端通过 `@supabase/supabase-js` 直接调用，支持 Row Level Security (RLS) 策略进行数据访问控制。使用 Next.js 动态导入避免服务端 bundle 膨胀。
 
 ```typescript
-// lib/firebase-service.ts
-import { initializeApp, getApps } from '@/lib/firebase/init'
+// lib/config-service.ts
+import { supabase } from '@/lib/supabase/client'
 
-let firebaseApp: FirebaseApp | null = null
+export async function saveConfig(config: BikeConfig) {
+  const { data, error } = await supabase
+    .from('configurations')
+    .upsert(config)
+    .select()
+    .single()
 
-export async function getFirebaseApp() {
-  if (typeof window === 'undefined') {
-    throw new Error('Firebase can only be used on the client side')
-  }
-
-  if (!firebaseApp && getApps().length === 0) {
-    firebaseApp = initializeApp(firebaseConfig)
-  }
-
-  return firebaseApp
+  if (error) throw error
+  return data
 }
-
-// 使用方式
-const FirebaseAuth = dynamic(
-  () => import('@/components/auth/FirebaseAuth').then(mod => mod.FirebaseAuth),
-  { ssr: false, loading: () => <AuthSkeleton /> }
-)
 ```
 
 ### 4. 组件设计原则
 
-- 使用 `use client` 指令明确标识客户端组件
+- 使用 `use client` 指令明确标识���户端组件
 - 服务端组件用于数据获取和布局，减少客户端 JavaScript
-- 使用 Zustand hooks (`useStore`) 进行状态管理，避免 prop drilling
-- 组件文件名使用 `kebab-case`，导出组件使用 `PascalCase`
-- 自定义 hooks 封装可复用逻辑 (`useBikeConfig`, `useAuth`, `useI18n`)
+- 使用 Zustand hooks 进行状态管理，避免 prop drilling
+- 基于 shadcn/ui (base-nova) 和 @base-ui/react 原语构建组件
+- 组件文件名使用 `kebab-case`（shadcn 规范），导出使用 `PascalCase`
+- 遵循 4px 网格系统和设计 token 规范
 
 ---
 
@@ -122,57 +118,62 @@ src/
 │   ├── page.tsx                  # 首页/配置器
 │   ├── library/
 │   │   └── page.tsx             # 配置库页面
-│   ├── layout.tsx               # Root Layout
-│   ├── providers.tsx             # 全局提供者
-│   ├── globals.css              # 全局样式
-│   └── middleware.ts            # 中间件
+│   ├── about/                   # 关于页面
+│   ├─�� layout.tsx               # Root Layout
+│   ├── providers.tsx            # 全局提供者
+│   └── globals.css              # 全局样式 (设计 tokens)
 │
 ├── components/                   # React 组件
-│   ├── configurator/            # 配置器组件
+│   ├── configurator/            # 配置器业务组件 (L3)
 │   │   ├── BikeTypeSelector.tsx
-│   │   ├── BuildList.tsx
-│   │   ├── ComponentSelector.tsx
-│   │   ├── ComponentDetailModal.tsx
+│   │   ├── BuildList.tsx / BuildListItem.tsx
+│   │   ├── ComponentDetailModal.tsx + 子组件
+│   │   ├── ComponentSelector.tsx / ComponentSelectorItem.tsx
 │   │   ├── SummaryPanel.tsx
 │   │   ├── CostBreakdownChart.tsx
-│   │   ├── RecommendedConfigs.tsx
-│   │   ├── ComparePanel.tsx
+│   │   ├── RecommendedConfigs.tsx / RecommendedConfigCard.tsx
+│   │   ├── ComparePanel.tsx / CompareTable.tsx / CompareActions.tsx
 │   │   └── ShareModal.tsx
 │   │
-│   ├── layout/                  # 布局组件
-│   │   └── Navbar.tsx
+│   ├── layout/                  # 布局组件 (L2)
+│   │   ├── Navbar.tsx / NavbarMobileMenu.tsx / NavbarNavLinks.tsx
+│   │   ├── Footer.tsx
+│   │   └── LanguageToggle.tsx
 │   │
-│   └── ui/                      # 基础 UI 组件
-│       ├── Button.tsx
-│       ├── Card.tsx
-│       ├── Modal.tsx
-│       ├── Toast.tsx
-│       ├── ErrorBoundary.tsx
-│       ├── ThemeToggle.tsx
-│       ├── OnboardingGuide.tsx
-│       └── SupportModal.tsx
-│
-├── lib/                          # 工具库
-│   ├── i18n/                   # 国际化
-│   │   ├── index.ts
-│   │   ├── en.ts
-│   │   └── zh-CN.ts
+│   ├── sections/                # 页面 Section (L4)
+│   │   ├── Hero.tsx
+│   │   ├── Features.tsx
+│   │   ├── Pricing.tsx / PlanCard.tsx
+│   │   └── Cta.tsx
 │   │
-│   ├── store.ts                # Zustand 状态管理
-│   ├── constants.ts            # 应用常量
-│   ├── mock-data.ts            # 模拟数据
-│   ├── recommended-configs.ts  # 推荐配置
-│   ├── utils.ts                # 工具函数
-│   ├── toast.ts                # Toast 通知
-│   ├── firebase.ts             # Firebase 配置
-│   └── firebase-service.ts     # Firebase 服务
+│   └── ui/                      # shadcn/ui 基础组件 (L1, 30+)
+│       ├── button.tsx, card.tsx, input.tsx, dialog.tsx
+│       ├── accordion, alert, alert-dialog, avatar, badge
+│       ├── checkbox, dropdown-menu/, label, popover, progress
+│       ├── radio-group, scroll-area, select/, separator, sheet
+│       ├── skeleton, slider, sonner, switch, tabs, textarea, tooltip
+│       ├── error-boundary.tsx, ErrorBoundary.tsx, AsyncBoundary.tsx
+│       ├── LoadingScreen.tsx, Modal.tsx, ThemeToggle.tsx
+│       ├── OnboardingGuide.tsx, SupportModal.tsx, DelightToast.tsx
+│       └── DelightLayer.tsx
 │
-├── types/                        # TypeScript 类型定义
+├── lib/                          # 核心功能
+│   ├── i18n/                   # 国际化 (locales/en/, locales/zh-CN/)
+│   ├── data/                   # 模块化数据 (component-details/)
+│   ├── constants/              # 应用常量 (app.ts, defaults.ts)
+│   ├── stores/                 # Zustand stores (config.ts, auth.ts, ui.ts)
+│   ├── hooks/                  # 自定义 Hooks
+│   ├── services/               # 服务层 (supabase/)
+│   ├── auth.ts                 # 认证服务
+│   ├── config-service.ts       # 配置 CRUD (Supabase)
+│   ├── env.ts                  # 环境变量
+│   ├── animation.ts            # 动画工具
+│   └── utils.ts                # 工具函数 (cn, 格式化等)
+│
+├── types/                       # TypeScript 类型定义
 │   └── index.ts
 │
-└── public/                      # 静态资源
-    ├── _headers                # Vercel 头部配置
-    └── _redirects              # Vercel 重定向配置
+└── styles/                      # 额外样式
 ```
 
 ---
@@ -181,27 +182,29 @@ src/
 
 ### Core Layer (核心层)
 
-- **Store**: Zustand 状态管理（配置状态、认证状态）
-- **Firebase Service**: Firebase 初始化、认证、Firestore 数据访问
-- **Three.js Tools**: 3D 渲染引擎封装
+- **Stores**: Zustand 状态管理（配置状态、认证状态、UI 状态）
+- **Supabase Service**: 数据库操作、认证、RLS 策略
 - **Types**: 全局 TypeScript 类型定义和接口
 - **Constants**: 应用级常量
+- **Design Tokens**: CSS 变量定义的设计系统 token
 
 ### Features Layer (功能层)
 
-- **Configurator**: 自行车配置器核心功能
-- **Layout**: 导航栏、侧边栏等布局组件
-- **Library**: 方案库功能（预留扩展）
+- **Configurator**: 自行车配置器核心功能（选择、构建、比较、分享）
+- **Layout**: 导航栏、页脚等布局组件
+- **Sections**: 首页 Herod、Features、Pricing、CTA
+- **Library**: 配置方案库功能
 
 ### Shared Layer (共享层)
 
-- 可复用的 UI 组件
-- 通用工具函数
-- 自定义 Hooks
+- shadcn/ui 基础组件（button, card, dialog, form elements 等）
+- 通用工具函数（cn, 格式化）
+- 自定义 Hooks（useReducedMotion, useTranslation）
+- 错误边界和加载状态组件
 
 ### App Router Layer (路由层)
 
-- **App Router**: Next.js App Router 路由组织
+- **App Router**: Next.js App Router 路由���织
 - **Server Components**: 服务端组件用于数据获取和 SEO
 - **Client Components**: 客户端组件用于交互和状态管理
 
@@ -223,17 +226,23 @@ src/
 - **TypeScript**: 优秀的类型推断支持
 - **中间件**: 灵活的中间件系统支持持久化、日志等
 
+### 为什么选择 shadcn/ui + @base-ui/react？
+
+- **shadcn/ui**: 复制到源码的组件，完全控制样式和行为，base-nova 风格贴合工业奢华设计
+- **@base-ui/react**: 无障碍原语组件，提供 ARIA、键盘导航、焦点管理
+- **Tailwind CSS**: 原子化 CSS，设计 token 直接映射为 Tailwind 类名
+- **可定制**: 通过 CSS 变量全局切换主题和样式
+
 ### 为什么选择 Framer Motion？
 
-- **声明式动画**: 使用 React 的声明式方式定义动画，无需直接操作 DOM
+- **声明式动画**: 使用 React 的声明式方式定义动画
 - **性能优化**: 自动处理动画性能，减少不必要的重渲染
-- **丰富的 API**: 提供手势、过渡、布局等多种动画能力
-- **易于集成**: 与 React 组件无缝集成，支持 SSR
+- **克制使用**: 仅用于关键微交互（页面过渡、卡片 hover、列表入场）
 
-### 客户端/服务端组件划分策略
+### ��户端/服务端组件划分策略
 
 - **服务端组件**: 数据获取页面、布局组件、静态内容
-- **客户端组件**: 交互组件、状态依赖组件、Three.js 渲染器
+- **客户端组件**: 交互组件、状态依赖组件、动画组件
 
 ---
 
@@ -241,10 +250,13 @@ src/
 
 - [数据流设计](./data-flow.md)
 - [组件设计规范](./component-design.md)
+- [组件模式](./component-patterns.md)
+- [状态管理](./state-management.md)
 - [数据模型](../api/data-models.md)
 - [开发规范](../development/coding-standards.md)
+- [UI 设计系统](../design/ui-design-system.md)
 
 ---
 
-**最后更新**: 2026-05-26
-**版本**: v3.4.1
+**最后更新**: 2026-07-29
+**版本**: v4.2.1

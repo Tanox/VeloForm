@@ -138,7 +138,7 @@ export function Hero({ onNavigate }: HeroProps) {
             <div className="relative" style={{ aspectRatio: '4/5' }}>
               <div className="absolute inset-0 rounded-2xl overflow-hidden border border-border">
                 <Image
-                  src="https://images.unsplash.com/photo-1571068316384-4e6e9a41b2b6?w=800&h=1000&fit=crop&q=80"
+                  src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=800&h=1000&fit=crop&q=80"
                   alt="Veloform 公路车"
                   fill
                   priority

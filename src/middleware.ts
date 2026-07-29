@@ -1,24 +1,26 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// src/middleware.ts v4.2.1 - 改进的 CSP 策略
-// 改进说明：
-// 1. script-src：移除 'unsafe-inline'，使用 'strict-dynamic' + 'unsafe-eval'（framer-motion 需要）
-// 2. style-src：保留 'unsafe-inline'（Next.js styled-jsx 和 Tailwind 必需）
-// 3. 添加 base-uri 和 form-action 限制，防止注入攻击
-// 4. 明确限制外部域名白名单
+// src/middleware.ts v4.2.1 - CSP 策略
+// 说明：
+// 1. script-src 必须保留 'unsafe-inline'：Next.js App Router 在 HTML 中内联 RSC 水合负载
+//    （self.__next_f.push(...)）与 webpack 运行时引导脚本，这些脚本无法预计算 hash，
+//    且 Next 14.1 不会为其自动注入 nonce。移除 'unsafe-inline' 或改用 'strict-dynamic'
+//    会导致全部脚本被 CSP 拦截、客户端无法水合、整站失去交互能力。
+//    ⚠️ 注意：当 script-src 中存在 nonce/hash 来源时，浏览器会忽略 'unsafe-inline'，
+//       因此本策略【不】添加 nonce，以确保 'unsafe-inline' 对内联脚本生效。
+// 2. style-src 保留 'unsafe-inline'（styled-jsx / Tailwind 必需）。
+// 3. 'unsafe-eval' 为 framer-motion 动画库运行所需（已知限制）。
+// 4. 其余指令（connect / frame / img / font / base-uri / form-action / object）保持严格白名单。
 
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
-  // 改进的 CSP 策略
+  // CSP 策略
   const cspPolicy = [
     "default-src 'self'",
-    // 脚本策略：
-    // - 'strict-dynamic'：允许动态加载的脚本（但不允许内联脚本）
-    // - 'unsafe-eval'：framer-motion 动画库必需（已知限制，无法完全移除）
-    // - 移除了 'unsafe-inline'，显著提升安全性
-    "script-src 'self' 'strict-dynamic' 'unsafe-eval'",
+    // 脚本策略：'self' 允许 /_next/static 外部脚本；'unsafe-inline' 允许 Next RSC 水合内联脚本
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
     // 样式策略：
     // - 保留 'unsafe-inline'：Next.js styled-jsx 和 Tailwind CSS 必需
     // - 限制外部字体域名

@@ -3,7 +3,7 @@
 > **路径**: `/openspec/design/ui-design-system.md`
 > **版本**: v4.2.1
 > **更新日期**: 2026-07-28
-> **设计风格**: 极简主义 · 克制精准 · 国际水准
+> **设计风格**: 极简主义 · 工业奢华 · 国际顶尖水准
 
 ---
 
@@ -62,7 +62,7 @@
 
 - 避免过多色彩干扰
 - 使用深浅灰度建立视觉层级
-- 单一品牌色（蓝色）用于关键行动
+- 单一品牌色（烧锡色 #e85d2c / HSL 16 78% 56%）用于关键行动
 - 语义色（绿/橙/红）仅在必要时使用
 
 ### shadcn/ui 核心变量
@@ -79,7 +79,7 @@
   --card-foreground: 240 6% 10%;
   --popover: 0 0% 100%;
   --popover-foreground: 240 6% 10%;
-  --primary: 224 76% 48%;
+  --primary: 16 78% 48%;
   --primary-foreground: 0 0% 100%;
   --secondary: 240 5% 96%;
   --secondary-foreground: 240 6% 10%;
@@ -91,7 +91,7 @@
   --destructive-foreground: 0 0% 100%;
   --border: 240 6% 90%;
   --input: 240 6% 90%;
-  --ring: 224 76% 48%;
+  --ring: 16 78% 56%;
   --radius: 0.75rem;
 }
 ```
@@ -106,7 +106,7 @@
   --card-foreground: 0 0% 98%;
   --popover: 240 5% 10%;
   --popover-foreground: 0 0% 98%;
-  --primary: 224 76% 56%;
+  --primary: 16 78% 56%;
   --primary-foreground: 240 6% 10%;
   --secondary: 240 4% 16%;
   --secondary-foreground: 0 0% 98%;
@@ -118,7 +118,7 @@
   --destructive-foreground: 0 0% 98%;
   --border: 240 4% 20%;
   --input: 240 4% 20%;
-  --ring: 224 76% 56%;
+  --ring: 16 78% 56%;
 }
 ```
 
@@ -542,5 +542,5 @@ const config: Config = {
 ---
 
 **文档路径**: `/openspec/design/ui-design-system.md`
-**最后更新**: 2026-07-10
-**版本**: v4.1.0
+**最后更新**: 2026-07-28
+**版本**: v4.2.1

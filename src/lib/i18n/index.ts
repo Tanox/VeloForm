@@ -25,7 +25,7 @@ const translations: Record<string, Translations> = {
 
 import { create } from 'zustand';
 import type { StateCreator } from 'zustand';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 type Language = keyof typeof translations;
 
@@ -78,7 +78,10 @@ function getNestedValue(
 }
 
 const i18nStoreCreator: StateCreator<I18nStore> = (set, get) => ({
-  language: getInitialLanguage(),
+  // Deterministic default 'en' for BOTH server and client first render so that
+  // SSR markup matches the initial client render (no hydration mismatch).
+  // The persisted/browser language is applied later in a post-mount effect (useI18nInit).
+  language: 'en',
   setLanguage: (lang: Language) => {
     set({ language: lang });
     if (typeof window !== 'undefined') {
@@ -113,9 +116,20 @@ const i18nStoreCreator: StateCreator<I18nStore> = (set, get) => ({
 
 export const useI18nStore = create<I18nStore>()(i18nStoreCreator);
 
-// Ensure <html lang> reflects the initial language on first client load
-if (typeof window !== 'undefined') {
-  syncDocumentLanguage(useI18nStore.getState().language);
+/**
+ * Initialize i18n on the client after hydration.
+ *
+ * Must be called from a client root component (e.g. Providers). It reads the
+ * stored preference / browser locale and applies it via setLanguage. Doing this
+ * in an effect (rather than during store creation) keeps the first client render
+ * identical to the server render, eliminating the "Text content did not match"
+ * hydration warning.
+ */
+export function useI18nInit(): void {
+  const setLanguage = useSetLanguage();
+  useEffect(() => {
+    setLanguage(getInitialLanguage());
+  }, [setLanguage]);
 }
 
 /**

@@ -3,7 +3,7 @@
 > **路径**: `/prototype/design-system-spec.md`
 > **版本**: v4.2.1
 > **更新日期**: 2026-07-17
-> **设计风格**: 工业奢华 · 极简克制
+> **设计风格**: 极简主义 · 工业奢华 · 国际顶尖水准
 
 ---
 
@@ -74,8 +74,8 @@ Veloform v4.2.1 采用 **工业奢华设计哲学**，融合精密工程的严�
 
 #### ✅ 正确做法
 
-1. **主要操作** - 使用 `--primary` 填充按钮
-2. **次要操作** - 使用 `--primary` 描边按钮或纯文本链接
+1. **主要操作** - 使用 `--accent`（烧锡色）填充按钮
+2. **次要操作** - 使用 `--accent` 描边按钮或纯文本链接
 3. **成功状态** - 使用 `--success`（绿色）
 4. **视觉层级** - 使用 `--surface-*` 系列建立层级
 5. **文本层级** - 使用 `--foreground-*` 系列
@@ -83,7 +83,7 @@ Veloform v4.2.1 采用 **工业奢华设计哲学**，融合精密工程的严�
 #### ❌ 错误做法
 
 1. **过度使用渐变** - 仅在 Hero CTA 使用渐变
-2. **使用多种强调色** - 坚持单一品牌色（蓝色）
+2. **使用多种强调色** - 坚持单一品牌色（烧锡色）
 3. **色彩过于鲜艳** - 所有色彩应有足够的灰度
 4. **忽视对比度** - 确保 WCAG 2.1 AA 标准（4.5:1）
 
@@ -94,7 +94,7 @@ Veloform v4.2.1 采用 **工业奢华设计哲学**，融合精密工程的严�
 
 ```css
 .gradient-brand {
-  background: linear-gradient(135deg, #0071e3 0%, #34c759 50%, #af52de 100%);
+  background: linear-gradient(135deg, #e85d2c 0%, #f0875a 50%, #f5a67f 100%);
   background-size: 200% 200%;
 }
 ```
@@ -428,13 +428,13 @@ export default {
 ### 9.2 CSS Variables
 
 ```css
-/* src/app/globals.css */
+/* src/app/globals.css — 深色模式（默认） */
 :root {
-  /* 色彩 */
-  --background: #fafafa;
-  --surface: #ffffff;
-  --foreground: #1d1d1f;
-  --primary: #0071e3;
+  /* 色彩 — 工业奢华深色 */
+  --background: hsl(240 6% 6%);
+  --surface: hsl(240 8% 9%);
+  --foreground: hsl(240 5% 96%);
+  --accent: hsl(16 78% 56%);        /* 烧锡色 */
 
   /* 间距 */
   --space-1: 4px;
@@ -442,24 +442,23 @@ export default {
   --space-3: 12px;
 
   /* 圆角 */
-  --radius: 12px;
-  --radius-md: 16px;
+  --radius: 10px;
+  --radius-md: 12px;
 
   /* 阴影 */
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 
   /* 动效 */
   --duration-normal: 200ms;
   --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000000;
-    --surface: #1a1a1a;
-    --foreground: #ffffff;
-    /* ... */
-  }
+/* 浅色模式 */
+.light {
+  --background: hsl(40 30% 99%);
+  --surface: hsl(0 0% 100%);
+  --foreground: hsl(20 14% 8%);
+  --accent: hsl(16 78% 45%);        /* 烧锡色（浅色模式加深） */
 }
 ```
 
