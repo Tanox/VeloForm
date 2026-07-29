@@ -14,6 +14,16 @@ coverage
 /.next
 .next/
 
+# Build artifacts
+*.tsbuildinfo
+.next-swc-cache/
+
+# Vitest temp files
+vitest.config.ts.timestamp-*
+
+# IDE-specific
+.trae/
+
 # PWA
 public/sw.js
 public/workbox-*.js

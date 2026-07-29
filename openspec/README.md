@@ -30,7 +30,6 @@
 
 | 文档                                | 说明                                                    | 适用场景           |
 | ----------------------------------- | ------------------------------------------------------- | ------------------ |
-| [Firestore API](./api/firestore.md) | Next.js Firebase SDK 接口、安全规则、错误处理、性能优化 | 调用后端服务时参考 |
 | [数据模型](./api/data-models.md)    | 实体定义、Schema、验证规则、ER 图                       | 理解数据结构时参考 |
 
 ### 开发规范
@@ -46,7 +45,7 @@
 | 文档                                     | 说明                                     | 适用场景          |
 | ---------------------------------------- | ---------------------------------------- | ----------------- |
 | [环境配置](./deployment/environments.md) | 部署流程、环境变量、SSR 配置、监控、SEO  | 部署应用时参考    |
-| [CI/CD 流程](./devops/ci-cd.md)          | 分支策略、自动化测试、部署流程、监控告警 | 设置 CI/CD 流水线 |
+| [CI/CD 流程](./development/ci-cd.md)      | 分支策略、自动化测试、部署流程、监控告警 | 设置 CI/CD 流水线 |
 
 ### 安全规范
 
@@ -83,7 +82,7 @@
 
 1. 查看 [组件模式](./architecture/component-patterns.md) 了解 React 组件开发模式
 2. 参考 [状态管理](./architecture/state-management.md) 选择合适的状态管理方案
-3. 如需调用后端，查阅 [Firestore API](./api/firestore.md)
+3. 如需调用后端，查阅 [数据模型](./api/data-models.md)
 4. 如需多语言支持，参考 [国际化规范](./development/i18n-guidelines.md)
 5. 完成后按照 [测试规范](./development/testing.md) 编写测试
 

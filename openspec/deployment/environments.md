@@ -497,9 +497,9 @@ export const config: ApplicationConfig = {
 ## 相关文档
 
 - [架构概览](../architecture/overview.md)
-- [API 规范](../api/firestore.md)
+- [API 规范](../api/data-models.md)
 - [开发规范](../development/coding-standards.md)
-- [CI/CD 流程](../devops/ci-cd.md)
+- [CI/CD 流程](../development/ci-cd.md)
 
 ---
 

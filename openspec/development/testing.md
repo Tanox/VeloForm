@@ -722,7 +722,7 @@ jobs:
 
 - [开发规范](./coding-standards.md)
 - [架构概览](../architecture/overview.md)
-- [API 规范](../api/firestore.md)
+- [数据模型](../api/data-models.md)
 
 ---
 

@@ -327,9 +327,9 @@ if (isPlatformBrowser(this.platformId)) {
 }
 ```
 
-### Q: 如何处理 Firebase 认证错误？
+### Q: 如何处理 Supabase 认证错误？
 
-A: 参考 [Firestore API 规范](./openspec/api/firestore.md) 中的错误处理模式。
+A: 参考 [数据模型规范](./openspec/api/data-models.md) 中的验证策略，以及 `supabase/migrations/` 中的 RLS 策略。
 
 ### Q: Bundle Size 超出预算怎么办？
 

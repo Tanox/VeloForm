@@ -122,11 +122,11 @@ src/
 
 ### Firebase 服务
 
-- `saveConfiguration(config)` - 保存配置到 Firestore
+- `saveConfiguration(config)` - 保存配置到 Supabase
 - `getUserConfigurations()` - 获取用户配置列表
 - `deleteConfiguration(id)` - 删除配置
 
-完整 API 规范见 [Firestore API 规范](./api/firestore.md)
+完整数据模型规范见 [数据模型](./api/data-models.md)
 
 ---
 
@@ -214,10 +214,10 @@ src/
 | 分类 | 文档 |
 |------|------|
 | **架构** | [概览](./architecture/overview.md) · [数据流](./architecture/data-flow.md) · [组件设计](./architecture/component-design.md) |
-| **API** | [Firestore](./api/firestore.md) · [数据模型](./api/data-models.md) |
+| **API** | [数据模型](./api/data-models.md) |
 | **开发** | [编码规范](./development/coding-standards.md) · [测试](./development/testing.md) |
 | **部署** | [环境配置](./deployment/environments.md) |
-| **DevOps** | [CI/CD 流程](./devops/ci-cd.md) |
+| **DevOps** | [CI/CD 流程](./development/ci-cd.md) |
 | **性能** | [性能优化](./performance/optimization.md) |
 | **安全** | [安全指南](./security/security-guidelines.md) |
 

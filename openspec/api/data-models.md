@@ -365,9 +365,9 @@ export function validateConfiguration(config: Partial<Configuration>): {
 }
 ```
 
-### 服务器端验证（Firestore Rules）
+### 服务器端验证（Supabase RLS）
 
-见 [Firestore API 规范](./firestore.md) 中的安全规则部分。
+数据验证通过 Supabase Row Level Security (RLS) 策略实现，详见 `supabase/migrations/` 中的迁移文件。
 
 ---
 
@@ -411,7 +411,6 @@ function migrateConfiguration(
 
 ## 相关文档
 
-- [Firestore API 规范](./firestore.md)
 - [架构概览](../architecture/overview.md)
 - [开发规范](../development/coding-standards.md)
 

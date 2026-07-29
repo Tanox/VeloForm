@@ -241,7 +241,7 @@ src/
 
 - [数据流设计](./data-flow.md)
 - [组件设计规范](./component-design.md)
-- [API 接口规范](../api/firestore.md)
+- [数据模型](../api/data-models.md)
 - [开发规范](../development/coding-standards.md)
 
 ---
