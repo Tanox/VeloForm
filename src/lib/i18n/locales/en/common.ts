@@ -8,4 +8,8 @@ export const common = {
   retry: 'Retry',
   backToHome: 'Back to Home',
   loading: 'Loading...',
+  themeLight: 'Light Mode',
+  themeDark: 'Dark Mode',
+  toggleToLight: 'Switch to Light Mode',
+  toggleToDark: 'Switch to Dark Mode',
 };

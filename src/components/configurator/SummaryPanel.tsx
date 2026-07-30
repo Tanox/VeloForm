@@ -67,7 +67,7 @@ export function SummaryPanel() {
         <div className="space-y-5 p-5">
           <div>
             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
-              当前配置
+              {t('configurator.currentBuild')}
             </p>
             <p className="text-xl font-display font-semibold text-foreground tracking-tight">
               {manualConfigName || `${activeType} Build`}
@@ -126,13 +126,13 @@ export function SummaryPanel() {
                 className="w-full btn-shine"
                 onClick={handleSave}
                 disabled={isSaving}
-                aria-label={isSaving ? '保存配置中' : w('save.label')}
+                aria-label={isSaving ? (t('configurator.saving') as string) : w('save.label')}
                 aria-busy={isSaving}
               >
                 {isSaving ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" />
-                    保存中...
+                    {t('configurator.saving')}
                   </>
                 ) : (
                   <>
@@ -148,20 +148,20 @@ export function SummaryPanel() {
                 size="lg"
                 className="w-full"
                 onClick={() => setShowShareModal(true)}
-                aria-label="分享配置"
+                aria-label={t('share.title') as string}
               >
                 <Share2 className="w-4 h-4 mr-2" aria-hidden="true" />
-                分享
+                {t('share.title')}
               </Button>
               <Button
                 variant="outline"
                 size="lg"
                 className="w-full"
                 onClick={resetToDefaults}
-                aria-label="重置为默认配置"
+                aria-label={t('configurator.reset') as string}
               >
                 <RefreshCw className="w-4 h-4 mr-2" aria-hidden="true" />
-                重置
+                {t('configurator.reset')}
               </Button>
             </div>
           </div>

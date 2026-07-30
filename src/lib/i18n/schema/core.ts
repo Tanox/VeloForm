@@ -34,6 +34,10 @@ export interface CoreTranslations {
     retry: string;
     backToHome: string;
     loading: string;
+    themeLight: string;
+    themeDark: string;
+    toggleToLight: string;
+    toggleToDark: string;
   };
   loading: {
     message: string;

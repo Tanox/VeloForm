@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { APP_CONSTANTS } from '@/lib/constants';
 import { NavbarNavLinks, type NavItem } from './NavbarNavLinks';
 import { LanguageToggle } from './LanguageToggle';
+import { useTranslation } from '@/lib/i18n';
 
 interface NavbarMobileMenuProps {
   open: boolean;
@@ -31,6 +32,7 @@ export function NavbarMobileMenu({
   theme,
   onToggleTheme,
 }: NavbarMobileMenuProps) {
+  const t = useTranslation();
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetTrigger
@@ -65,7 +67,7 @@ export function NavbarMobileMenu({
               ) : (
                 <Moon className="w-4 h-4 mr-2" />
               )}
-              {theme === 'dark' ? '浅色模式' : '深色模式'}
+              {theme === 'dark' ? t('common.themeLight') : t('common.themeDark')}
             </Button>
           )}
         </div>

@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.2.2] - 2026-07-30
+
+### Fixed
+- 修复测试运行器挂起：vitest 默认 threads 池在 Node 26 下无法启动，改为 forks 池
+- 修复 `test`/`test:coverage` 脚本在非交互环境挂起：改为 `vitest run` / `vitest run --coverage`
+- 修复 zustand persist 在测试/SSR 环境崩溃：新增安全存储 `src/lib/storage.ts`，localStorage 不可用时退化为内存存储，注入全部 persist 中间件
+- 修复测试环境 localStorage 缺失：在 `vitest.setup.ts` 注入内存版 localStorage 垫片
+- 统一项目版本号至 **v4.2.2**（store/*.ts、constants/app.ts、globals.css、middleware.ts、package.json、README）
+
+### 质量复查
+- 复跑测试套件：84 项测试全部通过（此前因环境挂起未能执行）
+- `tsc --noEmit` 与 `next lint` 零错误
+
 ## [4.2.1] - 2026-07-28
 
 ### 文档与版本

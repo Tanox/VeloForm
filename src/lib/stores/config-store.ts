@@ -5,6 +5,7 @@ import { persist } from 'zustand/middleware';
 import type { StateCreator } from 'zustand';
 import { BikeType, ConfigComponent } from '@/types';
 import { getDefaultsForType, APP_CONSTANTS } from '@/lib/constants';
+import { safeJSONStorage } from '@/lib/storage';
 
 export interface ConfigStoreState {
   activeType: BikeType;
@@ -85,6 +86,7 @@ export const useConfigStore = create<ConfigStore>()(
   persist(configStoreCreator, {
     name: 'veloform-config-storage',
     skipHydration: true,
+    storage: safeJSONStorage,
   })
 );
 

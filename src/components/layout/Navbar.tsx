@@ -140,7 +140,11 @@ export function Navbar({ onNavigate }: NavbarProps) {
                   variant="ghost"
                   size="icon"
                   onClick={toggleTheme}
-                  aria-label={theme === 'dark' ? '切换到浅色模式' : '切换到深色模式'}
+                  aria-label={
+                    theme === 'dark'
+                      ? (t('common.toggleToLight') as string)
+                      : (t('common.toggleToDark') as string)
+                  }
                   className="h-9 w-9"
                 >
                   {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}

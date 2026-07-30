@@ -1,6 +1,6 @@
 /**
  * Store 模块索引
- * src/lib/store/index.ts v4.1.0
+ * src/lib/store/index.ts v4.2.2
  */
 
 // 类型导出

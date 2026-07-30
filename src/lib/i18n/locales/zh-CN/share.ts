@@ -7,4 +7,7 @@ export const share = {
   copyFailed: '复制链接失败',
   exported: '配置导出成功！',
   hint: '与朋友分享您的配置或保存供以后使用。',
+  copyHint: '复制到剪贴板',
+  exportHint: '下载 JSON 文件',
+  copiedLabel: '已复制',
 };

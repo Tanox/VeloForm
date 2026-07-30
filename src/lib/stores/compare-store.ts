@@ -3,6 +3,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { StateCreator } from 'zustand';
+import { safeJSONStorage } from '@/lib/storage';
 import { Configuration } from '@/types';
 
 export interface CompareState {
@@ -77,6 +78,7 @@ export const useCompareStore = create<CompareStore>()(
   persist(compareStoreCreator, {
     name: 'veloform-compare-storage',
     skipHydration: true,
+    storage: safeJSONStorage,
   })
 );
 

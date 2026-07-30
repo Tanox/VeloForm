@@ -55,7 +55,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-xl">分享你的配置</DialogTitle>
+          <DialogTitle className="text-xl">{t('share.title')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-6">
           <motion.div
@@ -70,7 +70,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
                   <Link2 className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-sm font-medium text-foreground">分享链接</span>
+                <span className="text-sm font-medium text-foreground">{t('share.link')}</span>
               </div>
 
               <div className="flex gap-2">
@@ -90,12 +90,12 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
                   {copied ? (
                     <>
                       <Check className="w-4 h-4 mr-1" />
-                      已复制
+                      {t('share.copiedLabel')}
                     </>
                   ) : (
                     <>
                       <Copy className="w-4 h-4 mr-1" />
-                      复制
+                      {t('share.copyLink')}
                     </>
                   )}
                 </Button>
@@ -116,8 +116,8 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
                 <Share2 className="w-6 h-6 text-white" />
               </div>
               <div className="relative text-center">
-                <span className="block font-semibold text-foreground">分享链接</span>
-                <span className="block text-xs text-muted-foreground mt-0.5">复制到剪贴板</span>
+                <span className="block font-semibold text-foreground">{t('share.link')}</span>
+                <span className="block text-xs text-muted-foreground mt-0.5">{t('share.copyHint')}</span>
               </div>
             </motion.button>
 
@@ -133,8 +133,8 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
                 <FileJson className="w-6 h-6 text-white" />
               </div>
               <div className="relative text-center">
-                <span className="block font-semibold text-foreground">导出配置</span>
-                <span className="block text-xs text-muted-foreground mt-0.5">下载 JSON 文件</span>
+                <span className="block font-semibold text-foreground">{t('share.exportJSON')}</span>
+                <span className="block text-xs text-muted-foreground mt-0.5">{t('share.exportHint')}</span>
               </div>
             </motion.button>
           </div>
@@ -147,10 +147,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
           >
             <Sparkles className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
             <div className="text-sm text-muted-foreground leading-relaxed">
-              <p>分享你的配置给朋友，或导出为 JSON 文件用于其他目的。</p>
-              <p className="mt-1">
-                链接有效期为 <span className="text-foreground font-medium">30 天</span>。
-              </p>
+              <p>{t('share.hint')}</p>
             </div>
           </motion.div>
         </div>

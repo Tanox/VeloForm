@@ -1,6 +1,6 @@
 /**
  * Store 选择器 hooks
- * src/lib/store/selectors.ts v4.1.0
+ * src/lib/store/selectors.ts v4.2.2
  */
 
 import { APP_CONSTANTS } from '@/lib/constants';

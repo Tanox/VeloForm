@@ -1,6 +1,6 @@
 /**
  * Store 类型定义
- * src/lib/store/types.ts v4.1.0
+ * src/lib/store/types.ts v4.2.2
  */
 
 import type { ConfigComponent, Configuration, BikeType } from '@/types';

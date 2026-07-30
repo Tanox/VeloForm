@@ -2,6 +2,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { safeJSONStorage } from '@/lib/storage';
 
 export interface UserState {
   userId: string | null;
@@ -26,6 +27,7 @@ export const useUserStore = create<UserStore>()(
     {
       name: 'veloform-user-storage',
       skipHydration: true,
+      storage: safeJSONStorage,
     }
   )
 );

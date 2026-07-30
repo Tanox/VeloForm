@@ -1,6 +1,6 @@
 {
   "name": "veloform-next",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,8 +11,8 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "vitest",
-    "test:coverage": "vitest --coverage",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "analyze": "ANALYZE=true next build",
     "generate-icons": "node scripts/generate-icons.js",
     "prepare": "husky install || true"

@@ -1,6 +1,6 @@
 /**
  * Store 业务操作
- * src/lib/store/actions.ts v4.1.0
+ * src/lib/store/actions.ts v4.2.2
  */
 
 import type { StateCreator } from 'zustand';

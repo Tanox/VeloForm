@@ -2,6 +2,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { safeJSONStorage } from '@/lib/storage';
 
 export interface ConfigUIState {
   showComponentSelector: boolean;
@@ -50,6 +51,7 @@ export const useConfigUIStore = create<ConfigUIStore>()(
     {
       name: 'veloform-config-ui-storage',
       skipHydration: true,
+      storage: safeJSONStorage,
       partialize: (state) => ({
         // 只持久化必要的UI状态，选择器打开状态不持久化
       }),

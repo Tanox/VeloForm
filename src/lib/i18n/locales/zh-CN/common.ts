@@ -8,4 +8,8 @@ export const common = {
   retry: '重试',
   backToHome: '返回首页',
   loading: '正在加载...',
+  themeLight: '浅色模式',
+  themeDark: '深色模式',
+  toggleToLight: '切换到浅色模式',
+  toggleToDark: '切换到深色模式',
 };

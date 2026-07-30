@@ -17,6 +17,9 @@ export interface CompareShareTranslations {
     copyFailed: string;
     exported: string;
     hint: string;
+    copyHint: string;
+    exportHint: string;
+    copiedLabel: string;
   };
   error: {
     title: string;

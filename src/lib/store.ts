@@ -2,7 +2,7 @@
 
 /**
  * 🔁 兼容层：将分散的关注点 store 聚合成原有的单一 useConfigStore API
- * src/lib/store.ts v4.1.0
+ * src/lib/store.ts v4.2.2
  *
  * 新代码请直接从 @/lib/stores/* 和 @/lib/config-service 导入
  * 这一层主要服务于未迁移的旧组件与测试文件
@@ -16,6 +16,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { StateCreator } from 'zustand';
+import { safeJSONStorage } from '@/lib/storage';
 import type { Configuration } from '@/types';
 import { getDefaultsForType, APP_CONSTANTS } from '@/lib/constants';
 import { toast } from '@/lib/toast';
@@ -139,6 +140,7 @@ const configStoreCreator: StateCreator<LegacyConfigStore> = (set, get) => ({
 export const useConfigStore = create<LegacyConfigStore>()(
   persist(configStoreCreator, {
     name: 'veloform-config-storage',
+    storage: safeJSONStorage,
   })
 );
 

@@ -7,4 +7,7 @@ export const share = {
   copyFailed: 'Failed to copy link',
   exported: 'Configuration exported successfully!',
   hint: 'Share your build with friends or save it for later.',
+  copyHint: 'Copy to clipboard',
+  exportHint: 'Download JSON file',
+  copiedLabel: 'Copied',
 };
