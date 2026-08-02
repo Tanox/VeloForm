@@ -22,11 +22,11 @@ export default function LibraryPage() {
   const comparingConfigIds = useComparingConfigIds();
 
   return (
-    <div className="min-h-screen">
+    <div id="library-root" className="min-h-screen">
       <Navbar onNavigate={() => {}} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-6 sm:pb-8">
-        <div className="mb-6 sm:mb-8">
+      <main id="library-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-6 sm:pb-8">
+        <div id="library-header" className="mb-6 sm:mb-8">
           <Link href="/">
             <Button variant="ghost" size="sm">
               ← {t('library.backToConfigurator')}
@@ -39,7 +39,7 @@ export default function LibraryPage() {
         </div>
 
         {myConfigs.length === 0 ? (
-          <Card className="text-center py-12 sm:py-16">
+          <Card id="library-empty-state" className="text-center py-12 sm:py-16">
             <div className="text-muted text-base sm:text-lg mb-4">{t('library.noConfigs')}</div>
             <Link href="/">
               <Button>{t('library.startBuilding')}</Button>
@@ -63,9 +63,10 @@ export default function LibraryPage() {
               </div>
             }
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+            <div id="library-config-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {myConfigs.map((config, index) => (
                 <motion.div
+                  id={`library-config-card-${config.id || index}`}
                   key={config.id || index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}

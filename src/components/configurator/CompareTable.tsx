@@ -18,12 +18,12 @@ function CompareTableBase({ comparingConfigs, minCost, minWeight, getBestValue, 
   const categories = comparingConfigs[0]?.components.map((c) => c.category) || [];
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-border-light overflow-hidden">
+    <div id="compare-table" className="overflow-x-auto rounded-2xl border border-border-light overflow-hidden">
       <table className="w-full min-w-[700px]">
         <thead>
           <tr className="bg-surface-tertiary/50">
-            <th className="text-left py-4 px-5 text-sm font-semibold text-muted-foreground w-1/5">
-              组件
+            <th scope="col" className="text-left py-4 px-5 text-sm font-semibold text-muted-foreground w-1/5">
+              {t('compare.component')}
             </th>
             {comparingConfigs.map((config) => (
               <th key={config.id} className="text-center py-4 px-4">
@@ -48,8 +48,8 @@ function CompareTableBase({ comparingConfigs, minCost, minWeight, getBestValue, 
             const bestWeight = getBestValue(weights);
 
             return (
-              <tr key={category} className="border-t border-border-light">
-                <td className="py-4 px-5">
+          <tr key={category} className="border-t border-border-light">
+            <th scope="row" className="py-4 px-5 text-left">
                   <span className="text-sm font-semibold text-foreground">
                     {t(`categories.${category.toLowerCase()}`) || category}
                   </span>
@@ -81,12 +81,12 @@ function CompareTableBase({ comparingConfigs, minCost, minWeight, getBestValue, 
 
           {/* 总成本行 */}
           <tr className="border-t-2 border-border bg-gradient-to-r from-primary/5 to-transparent">
-            <td className="py-5 px-5">
+            <th scope="row" className="py-5 px-5 text-left">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-foreground">总成本</span>
+                <span className="text-sm font-bold text-foreground">{t('compare.totalCost')}</span>
                 <Sparkles className="w-4 h-4 text-primary" />
               </div>
-            </td>
+            </th>
             {comparingConfigs.map((config, idx) => (
               <td key={idx} className="text-center py-5 px-4">
                 <div className="space-y-2">
@@ -130,7 +130,7 @@ function CompareTableBase({ comparingConfigs, minCost, minWeight, getBestValue, 
                       ) : (
                         <>
                           <Minus className="w-3.5 h-3.5 text-muted-foreground" />
-                          <span className="text-xs text-muted-foreground">持平</span>
+                          <span className="text-xs text-muted-foreground">{t('compare.even')}</span>
                         </>
                       )}
                     </div>
@@ -142,9 +142,9 @@ function CompareTableBase({ comparingConfigs, minCost, minWeight, getBestValue, 
 
           {/* 总重量行 */}
           <tr className="border-t border-border-light bg-surface-tertiary/30">
-            <td className="py-5 px-5">
-              <span className="text-sm font-bold text-foreground">预估重量</span>
-            </td>
+            <th scope="row" className="py-5 px-5 text-left">
+              <span className="text-sm font-bold text-foreground">{t('compare.estimatedWeight')}</span>
+            </th>
             {comparingConfigs.map((config, idx) => (
               <td key={idx} className="text-center py-5 px-4">
                 <p

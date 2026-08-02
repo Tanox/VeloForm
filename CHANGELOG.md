@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.3.0] - 2026-08-01
+
+### 改进
+- 删除废弃的旧 `src/lib/store/` 兼容层目录，业务代码统一使用 `@/lib/stores`，消除冗余代码
+- 修复 `config-ui-store` 空 `partialize` 导致的瞬时 UI 状态持久化问题（刷新后可能卡在 loading 态），改为不持久化瞬时状态
+- 修复 `BuildList` 未清理的 `setTimeout` 定时器，避免组件卸载后 `setState` 警告
+- 为对比表 `CompareTable` 的 `<th>` 补充 `scope` 属性，提升表格可访问性
+- 为 `ComponentSelectorItem` 补充 `onKeyDown`（Enter/Space 选中），修复键盘无法选择组件的无障碍缺陷
+- 完善 i18n：为 `ComponentDetailModal`、`CompareTable`、`ComparePanelHeader` 的硬编码中文文案接入翻译 key（技术规格/核心特性/价格/重量/选择此组件/总成本/预估重量/持平/配置对比等）
+- 为所有主要容器与对话框补充语义化 `id`，便于调试（app-root、section-bike-type、section-configurator、build-list、summary-panel、compare-panel、component-detail-modal、component-selector-dialog 等）
+- 补齐核心模块测试：`config-service`（保存/删除/导出/分享链接，含中文组件名 UTF-8 安全验证）、`SyncProvider`（订阅生命周期与认证变化）、`BuildList`/`SummaryPanel` 有效断言；废弃 `store.test.ts` 迁移为 `config-store.test.ts`
+- 统一项目版本号至 **v4.3.0**
+
+### 质量复查
+- `tsc --noEmit` 与 `next lint` 零错误
+- 测试套件全部通过
+
 ## [4.2.2] - 2026-07-30
 
 ### Fixed

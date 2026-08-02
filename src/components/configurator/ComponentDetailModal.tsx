@@ -33,12 +33,12 @@ export function ComponentDetailModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-xl">{detail.name}</DialogTitle>
-        </DialogHeader>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <ComponentDetailImage detail={detail} />
+                <DialogContent id="component-detail-modal" className="max-w-5xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl">{detail.name}</DialogTitle>
+          </DialogHeader>
+          <div id="component-detail-content" className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <ComponentDetailImage detail={detail} />
 
           {/* 右侧：详情 */}
           <motion.div
@@ -69,7 +69,7 @@ export function ComponentDetailModal({
             <div className="flex items-center gap-3">
               <ComponentDetailRating rating={detail.rating || 0} />
               <span className="text-sm text-muted-foreground font-medium">
-                {detail.rating} ({detail.reviewCount} 条评价)
+                {detail.rating} ({detail.reviewCount} {t('componentDetail.reviews')})
               </span>
             </div>
 
@@ -80,7 +80,7 @@ export function ComponentDetailModal({
                   <span className="text-lg font-bold text-primary">¥</span>
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider">价格</p>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider">{t('componentDetail.price')}</p>
                   <p className="text-xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
                     {formatCurrency(detail.price)}
                   </p>
@@ -91,7 +91,7 @@ export function ComponentDetailModal({
                   <Scale className="w-5 h-5 text-accent" />
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider">重量</p>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider">{t('componentDetail.weight')}</p>
                   <p className="text-xl font-bold bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
                     {formatWeight(detail.weight / 1000)}
                   </p>
@@ -104,7 +104,7 @@ export function ComponentDetailModal({
               <div>
                 <h4 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
                   <Package className="w-4 h-4 text-primary" />
-                  技术规格
+                  {t('componentDetail.technicalSpecs')}
                 </h4>
                 <div className="grid grid-cols-2 gap-2">
                   {Object.entries(detail.specs ?? {}).map(([key, value], index) => {
@@ -131,7 +131,7 @@ export function ComponentDetailModal({
               <div>
                 <h4 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-primary" />
-                  核心特性
+                  {t('componentDetail.keyFeatures')}
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {detail.features.map((feature, index) => (
@@ -148,8 +148,8 @@ export function ComponentDetailModal({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                <Button size="lg" onClick={onSelect} className="w-full">
-                  选择此组件
+                <Button id="component-detail-select" size="lg" onClick={onSelect} className="w-full">
+                  {t('componentDetail.selectComponent')}
                   <ChevronRight className="w-5 h-5 ml-2" />
                 </Button>
               </motion.div>

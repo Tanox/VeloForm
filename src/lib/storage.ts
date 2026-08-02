@@ -2,7 +2,7 @@
 
 /**
  * 文件: src/lib/storage.ts
- * 版本: v4.2.2
+ * 版本: v4.3.0
  *
  * SSR / 测试环境下安全的 localStorage 访问。
  *

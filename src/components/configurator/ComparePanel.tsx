@@ -45,9 +45,10 @@ export function ComparePanel() {
         exit={{ opacity: 0, y: 100 }}
         transition={{ duration: 0.3 }}
         className="fixed bottom-0 left-0 right-0 z-50"
+        id="compare-panel"
       >
         {/* 主面板 */}
-        <div className="bg-surface-secondary/95 backdrop-blur-xl border-t border-border-light shadow-2xl">
+        <div id="compare-panel-body" className="bg-surface-secondary/95 backdrop-blur-xl border-t border-border-light shadow-2xl">
           {/* 头部 */}
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
             <ComparePanelHeader configCount={comparingConfigs.length} onClose={clearCompare} />

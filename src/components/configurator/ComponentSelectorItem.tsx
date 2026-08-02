@@ -44,12 +44,19 @@ function ComponentSelectorItemBase({
       whileTap={{ scale: 0.99 }}
     >
       <div
+        id={`component-selector-item-${component.id}`}
         className={`relative cursor-pointer rounded-xl p-5 transition-all duration-300 overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
           isSelected
             ? 'bg-primary/5 border border-primary/40 shadow-sm'
             : 'bg-surface-secondary/60 border border-border-light hover:border-border hover:bg-surface-secondary'
         }`}
         onClick={() => onSelect(component)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onSelect(component);
+          }
+        }}
         tabIndex={0}
         role="button"
         aria-label={`选择 ${component.name}${isSelected ? ' (已选)' : ''}`}
@@ -139,6 +146,7 @@ function ComponentSelectorItemBase({
             </div>
 
             <button
+              id={`component-selector-detail-${component.id}`}
               onClick={(e) => onViewDetail(component.id, e)}
               className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-surface-tertiary/50 hover:bg-primary/10 text-muted-foreground hover:text-primary transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               aria-label={`查看 ${component.name} 详情`}

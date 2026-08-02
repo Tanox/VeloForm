@@ -52,9 +52,8 @@ export const useConfigUIStore = create<ConfigUIStore>()(
       name: 'veloform-config-ui-storage',
       skipHydration: true,
       storage: safeJSONStorage,
-      partialize: (state) => ({
-        // 只持久化必要的UI状态，选择器打开状态不持久化
-      }),
+      // UI 瞬时状态（选择器打开/保存中）不应持久化，避免刷新后卡在 loading 态
+      partialize: () => ({}),
     }
   )
 );

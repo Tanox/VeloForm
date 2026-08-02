@@ -100,11 +100,11 @@ export function ComponentSelector() {
   return (
     <>
       <Dialog open={showComponentSelector} onOpenChange={closeComponentSelector}>
-        <DialogContent className="max-w-3xl max-h-[85vh] overflow-hidden flex flex-col">
+        <DialogContent id="component-selector-dialog" className="max-w-3xl max-h-[85vh] overflow-hidden flex flex-col">
           <DialogHeader>
             <DialogTitle className="text-xl">选择 {getCategoryTranslation(currentComponent.category)}</DialogTitle>
           </DialogHeader>
-          <div className="flex-1 overflow-y-auto space-y-3 px-2">
+          <div id="component-selector-list" className="flex-1 overflow-y-auto space-y-3 px-2">
             <AnimatePresence mode="wait">
               {showComponentSelector && (
                 <motion.div

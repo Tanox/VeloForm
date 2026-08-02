@@ -15,16 +15,27 @@ export function BuildList() {
   const components = useComponents();
   const toggleComponentSelector = useConfigUIStore((state) => state.toggleComponentSelector);
   const [isLoading, setIsLoading] = useState(false);
+  const loadingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const totalCategories = APP_CONSTANTS.COMPONENT_CATEGORIES.length;
   const completedCategories = new Set(components.map((c) => c.category)).size;
   const completionPercentage = Math.round((completedCategories / totalCategories) * 100);
 
-  const handleEdit = useCallback((componentId: string) => {
-    setIsLoading(true);
-    toggleComponentSelector(componentId);
-    setTimeout(() => setIsLoading(false), 300);
-  }, [toggleComponentSelector]);
+  // 组件卸载时清理定时器，避免卸载后调用 setIsLoading 触发 React 警告
+  useEffect(() => {
+    return () => {
+      if (loadingTimer.current) clearTimeout(loadingTimer.current);
+    };
+  }, []);
+
+  const handleEdit = useCallback(
+    (componentId: string) => {
+      setIsLoading(true);
+      toggleComponentSelector(componentId);
+      loadingTimer.current = setTimeout(() => setIsLoading(false), 300);
+    },
+    [toggleComponentSelector]
+  );
 
   // --- Delightful milestones -------------------------------------------------
   const w = useWhimsy();
@@ -66,7 +77,7 @@ export function BuildList() {
   }, [components.length, w]);
 
   return (
-    <div className="space-y-2">
+    <div id="build-list" className="space-y-2">
       <div className="flex items-center justify-between py-2">
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold text-foreground uppercase tracking-wider">组件清单</span>

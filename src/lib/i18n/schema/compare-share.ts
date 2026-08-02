@@ -3,6 +3,12 @@ export interface CompareShareTranslations {
     title: string;
     configs: string;
     component: string;
+    totalCost: string;
+    estimatedWeight: string;
+    even: string;
+    panelTitle: string;
+    panelSubtitle: string;
+    configCount: string;
     load: string;
     close: string;
     selectToCompare: string;

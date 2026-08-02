@@ -23,16 +23,17 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div id="app-root" className="min-h-screen bg-background">
       <Navbar onNavigate={handleNavigate} />
       <Hero onNavigate={handleNavigate} />
 
-      <main>
+      <main id="main-content">
         {/* Core Features */}
         <Features />
 
         {/* Bike Type Selector */}
         <motion.section
+          id="section-bike-type"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -54,6 +55,7 @@ export default function Home() {
         <ErrorBoundary>
           <Suspense fallback={<LoadingScreen />}>
             <motion.section
+              id="section-configurator"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -61,10 +63,10 @@ export default function Home() {
               className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20"
             >
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
-                <div className="lg:col-span-2">
+                <div id="configurator-build-list" className="lg:col-span-2">
                   <BuildList />
                 </div>
-                <div className="lg:col-span-1">
+                <div id="configurator-summary" className="lg:col-span-1">
                   <SummaryPanel />
                 </div>
               </div>
@@ -75,6 +77,7 @@ export default function Home() {
         {/* Recommended Configurations */}
         <Suspense fallback={<div className="max-w-7xl mx-auto px-4 h-64" />}>
           <motion.section
+            id="section-recommended"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// src/middleware.ts v4.2.2 - CSP 策略
+// src/middleware.ts v4.3.0 - CSP 策略
 // 说明：
 // 1. script-src 必须保留 'unsafe-inline'：Next.js App Router 在 HTML 中内联 RSC 水合负载
 //    （self.__next_f.push(...)）与 webpack 运行时引导脚本，这些脚本无法预计算 hash，
