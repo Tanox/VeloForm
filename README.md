@@ -1,4 +1,4 @@
-# Veloform 自行车装车配置器
+﻿# Veloform 自行车装车配置器
 
 [English Version](./README_EN.md) | [项目规范](./openspec/README.md) | [原型说明](./openspec/prototype-guide.md)
 
@@ -340,7 +340,7 @@ function MyComponent() {
 
 ## 版本信息
 
-当前版本：**v4.3.0**
+当前版本：**v4.3.1**
 最后更新：2026-07-28
 
 详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)。

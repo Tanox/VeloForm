@@ -53,7 +53,7 @@ function CompareTableBase({ comparingConfigs, minCost, minWeight, getBestValue, 
                   <span className="text-sm font-semibold text-foreground">
                     {t(`categories.${category.toLowerCase()}`) || category}
                   </span>
-                </td>
+                </th>
                 {components.map((comp, idx) => (
                   <td key={idx} className="text-center py-4 px-4">
                     <div className="space-y-1.5">

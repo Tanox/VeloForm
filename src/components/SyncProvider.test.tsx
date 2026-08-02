@@ -3,20 +3,27 @@ import { render, screen, act } from '@testing-library/react';
 import { SyncProvider } from './SyncProvider';
 
 const mockUnsubscribe = vi.fn();
-const subscribeMock = vi.fn(() => mockUnsubscribe);
 
-vi.mock('@/lib/auth', () => ({
-  subscribeToAuthChanges: (cb: (u: unknown) => void) => {
-    subscribeMock(cb);
-    return mockUnsubscribe;
-  },
-}));
+vi.mock('@/lib/auth', () => {
+  const authModule = {
+    subscribeToAuthChanges: (cb: (u: unknown) => void) => {
+      (authModule as Record<string, unknown>).__cb = cb;
+      return mockUnsubscribe;
+    },
+  };
+  return authModule;
+});
 vi.mock('@/lib/supabase-service', () => ({
   loadConfigurationsFromSupabase: vi.fn(async () => []),
 }));
 
 import { useUserStore } from '@/lib/stores/user-store';
 import { useCompareStore } from '@/lib/stores/compare-store';
+import * as authModule from '@/lib/auth';
+
+function getAuthCallback(): (u: unknown) => void {
+  return (authModule as unknown as Record<string, (u: unknown) => void>).__cb;
+}
 
 describe('SyncProvider', () => {
   beforeEach(() => {
@@ -40,13 +47,11 @@ describe('SyncProvider', () => {
         <span>child</span>
       </SyncProvider>
     );
-    // 等待 hydration effect 完成
     await act(async () => {
       await Promise.resolve();
     });
-    const cb = subscribeMock.mock.calls[0][0];
     await act(async () => {
-      await cb({ uid: 'user-1' });
+      getAuthCallback()({ uid: 'user-1' });
     });
     expect(useUserStore.getState().userId).toBe('user-1');
   });
@@ -61,9 +66,8 @@ describe('SyncProvider', () => {
     await act(async () => {
       await Promise.resolve();
     });
-    const cb = subscribeMock.mock.calls[0][0];
     await act(async () => {
-      await cb(null);
+      getAuthCallback()(null);
     });
     expect(useUserStore.getState().userId).toBeNull();
   });

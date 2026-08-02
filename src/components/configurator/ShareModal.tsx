@@ -53,7 +53,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl">{t('share.title')}</DialogTitle>
         </DialogHeader>

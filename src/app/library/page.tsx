@@ -25,7 +25,7 @@ export default function LibraryPage() {
     <div id="library-root" className="min-h-screen">
       <Navbar onNavigate={() => {}} />
 
-      <main id="library-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-6 sm:pb-8">
+      <main id="library-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-32 sm:pb-40">
         <div id="library-header" className="mb-6 sm:mb-8">
           <Link href="/">
             <Button variant="ghost" size="sm">

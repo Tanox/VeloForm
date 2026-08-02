@@ -165,7 +165,7 @@ export function Hero({ onNavigate }: HeroProps) {
               </div>
 
               <motion.div
-                className="absolute -right-6 top-1/4 bg-card border border-border rounded-xl p-4 shadow-xl min-w-[160px]"
+                className="absolute right-2 sm:-right-6 top-1/4 bg-card border border-border rounded-xl p-4 shadow-xl min-w-[160px] max-w-[calc(100%-1rem)]"
                 animate={shouldReduceMotion ? {} : { y: [0, -10, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
               >

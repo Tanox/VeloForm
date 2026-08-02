@@ -121,7 +121,7 @@ function ComponentSelectorItemBase({
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 shrink-0">
             <div className="text-right">
               <div className="flex items-center gap-2 justify-end">
                 {isPromotional ? (

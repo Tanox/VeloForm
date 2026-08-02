@@ -48,7 +48,7 @@ export function ComparePanel() {
         id="compare-panel"
       >
         {/* 主面板 */}
-        <div id="compare-panel-body" className="bg-surface-secondary/95 backdrop-blur-xl border-t border-border-light shadow-2xl">
+        <div id="compare-panel-body" className="bg-surface-secondary/95 backdrop-blur-xl border-t border-border-light shadow-2xl max-h-[70vh] overflow-y-auto">
           {/* 头部 */}
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
             <ComparePanelHeader configCount={comparingConfigs.length} onClose={clearCompare} />

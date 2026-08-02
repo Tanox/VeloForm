@@ -32,12 +32,12 @@ export function ComponentDetailImage({ detail }: ComponentDetailImageProps) {
         style={{ aspectRatio: '1/1' }}
       >
         {!detail.imageUrl || imageError ? (
-          <div className="absolute inset-0 flex items-center justify-center bg-zinc-800">
-            <ImageOff className="w-12 h-12 text-zinc-500" />
+          <div className="absolute inset-0 flex items-center justify-center bg-muted">
+            <ImageOff className="w-12 h-12 text-muted-foreground" />
           </div>
         ) : (
           <>
-            {!imageLoaded && <div className="absolute inset-0 bg-zinc-800 animate-pulse" />}
+            {!imageLoaded && <div className="absolute inset-0 bg-muted animate-pulse" />}
             <Image
               src={detail.imageUrl}
               alt={detail.name}

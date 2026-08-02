@@ -63,7 +63,7 @@ export function SummaryPanel() {
 
   return (
     <>
-      <Card id="summary-panel" className="sticky top-24">
+      <Card id="summary-panel" className="sticky top-20 z-30">
         <div className="space-y-5 p-5">
           <div>
             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">

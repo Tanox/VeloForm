@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.3.1] - 2026-08-02
+
+### 修复
+- 修复 `CompareTable` 中 `<th scope="row">` 与 `</td>` 标签不匹配导致的 JSX 解析错误（v4.3.0 引入的回归）
+- 删除悬空的旧 `src/lib/store.ts` 兼容层单文件（依赖已迁移删除，且无任何引用），消除 tsc 模块解析错误与双 store 遗留
+- 修复首页与 library 页 `<main>` 无底部预留空间导致 fixed `ComparePanel` 在移动端遮挡 Footer/CTA 内容，加 `pb-32/40`
+- 为 `ComparePanel` 面板加 `max-h-[70vh] overflow-y-auto`，防止对比项多时遮满整屏
+- 修复 `Hero` 浮动"配置完成度"卡片在移动端（单列）溢出视口（`-right-6` → `right-2 sm:-right-6` + 最大宽度约束）
+- 修复 `ShareModal` 在矮屏无滚动保护，加 `max-h-[90vh] overflow-y-auto`
+- 修复 `ComponentDetailImage` 错误/加载态硬编码深色 `bg-zinc-800`，改用主题变量 `bg-muted text-muted-foreground`（浅色主题对比度问题）
+- 修复 `BikeTypeSelector` 在 640px 起即三列导致平板竖屏挤压，改为 `md:grid-cols-3`
+- 修复 `SummaryPanel` sticky 缺少 z-index 可能与 Navbar 视觉重叠，加 `z-30` 并微调 `top-20`
+- 修复 `ComponentSelectorItem` 价格块在极窄屏被长组件名挤压，加 `shrink-0`
+- 新增 `SectionSkeleton` 组件，替换首页 Recommended/Pricing/CTA 的空白 `Suspense` fallback，消除白屏突兀感
+
+### 验证
+- `tsc --noEmit` 与 `next lint` 零错误，测试套件 93 项全部通过
+
 ## [4.3.0] - 2026-08-01
 
 ### 改进

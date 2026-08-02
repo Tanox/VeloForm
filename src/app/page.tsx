@@ -14,6 +14,7 @@ import { ComponentSelector } from '@/components/configurator/ComponentSelector';
 import { RecommendedConfigs } from '@/components/configurator/RecommendedConfigs';
 import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
+import { SectionSkeleton } from '@/components/ui/SectionSkeleton';
 import { motion } from 'framer-motion';
 import { uiLogger } from '@/lib/logger';
 
@@ -27,7 +28,7 @@ export default function Home() {
       <Navbar onNavigate={handleNavigate} />
       <Hero onNavigate={handleNavigate} />
 
-      <main id="main-content">
+      <main id="main-content" className="pb-32 sm:pb-40">
         {/* Core Features */}
         <Features />
 
@@ -75,7 +76,7 @@ export default function Home() {
         </ErrorBoundary>
 
         {/* Recommended Configurations */}
-        <Suspense fallback={<div className="max-w-7xl mx-auto px-4 h-64" />}>
+        <Suspense fallback={<div className="max-w-7xl mx-auto px-4"><SectionSkeleton height="h-64" /></div>}>
           <motion.section
             id="section-recommended"
             initial={{ opacity: 0, y: 40 }}
@@ -88,12 +89,12 @@ export default function Home() {
           </motion.section>
         </Suspense>
         {/* Pricing Section */}
-        <Suspense fallback={<div className="h-96" />}>
+        <Suspense fallback={<SectionSkeleton height="h-96" />}>
           <Pricing />
         </Suspense>
 
         {/* Final CTA */}
-        <Suspense fallback={<div className="h-64" />}>
+        <Suspense fallback={<SectionSkeleton height="h-64" />}>
           <Cta />
         </Suspense>
       </main>

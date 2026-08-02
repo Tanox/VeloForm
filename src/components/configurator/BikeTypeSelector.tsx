@@ -52,7 +52,7 @@ export function BikeTypeSelector() {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3" role="tablist" aria-label="选择车型">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-3" role="tablist" aria-label="选择车型">
       {types.map((type, index) => {
         const isActive = activeType === type;
         const info = bikeTypeInfo[type];

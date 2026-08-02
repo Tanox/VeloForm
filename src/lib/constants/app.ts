@@ -1,4 +1,4 @@
-export const APP_CONSTANTS = {
+﻿export const APP_CONSTANTS = {
   BIKE_TYPES: ['Road', 'MTB', 'Fold'] as const,
   COMPONENT_CATEGORIES: [
     'Frame',
@@ -20,7 +20,7 @@ export const APP_CONSTANTS = {
   } as const,
   APP_INFO: {
     name: 'Veloform',
-    version: '4.3.0',
+    version: '4.3.1',
     tagline: 'Bike Configurator',
   } as const,
 } as const;
