@@ -20,7 +20,7 @@
   } as const,
   APP_INFO: {
     name: 'Veloform',
-    version: '4.3.1',
+    version: '4.4.0',
     tagline: 'Bike Configurator',
   } as const,
 } as const;

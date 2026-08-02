@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.0] - 2026-08-02
+
+### 改进
+- 安全加固：`config-service.saveConfiguration` 写入前用 zod `ShareableConfigSchema` 校验数据结构（`bikeType/name/components`），防止被污染状态直接入库
+- 安全加固：`middleware.ts` 移除 CSP 中的 `'unsafe-eval'`（framer-motion 10 生产构建为预编译产物，运行时无需 eval），缩小 XSS 危害面
+- 测试补齐：
+  - 新增 `src/lib/storage.test.ts`：覆盖 SSR 无 window 降级、隐私模式 localStorage 抛错降级、real localStorage、JSON 序列化往返
+  - 新增 `src/lib/supabase-service.test.ts`：覆盖保存（insert/update 分支）、客户端不可用降级、加载映射、错误回退空数组、删除按 owner 隔离
+- 一致性修复：`Hero` 与 `Features` 动画时长常量统一引用 `lib/animation.ts` 的 `ANIMATION_DURATION`/`ANIMATION_DELAY_STEP`（修复 Hero 硬编码 0.4 与全局 0.3 不一致导致的视觉节奏错位）
+- 清理死代码：删除无消费方的 `src/components/ui/tabs.tsx` 并从 `ui/index.ts` 移除导出
+
+### 验证
+- `tsc --noEmit` 零错误、`next lint` 零错误（新增测试已通过类型检查）
+- 注：本地测试运行环境因残留 vitest 进程占用资源未能完整执行，建议在干净终端运行 `pnpm test` 复核
+
 ## [4.3.1] - 2026-08-02
 
 ### 修复

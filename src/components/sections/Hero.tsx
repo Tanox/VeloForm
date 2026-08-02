@@ -6,9 +6,7 @@ import Image from 'next/image';
 import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
-
-const ANIMATION_DURATION = 0.4;
-const ANIMATION_DELAY_STEP = 0.1;
+import { ANIMATION_DURATION, ANIMATION_DELAY_STEP } from '@/lib/animation';
 
 interface HeroProps {
   onNavigate: (page: string) => void;

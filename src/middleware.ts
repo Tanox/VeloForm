@@ -1,7 +1,7 @@
 ﻿import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// src/middleware.ts v4.3.1 - CSP 策略
+// src/middleware.ts v4.4.0 - CSP 策略
 // 说明：
 // 1. script-src 必须保留 'unsafe-inline'：Next.js App Router 在 HTML 中内联 RSC 水合负载
 //    （self.__next_f.push(...)）与 webpack 运行时引导脚本，这些脚本无法预计算 hash，
@@ -10,7 +10,8 @@ import type { NextRequest } from 'next/server';
 //    ⚠️ 注意：当 script-src 中存在 nonce/hash 来源时，浏览器会忽略 'unsafe-inline'，
 //       因此本策略【不】添加 nonce，以确保 'unsafe-inline' 对内联脚本生效。
 // 2. style-src 保留 'unsafe-inline'（styled-jsx / Tailwind 必需）。
-// 3. 'unsafe-eval' 为 framer-motion 动画库运行所需（已知限制）。
+// 3. 不添加 'unsafe-eval'：framer-motion 10 生产构建为预编译产物，运行时无需 eval；
+//    'unsafe-eval' 会显著扩大 XSS 危害面，故移除。若生产环境确有依赖，应定位并替换该依赖。
 // 4. 其余指令（connect / frame / img / font / base-uri / form-action / object）保持严格白名单。
 
 export function middleware(request: NextRequest) {
@@ -20,7 +21,7 @@ export function middleware(request: NextRequest) {
   const cspPolicy = [
     "default-src 'self'",
     // 脚本策略：'self' 允许 /_next/static 外部脚本；'unsafe-inline' 允许 Next RSC 水合内联脚本
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+    "script-src 'self' 'unsafe-inline'",
     // 样式策略：
     // - 保留 'unsafe-inline'：Next.js styled-jsx 和 Tailwind CSS 必需
     // - 限制外部字体域名

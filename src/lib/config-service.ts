@@ -8,8 +8,29 @@ import {
 } from '@/lib/supabase-service';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { generateShareableLink as generateShareableConfigLink } from '@/lib/shareable-config';
+import { ShareableConfigSchema } from '@/lib/shareable-config';
 import { toast } from '@/lib/toast';
 import { configLogger } from '@/lib/logger';
+
+/**
+ * 保存前校验配置数据，防止被污染的 store 状态直接入库。
+ * 复用 shareable-config 的 zod schema（约束 bikeType/name/components 结构），
+ * 并丢弃 schema 未覆盖的运行时字段（如 id/totalCost 由服务端重新计算）。
+ */
+function validateConfigForSave(
+  config: ReturnType<typeof buildConfigurationFromStore>
+): boolean {
+  const result = ShareableConfigSchema.safeParse({
+    bikeType: config.bikeType,
+    name: config.name,
+    components: config.components,
+  });
+  if (!result.success) {
+    configLogger.warn('Configuration validation failed before save:', result.error.issues);
+    return false;
+  }
+  return true;
+}
 
 export function buildConfigurationFromStore(): Configuration {
   const { activeType, components, configId, manualConfigName, getTotalCost, getTotalWeight } =
@@ -34,6 +55,12 @@ export async function saveConfiguration(): Promise<void> {
 
   try {
     const config = buildConfigurationFromStore();
+
+    // 信任边界：保存到云端前校验数据结构，阻断被污染状态入库
+    if (!validateConfigForSave(config)) {
+      toast('error', 'Configuration data is invalid, cannot save');
+      return;
+    }
 
     try {
       if (!isSupabaseConfigured()) {

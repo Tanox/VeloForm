@@ -4,9 +4,7 @@ import { motion } from 'framer-motion';
 import { useClientReducedMotion } from '@/lib/hooks/use-client-reduced-motion';
 import { Layers, Zap, Shield, Palette, Code, Cloud } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
-
-const ANIMATION_DURATION = 0.3;
-const ANIMATION_DELAY_STEP = 0.1;
+import { ANIMATION_DURATION, ANIMATION_DELAY_STEP } from '@/lib/animation';
 
 const features = [
   {
