@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.1] - 2026-08-09
+
+### 修复
+- 修复构建阻塞：`package.json` 与 `globals.css`/`middleware.ts`/`src/lib/constants/app.ts`/`src/lib/storage.ts` 含 UTF-8 BOM，导致 `next build` 的 webpack JSON 解析失败（`SyntaxError: Unexpected token`），移除全部 BOM 头
+- 修复构建对外部网络的强依赖：`layout.tsx` 改用 `next/font/google` 在构建时拉取 Fraunces / Hanken Grotesk，离线/CI 环境因无法访问 fonts.gstatic.com 而构建失败。改为由 `globals.css` 的 `--font-display`/`--font-sans` 系统字体栈（SF Pro 等）提供，对齐设计系统规范「无需网络加载，原生支持」要求，构建不再依赖外部字体下载
+
+### 性能
+- 优化 `shareable-config.ts` 的 `encodeBase64Utf8`：逐字节字符串拼接改为分块 `String.fromCharCode(...chunk)` 拼接，降低大配置编码开销与栈溢出风险
+
+### 安全
+- 为 `BikeTypeSelector`/`BuildListItem` 中渲染静态 SVG 的 `dangerouslySetInnerHTML` 补充信任来源注释（图标均为编译期常量，非用户输入，无 XSS 风险）
+
+### 文档与版本
+- 同步项目版本至 **v4.4.1**（package.json、app.ts 运行时常量、middleware/storage/globals.css 文件头、`README.md`、`README_EN.md`、`openspec/SPEC.md`、`openspec/README.md`）
+- 修正 `README_EN.md` 版本号滞后（原误标 v4.2.1）
+
 ## [4.4.0] - 2026-08-02
 
 ### 改进

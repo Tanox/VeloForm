@@ -68,9 +68,12 @@ const MAX_CONFIG_LENGTH = 10000; // ~10KB base64 encoded
  */
 function encodeBase64Utf8(input: string): string {
   const bytes = new TextEncoder().encode(input);
+  // 分块拼接避免超大字符串逐字节 + 的性能损耗与栈溢出风险
+  const CHUNK = 0x8000;
   let binary = '';
-  for (let i = 0; i < bytes.length; i++) {
-    binary += String.fromCharCode(bytes[i]);
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    const chunk = bytes.subarray(i, i + CHUNK);
+    binary += String.fromCharCode(...chunk);
   }
   return btoa(binary);
 }

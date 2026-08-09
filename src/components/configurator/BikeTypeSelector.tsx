@@ -100,6 +100,7 @@ export function BikeTypeSelector() {
               strokeLinecap="round"
               strokeLinejoin="round"
               aria-hidden="true"
+              // 安全：info.icon 来自编译期静态常量 bikeTypeIcons，非用户输入，无 XSS 风险
               dangerouslySetInnerHTML={{ __html: info.icon }}
             />
 

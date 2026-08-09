@@ -42,6 +42,7 @@ function BuildListItemBase({ component, index, onEdit }: BuildListItemProps) {
           strokeLinecap="round"
           strokeLinejoin="round"
           aria-hidden="true"
+          // 安全：categoryIcons 为编译期静态常量映射，category 仅作 key 查询且有兜底，无用户输入注入
           dangerouslySetInnerHTML={{ __html: categoryIcons[component.category.toLowerCase()] || categoryIcons.frame }}
         />
       </div>

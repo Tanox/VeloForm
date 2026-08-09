@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import { Fraunces, Hanken_Grotesk } from 'next/font/google';
 import './globals.css';
 import './whimsy.css';
 import { Providers } from './providers';
@@ -9,22 +8,9 @@ import { SyncProvider } from '@/components/SyncProvider';
 import { ClientErrorBoundary } from '@/components/ClientErrorBoundary';
 import { DelightLayer } from '@/components/ui/DelightLayer';
 import { logger } from '@/lib/logger';
-import { cn } from '@/lib/utils';
 
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-display',
-  weight: ['400', '500', '600', '700', '900'],
-  style: ['normal', 'italic'],
-});
-
-const hankenGrotesk = Hanken_Grotesk({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-sans',
-  weight: ['300', '400', '500', '600', '700'],
-});
+// 字体通过 globals.css 中的 --font-display / --font-sans CSS 变量定义（含系统字体栈 fallback）。
+// 不再使用 next/font/google，避免构建时强依赖外部网络下载字体（离线/CI 环境更稳健）。
 
 // Validate environment variables in development mode
 if (process.env.NODE_ENV === 'development') {
@@ -62,7 +48,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={cn(fraunces.variable, hankenGrotesk.variable)}>
+    <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans antialiased">
         <Providers>
           <TooltipProvider>
