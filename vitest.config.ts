@@ -6,8 +6,8 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: 'jsdom',
-    // Windows 环境下使用 threads 池，避免 forks 池在 Node 26 + vitest 3 下的兼容问题
-    pool: 'threads',
+    // Windows + vitest 3 下，threads 池常无法启动（详见 CHANGELOG v4.2.2），故使用 forks 池
+    pool: 'forks',
     globals: true,
     setupFiles: './vitest.setup.ts',
     coverage: {

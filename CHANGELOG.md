@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.2] - 2026-08-12
+
+### 修复
+- 修复构建阻塞：`src/app/manifest.ts` 缺失，导致 `layout.tsx` 引用的 `/manifest.json` 与 `middleware.ts` CSP 指令 `manifest-src 'self'` 无对应资源，`next build` 失败。新增 Web App Manifest（名称/图标/显示模式）
+- 修复 `supabase-service.ts` 保存逻辑误判：原判断 `config.id !== `local_${Date.now()}` `` 因 `Date.now()` 每次调用都变化，新建配置（`config_` 前缀）永远无法命中 update 分支，重复保存会插入重复行。改为基于 `isLocalDraft()` 前缀判断（`local_` 或空 id 视为草稿走 insert，否则走 update）
+- 同步文档版本滞后：`openspec/SPEC.md` 设计哲学版本（v4.2.1→v4.4.2）与末尾更新时间、`README.md` 的 Vitest 版本（v1.6.1→v3.2.0）
+
+### 文档与版本
+- 同步项目版本至 **v4.4.2**（package.json、README.md、README_EN.md、openspec/SPEC.md）
+- 修正 `vitest.config.ts` 测试池：恢复 `forks` 池（原 threads 池在 Windows + vitest 3 下无法启动，与 v4.2.2 记录一致），并同步 SPEC 版本历史表新增 v4.4.1/v4.4.2 行
+
 ## [4.4.1] - 2026-08-09
 
 ### 修复

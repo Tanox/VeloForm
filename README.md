@@ -67,7 +67,7 @@ Veloform 是一款基于 Next.js、Tailwind CSS 并由 **Supabase** 驱动的高
 
 | 技术       | 版本    | 用途         |
 | ---------- | ------- | ------------ |
-| Vitest     | v1.6.1  | 单元测试框架 |
+| Vitest     | v3.2.0  | 单元测试框架 |
 | ESLint     | v8.x    | 代码检查     |
 | Prettier   | v3.2.0  | 代码格式化   |
 | Husky      | v9.0.0  | Git Hooks    |
@@ -340,8 +340,8 @@ function MyComponent() {
 
 ## 版本信息
 
-当前版本：**v4.4.1**
-最后更新：2026-07-28
+当前版本：**v4.4.2**
+最后更新：2026-08-12
 
 详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)。
 

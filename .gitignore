@@ -27,4 +27,7 @@ vitest.config.ts.timestamp-*
 # PWA
 public/sw.js
 public/workbox-*.js
+
 /.workbuddy
+*.txt
+*.log

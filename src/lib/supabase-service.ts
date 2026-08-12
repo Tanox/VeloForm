@@ -1,6 +1,16 @@
+// 文件路径: src/lib/supabase-service.ts v4.4.2
 import { Configuration } from '@/types';
 import { getSupabaseClient, isSupabaseConfigured } from './supabase';
 import { supabaseLogger } from './logger';
+
+/**
+ * 判断配置是否为本地新建（尚未持久化到云端）。
+ * - 未分配 id，或 id 以 `local_` 前缀开头，视为本地草稿，应执行 insert。
+ * - 以 `config_` 前缀（来自 buildConfigurationFromStore）或数据库 uuid 形式，视为已存在，执行 update。
+ */
+function isLocalDraft(config: Configuration): boolean {
+  return !config.id || config.id.startsWith('local_');
+}
 
 interface SupabaseConfigRow {
   id: string;
@@ -73,7 +83,7 @@ export async function saveConfigurationToSupabase(
 
     const row = configurationToRow(config, userId);
 
-    if (config.id && config.id !== `local_${Date.now()}` && !config.id.startsWith('local_')) {
+    if (!isLocalDraft(config)) {
       const { error } = await client.from('configurations').update(row).eq('id', config.id);
 
       if (error) {
