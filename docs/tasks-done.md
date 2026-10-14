@@ -20,6 +20,8 @@
 | T-13 | OpenSpec 文档技术栈对齐 | meta | v4.4.3 | 2026-10-14 | `security/security-guidelines.md`、`performance/optimization.md` 标注 Firebase/Angular 为历史内容，对齐 Supabase/Next.js |
 | T-14 | 客户端配置版本历史 | P2 | v4.4.3 | 2026-10-14 | `src/lib/config-history.ts` + `VersionHistory` 弹窗，localStorage 快照（上限 10） |
 | T-15 | 配置对比视图 | P3 | 既有 | — | 既有 `ComparePanel` / `CompareTable` 已满足并排对比 |
+| T-17 | 性能监控基准（CI 回归门禁） | P3 | v4.4.4 | 2026-10-14 | 新增 `.github/workflows/ci.yml`（lint/test/build），Lighthouse 基准待服务端后接入 |
+| T-18 | 长组件列表虚拟化 | P3 | v4.4.4（评估） | 2026-10-14 | 评估结论：当前仅 6 分类、组件量小，无需虚拟化，预留接口即可 |
 
 ### 历史已完成（早于本轮）
 
@@ -34,6 +36,6 @@
 
 ## 进度统计
 
-- 已完成：15 项（T-01 ~ T-15）
-- 进行中 / 待办：3 项（T-16 ~ T-18）
-- 完成率：约 83%
+- 已完成：17 项（T-01 ~ T-15、T-17、T-18）
+- 进行中 / 待办：1 项（T-16）
+- 完成率：约 94%

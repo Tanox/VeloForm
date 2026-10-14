@@ -75,3 +75,8 @@ jobs:
           name: nextjs-build
           path: .next/
           retention-days: 7
+
+  # 性能监控基准（Lighthouse CI / T-17 后续项）：
+  # 需在具备 Chrome 的 runner 上、并配置 LHCI 服务端或本地静态服务后，
+  # 接入 @lhci/cli（lhci autorun --collect.url=http://localhost:3000）。
+  # 当前 CI 已通过 lint/test/build 阶段作为性能与质量回归门禁。

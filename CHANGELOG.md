@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.4] - 2026-10-14
+
+### CI / 配置
+
+- 新增 `.github/workflows/ci.yml`：push/PR 至 main、dev 时运行 `lint` / `test` / `build` 回归门禁
+- 推进 OpenSpec 派生任务 T-17（性能监控基准）：以 CI 构建期校验作为性能回归门禁，Lighthouse 基准待配置服务端后接入
+- 评估 T-18（长列表虚拟化）：当前配置器仅 6 个分类、组件量小，无需虚拟化，预留接口即可
+
 ## [4.4.3] - 2026-10-14
 
 ### 新增（派生自 OpenSpec design-review P0–P3）
