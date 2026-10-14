@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.6] - 2026-10-14
+
+### 修复 / 安全
+- 修复新建配置无法写入 Supabase 的数据丢失 bug：`buildConfigurationFromStore` 对未保存配置改用 `local_` 前缀，与 `supabase-service.isLocalDraft()` 的草稿判定契约一致（原 `config_` 前缀被误判为已存在，导致 insert 永不触发，且错误提示「已保存到云端」）。
+- 升级 `next` 14.1.0 → 14.2.35，修复 Next.js 多项 critical 安全公告（SSRF / 授权绕过 / 缓存投毒）。
+- `auth.ts` 登录/注册增加邮箱格式与密码最小长度（6 位）的客户端校验，作为服务端校验之外的纵深防御。
+- 清理 PWA 残留：`middleware.ts` 移除已无用的 `worker-src 'self' blob:`（next-pwa 已于 v4.4.2 移除）；`openspec/SPEC.md` 同步更新 PWA 描述与版本标签。
+- 按全局拆分规则将 `ComponentSelector.tsx`（209 行）与 `SummaryPanel.tsx`（271 行）拆分为更小模块，保持导出契约不变。
+
 ## [4.4.5] - 2026-10-14
 
 ### 功能 / i18n

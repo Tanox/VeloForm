@@ -1,4 +1,4 @@
-// 文件路径: src/lib/supabase-service.ts v4.4.2
+// 文件路径: src/lib/supabase-service.ts v4.4.6
 import { Configuration } from '@/types';
 import { getSupabaseClient, isSupabaseConfigured } from './supabase';
 import { supabaseLogger } from './logger';
@@ -6,7 +6,7 @@ import { supabaseLogger } from './logger';
 /**
  * 判断配置是否为本地新建（尚未持久化到云端）。
  * - 未分配 id，或 id 以 `local_` 前缀开头，视为本地草稿，应执行 insert。
- * - 以 `config_` 前缀（来自 buildConfigurationFromStore）或数据库 uuid 形式，视为已存在，执行 update。
+ * - 已存在配置使用数据库 uuid（来自云端已保存），执行 update；新建本地草稿使用 `local_` 前缀（由 config-service 生成），视为草稿执行 insert。
  */
 function isLocalDraft(config: Configuration): boolean {
   return !config.id || config.id.startsWith('local_');

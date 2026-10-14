@@ -15,6 +15,19 @@ export interface SupabaseUser {
 }
 
 /**
+ * 客户端输入校验：email 格式与密码最小长度（纵深防御，最终校验由 Supabase 服务端负责）。
+ */
+function validateAuthInput(email: string, password: string): void {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    throw new Error('Invalid email format');
+  }
+  if (typeof password !== 'string' || password.length < 6) {
+    throw new Error('Password must be at least 6 characters');
+  }
+}
+
+/**
  * 获取当前认证用户
  */
 export const getCurrentUser = async (): Promise<SupabaseUser | null> => {
@@ -82,6 +95,8 @@ export const loginWithEmail = async (email: string, password: string): Promise<S
   if (!isSupabaseConfigured()) {
     throw new Error('Supabase not configured');
   }
+
+  validateAuthInput(email, password);
 
   const client = getSupabaseClient();
   if (!client) {
@@ -165,6 +180,8 @@ export const signUpWithEmail = async (email: string, password: string): Promise<
   if (!isSupabaseConfigured()) {
     throw new Error('Supabase not configured');
   }
+
+  validateAuthInput(email, password);
 
   const client = getSupabaseClient();
   if (!client) {

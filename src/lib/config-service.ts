@@ -38,7 +38,9 @@ export function buildConfigurationFromStore(): Configuration {
   const userId = useUserStore.getState().userId;
 
   return {
-    id: configId || `config_${Date.now()}`,
+    // 未保存配置使用 local_ 前缀，supabase-service 的 isLocalDraft() 据此判定为草稿走 insert；
+    // 已存在配置（云端 uuid 或本地已保存）走 update。前缀契约见 supabase-service.ts。
+    id: configId || `local_${Date.now()}`,
     userId: userId || 'anonymous',
     bikeType: activeType,
     name: manualConfigName || `${activeType} Build`,

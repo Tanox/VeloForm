@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// src/middleware.ts v4.4.1 - CSP 策略
+// src/middleware.ts v4.4.6 - CSP 策略
 // 说明：
 // 1. script-src 必须保留 'unsafe-inline'：Next.js App Router 在 HTML 中内联 RSC 水合负载
 //    （self.__next_f.push(...)）与 webpack 运行时引导脚本，这些脚本无法预计算 hash，
@@ -34,9 +34,7 @@ export function middleware(request: NextRequest) {
     "img-src 'self' data: https: blob:",
     // 字体策略：明确域名白名单
     "font-src 'self' data: https://api.fontshare.com https://cdn.fontshare.com",
-    // Worker 脚本：用于 PWA
-    "worker-src 'self' blob:",
-    // Manifest：用于 PWA
+    // Manifest：允许加载站点 manifest（PWA 已移除，保留以兼容静态 manifest.json）
     "manifest-src 'self'",
     // 基础 URL 限制：防止 <base> 标签注入
     "base-uri 'self'",
