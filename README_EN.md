@@ -1,6 +1,6 @@
 # Veloform Bike Configurator
 
-[中文版本 (Chinese Version)](./README.md) | [Project Specs](./openspec/README.md) | [Prototype Guide](./openspec/prototype-guide.md)
+[中文版本 (Chinese Version)](./README.md) | [Project Specs](./docs/README.md) | [Prototype Guide](./docs/prototype-guide.md)
 
 ---
 
@@ -30,7 +30,7 @@ Veloform is an advanced bicycle configurator built with Next.js, Tailwind CSS, a
 
 ## Tech Stack
 
-For complete tech stack documentation, see [Architecture Overview](./openspec/architecture/overview.md).
+For complete tech stack documentation, see [Architecture Overview](./docs/architecture/overview.md).
 
 | Technology    | Version  | Purpose                                          |
 | ------------- | -------- | ------------------------------------------------ |
@@ -98,7 +98,7 @@ src/
     └── index.ts                  # Enhanced type definitions (including component specs)
 ```
 
-For detailed development guidelines, see [openspec/PROJECT_GUIDELINES.md](openspec/PROJECT_GUIDELINES.md).
+For detailed development guidelines, see [docs/PROJECT_GUIDELINES.md](docs/PROJECT_GUIDELINES.md).
 
 ---
 
@@ -171,11 +171,11 @@ For detailed development guidelines, see [openspec/PROJECT_GUIDELINES.md](opensp
 
 For development conventions, branch and commit rules, testing requirements, and documentation policy, see:
 
-- **[openspec/README.md](./openspec/README.md)** - Specifications index (start here)
-- **[openspec/PROJECT_GUIDELINES.md](./openspec/PROJECT_GUIDELINES.md)** - Project development guidelines
-- **[openspec/design/ui-design-system.md](./openspec/design/ui-design-system.md)** - UI Design System
-- **[openspec/prototype-guide.md](./openspec/prototype-guide.md)** - Prototype documentation
-- **[openspec/design/design-review.md](./openspec/design/design-review.md)** - Design Review &amp; Optimization Suggestions
+- **[docs/README.md](./docs/README.md)** - Specifications index (start here)
+- **[docs/PROJECT_GUIDELINES.md](./docs/PROJECT_GUIDELINES.md)** - Project development guidelines
+- **[docs/design/ui-design-system.md](./docs/design/ui-design-system.md)** - UI Design System
+- **[docs/prototype-guide.md](./docs/prototype-guide.md)** - Prototype documentation
+- **[docs/design/design-review.md](./docs/design/design-review.md)** - Design Review &amp; Optimization Suggestions
 
 ---
 
@@ -186,7 +186,7 @@ This project supports the following deployment platforms:
 - **Vercel**: Recommended platform, zero-config automatic deployment
 - **EdgeOne Pages**: Tencent Cloud edge deployment solution
 
-For deployment guides, see [Environment Configuration](./openspec/deployment/environments.md).
+For deployment guides, see [Environment Configuration](./docs/deployment/environments.md).
 
 ---
 
@@ -204,7 +204,7 @@ Before submitting, please ensure:
 
 - All tests pass (`npm run test`)
 - Lint checks pass (`npm run lint`)
-- Follow the [coding standards](./openspec/development/coding-standards.md)
+- Follow the [coding standards](./docs/development/coding-standards.md)
 
 ---
 
@@ -216,7 +216,7 @@ MIT License
 
 ## Version
 
-Current version: **v4.4.6**
+Current version: **v4.4.7**
 Last updated: 2026-08-12
 
 For detailed changelog, see [CHANGELOG.md](./CHANGELOG.md).

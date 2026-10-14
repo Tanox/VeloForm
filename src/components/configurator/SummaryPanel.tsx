@@ -6,31 +6,26 @@ import {
   useTotalCost,
   useTotalWeight,
   useManualConfigName,
-  useComponents,
   useConfigStore,
   useIsSaving,
   useUserId,
 } from '@/lib/stores';
-import { getDefaultsForType, APP_CONSTANTS } from '@/lib/constants';
-import { formatCurrency, formatWeight } from '@/lib/utils';
 import { saveConfiguration as saveConfig } from '@/lib/config-service';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { formatCurrency, formatWeight } from '@/lib/utils';
 import { useTranslation } from '@/lib/i18n';
 import { useWhimsy } from '@/lib/whimsy-copy';
-import { Save, RefreshCw, Loader2, TrendingUp, Scale, Share2, Zap, Bike, User, History } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { TrendingUp, Scale } from 'lucide-react';
 import { ShareModal } from './ShareModal';
 import { VersionHistory } from './VersionHistory';
 import { CostBreakdownChart } from './CostBreakdownChart';
-
-const getBikeTypeIcon = (type: string): typeof Bike => {
-  const icons: Record<string, typeof Bike> = {
-    Road: Bike,
-    MTB: Zap,
-    Fold: Scale,
-  };
-  return icons[type] || Bike;
-};
+import {
+  MobileSummaryBar,
+  CompletionIndicator,
+  StatCard,
+  getBikeTypeIcon,
+} from './SummaryPanel.parts';
+import { ActionButtons, LoginPrompt } from './SummaryPanel.actions';
 
 export function SummaryPanel() {
   const t = useTranslation();
@@ -41,23 +36,11 @@ export function SummaryPanel() {
   const totalCost = useTotalCost();
   const totalWeight = useTotalWeight();
   const manualConfigName = useManualConfigName();
-  const components = useComponents();
   const resetToDefaults = useConfigStore((s) => s.resetToDefaults);
   const isSaving = useIsSaving();
   const userId = useUserId();
 
   const isLoggedIn = userId !== null;
-
-  // 配置完成度：已自定义（与默认不同）的分类数 / 总分类数
-  const totalCategories = APP_CONSTANTS.COMPONENT_CATEGORIES.length;
-  const customizedCount = useMemo(() => {
-    const defaults = getDefaultsForType(activeType);
-    return components.filter((c) => {
-      const d = defaults.find((x) => x.category === c.category);
-      return d ? d.id !== c.id : true;
-    }).length;
-  }, [components, activeType]);
-  const completionPct = Math.round((customizedCount / totalCategories) * 100);
 
   const handleSave = useCallback(async () => {
     await saveConfig();
@@ -82,24 +65,7 @@ export function SummaryPanel() {
       <Card id="summary-panel" className="sticky top-20 z-30">
         <div className="space-y-5 p-5">
           {/* 移动端固定摘要条：滚动时始终可见实时价格与重量 */}
-          <div className="lg:hidden flex items-center justify-between gap-3 rounded-lg bg-surface-secondary border border-border-light px-3 py-2">
-            <div className="flex flex-col">
-              <span className="text-[10px] text-muted-foreground uppercase tracking-wider">
-                {t('configurator.totalCost')}
-              </span>
-              <span className="text-sm font-display font-semibold text-foreground">
-                {formatCurrency(totalCost)}
-              </span>
-            </div>
-            <div className="flex flex-col text-right">
-              <span className="text-[10px] text-muted-foreground uppercase tracking-wider">
-                {t('configurator.estimatedWeight')}
-              </span>
-              <span className="text-sm font-display font-semibold text-foreground">
-                {formatWeight(totalWeight)}
-              </span>
-            </div>
-          </div>
+          <MobileSummaryBar />
 
           <div>
             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
@@ -119,147 +85,32 @@ export function SummaryPanel() {
           </div>
 
           {/* 配置完成度指示器 */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                {t('configurator.completion')}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                {t('configurator.selectedOf', {
-                  count: customizedCount,
-                  total: totalCategories,
-                })}
-              </p>
-            </div>
-            <div
-              className="h-2 w-full rounded-full bg-surface-secondary overflow-hidden"
-              role="progressbar"
-              aria-valuenow={customizedCount}
-              aria-valuemin={0}
-              aria-valuemax={totalCategories}
-              aria-label={t('configurator.completion') as string}
-            >
-              <div
-                className="h-full bg-primary rounded-full transition-all duration-300"
-                style={{ width: `${completionPct}%` }}
-              />
-            </div>
-          </div>
+          <CompletionIndicator />
 
           <div className="grid grid-cols-2 gap-3" role="list">
-            <div role="listitem" className="bg-surface-secondary border border-border-light rounded-lg p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="p-1.5 bg-background rounded-md" aria-hidden="true">
-                  <TrendingUp className="w-4 h-4 text-muted-foreground" />
-                </div>
-                <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
-                  {t('configurator.totalCost')}
-                </p>
-              </div>
-              <p
-                className="text-2xl font-display font-semibold text-foreground tracking-tight"
-                aria-label={`总价: ${formatCurrency(totalCost)}`}
-              >
-                {formatCurrency(totalCost)}
-              </p>
-            </div>
-
-            <div role="listitem" className="bg-surface-secondary border border-border-light rounded-lg p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="p-1.5 bg-background rounded-md" aria-hidden="true">
-                  <Scale className="w-4 h-4 text-muted-foreground" />
-                </div>
-                <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
-                  {t('configurator.estimatedWeight')}
-                </p>
-              </div>
-              <p
-                className="text-2xl font-display font-semibold text-foreground tracking-tight"
-                aria-label={`总重量: ${formatWeight(totalWeight)}`}
-              >
-                {formatWeight(totalWeight)}
-              </p>
-            </div>
+            <StatCard
+              labelKey="configurator.totalCost"
+              value={formatCurrency(totalCost)}
+              icon={TrendingUp}
+            />
+            <StatCard
+              labelKey="configurator.estimatedWeight"
+              value={formatWeight(totalWeight)}
+              icon={Scale}
+            />
           </div>
 
           <CostBreakdownChart />
 
-          <div className="space-y-3 pt-2">
-              <Button
-                size="lg"
-                className="w-full btn-shine"
-                onClick={handleSave}
-                disabled={isSaving}
-                aria-label={isSaving ? (t('configurator.saving') as string) : w('save.label')}
-                aria-busy={isSaving}
-              >
-                {isSaving ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" />
-                    {t('configurator.saving')}
-                  </>
-                ) : (
-                  <>
-                    <Save className="w-4 h-4 mr-2" aria-hidden="true" />
-                    {w('save.label')}
-                  </>
-                )}
-              </Button>
+          <ActionButtons
+            onSave={handleSave}
+            isSaving={isSaving}
+            onShare={() => setShowShareModal(true)}
+            onVersionHistory={() => setShowVersionHistory(true)}
+            onReset={resetToDefaults}
+          />
 
-            <div className="grid grid-cols-3 gap-2">
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full"
-                onClick={() => setShowShareModal(true)}
-                aria-label={t('share.title') as string}
-              >
-                <Share2 className="w-4 h-4 mr-2" aria-hidden="true" />
-                {t('share.title')}
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full"
-                onClick={() => setShowVersionHistory(true)}
-                aria-label={t('configurator.versionHistory.title') as string}
-              >
-                <History className="w-4 h-4 mr-2" aria-hidden="true" />
-                {t('configurator.versionHistory.title')}
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full"
-                onClick={resetToDefaults}
-                aria-label={t('configurator.reset') as string}
-              >
-                <RefreshCw className="w-4 h-4 mr-2" aria-hidden="true" />
-                {t('configurator.reset')}
-              </Button>
-            </div>
-          </div>
-
-          {!isLoggedIn && (
-            <div className="p-4 bg-primary/5 border border-primary/15 rounded-lg">
-              <div className="flex items-start gap-3">
-                <div
-                  className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0"
-                  aria-hidden="true"
-                >
-                  <User className="w-4 h-4 text-primary" aria-hidden="true" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground">
-                    {t('configurator.loginToSave')}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {t('configurator.loginToSaveHint')}
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
+          {!isLoggedIn && <LoginPrompt />}
         </div>
       </Card>
 

@@ -1,6 +1,6 @@
 # Veloform 已完成任务归档
 
-> **派生来源**：`openspec/design/design-review.md`（P0–P3 优化建议）+ OpenSpec 规范对齐
+> **派生来源**：`docs/design/design-review.md`（P0–P3 优化建议）+ OpenSpec 规范对齐
 > **归档时间**：2026-10-14
 > **当前版本**：v4.4.5
 > **对应任务清单**：[`tasks.md`](./tasks.md)

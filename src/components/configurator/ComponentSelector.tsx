@@ -18,6 +18,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/lib/i18n';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ComponentSelectorItem } from './ComponentSelectorItem';
+import { getRecommendedCategory, calculateSavings } from './component-selector-logic';
 
 // 懒加载详情弹窗
 const ComponentDetailModal = lazy(() =>
@@ -44,19 +45,11 @@ export function ComponentSelector() {
     [currentComponent?.category]
   );
 
-  // 智能推荐：根据当前分类推荐一个互补分类，引导用户完善配置
-  const recommendedCategory = useMemo(() => {
-    if (!currentComponent) return null;
-    const map: Record<string, string> = {
-      Frame: 'Wheelset',
-      Wheelset: 'Tires',
-      Tires: 'Cockpit',
-      Cockpit: 'Drivetrain',
-      Drivetrain: 'Frame',
-      Suspension: 'Frame',
-    };
-    return map[currentComponent.category] || null;
-  }, [currentComponent]);
+  // 智能推荐：根据当前分类推荐一个互补分类，引导用户完善配置（映射见 component-selector-logic.ts）
+  const recommendedCategory = useMemo(
+    () => (currentComponent ? getRecommendedCategory(currentComponent.category) : null),
+    [currentComponent]
+  );
 
   const recommendedComponent = useMemo(
     () => (recommendedCategory ? components.find((c) => c.category === recommendedCategory) : undefined),
@@ -106,14 +99,7 @@ export function ComponentSelector() {
     return translated === key ? category : translated;
   };
 
-  const getSavings = useCallback((component: ConfigComponent) => {
-    if (promotionalComponents[component.id]) {
-      const original = promotionalComponents[component.id].originalPrice;
-      const discounted = Math.round(original * (1 - promotionalComponents[component.id].discount / 100));
-      return original - discounted;
-    }
-    return 0;
-  }, []);
+  const getSavings = useCallback((component: ConfigComponent) => calculateSavings(component), []);
 
   if (!currentComponent) return null;
 

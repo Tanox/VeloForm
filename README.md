@@ -1,6 +1,6 @@
 # Veloform 自行车装车配置器
 
-[English Version](./README_EN.md) | [项目规范](./openspec/README.md) | [原型说明](./openspec/prototype-guide.md)
+[English Version](./README_EN.md) | [项目规范](./docs/README.md) | [原型说明](./docs/prototype-guide.md)
 
 ---
 
@@ -31,7 +31,7 @@ Veloform 是一款基于 Next.js、Tailwind CSS 并由 **Supabase** 驱动的高
 
 ## 技术栈
 
-完整技术栈说明见 [架构概览](./openspec/architecture/overview.md)。
+完整技术栈说明见 [架构概览](./docs/architecture/overview.md)。
 
 ### 核心框架
 
@@ -161,7 +161,7 @@ src/
 └── middleware.ts                 # Next.js 中间件
 ```
 
-详细开发规范请参阅 [openspec/PROJECT_GUIDELINES.md](openspec/PROJECT_GUIDELINES.md)。
+详细开发规范请参阅 [docs/PROJECT_GUIDELINES.md](docs/PROJECT_GUIDELINES.md)。
 
 ---
 
@@ -301,11 +301,11 @@ function MyComponent() {
 
 完整的开发约定、分支与提交规则、测试要求和文档维护指南，请参阅：
 
-- **[openspec/README.md](./openspec/README.md)** - 规范文档索引（推荐从这里开始）
-- **[openspec/PROJECT_GUIDELINES.md](./openspec/PROJECT_GUIDELINES.md)** - 项目开发指南
-- **[openspec/design/ui-design-system.md](./openspec/design/ui-design-system.md)** - UI 设计系统
-- **[openspec/prototype-guide.md](./openspec/prototype-guide.md)** - 原型图说明
-- **[openspec/design/design-review.md](./openspec/design/design-review.md)** - 设计审查与优化建议
+- **[docs/README.md](./docs/README.md)** - 规范文档索引（推荐从这里开始）
+- **[docs/PROJECT_GUIDELINES.md](./docs/PROJECT_GUIDELINES.md)** - 项目开发指南
+- **[docs/design/ui-design-system.md](./docs/design/ui-design-system.md)** - UI 设计系统
+- **[docs/prototype-guide.md](./docs/prototype-guide.md)** - 原型图说明
+- **[docs/design/design-review.md](./docs/design/design-review.md)** - 设计审查与优化建议
 
 ---
 
@@ -316,7 +316,7 @@ function MyComponent() {
 - **Vercel**: 推荐部署平台，零配置自动部署
 - **EdgeOne Pages**: 腾讯云边缘部署方案
 
-部署指南见 [环境配置](./openspec/deployment/environments.md)。
+部署指南见 [环境配置](./docs/deployment/environments.md)。
 
 ---
 
@@ -334,13 +334,13 @@ function MyComponent() {
 
 - 所有测试通过 (`npm run test`)
 - Lint 检查通过 (`npm run lint`)
-- 遵循 [编码规范](./openspec/development/coding-standards.md)
+- 遵循 [编码规范](./docs/development/coding-standards.md)
 
 ---
 
 ## 版本信息
 
-当前版本：**v4.4.6**
+当前版本：**v4.4.7**
 最后更新：2026-08-12
 
 详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)。

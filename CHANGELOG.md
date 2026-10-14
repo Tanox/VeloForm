@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.7] - 2026-10-14
+
+### 文档 / 重构
+
+- 将 `openspec/` 目录全部规范文档（22 个文件，含 SPEC、规范索引、架构/API/开发/部署/安全/性能/设计各子目录）合入 `docs/`，保留原有子目录结构，原 `openspec/` 目录已移除
+- 更新所有交叉引用：根 `README.md` / `README_EN.md`、`prototype/README.md`、`docs/tasks.md` / `docs/tasks-done.md` 及文档内部链接统一指向 `docs/`
+- 同步更新相关文档头注释路径与版本号至 v4.4.7
+
 ## [4.4.6] - 2026-10-14
 
 ### 修复 / 安全

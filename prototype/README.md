@@ -8,7 +8,7 @@
 
 ## 概述
 
-本目录包含 Veloform 项目的原型设计参考文档。正式的设计规范文档位于 [../openspec/design/](../openspec/design/) 目录。
+本目录包含 Veloform 项目的原型设计参考文档。正式的设计规范文档位于 [../docs/design/](../docs/design/) 目录。
 
 ---
 
@@ -26,9 +26,9 @@
 
 完整的设计规范和技术文档请参考 OpenSpec：
 
-- [UI 设计系统](../openspec/design/ui-design-system.md) - 官方设计系统文档
-- [组件设计规范](../openspec/architecture/component-design.md) - 组件架构与模式
-- [OpenSpec 首页](../openspec/README.md) - 完整项目规范
+- [UI 设计系统](../docs/design/ui-design-system.md) - 官方设计系统文档
+- [组件设计规范](../docs/architecture/component-design.md) - 组件架构与模式
+- [规范文档首页](../docs/README.md) - 完整项目规范
 
 ---
 

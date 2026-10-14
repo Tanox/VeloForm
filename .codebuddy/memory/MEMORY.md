@@ -1,7 +1,7 @@
 # Veloform 项目记忆
 
 > 项目：Veloform（Next.js 14 + React 18 + TypeScript + Tailwind + Supabase + Zustand）
-> 当前版本：v4.4.1（main 分支）
+> 当前版本：v4.4.7（main 分支）
 
 ## 关键架构与约定
 - 字体：使用系统字体栈（SF Pro 等），由 `globals.css` 的 `--font-display`/`--font-sans` 定义。**不依赖 next/font/google**（离线/CI 稳健），对齐 prototype/design-system-spec.md。
@@ -15,5 +15,6 @@
 - 项目历史上 package.json 等文件曾被写入 UTF-8 BOM，已修复（v4.4.1）；若 build 报 `Unexpected token` 优先排查 BOM。
 
 ## 版本发布
-- 版本规则：每次修改 bump patch（x.y.Z+1）；同步位置见各文件头部注释、package.json、README.md/README_EN.md、openspec/SPEC.md、CHANGELOG.md。
+- 版本规则：每次修改 bump patch（x.y.Z+1）；同步位置见各文件头部注释、package.json、README.md/README_EN.md、docs/SPEC.md、CHANGELOG.md。
+- 规范文档位置（v4.4.7 起）：原 `openspec/` 目录已合入 `docs/`（保留 api/architecture/design/development/deployment/performance/security 子目录 + 根级 SPEC.md/README.md(规范索引)/PROJECT_GUIDELINES.md/规范标准化.md/prototype-guide.md）。`docs/README.md` 为规范索引入口。
 - 主要分支：main（生产）、dev（独立）。
