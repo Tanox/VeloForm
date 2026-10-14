@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.5] - 2026-10-14
+
+### 功能 / i18n
+
+- 完成 OpenSpec 派生任务 T-16：新增日语（ja）语言包
+  - 新增 `src/lib/i18n/locales/ja/`（22 个 locale 文件）与聚合文件 `src/lib/i18n/ja.ts`，均通过 `satisfies Translations` 编译期键对齐校验
+  - 在 `src/lib/i18n/index.ts` 注册 `ja`，支持浏览器语言自动识别与 `<html lang>` 同步
+  - 导航栏语言切换扩展为 en / zh-CN / ja 三语循环，`LanguageToggle` 全量变体显示「日本語」
+  - `whimsy-copy.ts` 补充日语文案字典，趣味文案随语言切换
+  - `i18n.test.ts` 新增 ja 语言运行时校验用例
+- 修正 `src/lib/constants/app.ts` 的 `APP_INFO.version` 展示版本漂移（4.4.1 → 4.4.5）
+
 ## [4.4.4] - 2026-10-14
 
 ### CI / 配置

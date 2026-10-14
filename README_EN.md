@@ -216,7 +216,7 @@ MIT License
 
 ## Version
 
-Current version: **v4.4.4**
+Current version: **v4.4.5**
 Last updated: 2026-08-12
 
 For detailed changelog, see [CHANGELOG.md](./CHANGELOG.md).
