@@ -16,4 +16,14 @@ export const configurator = {
   loginToSave: '登录以保存配置',
   loginToSaveHint:
     '保存的配置将自动同步到云端，方便你在任何设备上继续编辑。未登录时配置仅保存在本地浏览器。',
+  completion: '配置完成度',
+  selectedOf: '已选 {count}/{total} 个组件',
+  shortcuts: '快捷键：S 保存 · R 重置 · 1/2/3 切换车型',
+  versionHistory: {
+    title: '版本历史',
+    save: '保存快照',
+    restore: '恢复',
+    restored: '已恢复该快照',
+    empty: '尚未保存任何快照',
+  },
 };

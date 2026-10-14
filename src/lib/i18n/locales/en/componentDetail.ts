@@ -5,4 +5,5 @@ export const componentDetail = {
   price: 'Price',
   weight: 'Weight',
   reviews: 'reviews',
+  recommendation: 'Pairs well with',
 };

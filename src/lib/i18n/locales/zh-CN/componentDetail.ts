@@ -5,4 +5,5 @@ export const componentDetail = {
   price: '价格',
   weight: '重量',
   reviews: '条评价',
+  recommendation: '搭配推荐',
 };

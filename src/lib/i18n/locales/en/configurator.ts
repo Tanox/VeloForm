@@ -16,4 +16,14 @@ export const configurator = {
   loginToSave: 'Log in to save configurations',
   loginToSaveHint:
     'Saved configurations are automatically synced to the cloud so you can continue editing on any device. Without logging in, configurations are only stored locally in your browser.',
+  completion: 'Configuration Completion',
+  selectedOf: '{count}/{total} components selected',
+  shortcuts: 'Shortcuts: S save · R reset · 1/2/3 switch bike type',
+  versionHistory: {
+    title: 'Version History',
+    save: 'Save Snapshot',
+    restore: 'Restore',
+    restored: 'Snapshot restored',
+    empty: 'No snapshots saved yet',
+  },
 };

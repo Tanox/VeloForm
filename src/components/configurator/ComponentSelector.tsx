@@ -30,6 +30,7 @@ export function ComponentSelector() {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const showComponentSelector = useShowComponentSelector();
   const closeComponentSelector = useConfigUIStore((s) => s.closeComponentSelector);
+  const openComponentSelector = useConfigUIStore((s) => s.openComponentSelector);
   const components = useComponents();
   const replaceComponent = useConfigStore((s) => s.replaceComponent);
   const editingComponentId = useEditingComponentId();
@@ -41,6 +42,25 @@ export function ComponentSelector() {
   const alternatives = useMemo(
     () => mockAlternatives[currentComponent?.category || ''] || [],
     [currentComponent?.category]
+  );
+
+  // 智能推荐：根据当前分类推荐一个互补分类，引导用户完善配置
+  const recommendedCategory = useMemo(() => {
+    if (!currentComponent) return null;
+    const map: Record<string, string> = {
+      Frame: 'Wheelset',
+      Wheelset: 'Tires',
+      Tires: 'Cockpit',
+      Cockpit: 'Drivetrain',
+      Drivetrain: 'Frame',
+      Suspension: 'Frame',
+    };
+    return map[currentComponent.category] || null;
+  }, [currentComponent]);
+
+  const recommendedComponent = useMemo(
+    () => (recommendedCategory ? components.find((c) => c.category === recommendedCategory) : undefined),
+    [recommendedCategory, components]
   );
 
   useEffect(() => {
@@ -104,6 +124,26 @@ export function ComponentSelector() {
           <DialogHeader>
             <DialogTitle className="text-xl">选择 {getCategoryTranslation(currentComponent.category)}</DialogTitle>
           </DialogHeader>
+
+          {recommendedComponent && (
+            <div className="flex items-center justify-between gap-3 rounded-lg bg-primary/5 border border-primary/15 px-3 py-2">
+              <p className="text-xs text-muted-foreground">
+                <span className="font-medium text-foreground">{t('componentDetail.recommendation')}</span>
+                ：{getCategoryTranslation(recommendedComponent.category)}
+              </p>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="shrink-0"
+                onClick={() => openComponentSelector(recommendedComponent.id)}
+                aria-label={`去选择${getCategoryTranslation(recommendedComponent.category)}`}
+              >
+                去完善
+                <ArrowRight className="w-4 h-4 ml-1" aria-hidden="true" />
+              </Button>
+            </div>
+          )}
+
           <div id="component-selector-list" className="flex-1 overflow-y-auto space-y-3 px-2">
             <AnimatePresence mode="wait">
               {showComponentSelector && (

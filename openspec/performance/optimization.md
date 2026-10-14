@@ -6,6 +6,15 @@
 
 ## 概述
 
+> **⚠️ 技术栈对齐说明（2026-10-14 更新）**
+> 本文档早期版本以 **Angular / Firestore / Three.js** 描述性能策略，已于 v3.4→v4.x 迁移中弃用。
+> 当前生产技术栈为 **Next.js 14 App Router（Server Components 静态渲染）+ React 18 + Zustand + Supabase**，详见 [`/openspec/SPEC.md`](../SPEC.md)。
+> 文中「Angular / OnPush / Signal / Firestore 查询缓存 / 3D 渲染」等段落属**历史参考**。实际可落地的等效实践：
+> - 路由级代码分割由 Next.js App Router 自动完成；重型模态框（如 `ComponentDetailModal`）已 `lazy()` 懒加载
+> - 状态更新经 Zustand 细粒度 selector 订阅，避免无关重渲染
+> - 数据层使用 Supabase 客户端查询 + 浏览器 `localStorage` 缓存用户配置列表
+> 核心性能目标（LCP < 2s、FID < 100ms、Bundle < 1.5MB）仍适用，建议用 Lighthouse 在 CI 中复核。
+
 本文档定义了 Veloform 项目的性能优化标准和最佳实践，涵盖前端性能、Angular 性能、3D 渲染性能和后端性能等方面。
 
 ---

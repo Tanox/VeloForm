@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.3] - 2026-10-14
+
+### 新增（派生自 OpenSpec design-review P0–P3）
+
+- 配置完成度指示器：`SummaryPanel` 新增进度条，按已自定义分类数反映配置进度
+- 全局键盘快捷键：`S` 保存 / `R` 重置 / `1·2·3` 切换车型（`src/lib/hooks/useKeyboardShortcuts.ts`，输入框内不触发）
+- 移动端固定摘要条：`SummaryPanel` 在移动端常驻显示实时价格与重量
+- Toast 增强：`sonner.tsx` 启用关闭按钮与 `richColors`
+- 手势切换车型：`BikeTypeSelector` 支持横向滑动（onPanEnd）切换车型
+- 智能推荐：`ComponentSelector` 推荐互补分类并一键跳转选择
+- 客户端配置版本历史：`src/lib/config-history.ts` + `VersionHistory` 弹窗，localStorage 快照（上限 10，支持保存/恢复/删除）
+
+### 文档
+
+- 同步 OpenSpec 安全/性能规范与当前技术栈（Supabase / Next.js / React），标注 Firebase/Angular 内容为历史参考
+- 新增任务文档 `docs/tasks.md`（进行中）与 `docs/tasks-done.md`（已完成归档）
+
 ## [4.4.2] - 2026-08-12
 
 ### 修复

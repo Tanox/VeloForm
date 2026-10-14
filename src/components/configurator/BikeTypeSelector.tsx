@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback, useMemo } from 'react';
 import { BikeType } from '@/types';
 import { useActiveType } from '@/lib/stores';
 import { useConfigStore } from '@/lib/stores';
@@ -27,6 +28,15 @@ export function BikeTypeSelector() {
   const setActiveType = useConfigStore((state) => state.setActiveType);
   const types: BikeType[] = ['Road', 'MTB', 'Fold'];
 
+  const switchBikeType = useCallback(
+    (direction: 1 | -1) => {
+      const idx = types.indexOf(activeType);
+      const next = types[(idx + direction + types.length) % types.length];
+      setActiveType(next);
+    },
+    [activeType, setActiveType]
+  );
+
   const bikeTypeInfo: Record<BikeType, BikeTypeInfo> = {
     Road: {
       icon: bikeTypeIcons.Road,
@@ -52,7 +62,16 @@ export function BikeTypeSelector() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-3" role="tablist" aria-label="选择车型">
+    <motion.div
+      className="grid grid-cols-1 md:grid-cols-3 gap-3 touch-pan-y"
+      role="tablist"
+      aria-label="选择车型"
+      onPanEnd={(_, info) => {
+        // 横向滑动切换车型（移动端手势）
+        if (info.offset.x < -50) switchBikeType(1);
+        else if (info.offset.x > 50) switchBikeType(-1);
+      }}
+    >
       {types.map((type, index) => {
         const isActive = activeType === type;
         const info = bikeTypeInfo[type];
@@ -132,6 +151,6 @@ export function BikeTypeSelector() {
           </motion.button>
         );
       })}
-    </div>
+    </motion.div>
   );
 }

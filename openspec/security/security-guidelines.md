@@ -6,6 +6,11 @@
 
 ## 概述
 
+> **⚠️ 技术栈对齐说明（2026-10-14 更新）**
+> 本文档早期版本以 **Firebase Auth / Firestore / Angular** 描述认证与数据层，已于 v3.4→v4.x 迁移中弃用。
+> 当前生产技术栈为 **Supabase（Postgres + Auth）+ Next.js 14 App Router + React 18 + Zustand**，详见 [`/openspec/SPEC.md`](../SPEC.md)。
+> 下文 §1.1「Firebase Auth」与 §2.2「Firestore 安全规则」等段落属**历史参考**，实际实现对齐 [`/supabase/`](../../supabase/) 中的 SQL（RLS 策略）与 `src/lib/auth.ts`、`src/lib/config-service.ts`、`middleware.ts`（CSP/安全头）。核心安全结论（最小权限、输入校验、密钥不入前端、依赖审计）仍然有效。
+
 本文档定义了 Veloform 项目的安全标准和最佳实践，涵盖认证授权、数据保护、安全审计和常见威胁防护等方面。
 
 ---

@@ -17,11 +17,15 @@ import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { SectionSkeleton } from '@/components/ui/SectionSkeleton';
 import { motion } from 'framer-motion';
 import { uiLogger } from '@/lib/logger';
+import { useKeyboardShortcuts } from '@/lib/hooks/useKeyboardShortcuts';
 
 export default function Home() {
   const handleNavigate = (page: string) => {
     uiLogger.debug('Navigate to:', page);
   };
+
+  // 全局键盘快捷键：S 保存 / R 重置 / 1·2·3 切换车型
+  useKeyboardShortcuts();
 
   return (
     <div id="app-root" className="min-h-screen bg-background">

@@ -15,6 +15,16 @@ export interface ConfiguratorTranslations {
     };
     loginToSave: string;
     loginToSaveHint: string;
+    completion: string;
+    selectedOf: string;
+    shortcuts: string;
+    versionHistory: {
+      title: string;
+      save: string;
+      restore: string;
+      restored: string;
+      empty: string;
+    };
   };
   componentDetail: {
     technicalSpecs: string;
@@ -23,6 +33,7 @@ export interface ConfiguratorTranslations {
     price: string;
     weight: string;
     reviews: string;
+    recommendation: string;
   };
   library: {
     title: string;

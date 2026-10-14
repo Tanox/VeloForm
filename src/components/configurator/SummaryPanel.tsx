@@ -6,18 +6,21 @@ import {
   useTotalCost,
   useTotalWeight,
   useManualConfigName,
+  useComponents,
   useConfigStore,
   useIsSaving,
   useUserId,
 } from '@/lib/stores';
+import { getDefaultsForType, APP_CONSTANTS } from '@/lib/constants';
 import { formatCurrency, formatWeight } from '@/lib/utils';
 import { saveConfiguration as saveConfig } from '@/lib/config-service';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/lib/i18n';
 import { useWhimsy } from '@/lib/whimsy-copy';
-import { Save, RefreshCw, Loader2, TrendingUp, Scale, Share2, Zap, Bike, User } from 'lucide-react';
+import { Save, RefreshCw, Loader2, TrendingUp, Scale, Share2, Zap, Bike, User, History } from 'lucide-react';
 import { ShareModal } from './ShareModal';
+import { VersionHistory } from './VersionHistory';
 import { CostBreakdownChart } from './CostBreakdownChart';
 
 const getBikeTypeIcon = (type: string): typeof Bike => {
@@ -33,15 +36,28 @@ export function SummaryPanel() {
   const t = useTranslation();
   const w = useWhimsy();
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showVersionHistory, setShowVersionHistory] = useState(false);
   const activeType = useActiveType();
   const totalCost = useTotalCost();
   const totalWeight = useTotalWeight();
   const manualConfigName = useManualConfigName();
+  const components = useComponents();
   const resetToDefaults = useConfigStore((s) => s.resetToDefaults);
   const isSaving = useIsSaving();
   const userId = useUserId();
 
   const isLoggedIn = userId !== null;
+
+  // 配置完成度：已自定义（与默认不同）的分类数 / 总分类数
+  const totalCategories = APP_CONSTANTS.COMPONENT_CATEGORIES.length;
+  const customizedCount = useMemo(() => {
+    const defaults = getDefaultsForType(activeType);
+    return components.filter((c) => {
+      const d = defaults.find((x) => x.category === c.category);
+      return d ? d.id !== c.id : true;
+    }).length;
+  }, [components, activeType]);
+  const completionPct = Math.round((customizedCount / totalCategories) * 100);
 
   const handleSave = useCallback(async () => {
     await saveConfig();
@@ -65,6 +81,26 @@ export function SummaryPanel() {
     <>
       <Card id="summary-panel" className="sticky top-20 z-30">
         <div className="space-y-5 p-5">
+          {/* 移动端固定摘要条：滚动时始终可见实时价格与重量 */}
+          <div className="lg:hidden flex items-center justify-between gap-3 rounded-lg bg-surface-secondary border border-border-light px-3 py-2">
+            <div className="flex flex-col">
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider">
+                {t('configurator.totalCost')}
+              </span>
+              <span className="text-sm font-display font-semibold text-foreground">
+                {formatCurrency(totalCost)}
+              </span>
+            </div>
+            <div className="flex flex-col text-right">
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider">
+                {t('configurator.estimatedWeight')}
+              </span>
+              <span className="text-sm font-display font-semibold text-foreground">
+                {formatWeight(totalWeight)}
+              </span>
+            </div>
+          </div>
+
           <div>
             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
               {t('configurator.currentBuild')}
@@ -79,6 +115,34 @@ export function SummaryPanel() {
               <span className="text-xs text-muted-foreground uppercase tracking-wider">
                 {t(`bikeTypes.${activeType.toLowerCase()}`) || activeType}
               </span>
+            </div>
+          </div>
+
+          {/* 配置完成度指示器 */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                {t('configurator.completion')}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {t('configurator.selectedOf', {
+                  count: customizedCount,
+                  total: totalCategories,
+                })}
+              </p>
+            </div>
+            <div
+              className="h-2 w-full rounded-full bg-surface-secondary overflow-hidden"
+              role="progressbar"
+              aria-valuenow={customizedCount}
+              aria-valuemin={0}
+              aria-valuemax={totalCategories}
+              aria-label={t('configurator.completion') as string}
+            >
+              <div
+                className="h-full bg-primary rounded-full transition-all duration-300"
+                style={{ width: `${completionPct}%` }}
+              />
             </div>
           </div>
 
@@ -142,7 +206,7 @@ export function SummaryPanel() {
                 )}
               </Button>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-2">
               <Button
                 variant="outline"
                 size="lg"
@@ -152,6 +216,16 @@ export function SummaryPanel() {
               >
                 <Share2 className="w-4 h-4 mr-2" aria-hidden="true" />
                 {t('share.title')}
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full"
+                onClick={() => setShowVersionHistory(true)}
+                aria-label={t('configurator.versionHistory.title') as string}
+              >
+                <History className="w-4 h-4 mr-2" aria-hidden="true" />
+                {t('configurator.versionHistory.title')}
               </Button>
               <Button
                 variant="outline"
@@ -190,6 +264,7 @@ export function SummaryPanel() {
       </Card>
 
       <ShareModal isOpen={showShareModal} onClose={() => setShowShareModal(false)} />
+      <VersionHistory isOpen={showVersionHistory} onClose={() => setShowVersionHistory(false)} />
     </>
   );
 }
