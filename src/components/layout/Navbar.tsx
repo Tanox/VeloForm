@@ -100,7 +100,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
   );
 
   const handleToggleLanguage = useCallback(() => {
-    setLanguage(language === 'en' ? 'zh-CN' : 'en');
+    setLanguage(language === 'en' ? 'zh-CN' : language === 'zh-CN' ? 'ja' : 'en');
   }, [setLanguage, language]);
 
   return (

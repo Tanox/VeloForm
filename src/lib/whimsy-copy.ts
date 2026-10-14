@@ -118,9 +118,48 @@ const en: WhimsyDict = {
   },
 };
 
-export const whimsyCopy: Record<'zh-CN' | 'en', WhimsyDict> = {
+const ja: WhimsyDict = {
+  loading: {
+    title: '愛車を組み立て中',
+    phrases: [
+      'すべてのボルトを締め付け中…',
+      'チェーンに油を差してる…',
+      '変速機を調整中…',
+      'タイヤに空気を入れてる…',
+      'サドルを一番良い角度に…',
+      'フレームをピカピカに磨いてる…',
+      'ブレーキをチェック、安全確認…',
+    ],
+  },
+  notFound: {
+    eyebrow: '道に迷った？',
+    title: 'このバイクは曲がり間違えたようです',
+    hint: '心配いりません。最高のルートはたいてい、うっかりした曲がり角から始まります。ホームに戻ってやり直しましょう。',
+  },
+  build: {
+    emptyTitle: 'ガレージはまだ空っぽ',
+    emptyDesc: '最初のドリームマシンを作る準備はできていますか？パーツを一つ増えるごとに、完璧な一台に近づきます。',
+    emptyCta: '最初のパーツを選ぶ',
+    completeTitle: '組み立て完了 🎉',
+    completeMsg: 'あなたの夢の一台は出発できる状態です！',
+    firstTitle: '第一歩を踏み出した ✨',
+    firstMsg: '良いスタートです。残りのパーツも埋めていきましょう。',
+  },
+  save: {
+    label: '構成をロック',
+    savedTitle: '構成をロックしました 🚀',
+    savedMsg: '構成をしっかり保管しました。いつでも戻ってきて弄ってください。',
+  },
+  konami: {
+    title: 'ターボモード発動 🌟',
+    message: '隠されたイースターエッグを見つけました。追い風を楽しんで！',
+  },
+};
+
+export const whimsyCopy: Record<'zh-CN' | 'en' | 'ja', WhimsyDict> = {
   'zh-CN': zhCN,
   en,
+  ja,
 };
 
 type Lang = keyof typeof whimsyCopy;
@@ -141,7 +180,7 @@ function getNested(dict: WhimsyDict, path: string): string | undefined {
  */
 export function useWhimsy() {
   const language = useLanguage();
-  const lang: Lang = language === 'zh-CN' ? 'zh-CN' : 'en';
+  const lang: Lang = language === 'zh-CN' ? 'zh-CN' : language === 'ja' ? 'ja' : 'en';
   const dict = whimsyCopy[lang];
   return useCallback((key: string) => getNested(dict, key) ?? key, [dict]);
 }
@@ -149,6 +188,6 @@ export function useWhimsy() {
 /** Returns the rotating loading phrases for the active language. */
 export function useWhimsyPhrases(): string[] {
   const language = useLanguage();
-  const lang: Lang = language === 'zh-CN' ? 'zh-CN' : 'en';
+  const lang: Lang = language === 'zh-CN' ? 'zh-CN' : language === 'ja' ? 'ja' : 'en';
   return whimsyCopy[lang].loading.phrases;
 }

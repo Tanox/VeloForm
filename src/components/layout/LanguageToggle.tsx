@@ -20,7 +20,7 @@ function LanguageToggleBase({ language, onToggle, variant = 'icon' }: LanguageTo
         <Globe className="w-4 h-4 mr-2" />
         {t('nav.language')}
         <span className="ml-auto text-muted-foreground text-sm">
-          {language === 'en' ? 'English' : '中文'}
+          {language === 'en' ? 'English' : language === 'zh-CN' ? '中文' : '日本語'}
         </span>
       </Button>
     );

@@ -1,0 +1,15 @@
+export const compare = {
+  title: '構成を比較',
+  configs: '構成',
+  component: 'コンポーネント',
+  totalCost: '合計金額',
+  estimatedWeight: '推定重量',
+  even: '均等',
+  panelTitle: '構成の比較',
+  panelSubtitle: '複数の構成間でコストと重量の差を比較',
+  configCount: '構成',
+  load: '読み込む',
+  close: '閉じる',
+  selectToCompare: '比較する構成を選択',
+  maxThree: '最大3つの構成を比較できます',
+};

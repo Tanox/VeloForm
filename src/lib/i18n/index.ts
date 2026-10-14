@@ -13,10 +13,12 @@ import type { Translations } from './types';
 
 import { translations as enTranslations } from './en';
 import { translations as zhCNTranslations } from './zh-CN';
+import { translations as jaTranslations } from './ja';
 
 const translations: Record<string, Translations> = {
   en: enTranslations satisfies Translations,
   'zh-CN': zhCNTranslations satisfies Translations,
+  ja: jaTranslations satisfies Translations,
 };
 
 // ---------------------------------------------------------------------------
@@ -39,9 +41,10 @@ function getInitialLanguage(): Language {
   if (typeof window === 'undefined') return 'en';
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored === 'en' || stored === 'zh-CN') return stored;
+    if (stored === 'en' || stored === 'zh-CN' || stored === 'ja') return stored;
     const navLang = window.navigator?.language?.toLowerCase() ?? '';
     if (navLang.startsWith('zh')) return 'zh-CN';
+    if (navLang.startsWith('ja')) return 'ja';
   } catch {
     /* localStorage may be unavailable (private mode) — ignore */
   }
@@ -51,7 +54,7 @@ function getInitialLanguage(): Language {
 /** Keep the <html lang> attribute in sync with the active language. */
 function syncDocumentLanguage(lang: Language): void {
   if (typeof document !== 'undefined') {
-    document.documentElement.lang = lang === 'zh-CN' ? 'zh-CN' : 'en';
+    document.documentElement.lang = lang;
   }
 }
 

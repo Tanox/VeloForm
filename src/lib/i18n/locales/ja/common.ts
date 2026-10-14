@@ -1,0 +1,15 @@
+export const common = {
+  cancel: 'キャンセル',
+  save: '保存',
+  delete: '削除',
+  edit: '編集',
+  close: '閉じる',
+  components: 'コンポーネント',
+  retry: '再試行',
+  backToHome: 'ホームに戻る',
+  loading: '読み込み中…',
+  themeLight: 'ライトモード',
+  themeDark: 'ダークモード',
+  toggleToLight: 'ライトモードに切り替え',
+  toggleToDark: 'ダークモードに切り替え',
+};
