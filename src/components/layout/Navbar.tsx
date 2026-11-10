@@ -80,7 +80,8 @@ export function Navbar({ onNavigate }: NavbarProps) {
       { label: String(t('nav.library')), href: 'library' },
       { label: String(t('nav.support')), href: 'support', isSupport: true },
     ],
-    // 依赖 language：t 引用稳定，仅当其随语言变化时 navItems 才重算，修复切换语言后导航不刷新
+    // t 引用在语言切换时可能保持稳定，故显式依赖 language 强制重建导航项，修复切换语言后导航不刷新
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [t, language]
   );
 

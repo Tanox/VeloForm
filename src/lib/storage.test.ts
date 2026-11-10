@@ -48,10 +48,12 @@ describe('safeLocalStorage', () => {
   });
 
   it('safeJSONStorage persists and restores objects', () => {
-    vi.stubGlobal('window', undefined as unknown as Window & typeof globalThis);
-    safeJSONStorage.setItem('obj', { foo: 'bar', n: 1 } as unknown as string);
-    const restored = safeJSONStorage.getItem('obj') as unknown as { foo: string; n: number };
-    expect(restored.foo).toBe('bar');
-    expect(restored.n).toBe(1);
+    // safeJSONStorage 为 zustand PersistStorage（类型含 undefined，实际恒非空），按 StateStorage 契约校验 JSON 往返
+    const storage = safeJSONStorage;
+    expect(storage).toBeDefined();
+    storage!.setItem('obj', { state: { foo: 'bar', n: 1 }, version: 0 });
+    const restored = storage!.getItem('obj') as unknown as { state: { foo: string; n: number } } | null;
+    expect(restored?.state.foo).toBe('bar');
+    expect(restored?.state.n).toBe(1);
   });
 });

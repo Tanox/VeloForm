@@ -34,7 +34,7 @@ export function VersionHistory({ isOpen, onClose }: VersionHistoryProps) {
   const handleSave = useCallback(() => {
     saveSnapshot(manualConfigName || `${activeType} Build`, activeType, components);
     refresh();
-    toast('success', t('configurator.versionHistory.save'));
+    toast('success', String(t('configurator.versionHistory.save')));
   }, [manualConfigName, activeType, components, refresh, t]);
 
   const handleRestore = useCallback(
@@ -44,7 +44,7 @@ export function VersionHistory({ isOpen, onClose }: VersionHistoryProps) {
         components: snap.components,
         manualConfigName: snap.name,
       });
-      toast('success', t('configurator.versionHistory.restored'));
+      toast('success', String(t('configurator.versionHistory.restored')));
       onClose();
     },
     [loadConfiguration, onClose, t]

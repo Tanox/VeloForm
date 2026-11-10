@@ -95,10 +95,13 @@ describe('supabase-service', () => {
       expect(id).toBe('config-1');
     });
 
-    it('returns local id when supabase client unavailable', async () => {
+    it('throws when supabase client unavailable (avoids silent local success)', async () => {
       getSupabaseClientMock.mockReturnValueOnce(null as never);
-      const id = await saveConfigurationToSupabase(baseConfig, 'user-1');
-      expect(id).toBe('config-1');
+      // client 为 null 时无法真实写入，必须抛错交由 config-service 报告失败，
+      // 否则会返回本地 id 被上层误判为“已保存到云端”，造成静默数据丢失。
+      await expect(saveConfigurationToSupabase(baseConfig, 'user-1')).rejects.toThrow(
+        'Supabase not initialized'
+      );
     });
   });
 

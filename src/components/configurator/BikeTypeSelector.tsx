@@ -22,11 +22,14 @@ const bikeTypeIcons: Record<BikeType, string> = {
   Fold: `<circle cx="6.5" cy="17.5" r="3.5"></circle><circle cx="17.5" cy="17.5" r="3.5"></circle><path d="M14 10h-3.5L9 17.5"></path><path d="m11 10 2-5 3 1"></path><path d="M10 10H7.5L6 17.5"></path>`,
 };
 
+// 车型列表为编译期常量，提升至模块级避免每次渲染重建新数组（亦消除 useCallback 的 missing-deps 警告）
+const BIKE_TYPES: BikeType[] = ['Road', 'MTB', 'Fold'];
+
 export function BikeTypeSelector() {
   const t = useTranslation();
   const activeType = useActiveType();
   const setActiveType = useConfigStore((state) => state.setActiveType);
-  const types: BikeType[] = ['Road', 'MTB', 'Fold'];
+  const types = BIKE_TYPES;
 
   const switchBikeType = useCallback(
     (direction: 1 | -1) => {
@@ -34,7 +37,7 @@ export function BikeTypeSelector() {
       const next = types[(idx + direction + types.length) % types.length];
       setActiveType(next);
     },
-    [activeType, setActiveType]
+    [activeType, setActiveType, types]
   );
 
   const bikeTypeInfo: Record<BikeType, BikeTypeInfo> = {
