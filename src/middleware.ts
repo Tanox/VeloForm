@@ -42,6 +42,10 @@ export function middleware(request: NextRequest) {
     "form-action 'self'",
     // 插件限制：禁止 Flash 等过时插件
     "object-src 'none'",
+    // 禁止被第三方站点嵌套，配合 X-Frame-Options 防御点击劫持
+    "frame-ancestors 'none'",
+    // 生产环境自动升级混合内容请求
+    'upgrade-insecure-requests',
   ].join('; ');
 
   // 设置 CSP header

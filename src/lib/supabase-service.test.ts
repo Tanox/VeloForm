@@ -128,10 +128,9 @@ describe('supabase-service', () => {
       expect(result[0].bikeType).toBe('Road');
     });
 
-    it('returns empty array on error', async () => {
+    it('throws on error so sync can keep local data', async () => {
       loadMock.__setResolved({ data: null, error: new Error('boom') });
-      const result = await loadConfigurationsFromSupabase('user-1');
-      expect(result).toEqual([]);
+      await expect(loadConfigurationsFromSupabase('user-1')).rejects.toThrow('boom');
     });
   });
 

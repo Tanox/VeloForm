@@ -1,10 +1,12 @@
+// 文件路径: src/lib/stores/config-store.ts v4.4.9
 'use client';
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { StateCreator } from 'zustand';
 import { BikeType, ConfigComponent } from '@/types';
-import { getDefaultsForType, APP_CONSTANTS } from '@/lib/constants';
+import { getDefaultsForType } from '@/lib/constants';
+import { calculateTotals } from '@/lib/config-totals';
 import { safeJSONStorage } from '@/lib/storage';
 
 export interface ConfigStoreState {
@@ -69,17 +71,9 @@ const configStoreCreator: StateCreator<ConfigStore> = (set, get) => ({
       manualConfigName: null,
     })),
 
-  getTotalCost: () => {
-    const state = get();
-    return state.components.reduce((sum, comp) => sum + comp.price, 0);
-  },
+  getTotalCost: () => calculateTotals(get().components, get().activeType).totalCost,
 
-  getTotalWeight: () => {
-    const state = get();
-    const baseWeight = APP_CONSTANTS.BASE_WEIGHTS[state.activeType];
-    const componentWeight = state.components.reduce((sum, comp) => sum + comp.weight, 0);
-    return (baseWeight + componentWeight) / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR;
-  },
+  getTotalWeight: () => calculateTotals(get().components, get().activeType).estimatedWeight,
 });
 
 export const useConfigStore = create<ConfigStore>()(
@@ -96,10 +90,6 @@ export const useComponents = () => useConfigStore((s) => s.components);
 export const useConfigId = () => useConfigStore((s) => s.configId);
 export const useManualConfigName = () => useConfigStore((s) => s.manualConfigName);
 export const useTotalCost = () =>
-  useConfigStore((s) => s.components.reduce((sum, c) => sum + c.price, 0));
+  useConfigStore((s) => calculateTotals(s.components, s.activeType).totalCost);
 export const useTotalWeight = () =>
-  useConfigStore((s) => {
-    const baseWeight = APP_CONSTANTS.BASE_WEIGHTS[s.activeType];
-    const componentWeight = s.components.reduce((sum, c) => sum + c.weight, 0);
-    return (baseWeight + componentWeight) / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR;
-  });
+  useConfigStore((s) => calculateTotals(s.components, s.activeType).estimatedWeight);

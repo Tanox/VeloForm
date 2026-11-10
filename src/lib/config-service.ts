@@ -1,3 +1,4 @@
+// 文件路径: src/lib/config-service.ts v4.4.9
 import { Configuration } from '@/types';
 import { useConfigStore } from '@/lib/stores/config-store';
 import { useCompareStore } from '@/lib/stores/compare-store';
@@ -9,13 +10,13 @@ import {
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { generateShareableLink as generateShareableConfigLink } from '@/lib/shareable-config';
 import { ShareableConfigSchema } from '@/lib/shareable-config';
+import { calculateTotals } from '@/lib/config-totals';
 import { toast } from '@/lib/toast';
 import { configLogger } from '@/lib/logger';
 
 /**
  * 保存前校验配置数据，防止被污染的 store 状态直接入库。
- * 复用 shareable-config 的 zod schema（约束 bikeType/name/components 结构），
- * 并丢弃 schema 未覆盖的运行时字段（如 id/totalCost 由服务端重新计算）。
+ * 复用 shareable-config 的 zod schema（约束 bikeType/name/components 结构）。
  */
 function validateConfigForSave(
   config: ReturnType<typeof buildConfigurationFromStore>
@@ -33,26 +34,28 @@ function validateConfigForSave(
 }
 
 export function buildConfigurationFromStore(): Configuration {
-  const { activeType, components, configId, manualConfigName, getTotalCost, getTotalWeight } =
-    useConfigStore.getState();
+  const { activeType, components, configId, manualConfigName } = useConfigStore.getState();
   const userId = useUserStore.getState().userId;
+  const totals = calculateTotals(components, activeType);
 
   return {
-    // 未保存配置使用 local_ 前缀，supabase-service 的 isLocalDraft() 据此判定为草稿走 insert；
-    // 已存在配置（云端 uuid 或本地已保存）走 update。前缀契约见 supabase-service.ts。
+    // 未保存配置使用 local_ 前缀，supabase-service 的 isLocalDraft() 据此判定为草稿走 insert
     id: configId || `local_${Date.now()}`,
     userId: userId || 'anonymous',
     bikeType: activeType,
     name: manualConfigName || `${activeType} Build`,
     components: [...components],
-    totalCost: getTotalCost(),
-    estimatedWeight: getTotalWeight(),
+    totalCost: totals.totalCost,
+    estimatedWeight: totals.estimatedWeight,
     createdAt: new Date(),
     updatedAt: new Date(),
   };
 }
 
-export async function saveConfiguration(): Promise<void> {
+// 模块级 in-flight 锁：按钮与快捷键共用，避免并发 insert 生成重复记录
+let saveInFlight: Promise<void> | null = null;
+
+async function doSaveConfiguration(): Promise<void> {
   const compareStore = useCompareStore.getState();
 
   try {
@@ -64,14 +67,18 @@ export async function saveConfiguration(): Promise<void> {
       return;
     }
 
+    const cloudAvailable = isSupabaseConfigured();
+    const userId = useUserStore.getState().userId;
+
     try {
-      if (!isSupabaseConfigured()) {
-        toast('warning', 'Cloud sync unavailable, saving locally');
+      if (!cloudAvailable) {
+        toast('warning', 'Cloud sync unavailable, saved locally');
+      } else if (!userId) {
+        // 未登录时 RLS 的 WITH CHECK (auth.uid() = user_id) 必然拒绝写入；
+        // 明确降级为本地草稿，避免「假云端 id + 已保存到云端」的静默数据丢失
+        toast('warning', 'Please sign in to sync to cloud; saved locally');
       } else {
-        const savedId = await saveConfigurationToSupabase(
-          config,
-          useUserStore.getState().userId || undefined
-        );
+        const savedId = await saveConfigurationToSupabase(config, userId);
         config.id = savedId;
         toast('success', 'Configuration saved to cloud');
       }
@@ -96,21 +103,28 @@ export async function saveConfiguration(): Promise<void> {
       compareStore.setMyConfigs([...compareStore.myConfigs, config]);
     }
 
-    useConfigStore.setState({
-      configId: config.id || null,
-      manualConfigName: config.name,
-    });
+    // 只回写 id，避免 await 期间用户改名 / 切换车型被旧快照覆盖
+    useConfigStore.setState({ configId: config.id || null });
   } catch (error) {
     configLogger.error('Critical save error:', error);
     toast('error', 'Failed to save configuration');
   }
 }
 
+export function saveConfiguration(): Promise<void> {
+  if (saveInFlight) return saveInFlight;
+  saveInFlight = doSaveConfiguration().finally(() => {
+    saveInFlight = null;
+  });
+  return saveInFlight;
+}
+
 export async function deleteConfiguration(configId: string): Promise<void> {
   const compareStore = useCompareStore.getState();
 
   try {
-    if (isSupabaseConfigured()) {
+    // 本地草稿 id 非 uuid，传给 Supabase 会触发类型错误，直接跳过云端删除
+    if (isSupabaseConfigured() && !configId.startsWith('local_')) {
       await deleteConfigurationFromSupabase(
         configId,
         useUserStore.getState().userId || undefined
@@ -127,7 +141,6 @@ export async function deleteConfiguration(configId: string): Promise<void> {
 
 export function generateShareableLink(): string {
   const { activeType, components, manualConfigName } = useConfigStore.getState();
-  // Delegate to the validated, UTF-8 safe encoder in shareable-config.ts
   return generateShareableConfigLink(
     activeType,
     components,
@@ -136,13 +149,13 @@ export function generateShareableLink(): string {
 }
 
 export function exportConfiguration(): string {
-  const { activeType, components, manualConfigName, getTotalCost, getTotalWeight } =
-    useConfigStore.getState();
+  const { activeType, components, manualConfigName } = useConfigStore.getState();
+  const totals = calculateTotals(components, activeType);
   const exportData = {
     name: manualConfigName || `${activeType} Build`,
     bikeType: activeType,
-    totalCost: getTotalCost(),
-    estimatedWeight: getTotalWeight(),
+    totalCost: totals.totalCost,
+    estimatedWeight: totals.estimatedWeight,
     components: components.map((comp) => ({
       category: comp.category,
       name: comp.name,

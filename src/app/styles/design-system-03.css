@@ -1,0 +1,181 @@
+/* 文件路径: src/app/styles/design-system-03.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
+
+.hover\:shadow-md:hover {
+  --tw-shadow: var(--shadow-md);
+  --tw-shadow-colored: var(--shadow-md);
+  box-shadow:
+    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+
+.hover\:ring-2:hover {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width)
+    var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width))
+    var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+
+.focus\:bg-accent:focus {
+  background-color: hsl(var(--accent));
+}
+
+
+.focus\:text-accent-foreground:focus {
+  color: hsl(var(--accent-foreground));
+}
+
+
+.focus-visible\:border-ring:focus-visible {
+  border-color: hsl(var(--ring));
+}
+
+
+.focus-visible\:underline:focus-visible {
+  text-decoration-line: underline;
+}
+
+
+.focus-visible\:decoration-primary:focus-visible {
+  text-decoration-color: hsl(var(--primary));
+}
+
+
+.focus-visible\:underline-offset-2:focus-visible {
+  text-underline-offset: 2px;
+}
+
+
+.focus-visible\:outline-none:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+
+.focus-visible\:outline-1:focus-visible {
+  outline-width: 1px;
+}
+
+
+.focus-visible\:outline-ring:focus-visible {
+  outline-color: hsl(var(--ring));
+}
+
+
+.focus-visible\:ring-2:focus-visible {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width)
+    var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width))
+    var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+
+.focus-visible\:ring-destructive\/20:focus-visible {
+  --tw-ring-color: hsl(var(--destructive) / 0.2);
+}
+
+
+.focus-visible\:ring-ring:focus-visible {
+  --tw-ring-color: hsl(var(--ring));
+}
+
+
+.focus-visible\:ring-ring\/50:focus-visible {
+  --tw-ring-color: hsl(var(--ring) / 0.5);
+}
+
+
+.focus-visible\:ring-offset-2:focus-visible {
+  --tw-ring-offset-width: 2px;
+}
+
+
+.active\:ring-2:active {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width)
+    var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width))
+    var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+
+.disabled\:pointer-events-none:disabled {
+  pointer-events: none;
+}
+
+
+.disabled\:cursor-not-allowed:disabled {
+  cursor: not-allowed;
+}
+
+
+.disabled\:bg-input\/50:disabled {
+  background-color: hsl(var(--input) / 0.5);
+}
+
+
+.disabled\:opacity-50:disabled {
+  opacity: 0.5;
+}
+
+
+.group:hover .group-hover\:text-foreground {
+  color: hsl(var(--foreground));
+}
+
+
+.group:hover .group-hover\:text-primary {
+  color: hsl(var(--primary));
+}
+
+
+.group:hover .group-hover\:opacity-100 {
+  opacity: 1;
+}
+
+
+.group:hover .group-hover\:shadow-xl {
+  --tw-shadow: var(--shadow-xl);
+  --tw-shadow-colored: var(--shadow-xl);
+  box-shadow:
+    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+
+.group:hover .group-hover\:shadow-accent\/30 {
+  --tw-shadow-color: hsl(var(--accent) / 0.3);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+
+.group:hover .group-hover\:shadow-primary\/30 {
+  --tw-shadow-color: hsl(var(--primary) / 0.3);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+
+.group\/dropdown-menu-item:focus .group-focus\/dropdown-menu-item\:text-accent-foreground {
+  color: hsl(var(--accent-foreground));
+}
+
+
+.group.toaster .group-\[\.toaster\]\:border-border {
+  border-color: hsl(var(--border));
+}
+
+
+.group.toast .group-\[\.toast\]\:bg-muted {
+  background-color: hsl(var(--muted));
+}
+
+
+.group.toast .group-\[\.toast\]\:bg-primary {
+  background-color: hsl(var(--primary));
+}
+
+
+.group.toaster .group-\[\.toaster\]\:bg-background {
+  background-color: hsl(var(--background));
+}

@@ -147,8 +147,9 @@ export async function loadConfigurationsFromSupabase(userId?: string): Promise<C
     const rows = data as SupabaseConfigRow[];
     return rows.map(rowToConfiguration);
   } catch (error) {
+    // 加载失败必须向上传递：返回 [] 会被 SyncProvider 误判为「云端无配置」并清空本地草稿
     supabaseLogger.error('Error loading configurations from Supabase:', error);
-    return [];
+    throw error;
   }
 }
 

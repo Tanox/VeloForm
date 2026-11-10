@@ -1,0 +1,182 @@
+/* 文件路径: src/app/styles/design-system-11.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
+
+.\[\&\>svg\]\:pointer-events-none > svg {
+  pointer-events: none;
+}
+
+
+.\[\&\>svg\]\:row-span-2 > svg {
+  grid-row: span 2 / span 2;
+}
+
+
+.\[\&\>svg\]\:\!size-3 > svg {
+  width: 0.75rem !important;
+  height: 0.75rem !important;
+}
+
+
+.\[\&\>svg\]\:size-3\.5 > svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+
+.\[\&\>svg\]\:size-4 > svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+
+.\[\&\>svg\]\:translate-y-0\.5 > svg {
+  --tw-translate-y: 0.125rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+    scaleY(var(--tw-scale-y));
+}
+
+
+.\[\&\>svg\]\:text-current > svg {
+  color: currentColor;
+}
+
+
+.group\/avatar-group:has([data-size='lg'])
+  .group-has-\[\[data-size\=lg\]\]\/avatar-group\:\[\&\>svg\]\:size-5
+  > svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+
+.group\/avatar-group:has([data-size='sm'])
+  .group-has-\[\[data-size\=sm\]\]\/avatar-group\:\[\&\>svg\]\:size-3
+  > svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+
+.data-\[variant\=destructive\]\:\[\&\>svg\]\:text-destructive > svg[data-variant='destructive'] {
+  color: hsl(var(--destructive));
+}
+
+
+.group\/avatar[data-size='sm'] .group-data-\[size\=sm\]\/avatar\:\[\&\>svg\]\:hidden > svg {
+  display: none;
+}
+
+
+.group\/avatar[data-size='default']
+  .group-data-\[size\=default\]\/avatar\:\[\&\>svg\]\:size-2
+  > svg {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+
+.group\/avatar[data-size='lg'] .group-data-\[size\=lg\]\/avatar\:\[\&\>svg\]\:size-2 > svg {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+
+.focus\:\[\&_\*\]\:text-accent-foreground *:focus {
+  color: hsl(var(--accent-foreground));
+}
+
+
+.\[\&_\[data-slot\=accordion-trigger-icon\]\]\:ml-auto [data-slot='accordion-trigger-icon'] {
+  margin-left: auto;
+}
+
+
+.\[\&_\[data-slot\=accordion-trigger-icon\]\]\:h-4 [data-slot='accordion-trigger-icon'] {
+  height: 1rem;
+}
+
+
+.\[\&_\[data-slot\=accordion-trigger-icon\]\]\:w-4 [data-slot='accordion-trigger-icon'] {
+  width: 1rem;
+}
+
+
+.\[\&_\[data-slot\=accordion-trigger-icon\]\]\:text-muted-foreground
+  [data-slot='accordion-trigger-icon'] {
+  color: hsl(var(--muted-foreground));
+}
+
+
+.\[\&_\[data-slot\=accordion-trigger-icon\]\]\:transition-transform
+  [data-slot='accordion-trigger-icon'] {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+
+.\[\&_\[data-slot\=accordion-trigger-icon\]\]\:duration-200 [data-slot='accordion-trigger-icon'] {
+  transition-duration: 200ms;
+}
+
+
+.\[\&_\[data-slot\=kbd\]\]\:relative [data-slot='kbd'] {
+  position: relative;
+}
+
+
+.\[\&_\[data-slot\=kbd\]\]\:isolate [data-slot='kbd'] {
+  isolation: isolate;
+}
+
+
+.\[\&_\[data-slot\=kbd\]\]\:z-50 [data-slot='kbd'] {
+  z-index: 50;
+}
+
+
+.\[\&_\[data-slot\=kbd\]\]\:rounded-sm [data-slot='kbd'] {
+  border-radius: calc(var(--radius) - 4px);
+}
+
+
+.\[\&_a\]\:underline a {
+  text-decoration-line: underline;
+}
+
+
+.\[\&_a\]\:underline-offset-2 a {
+  text-underline-offset: 2px;
+}
+
+
+.\[\&_a\]\:hover\:text-foreground:hover a {
+  color: hsl(var(--foreground));
+}
+
+
+.\[\&_p\:not\(\:last-child\)\]\:mb-4 p:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+
+.\[\&_svg\:not\(\[class\*\=\'size-\'\]\)\]\:size-4 svg:not([class*='size-']) {
+  width: 1rem;
+  height: 1rem;
+}
+
+
+.\[\&_svg\]\:pointer-events-none svg {
+  pointer-events: none;
+}
+
+
+.\[\&_svg\]\:size-4 svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+
+.\[\&_svg\]\:shrink-0 svg {
+  flex-shrink: 0;
+}

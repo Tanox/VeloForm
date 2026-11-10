@@ -1,0 +1,178 @@
+/* 文件路径: src/app/styles/design-system-05.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
+
+.data-\[side\=right\]\:-left-1[data-side='right'] {
+  left: -0.25rem;
+}
+
+
+.data-\[side\=right\]\:right-0[data-side='right'] {
+  right: 0px;
+}
+
+
+.data-\[side\=top\]\:-bottom-2\.5[data-side='top'] {
+  bottom: -0.625rem;
+}
+
+
+.data-\[side\=top\]\:top-0[data-side='top'] {
+  top: 0px;
+}
+
+
+.data-\[size\=lg\]\:size-10[data-size='lg'] {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+
+.data-\[size\=sm\]\:size-6[data-size='sm'] {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+
+.data-\[horizontal\]\:h-1[data-horizontal] {
+  height: 0.25rem;
+}
+
+
+.data-\[horizontal\]\:h-2\.5[data-horizontal] {
+  height: 0.625rem;
+}
+
+
+.data-\[horizontal\]\:h-full[data-horizontal] {
+  height: 100%;
+}
+
+
+.data-\[horizontal\]\:h-px[data-horizontal] {
+  height: 1px;
+}
+
+
+.data-\[side\=bottom\]\:h-auto[data-side='bottom'] {
+  height: auto;
+}
+
+
+.data-\[side\=left\]\:h-full[data-side='left'] {
+  height: 100%;
+}
+
+
+.data-\[side\=right\]\:h-full[data-side='right'] {
+  height: 100%;
+}
+
+
+.data-\[side\=top\]\:h-auto[data-side='top'] {
+  height: auto;
+}
+
+
+.data-\[size\=default\]\:h-8[data-size='default'] {
+  height: 2rem;
+}
+
+
+.data-\[size\=default\]\:h-\[18\.4px\][data-size='default'] {
+  height: 18.4px;
+}
+
+
+.data-\[size\=sm\]\:h-7[data-size='sm'] {
+  height: 1.75rem;
+}
+
+
+.data-\[size\=sm\]\:h-\[14px\][data-size='sm'] {
+  height: 14px;
+}
+
+
+.data-\[vertical\]\:h-full[data-vertical] {
+  height: 100%;
+}
+
+
+.data-\[vertical\]\:min-h-40[data-vertical] {
+  min-height: 10rem;
+}
+
+
+.data-\[horizontal\]\:w-full[data-horizontal] {
+  width: 100%;
+}
+
+
+.data-\[side\=left\]\:w-3\/4[data-side='left'] {
+  width: 75%;
+}
+
+
+.data-\[side\=right\]\:w-3\/4[data-side='right'] {
+  width: 75%;
+}
+
+
+.data-\[size\=default\]\:w-\[32px\][data-size='default'] {
+  width: 32px;
+}
+
+
+.data-\[size\=sm\]\:w-\[24px\][data-size='sm'] {
+  width: 24px;
+}
+
+
+.data-\[vertical\]\:w-1[data-vertical] {
+  width: 0.25rem;
+}
+
+
+.data-\[vertical\]\:w-2\.5[data-vertical] {
+  width: 0.625rem;
+}
+
+
+.data-\[vertical\]\:w-auto[data-vertical] {
+  width: auto;
+}
+
+
+.data-\[vertical\]\:w-full[data-vertical] {
+  width: 100%;
+}
+
+
+.data-\[vertical\]\:w-px[data-vertical] {
+  width: 1px;
+}
+
+
+.data-\[size\=default\]\:max-w-xs[data-size='default'] {
+  max-width: 20rem;
+}
+
+
+.data-\[size\=sm\]\:max-w-xs[data-size='sm'] {
+  max-width: 20rem;
+}
+
+
+.data-\[side\=inline-end\]\:-translate-y-1\/2[data-side='inline-end'] {
+  --tw-translate-y: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+    scaleY(var(--tw-scale-y));
+}
+
+
+.data-\[side\=inline-start\]\:-translate-y-1\/2[data-side='inline-start'] {
+  --tw-translate-y: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+    scaleY(var(--tw-scale-y));
+}

@@ -1,22 +1,25 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+// 文件路径: src/lib/utils.ts v4.4.9
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
-// 货币格式化 - 按设计系统规范使用 zh-CN 本地化
-export function formatCurrency(value: number, currency = 'CNY'): string {
-  return new Intl.NumberFormat('zh-CN', {
+// 货币格式化：locale 可由调用方按当前语言注入，默认保持 zh-CN / CNY
+export function formatCurrency(value: number, currency = 'CNY', locale = 'zh-CN'): string {
+  const safeValue = Number.isFinite(value) ? value : 0;
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency,
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(value);
+  }).format(safeValue);
 }
 
-// 重量格式化 - 默认单位为 kg（来自 WEIGHT_CONVERSION_FACTOR 换算）
+// 重量格式化：脏数据（undefined / NaN）不再抛 TypeError
 export function formatWeight(value: number, unit = 'kg'): string {
+  if (!Number.isFinite(value)) return `— ${unit}`;
   return `${value.toFixed(2)} ${unit}`;
 }
 

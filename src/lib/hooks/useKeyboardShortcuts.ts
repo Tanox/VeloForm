@@ -1,10 +1,11 @@
+// 文件路径: src/lib/hooks/useKeyboardShortcuts.ts v4.4.9
 'use client';
 
 import { useEffect } from 'react';
 import { useConfigStore } from '@/lib/stores';
 import { saveConfiguration as saveConfig } from '@/lib/config-service';
-import { toast } from '@/lib/toast';
 import { APP_CONSTANTS } from '@/lib/constants';
+import { configLogger } from '@/lib/logger';
 
 /**
  * 全局键盘快捷键（仅配置器页面挂载）：
@@ -12,6 +13,7 @@ import { APP_CONSTANTS } from '@/lib/constants';
  * - R 重置为默认配置
  * - 1/2/3 切换 公路车/山地车/折叠车
  * 在输入框、文本域或 contenteditable 元素中不触发，避免误触。
+ * 保存结果由 config-service 统一提示，这里只负责捕获未处理异常。
  */
 export function useKeyboardShortcuts(): void {
   useEffect(() => {
@@ -32,10 +34,8 @@ export function useKeyboardShortcuts(): void {
 
       if (key === 's') {
         e.preventDefault();
-        void saveConfig().then(() => {
-          if (useConfigStore.getState().configId) {
-            toast('success', '配置已保存');
-          }
+        void saveConfig().catch((error: unknown) => {
+          configLogger.error('Shortcut save failed:', error);
         });
       } else if (key === 'r') {
         e.preventDefault();

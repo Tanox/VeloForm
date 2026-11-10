@@ -1,0 +1,183 @@
+/* 文件路径: src/app/styles/tokens-01.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
+
+::selection {
+  background-color: hsl(var(--primary) / 0.15);
+  color: hsl(var(--foreground));
+}
+
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border)) transparent;
+}
+
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 3px;
+  -webkit-transition: background-color var(--duration-fast) var(--ease-out);
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--muted-foreground) / 0.5);
+}
+
+
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+
+[data-slot='accordion-content'][data-open] {
+  animation: accordion-down var(--duration-normal) var(--ease-out);
+}
+
+
+[data-slot='accordion-content'][data-closed] {
+  animation: accordion-up var(--duration-normal) var(--ease-out);
+}
+
+
+[data-slot='accordion-trigger'][data-open] [data-slot='accordion-trigger-icon'] {
+  transform: rotate(180deg);
+}
+
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+
+.static {
+  position: static;
+}
+
+
+.fixed {
+  position: fixed;
+}
+
+
+.absolute {
+  position: absolute;
+}
+
+
+.relative {
+  position: relative;
+}
+
+
+.sticky {
+  position: sticky;
+}
+
+
+.inset-0 {
+  inset: 0px;
+}
+
+
+.-top-3 {
+  top: -0.75rem;
+}
+
+
+.bottom-0 {
+  bottom: 0px;
+}
+
+
+.left-0 {
+  left: 0px;
+}
+
+
+.left-1\/2 {
+  left: 50%;
+}
+
+
+.left-1\/4 {
+  left: 25%;
+}
+
+
+.right-0 {
+  right: 0px;
+}
+
+
+.right-2 {
+  right: 0.5rem;
+}
+
+
+.right-3 {
+  right: 0.75rem;
+}
+
+
+.right-4 {
+  right: 1rem;
+}
+
+
+.right-5 {
+  right: 1.25rem;
+}

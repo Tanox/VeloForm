@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useClientReducedMotion } from '@/lib/hooks/use-client-reduced-motion';
 import { Github, Twitter, Linkedin, Youtube, Bike } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
+import { VERSION_LABEL } from '@/lib/version';
 
 const footerCategories = ['product', 'company', 'resources', 'legal'];
 
@@ -97,7 +98,12 @@ export function Footer() {
 
         <div className="py-6 border-t border-border-subtle">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-muted-foreground">{t('footer.copyright')}</p>
+            <div id="footer-meta" className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+              <p className="text-sm text-muted-foreground">{t('footer.copyright')}</p>
+              <span id="footer-version" className="text-xs text-muted-foreground font-mono">
+                {VERSION_LABEL}
+              </span>
+            </div>
 
             <div className="flex items-center gap-6" role="list">
               {(t('footer.links.legal') as readonly string[]).map((item) => (

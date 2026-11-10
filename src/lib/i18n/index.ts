@@ -107,8 +107,9 @@ const i18nStoreCreator: StateCreator<I18nStore> = (set, get) => ({
     if (translation === undefined) return key;
 
     if (params && typeof translation === 'string') {
+      // 替换所有占位符（split/join 兼容 ES2017 target，避免 replaceAll 运行时差异）
       return Object.entries(params).reduce(
-        (str, [paramKey, value]) => str.replace(`{${paramKey}}`, String(value)),
+        (str, [paramKey, value]) => str.split(`{${paramKey}}`).join(String(value)),
         translation
       );
     }
@@ -143,11 +144,12 @@ export function useI18nInit(): void {
 export function useTranslation() {
   const language = useI18nStore((state) => state.language);
   const t = useI18nStore((state) => state.t);
+  // t 引用必须随 language 变化，否则 useMemo([t]) 缓存的翻译文案不会随语言切换刷新
   return useCallback(
     (key: string, params?: Record<string, string | number>) => {
       return t(key, params);
     },
-    [t]
+    [t, language]
   );
 }
 
