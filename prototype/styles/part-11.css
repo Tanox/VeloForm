@@ -1,0 +1,159 @@
+/* 文件路径: prototype/styles/part-11.css v4.4.9 — 由 scripts/split-prototype.mjs 生成 */
+    }
+
+    .feature-card {
+      padding: var(--space-8);
+      background: var(--surface);
+      transition: background var(--duration-fast) var(--ease-out);
+      position: relative;
+    }
+
+    .feature-card:hover {
+      background: var(--surface-hover);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: var(--space-5);
+      color: var(--accent);
+    }
+
+    .feature-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: var(--space-3);
+      letter-spacing: -0.01em;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    /* ============================================================
+       Footer
+       ============================================================ */
+    .footer {
+      padding: var(--space-12) 0 var(--space-8);
+      border-top: 1px solid var(--border-subtle);
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-text {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: var(--space-6);
+      list-style: none;
+    }
+
+    .footer-link {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+
+    .footer-link:hover {
+      color: var(--text-primary);
+    }
+
+    /* ============================================================
+       Animations
+       ============================================================ */
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+
+      to { opacity: 1; }
+
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+
+      50% { opacity: 0.4; }
+
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+
+      50% { transform: translateY(-10px); }
+
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: all 0.7s var(--ease-out);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       无障碍支持：减少动效
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+
+
+      .hero-content,
+      .hero-visual,
+      .hero-spec-card {
+        animation: none !important;
+      }
+
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+
+
+      .hero-eyebrow-dot {
+        animation: none !important;
+      }

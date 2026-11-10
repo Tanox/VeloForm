@@ -4,7 +4,6 @@ import { Menu, Moon, Sun, Bike } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
-import { APP_CONSTANTS } from '@/lib/constants';
 import { NavbarNavLinks, type NavItem } from './NavbarNavLinks';
 import { LanguageToggle } from './LanguageToggle';
 import { useTranslation } from '@/lib/i18n';

@@ -23,11 +23,15 @@ export interface EnvValidationResult {
   message?: string;
 }
 
+/** .env.example 的占位值：未替换时同样视为缺失，避免误判为「已配置」 */
+export function isEnvPlaceholder(value: string | undefined): boolean {
+  if (!value) return true;
+  const normalized = value.trim();
+  return normalized.length === 0 || /^YOUR_[A-Z0-9_]+$/.test(normalized);
+}
+
 export function validateEnv(): EnvValidationResult {
-  const missing = REQUIRED_ENV_KEYS.filter((key) => {
-    const v = process.env[key];
-    return !v || v.trim().length === 0;
-  });
+  const missing = REQUIRED_ENV_KEYS.filter((key) => isEnvPlaceholder(process.env[key]));
 
   if (missing.length > 0) {
     return {

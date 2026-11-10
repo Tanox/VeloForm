@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { Bike, Moon, Sun } from 'lucide-react';
+import { Bike, Moon, Sun, UserRound } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useTranslation, useLanguage, useSetLanguage } from '@/lib/i18n';
 import { OnboardingGuide } from '@/components/ui/OnboardingGuide';
@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { NavbarNavLinks, type NavItem } from './NavbarNavLinks';
 import { LanguageToggle } from './LanguageToggle';
 import { NavbarMobileMenu } from './NavbarMobileMenu';
+import { AuthModal } from './AuthModal';
 
 interface NavbarProps {
   onNavigate: (page: string) => void;
@@ -20,6 +21,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSupportOpen, setIsSupportOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -136,6 +138,16 @@ export function Navbar({ onNavigate }: NavbarProps) {
             </div>
 
             <div className="flex items-center gap-1">
+              <Button
+                id="navbar-auth-button"
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsAuthOpen(true)}
+                aria-label={String(t('nav.login'))}
+                className="h-9 w-9"
+              >
+                <UserRound className="w-4 h-4" aria-hidden="true" />
+              </Button>
               <LanguageToggle language={language} onToggle={handleToggleLanguage} />
 
               {mounted && (
@@ -172,6 +184,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
 
       <OnboardingGuide />
       <SupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
+      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
     </>
   );
 }

@@ -22,9 +22,11 @@ import { pricing } from './locales/ja/pricing';
 import { cta } from './locales/ja/cta';
 import { footer } from './locales/ja/footer';
 import { about } from './locales/ja/about';
+import { auth } from './locales/ja/auth';
 
 export const translations = {
   app,
+  auth,
   nav,
   configurator,
   bikeTypes,

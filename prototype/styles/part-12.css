@@ -1,0 +1,45 @@
+/* 文件路径: prototype/styles/part-12.css v4.4.9 — 由 scripts/split-prototype.mjs 生成 */
+    }
+
+    /* ============================================================
+       Measurement markers (decorative)
+       ============================================================ */
+    .ruler-marks {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .ruler-mark {
+      position: absolute;
+      background: var(--border-default);
+    }
+
+    .ruler-mark.major {
+      width: 1px;
+      height: 12px;
+    }
+
+    .ruler-mark.minor {
+      width: 1px;
+      height: 6px;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-strong);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-tertiary);
+    }
+  

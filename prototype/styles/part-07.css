@@ -1,0 +1,187 @@
+/* 文件路径: prototype/styles/part-07.css v4.4.9 — 由 scripts/split-prototype.mjs 生成 */
+    }
+
+    /* Build List */
+    .build-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .build-list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-2) 0;
+      margin-bottom: var(--space-2);
+    }
+
+    .build-list-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .build-list-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      padding: 2px 8px;
+      background: var(--surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-sm);
+    }
+
+    .build-progress {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .build-progress-bar {
+      width: 120px;
+      height: 4px;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .build-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #ff8f6b);
+      border-radius: var(--radius-full);
+      transition: width var(--duration-slow) var(--ease-out);
+    }
+
+    .build-progress-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    /* Component Card */
+    .component-card {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      background: var(--surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .component-card::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 0;
+      background: var(--accent);
+      border-radius: 0 2px 2px 0;
+      transition: height var(--duration-fast) var(--ease-out);
+    }
+
+    .component-card:hover {
+      border-color: var(--border-strong);
+      background: var(--surface-hover);
+      transform: translateX(4px);
+    }
+
+    .component-card:hover::after {
+      height: 24px;
+    }
+
+    .component-category {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--bg-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--text-secondary);
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+
+    .component-card:hover .component-category {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .component-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .component-cat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 3px;
+    }
+
+    .component-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .component-brand {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    .component-price {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .component-price-value {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .component-price-weight {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    .component-edit {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-default);
+      background: var(--bg-tertiary);
+      color: var(--text-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+
+    .component-card:hover .component-edit {

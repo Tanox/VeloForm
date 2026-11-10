@@ -1,0 +1,186 @@
+/* 文件路径: prototype/styles/part-08.css v4.4.9 — 由 scripts/split-prototype.mjs 生成 */
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .component-edit:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Add component button */
+    .add-component {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: var(--space-4);
+      border: 1px dashed var(--border-default);
+      border-radius: var(--radius-lg);
+      color: var(--text-tertiary);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+      background: transparent;
+      font-family: var(--font-sans);
+    }
+
+    .add-component:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    /* ============================================================
+       Summary Panel
+       ============================================================ */
+    .summary-panel {
+      position: sticky;
+      top: 88px;
+      background: var(--surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+
+    .summary-header {
+      padding: var(--space-5);
+      border-bottom: 1px solid var(--border-subtle);
+      background: var(--bg-secondary);
+    }
+
+    .summary-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: var(--space-2);
+    }
+
+    .summary-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .summary-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: var(--space-2);
+      padding: 4px 10px;
+      background: var(--accent-soft);
+      border-radius: var(--radius-full);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .summary-type-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    .summary-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-2);
+      padding: var(--space-5);
+    }
+
+    .summary-stat {
+      padding: var(--space-4);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+    }
+
+    .summary-stat-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-2);
+    }
+
+    .summary-stat-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    .summary-stat-value {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    /* Cost breakdown */
+    .summary-breakdown {
+      padding: 0 var(--space-5) var(--space-5);
+    }
+
+    .summary-breakdown-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-3);
+    }
+
+    .cost-chart {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .cost-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .cost-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .cost-bar-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width var(--duration-slow) var(--ease-out);
+    }
+
+    .cost-bar-fill.frame { background: var(--accent); }
+    .cost-bar-fill.drivetrain { background: var(--steel); }
+    .cost-bar-fill.wheels { background: #a78bfa; }
+    .cost-bar-fill.components { background: #34d399; }
+
+    .cost-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      width: 70px;
+      flex-shrink: 0;
+    }
+
+    .cost-value {
+      font-family: var(--font-mono);
+      font-size: 11px;

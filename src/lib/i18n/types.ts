@@ -14,6 +14,7 @@ import { CompareShareTranslations } from './schema/compare-share';
 import { MarketingTranslations } from './schema/marketing';
 import { SupportTranslations } from './schema/support';
 import { AboutTranslations } from './schema/about';
+import { AuthTranslations } from './schema/auth';
 
 export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
@@ -25,4 +26,5 @@ export interface Translations
     CompareShareTranslations,
     MarketingTranslations,
     SupportTranslations,
-    AboutTranslations {}
+    AboutTranslations,
+    AuthTranslations {}
