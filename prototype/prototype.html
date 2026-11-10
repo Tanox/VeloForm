@@ -1679,7 +1679,7 @@
   <div class="grid-bg"></div>
 
   <!-- Navigation -->
-  <nav class="nav" id="navbar">
+  <nav class="nav" id="site-navbar">
     <div class="container nav-inner">
       <div class="nav-logo" onclick="scrollToSection('hero')">
         <div class="nav-logo-mark"></div>
@@ -1689,10 +1689,10 @@
         <li><button class="nav-link active" onclick="scrollToSection('hero')">首页</button></li>
         <li><button class="nav-link" onclick="scrollToSection('configurator')">配置器</button></li>
         <li><button class="nav-link" onclick="scrollToSection('features')">特性</button></li>
-        <li><button class="nav-link" onclick="scrollToSection('footer')">关于</button></li>
+        <li><button class="nav-link" onclick="scrollToSection('site-footer')">关于</button></li>
       </ul>
       <div class="nav-actions">
-        <button id="themeToggle" class="icon-btn" title="主题切换" onclick="toggleTheme()">
+        <button id="theme-toggle" class="icon-btn" title="主题切换" onclick="toggleTheme()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -1814,7 +1814,7 @@
       </div>
 
       <!-- Bike Type Selector -->
-      <div class="bike-type-selector reveal" id="bikeTypeSelector">
+      <div class="bike-type-selector reveal" id="bike-type-selector">
         <div class="bike-type-card active" data-type="road" onclick="selectBikeType('road')">
           <svg class="bike-type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="5.5" cy="17.5" r="3.5"></circle>
@@ -1888,13 +1888,13 @@
             <div class="build-list-header">
               <div class="build-list-title">
                 组件清单
-                <span class="build-list-count mono" id="componentCount">5 / 7</span>
+                <span class="build-list-count mono" id="component-count">5 / 7</span>
               </div>
               <div class="build-progress">
                 <div class="build-progress-bar">
-                  <div class="build-progress-fill" id="progressFill" style="width: 71%"></div>
+                  <div class="build-progress-fill" id="progress-fill" style="width: 71%"></div>
                 </div>
-                <span class="build-progress-text mono" id="progressText">71%</span>
+                <span class="build-progress-text mono" id="progress-text">71%</span>
               </div>
             </div>
 
@@ -2055,7 +2055,7 @@
                 </svg>
                 总价
               </div>
-              <div class="summary-stat-value mono" id="totalPrice">¥60,180</div>
+              <div class="summary-stat-value mono" id="total-price">¥60,180</div>
             </div>
             <div class="summary-stat">
               <div class="summary-stat-label">
@@ -2064,7 +2064,7 @@
                 </svg>
                 总重
               </div>
-              <div class="summary-stat-value mono" id="totalWeight">4,791g</div>
+              <div class="summary-stat-value mono" id="total-weight">4,791g</div>
             </div>
           </div>
 
@@ -2234,7 +2234,7 @@
   </section>
 
   <!-- Footer -->
-  <footer class="footer" id="footer">
+  <footer class="footer" id="site-footer">
     <div class="container">
       <div class="footer-inner">
         <div class="footer-brand">
@@ -2251,12 +2251,12 @@
   </footer>
 
   <!-- Component Selector Modal -->
-  <div class="modal-overlay" id="componentModal">
+  <div class="modal-overlay" id="component-modal">
     <div class="modal">
       <div class="modal-header">
         <div class="modal-title-block">
-          <span class="modal-eyebrow" id="modalEyebrow">Frame / 车架</span>
-          <h3 class="modal-title" id="modalTitle">选择车架</h3>
+          <span class="modal-eyebrow" id="modal-eyebrow">Frame / 车架</span>
+          <h3 class="modal-title" id="modal-title">选择车架</h3>
         </div>
         <button class="modal-close" onclick="closeComponentSelector()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2384,7 +2384,7 @@
 
     // 更新主题图标
     function updateThemeIcon() {
-      const themeBtn = document.getElementById('themeToggle');
+      const themeBtn = document.getElementById('theme-toggle');
       if (!themeBtn) return;
 
       const isDark = currentThemeIndex === 0;
@@ -2421,7 +2421,7 @@
     // ============================================================
     // 导航栏滚动效果
     // ============================================================
-    const navbar = document.getElementById('navbar');
+    const navbar = document.getElementById('site-navbar');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 20) {
         navbar.classList.add('scrolled');
@@ -2474,23 +2474,23 @@
     };
 
     function openComponentSelector(category) {
-      const modal = document.getElementById('componentModal');
+      const modal = document.getElementById('component-modal');
       const labels = categoryLabels[category] || { eyebrow: category, title: '选择组件' };
-      document.getElementById('modalEyebrow').textContent = labels.eyebrow;
-      document.getElementById('modalTitle').textContent = labels.title;
+      document.getElementById('modal-eyebrow').textContent = labels.eyebrow;
+      document.getElementById('modal-title').textContent = labels.title;
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
 
     function closeComponentSelector() {
-      const modal = document.getElementById('componentModal');
+      const modal = document.getElementById('component-modal');
       modal.classList.remove('active');
       document.body.style.overflow = '';
     }
 
     // Close modal on overlay click
-    document.getElementById('componentModal').addEventListener('click', (e) => {
-      if (e.target.id === 'componentModal') {
+    document.getElementById('component-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'component-modal') {
         closeComponentSelector();
       }
     });
