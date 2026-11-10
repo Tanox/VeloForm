@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Hero } from '@/components/sections/Hero';
@@ -18,6 +18,9 @@ import { SectionSkeleton } from '@/components/ui/SectionSkeleton';
 import { motion } from 'framer-motion';
 import { uiLogger } from '@/lib/logger';
 import { useKeyboardShortcuts } from '@/lib/hooks/useKeyboardShortcuts';
+import { parseShareableConfig } from '@/lib/shareable-config';
+import { useConfigStore } from '@/lib/stores/config-store';
+import { toast } from '@/lib/toast';
 
 export default function Home() {
   const handleNavigate = (page: string) => {
@@ -26,6 +29,24 @@ export default function Home() {
 
   // 全局键盘快捷键：S 保存 / R 重置 / 1·2·3 切换车型
   useKeyboardShortcuts();
+
+  // 解析分享链接 ?config= 参数，加载他人分享的配置
+  // URLSearchParams.get 会自动解码 encodeURIComponent 后的 base64，无需手动解码
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const encoded = new URLSearchParams(window.location.search).get('config');
+    if (!encoded) return;
+    const result = parseShareableConfig(encoded);
+    if (!result.valid || !result.data) {
+      toast('error', '分享链接无效或已损坏');
+      return;
+    }
+    const { bikeType, name, components } = result.data;
+    useConfigStore.getState().loadConfiguration({ bikeType, components, manualConfigName: name });
+    toast('success', `已加载分享配置：${name}`);
+    // 加载后清理 URL，避免刷新重复加载
+    window.history.replaceState({}, '', window.location.pathname);
+  }, []);
 
   return (
     <div id="app-root" className="min-h-screen bg-background">

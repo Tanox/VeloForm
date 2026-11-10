@@ -1,17 +1,17 @@
 # Veloform 规范概览
 
 > **路径**: `/docs/SPEC.md`  
-> **版本**: v4.4.7  
-> **更新日期**: 2026-10-14
+> **版本**: v4.4.8  
+> **更新日期**: 2026-11-10
 
 ## 概述
 
 本文档是 Veloform 项目规范体系的核心概览，提供技术栈、架构原则、目录结构和核心规范的快速参考。详细内容请访问 [docs/README.md](./README.md)。
 
-Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，支持 **公路车**、**山地车** 和 **折叠车** 三类车型的自定义构建模拟。具备 Supabase 后端持久化和静态部署能力。
+Veloform 是一个本地化（EN/ZH-CN/JA）、高性能的自行车配置器，支持 **公路车**、**山地车** 和 **折叠车** 三类车型的自定义构建模拟。具备 Supabase 后端持久化和静态部署能力。
 
 - **生产地址**: `https://veloform.app`
-- **代码仓库**: `https://github.com/sutchan/Veloform`
+- **代码仓库**: `https://github.com/Tanox/VeloForm`
 
 ---
 
@@ -19,7 +19,7 @@ Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，支
 
 | 层级 | 技术 | 版本 |
 | :--- | :--- | :--- |
-| **框架** | Next.js (App Router) | 14.1.0 |
+| **框架** | Next.js (App Router) | 14.2.35 |
 | **语言** | React + TypeScript | ^18.2.0 / ^5 |
 | **状态管理** | Zustand | ^4.5.0 |
 | **样式** | Tailwind CSS + shadcn/ui (base-nova) | ^3.4.0 |

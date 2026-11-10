@@ -1,4 +1,4 @@
-// 文件路径: src/lib/supabase-service.ts v4.4.6
+// 文件路径: src/lib/supabase-service.ts v4.4.8
 import { Configuration } from '@/types';
 import { getSupabaseClient, isSupabaseConfigured } from './supabase';
 import { supabaseLogger } from './logger';
@@ -84,10 +84,19 @@ export async function saveConfigurationToSupabase(
     const row = configurationToRow(config, userId);
 
     if (!isLocalDraft(config)) {
-      const { error } = await client.from('configurations').update(row).eq('id', config.id);
+      const { data, error } = await client
+        .from('configurations')
+        .update(row)
+        .eq('id', config.id)
+        .select('id')
+        .single();
 
       if (error) {
         throw error;
+      }
+      // 无数据返回说明 RLS 拦截（权限不足或记录不存在），必须视为失败而非静默成功
+      if (!data) {
+        throw new Error('Update affected 0 rows (permission denied or not found)');
       }
       supabaseLogger.info(`Configuration updated: ${config.id}`);
       return config.id;
@@ -101,8 +110,9 @@ export async function saveConfigurationToSupabase(
       return data.id;
     }
   } catch (error) {
+    // 向上抛出，交由调用方（config-service）按错误码提示，避免静默“保存成功”
     supabaseLogger.error('Error saving configuration to Supabase:', error);
-    return config.id || `local_${Date.now()}`;
+    throw error;
   }
 }
 
@@ -173,5 +183,6 @@ export async function deleteConfigurationFromSupabase(
     supabaseLogger.info(`Configuration deleted: ${configId}`);
   } catch (error) {
     supabaseLogger.error('Error deleting configuration from Supabase:', error);
+    throw error;
   }
 }

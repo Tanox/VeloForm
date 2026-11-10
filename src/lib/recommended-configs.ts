@@ -1,6 +1,6 @@
 import { Configuration } from '@/types';
 
-export const recommendedConfigurations: Configuration[] = [
+const rawRecommendedConfigurations: Configuration[] = [
   {
     id: 'rec_road_race',
     name: 'Pro Race Build',
@@ -61,6 +61,12 @@ export const recommendedConfigurations: Configuration[] = [
     tags: ['Urban', 'Compact'],
   },
 ];
+
+// 总价由组件价格求和得出，确保与组件明细一致（修复硬编码总价与组件和不符的口径漂移）
+export const recommendedConfigurations: Configuration[] = rawRecommendedConfigurations.map((c) => ({
+  ...c,
+  totalCost: c.components.reduce((sum, comp) => sum + comp.price, 0),
+}));
 
 export const promotionalComponents: Record<string, { discount: number; originalPrice: number }> = {
   'd2': { discount: 15, originalPrice: 4706 },

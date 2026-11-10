@@ -171,5 +171,6 @@ export function generateShareableLink(
 ): string {
   const encoded = encodeShareableConfig(bikeType, components, name);
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  return `${origin}/?config=${encoded}`;
+  // 对 base64 做 encodeURIComponent，避免 + / = 在 query 中被破坏；消费端用 URLSearchParams.get 自动解码
+  return `${origin}/?config=${encodeURIComponent(encoded)}`;
 }

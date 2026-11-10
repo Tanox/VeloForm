@@ -63,6 +63,7 @@ export function BikeTypeSelector() {
 
   return (
     <motion.div
+      id="bike-type-selector"
       className="grid grid-cols-1 md:grid-cols-3 gap-3 touch-pan-y"
       role="tablist"
       aria-label="选择车型"

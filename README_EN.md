@@ -9,7 +9,7 @@
 Veloform is an advanced bicycle configurator built with Next.js, Tailwind CSS, and powered by Supabase. It allows users to browse and customize configuration lists for different types of bicycles, including Road, Mountain (MTB), and Folding bikes.
 
 **Production URL**: [https://veloform.app](https://veloform.app)  
-**Repository**: [https://github.com/sutchan/Veloform](https://github.com/sutchan/Veloform)
+**Repository**: [https://github.com/Tanox/VeloForm](https://github.com/Tanox/VeloForm)
 
 ---
 
@@ -21,7 +21,7 @@ Veloform is an advanced bicycle configurator built with Next.js, Tailwind CSS, a
 - **Configuration Cloud Sync**: Deeply integrated with Supabase Postgres and Row Level Security to securely save your unique builds
 - **Bike Categorization**: Seamlessly switch between Road, MTB, and Folding bike presets
 - **Fully Responsive**: Mobile-first approach with uncompromising desktop aesthetics
-- **Bilingual Support**: Built-in EN/ZH-CN i18n system with one-click language switching
+- **Multilingual Support**: Built-in EN/ZH-CN/JA i18n system with one-click language switching
 - **Config Library Management**: Save, load, and share your custom configurations
 - **Smooth Animations**: Micro-interactions powered by Framer Motion for natural and delightful user experience
 - **Performance Optimized**: Selective state subscription to avoid unnecessary re-renders
@@ -34,7 +34,7 @@ For complete tech stack documentation, see [Architecture Overview](./docs/archit
 
 | Technology    | Version  | Purpose                                          |
 | ------------- | -------- | ------------------------------------------------ |
-| Next.js       | v14.1.0  | App Router architecture, React Server Components |
+| Next.js       | v14.2.35 | App Router architecture, React Server Components |
 | React         | v18.2.0  | UI component library                             |
 | Zustand       | v4.5.0   | Lightweight state management                     |
 | Tailwind CSS  | v3.4.0   | Styling framework                                |

@@ -12,6 +12,7 @@ export function RecommendedConfigs() {
 
   return (
     <motion.div
+      id="recommended-configs"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="mt-8"

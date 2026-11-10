@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.8] - 2026-11-10
+
+### 修复 / 安全 / 规范
+
+- 修复云端保存异常被吞并恒定提示“保存成功”的静默数据丢失问题：`supabase-service.ts` 保存/删除分支改为向上抛错，由 `config-service.ts` 按错误码提示；`update` 增加受影响行数校验，RLS 拦截（0 行影响）视为失败而非成功。
+- 修复分享功能不可用：生成端对 base64 做 `encodeURIComponent`，首页新增 `?config=` 参数消费端并校验载入（此前分享链接无任何消费方，且特殊字符会破坏参数）。
+- 修复推荐配置（MTB / Fold）总价硬编码与组件明细求和不符的口径漂移，改为运行时按组件价格求和派生。
+- 修复 `Navbar` 语言切换后导航文案不刷新的问题（`navItems` 的 `useMemo` 依赖补齐 `language`）。
+- 修复 Supabase 配置校验仅检查 URL 不检查 anon key 的问题，避免 `createClient` 抛错被吞导致云端链路静默降级。
+- 修复 SQL 迁移不可顺序执行：`harden_rls_select_policy` 的 `DROP` 目标名称更正为实际策略名，保证全新库部署幂等。
+- 加强 `config-history` 快照读取校验，过滤被篡改或旧版本损坏的数据，避免污染 store。
+- 保存期间设置 `isSaving` 状态并禁用保存按钮，防止连点/快捷键造成并发写入与重复记录。
+- 同步文档与版本：仓库地址更正为 `Tanox/VeloForm`、语言列表更新为 EN/ZH-CN/JA、Next.js 版本更正为 14.2.35；`APP_INFO.version` 与 `package.json` 对齐至 4.4.8。
+- 为导航栏、页脚、车型选择器、推荐配置区、分享弹窗等核心组件补充语义化 `id`，便于调试与端到端测试定位。
+
 ## [4.4.7] - 2026-10-14
 
 ### 文档 / 重构

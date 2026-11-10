@@ -80,7 +80,8 @@ export function Navbar({ onNavigate }: NavbarProps) {
       { label: String(t('nav.library')), href: 'library' },
       { label: String(t('nav.support')), href: 'support', isSupport: true },
     ],
-    [t]
+    // 依赖 language：t 引用稳定，仅当其随语言变化时 navItems 才重算，修复切换语言后导航不刷新
+    [t, language]
   );
 
   const toggleTheme = () => {
@@ -106,6 +107,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
   return (
     <>
       <nav
+        id="site-navbar"
         className={cn(
           'fixed top-0 left-0 right-0 z-40 transition-all duration-300',
           isScrolled

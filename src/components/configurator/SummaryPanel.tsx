@@ -9,6 +9,7 @@ import {
   useConfigStore,
   useIsSaving,
   useUserId,
+  useConfigUIStore,
 } from '@/lib/stores';
 import { saveConfiguration as saveConfig } from '@/lib/config-service';
 import { formatCurrency, formatWeight } from '@/lib/utils';
@@ -41,22 +42,32 @@ export function SummaryPanel() {
   const userId = useUserId();
 
   const isLoggedIn = userId !== null;
+  const setSaving = useConfigUIStore((s) => s.setSaving);
 
-  const handleSave = useCallback(async () => {
-    await saveConfig();
-    const savedId = useConfigStore.getState().configId;
-    if (savedId) {
-      window.dispatchEvent(
-        new CustomEvent('veloform:celebrate', {
-          detail: {
-            title: w('save.savedTitle'),
-            message: w('save.savedMsg'),
-            icon: '🚀',
-          },
-        })
-      );
-    }
-  }, [w]);
+  const handleSave = useCallback(
+    async () => {
+      // 进入保存态：禁用按钮，防止连点/快捷键造成并发写入与重复记录
+      setSaving(true);
+      try {
+        await saveConfig();
+        const savedId = useConfigStore.getState().configId;
+        if (savedId) {
+          window.dispatchEvent(
+            new CustomEvent('veloform:celebrate', {
+              detail: {
+                title: w('save.savedTitle'),
+                message: w('save.savedMsg'),
+                icon: '🚀',
+              },
+            })
+          );
+        }
+      } finally {
+        setSaving(false);
+      }
+    },
+    [w, setSaving]
+  );
 
   const BikeIcon = useMemo(() => getBikeTypeIcon(activeType), [activeType]);
 

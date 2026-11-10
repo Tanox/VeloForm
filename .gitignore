@@ -17,6 +17,7 @@ coverage
 # Build artifacts
 *.tsbuildinfo
 .next-swc-cache/
+reports/
 
 # Vitest temp files
 vitest.config.ts.timestamp-*

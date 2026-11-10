@@ -9,7 +9,7 @@
 Veloform 是一款基于 Next.js、Tailwind CSS 并由 **Supabase** 驱动的高级自行车配置器应用。它允许用户浏览和定制不同类别自行车的配置清单，包括公路车 (Road)、山地车 (MTB) 和折叠车 (Fold)。
 
 **生产地址**: [https://veloform.app](https://veloform.app)  
-**代码仓库**: [https://github.com/sutchan/Veloform](https://github.com/sutchan/Veloform)
+**代码仓库**: [https://github.com/Tanox/VeloForm](https://github.com/Tanox/VeloForm)
 
 ---
 
@@ -22,7 +22,7 @@ Veloform 是一款基于 Next.js、Tailwind CSS 并由 **Supabase** 驱动的高
 - **自动同步机制**: 用户登录后自动加载云端配置，实现多设备间数据同步
 - **车型分类**: 在公路车、山地车和折叠车间无缝瞬间切换
 - **完美响应式**: 贯彻移动端优先范式，但保留毫不妥协的桌面端设计美学体验
-- **双语支持**: 内置 EN/ZH-CN 国际化系统，一键切换语言
+- **多语言支持**: 内置 EN/ZH-CN/JA 国际化系统，一键切换语言
 - **配置库管理**: 保存、加载、分享个人配置方案
 - **流畅动画**: 基于 Framer Motion 的微交互动画，提供自然流畅的用户体验
 - **性能优化**: 选择性状态订阅，避免不必要的组件重渲染
@@ -37,7 +37,7 @@ Veloform 是一款基于 Next.js、Tailwind CSS 并由 **Supabase** 驱动的高
 
 | 技术       | 版本    | 用途                                     |
 | ---------- | ------- | ---------------------------------------- |
-| Next.js    | v14.1.0 | App Router 架构，React Server Components |
+| Next.js    | v14.2.35 | App Router 架构，React Server Components |
 | React      | v18.2.0 | UI 组件库                                |
 | TypeScript | v5.x    | 类型安全                                 |
 

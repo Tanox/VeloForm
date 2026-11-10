@@ -2,7 +2,7 @@
 
 /**
  * 文件: src/lib/config-history.ts
- * 版本: v4.4.3
+ * 版本: v4.4.8
  *
  * 客户端配置版本历史：将当前配置快照保存到浏览器 localStorage，
  * 支持列出、恢复与删除。最多保留最近 10 个快照（对齐 design-review P2 建议）。
@@ -22,12 +22,24 @@ export interface ConfigSnapshot {
   createdAt: number;
 }
 
+function isValidSnapshot(value: unknown): value is ConfigSnapshot {
+  if (!value || typeof value !== 'object') return false;
+  const s = value as Record<string, unknown>;
+  return (
+    typeof s.id === 'string' &&
+    typeof s.name === 'string' &&
+    typeof s.activeType === 'string' &&
+    Array.isArray(s.components)
+  );
+}
+
 function readAll(): ConfigSnapshot[] {
   try {
     const raw = safeLocalStorage().getItem(STORAGE_KEY);
     if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as ConfigSnapshot[]) : [];
+    const parsed: unknown = JSON.parse(raw);
+    // 仅保留结构合法的快照，过滤被篡改或旧版本损坏的数据，避免污染 store
+    return Array.isArray(parsed) ? parsed.filter(isValidSnapshot) : [];
   } catch {
     return [];
   }
