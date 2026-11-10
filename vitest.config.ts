@@ -13,6 +13,14 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
+      // 显式限定统计口径：仅业务源码，排除词条/类型/测试文件本身，避免分母失真
+      include: ['src/lib/**/*.{ts,tsx}', 'src/components/**/*.{ts,tsx}'],
+      exclude: [
+        'src/**/*.test.{ts,tsx}',
+        'src/lib/i18n/locales/**',
+        'src/lib/i18n/schema/**',
+        'src/types/**',
+      ],
       thresholds: {
         lines: 80,
         branches: 75,

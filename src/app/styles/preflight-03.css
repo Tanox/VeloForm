@@ -1,5 +1,52 @@
 /* 文件路径: src/app/styles/preflight-03.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
 
+
+/*
+1. Change the font styles in all browsers.
+2. Remove the margin in Firefox and Safari.
+3. Remove default padding in all browsers.
+*/
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  /* 1 */
+  font-feature-settings: inherit;
+  /* 1 */
+  font-variation-settings: inherit;
+  /* 1 */
+  font-size: 100%;
+  /* 1 */
+  font-weight: inherit;
+  /* 1 */
+  line-height: inherit;
+  /* 1 */
+  letter-spacing: inherit;
+  /* 1 */
+  color: inherit;
+  /* 1 */
+  margin: 0;
+  /* 2 */
+  padding: 0;
+  /* 3 */
+}
+
+
+
+/*
+Remove the inheritance of text transform in Edge and Firefox.
+*/
+
+button,
+select {
+  text-transform: none;
+}
+
+
+
 /*
 1. Correct the inability to style clickable types in iOS and Safari.
 2. Remove default button styles.
@@ -18,6 +65,7 @@ input:where([type='submit']) {
 }
 
 
+
 /*
 Use the modern Firefox focus style for all focusable elements.
 */
@@ -25,6 +73,7 @@ Use the modern Firefox focus style for all focusable elements.
 :-moz-focusring {
   outline: auto;
 }
+
 
 
 /*
@@ -36,6 +85,7 @@ Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/
 }
 
 
+
 /*
 Add the correct vertical alignment in Chrome and Firefox.
 */
@@ -43,6 +93,7 @@ Add the correct vertical alignment in Chrome and Firefox.
 progress {
   vertical-align: baseline;
 }
+
 
 
 /*
@@ -53,6 +104,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
 ::-webkit-outer-spin-button {
   height: auto;
 }
+
 
 
 /*
@@ -68,6 +120,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
 }
 
 
+
 /*
 Remove the inner padding in Chrome and Safari on macOS.
 */
@@ -75,6 +128,7 @@ Remove the inner padding in Chrome and Safari on macOS.
 ::-webkit-search-decoration {
   -webkit-appearance: none;
 }
+
 
 
 /*
@@ -90,6 +144,7 @@ Remove the inner padding in Chrome and Safari on macOS.
 }
 
 
+
 /*
 Add the correct display in Chrome and Safari.
 */
@@ -97,6 +152,7 @@ Add the correct display in Chrome and Safari.
 summary {
   display: list-item;
 }
+
 
 
 /*
@@ -120,62 +176,8 @@ pre {
 }
 
 
+
 fieldset {
   margin: 0;
   padding: 0;
-}
-
-
-legend {
-  padding: 0;
-}
-
-
-ol,
-ul,
-menu {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-
-/*
-Reset default styling for dialogs.
-*/
-
-dialog {
-  padding: 0;
-}
-
-
-/*
-Prevent resizing textareas horizontally by default.
-*/
-
-textarea {
-  resize: vertical;
-}
-
-
-/*
-1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
-2. Set the default placeholder color to the user's configured gray 400 color.
-*/
-
-input::-moz-placeholder,
-textarea::-moz-placeholder {
-  opacity: 1;
-  /* 1 */
-  color: #9ca3af;
-  /* 2 */
-}
-
-
-input::placeholder,
-textarea::placeholder {
-  opacity: 1;
-  /* 1 */
-  color: #9ca3af;
-  /* 2 */
 }

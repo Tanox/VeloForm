@@ -1,22 +1,155 @@
 /* 文件路径: src/app/styles/design-system-02.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
 
-.last\:border-0:last-child {
-  border-width: 0px;
+
+.line-through {
+  text-decoration-line: line-through;
 }
 
 
-.last\:border-b-0:last-child {
-  border-bottom-width: 0px;
+
+.underline-offset-4 {
+  text-underline-offset: 4px;
 }
 
 
-.focus-within\:outline-none:focus-within {
+
+.antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+.opacity-0 {
+  opacity: 0;
+}
+
+
+
+.opacity-100 {
+  opacity: 1;
+}
+
+
+
+.opacity-50 {
+  opacity: 0.5;
+}
+
+
+
+.opacity-60 {
+  opacity: 0.6;
+}
+
+
+
+.bg-blend-color {
+  background-blend-mode: color;
+}
+
+
+
+.shadow-2xl {
+  --tw-shadow: var(--shadow-2xl);
+  --tw-shadow-colored: var(--shadow-2xl);
+  box-shadow:
+    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+
+
+.shadow-lg {
+  --tw-shadow: var(--shadow-lg);
+  --tw-shadow-colored: var(--shadow-lg);
+  box-shadow:
+    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+
+
+.shadow-md {
+  --tw-shadow: var(--shadow-md);
+  --tw-shadow-colored: var(--shadow-md);
+  box-shadow:
+    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+
+
+.shadow-sm {
+  --tw-shadow: var(--shadow-sm);
+  --tw-shadow-colored: var(--shadow-sm);
+  box-shadow:
+    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+
+
+.shadow-xl {
+  --tw-shadow: var(--shadow-xl);
+  --tw-shadow-colored: var(--shadow-xl);
+  box-shadow:
+    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+
+
+.shadow-accent\/20 {
+  --tw-shadow-color: hsl(var(--accent) / 0.2);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+
+
+.shadow-primary\/20 {
+  --tw-shadow-color: hsl(var(--primary) / 0.2);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+
+
+.shadow-primary\/25 {
+  --tw-shadow-color: hsl(var(--primary) / 0.25);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+
+
+.outline-none {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
 
 
-.focus-within\:ring-2:focus-within {
+
+.outline {
+  outline-style: solid;
+}
+
+
+
+.ring-0 {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width)
+    var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width))
+    var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+
+
+.ring-1 {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width)
+    var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width))
+    var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+
+
+.ring-2 {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width)
     var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width))
@@ -25,154 +158,25 @@
 }
 
 
-.focus-within\:ring-ring:focus-within {
-  --tw-ring-color: hsl(var(--ring));
+
+.ring-background {
+  --tw-ring-color: hsl(var(--background));
 }
 
 
-.focus-within\:ring-offset-2:focus-within {
-  --tw-ring-offset-width: 2px;
+
+.ring-foreground\/10 {
+  --tw-ring-color: hsl(var(--foreground) / 0.1);
 }
 
 
-.hover\:border-accent\/30:hover {
-  border-color: hsl(var(--accent) / 0.3);
+
+.ring-foreground\/5 {
+  --tw-ring-color: hsl(var(--foreground) / 0.05);
 }
 
 
-.hover\:border-border:hover {
-  border-color: hsl(var(--border));
-}
 
-
-.hover\:border-foreground\/20:hover {
-  border-color: hsl(var(--foreground) / 0.2);
-}
-
-
-.hover\:border-primary:hover {
-  border-color: hsl(var(--primary));
-}
-
-
-.hover\:border-primary\/30:hover {
-  border-color: hsl(var(--primary) / 0.3);
-}
-
-
-.hover\:border-primary\/50:hover {
-  border-color: hsl(var(--primary) / 0.5);
-}
-
-
-.hover\:bg-accent:hover {
-  background-color: hsl(var(--accent));
-}
-
-
-.hover\:bg-accent\/5:hover {
-  background-color: hsl(var(--accent) / 0.05);
-}
-
-
-.hover\:bg-destructive\/90:hover {
-  background-color: hsl(var(--destructive) / 0.9);
-}
-
-
-.hover\:bg-green-500\/10:hover {
-  background-color: rgb(34 197 94 / 0.1);
-}
-
-
-.hover\:bg-muted:hover {
-  background-color: hsl(var(--muted));
-}
-
-
-.hover\:bg-muted\/50:hover {
-  background-color: hsl(var(--muted) / 0.5);
-}
-
-
-.hover\:bg-primary\/10:hover {
-  background-color: hsl(var(--primary) / 0.1);
-}
-
-
-.hover\:bg-primary\/5:hover {
-  background-color: hsl(var(--primary) / 0.05);
-}
-
-
-.hover\:bg-primary\/90:hover {
-  background-color: hsl(var(--primary) / 0.9);
-}
-
-
-.hover\:bg-secondary\/80:hover {
-  background-color: hsl(var(--secondary) / 0.8);
-}
-
-
-.hover\:bg-surface-secondary:hover {
-  background-color: var(--surface-secondary);
-}
-
-
-.hover\:bg-surface-tertiary:hover {
-  background-color: var(--surface-tertiary);
-}
-
-
-.hover\:bg-zinc-800\/50:hover {
-  background-color: rgb(39 39 42 / 0.5);
-}
-
-
-.hover\:text-accent-foreground:hover {
-  color: hsl(var(--accent-foreground));
-}
-
-
-.hover\:text-foreground:hover {
-  color: hsl(var(--foreground));
-}
-
-
-.hover\:text-foreground\/70:hover {
-  color: hsl(var(--foreground) / 0.7);
-}
-
-
-.hover\:text-muted-foreground:hover {
-  color: hsl(var(--muted-foreground));
-}
-
-
-.hover\:text-primary:hover {
-  color: hsl(var(--primary));
-}
-
-
-.hover\:underline:hover {
-  text-decoration-line: underline;
-}
-
-
-.hover\:no-underline:hover {
-  text-decoration-line: none;
-}
-
-
-.hover\:opacity-90:hover {
-  opacity: 0.9;
-}
-
-
-.hover\:shadow-lg:hover {
-  --tw-shadow: var(--shadow-lg);
-  --tw-shadow-colored: var(--shadow-lg);
-  box-shadow:
-    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+.ring-primary\/10 {
+  --tw-ring-color: hsl(var(--primary) / 0.1);
 }

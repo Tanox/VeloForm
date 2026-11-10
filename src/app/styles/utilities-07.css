@@ -1,182 +1,183 @@
 /* 文件路径: src/app/styles/utilities-07.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
 
-.space-y-2 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+
+.grow {
+  flex-grow: 1;
 }
 
 
-.space-y-2\.5 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(0.625rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(0.625rem * var(--tw-space-y-reverse));
+
+.-translate-x-1\/2 {
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+    scaleY(var(--tw-scale-y));
 }
 
 
-.space-y-3 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
+
+.-translate-y-1\/2 {
+  --tw-translate-y: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+    scaleY(var(--tw-scale-y));
 }
 
 
-.space-y-4 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+
+.translate-y-\[calc\(-50\%-2px\)\] {
+  --tw-translate-y: calc(-50% - 2px);
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+    scaleY(var(--tw-scale-y));
 }
 
 
-.space-y-5 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(1.25rem * var(--tw-space-y-reverse));
+
+.rotate-45 {
+  --tw-rotate: 45deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+    scaleY(var(--tw-scale-y));
 }
 
 
-.space-y-6 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+
+.scale-100 {
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+    scaleY(var(--tw-scale-y));
 }
 
 
-.space-y-8 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+
+.scale-125 {
+  --tw-scale-x: 1.25;
+  --tw-scale-y: 1.25;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+    scaleY(var(--tw-scale-y));
 }
 
 
-.self-start {
-  align-self: flex-start;
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
 }
 
 
-.justify-self-end {
-  justify-self: end;
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 
-.overflow-hidden {
-  overflow: hidden;
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 
-.overflow-x-auto {
-  overflow-x: auto;
+
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 
 
-.overflow-y-auto {
-  overflow-y: auto;
+
+.cursor-default {
+  cursor: default;
 }
 
 
-.overflow-x-hidden {
-  overflow-x: hidden;
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 
-.truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+.touch-none {
+  touch-action: none;
 }
 
 
-.whitespace-nowrap {
-  white-space: nowrap;
+
+.select-none {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 
-.text-balance {
-  text-wrap: balance;
+
+.scroll-my-1 {
+  scroll-margin-top: 0.25rem;
+  scroll-margin-bottom: 0.25rem;
 }
 
 
-.break-all {
-  word-break: break-all;
+
+.auto-rows-min {
+  grid-auto-rows: min-content;
 }
 
 
-.rounded {
-  border-radius: 0.25rem;
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
 
-.rounded-2xl {
-  border-radius: 1rem;
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 
-.rounded-3xl {
-  border-radius: 1.5rem;
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 
-.rounded-\[2px\] {
-  border-radius: 2px;
+
+.grid-rows-\[auto_1fr\] {
+  grid-template-rows: auto 1fr;
 }
 
 
-.rounded-\[4px\] {
-  border-radius: 4px;
+
+.flex-row {
+  flex-direction: row;
 }
 
 
-.rounded-\[inherit\] {
-  border-radius: inherit;
+
+.flex-col {
+  flex-direction: column;
 }
 
 
-.rounded-full {
-  border-radius: 9999px;
+
+.flex-col-reverse {
+  flex-direction: column-reverse;
 }
 
 
-.rounded-lg {
-  border-radius: var(--radius);
+
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 
-.rounded-md {
-  border-radius: calc(var(--radius) - 2px);
-}
 
-
-.rounded-xl {
-  border-radius: 0.75rem;
-}
-
-
-.rounded-b-xl {
-  border-bottom-right-radius: 0.75rem;
-  border-bottom-left-radius: 0.75rem;
-}
-
-
-.rounded-bl-full {
-  border-bottom-left-radius: 9999px;
-}
-
-
-.border {
-  border-width: 1px;
-}
-
-
-.border-b {
-  border-bottom-width: 1px;
-}
-
-
-.border-t {
-  border-top-width: 1px;
-}
-
-
-.border-t-2 {
-  border-top-width: 2px;
+.place-content-center {
+  place-content: center;
 }

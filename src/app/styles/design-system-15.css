@@ -1,0 +1,143 @@
+/* 文件路径: src/app/styles/design-system-15.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
+@media (min-width: 640px) {
+
+  .sm\:px-12 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+
+  .sm\:px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+
+  .sm\:py-16 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+
+  .sm\:py-20 {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+
+  .sm\:py-32 {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
+
+  .sm\:pb-8 {
+    padding-bottom: 2rem;
+  }
+
+
+  .sm\:pt-24 {
+    padding-top: 6rem;
+  }
+
+
+  .sm\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+
+  .sm\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+
+
+  .sm\:text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+
+
+  .sm\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+
+  .sm\:text-\[160px\] {
+    font-size: 160px;
+  }
+
+
+  .sm\:text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+
+  .sm\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+
+  .sm\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+
+  .sm\:text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+
+  .data-\[side\=left\]\:sm\:max-w-sm[data-side='left'] {
+    max-width: 24rem;
+  }
+
+
+  .data-\[side\=right\]\:sm\:max-w-sm[data-side='right'] {
+    max-width: 24rem;
+  }
+
+
+  .data-\[size\=default\]\:sm\:max-w-sm[data-size='default'] {
+    max-width: 24rem;
+  }
+
+
+  .group\/alert-dialog-content[data-size='default']
+    .sm\:group-data-\[size\=default\]\/alert-dialog-content\:row-span-2 {
+    grid-row: span 2 / span 2;
+  }
+
+
+  .group\/alert-dialog-content[data-size='default']
+    .sm\:group-data-\[size\=default\]\/alert-dialog-content\:place-items-start {
+    place-items: start;
+  }
+
+
+  .group\/alert-dialog-content[data-size='default']
+    .sm\:group-data-\[size\=default\]\/alert-dialog-content\:text-left {
+    text-align: left;
+  }
+
+
+  .group\/alert-dialog-content[data-size='default']
+    .sm\:group-data-\[size\=default\]\/alert-dialog-content\:has-\[\[data-slot\=alert-dialog-media\]\]\:grid-rows-\[auto_1fr\]:has(
+      [data-slot='alert-dialog-media']
+    ) {
+    grid-template-rows: auto 1fr;
+  }
+
+
+  .group\/alert-dialog-content[data-size='default']:has([data-slot='alert-dialog-media'])
+    .sm\:group-data-\[size\=default\]\/alert-dialog-content\:group-has-\[\[data-slot\=alert-dialog-media\]\]\/alert-dialog-content\:col-start-2 {
+    grid-column-start: 2;
+  }
+
+}

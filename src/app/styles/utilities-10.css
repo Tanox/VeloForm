@@ -1,185 +1,182 @@
 /* 文件路径: src/app/styles/utilities-10.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
 
-.via-primary\/5 {
-  --tw-gradient-to: hsl(var(--primary) / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops:
-    var(--tw-gradient-from), hsl(var(--primary) / 0.05) var(--tw-gradient-via-position),
-    var(--tw-gradient-to);
+
+.border-border {
+  border-color: hsl(var(--border));
 }
 
 
-.via-surface-secondary {
-  --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops:
-    var(--tw-gradient-from), var(--surface-secondary) var(--tw-gradient-via-position),
-    var(--tw-gradient-to);
+
+.border-border-light {
+  border-color: var(--border-light);
 }
 
 
-.via-transparent {
-  --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops:
-    var(--tw-gradient-from), transparent var(--tw-gradient-via-position), var(--tw-gradient-to);
+
+.border-border\/50 {
+  border-color: hsl(var(--border) / 0.5);
 }
 
 
-.to-accent {
-  --tw-gradient-to: hsl(var(--accent)) var(--tw-gradient-to-position);
+
+.border-border\/60 {
+  border-color: hsl(var(--border) / 0.6);
 }
 
 
-.to-accent\/10 {
-  --tw-gradient-to: hsl(var(--accent) / 0.1) var(--tw-gradient-to-position);
+
+.border-green-500\/30 {
+  border-color: rgb(34 197 94 / 0.3);
 }
 
 
-.to-accent\/20 {
-  --tw-gradient-to: hsl(var(--accent) / 0.2) var(--tw-gradient-to-position);
+
+.border-input {
+  border-color: hsl(var(--input));
 }
 
 
-.to-accent\/5 {
-  --tw-gradient-to: hsl(var(--accent) / 0.05) var(--tw-gradient-to-position);
+
+.border-primary\/15 {
+  border-color: hsl(var(--primary) / 0.15);
 }
 
 
-.to-accent\/80 {
-  --tw-gradient-to: hsl(var(--accent) / 0.8) var(--tw-gradient-to-position);
+
+.border-primary\/20 {
+  border-color: hsl(var(--primary) / 0.2);
 }
 
 
-.to-cyan-500 {
-  --tw-gradient-to: #06b6d4 var(--tw-gradient-to-position);
+
+.border-primary\/30 {
+  border-color: hsl(var(--primary) / 0.3);
 }
 
 
-.to-emerald-400 {
-  --tw-gradient-to: #34d399 var(--tw-gradient-to-position);
+
+.border-primary\/40 {
+  border-color: hsl(var(--primary) / 0.4);
 }
 
 
-.to-emerald-500 {
-  --tw-gradient-to: #10b981 var(--tw-gradient-to-position);
+
+.border-ring {
+  border-color: hsl(var(--ring));
 }
 
 
-.to-pink-500 {
-  --tw-gradient-to: #ec4899 var(--tw-gradient-to-position);
+
+.border-transparent {
+  border-color: transparent;
 }
 
 
-.to-primary\/10 {
-  --tw-gradient-to: hsl(var(--primary) / 0.1) var(--tw-gradient-to-position);
+
+.border-white\/5 {
+  border-color: rgb(255 255 255 / 0.05);
 }
 
 
-.to-primary\/5 {
-  --tw-gradient-to: hsl(var(--primary) / 0.05) var(--tw-gradient-to-position);
+
+.border-zinc-800 {
+  --tw-border-opacity: 1;
+  border-color: rgb(39 39 42 / var(--tw-border-opacity, 1));
 }
 
 
-.to-primary\/80 {
-  --tw-gradient-to: hsl(var(--primary) / 0.8) var(--tw-gradient-to-position);
+
+.bg-background {
+  background-color: hsl(var(--background));
 }
 
 
-.to-surface {
-  --tw-gradient-to: var(--surface) var(--tw-gradient-to-position);
+
+.bg-background\/80 {
+  background-color: hsl(var(--background) / 0.8);
 }
 
 
-.to-surface-secondary {
-  --tw-gradient-to: var(--surface-secondary) var(--tw-gradient-to-position);
+
+.bg-black\/10 {
+  background-color: rgb(0 0 0 / 0.1);
 }
 
 
-.to-transparent {
-  --tw-gradient-to: transparent var(--tw-gradient-to-position);
+
+.bg-black\/50 {
+  background-color: rgb(0 0 0 / 0.5);
 }
 
 
-.bg-clip-padding {
-  background-clip: padding-box;
+
+.bg-blue-500\/10 {
+  background-color: rgb(59 130 246 / 0.1);
 }
 
 
-.bg-clip-text {
-  -webkit-background-clip: text;
-  background-clip: text;
+
+.bg-border {
+  background-color: hsl(var(--border));
 }
 
 
-.fill-foreground {
-  fill: hsl(var(--foreground));
+
+.bg-card {
+  background-color: hsl(var(--card));
 }
 
 
-.fill-muted {
-  fill: hsl(var(--muted));
+
+.bg-card\/50 {
+  background-color: hsl(var(--card) / 0.5);
 }
 
 
-.fill-yellow-400 {
-  fill: #facc15;
+
+.bg-destructive {
+  background-color: hsl(var(--destructive));
 }
 
 
-.object-cover {
-  -o-object-fit: cover;
-  object-fit: cover;
+
+.bg-destructive\/10 {
+  background-color: hsl(var(--destructive) / 0.1);
 }
 
 
-.p-0 {
-  padding: 0px;
+
+.bg-foreground {
+  background-color: hsl(var(--foreground));
 }
 
 
-.p-1 {
-  padding: 0.25rem;
+
+.bg-green-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(34 197 94 / var(--tw-bg-opacity, 1));
 }
 
 
-.p-1\.5 {
-  padding: 0.375rem;
+
+.bg-green-500\/10 {
+  background-color: rgb(34 197 94 / 0.1);
 }
 
 
-.p-2 {
-  padding: 0.5rem;
+
+.bg-muted {
+  background-color: hsl(var(--muted));
 }
 
 
-.p-2\.5 {
-  padding: 0.625rem;
+
+.bg-muted\/30 {
+  background-color: hsl(var(--muted) / 0.3);
 }
 
 
-.p-3 {
-  padding: 0.75rem;
-}
 
-
-.p-4 {
-  padding: 1rem;
-}
-
-
-.p-5 {
-  padding: 1.25rem;
-}
-
-
-.p-6 {
-  padding: 1.5rem;
-}
-
-
-.p-7 {
-  padding: 1.75rem;
-}
-
-
-.p-8 {
-  padding: 2rem;
+.bg-muted\/50 {
+  background-color: hsl(var(--muted) / 0.5);
 }

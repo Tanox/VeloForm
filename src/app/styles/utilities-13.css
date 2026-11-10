@@ -1,181 +1,180 @@
 /* 文件路径: src/app/styles/utilities-13.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
 
-.tracking-wide {
-  letter-spacing: 0.025em;
+
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 
-.tracking-wider {
-  letter-spacing: 0.05em;
+
+.fill-foreground {
+  fill: hsl(var(--foreground));
 }
 
 
-.tracking-widest {
-  letter-spacing: 0.1em;
+
+.fill-muted {
+  fill: hsl(var(--muted));
 }
 
 
-.text-accent {
-  color: hsl(var(--accent));
+
+.fill-yellow-400 {
+  fill: #facc15;
 }
 
 
-.text-background {
-  color: hsl(var(--background));
+
+.object-cover {
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 
-.text-border {
-  color: hsl(var(--border));
+
+.p-0 {
+  padding: 0px;
 }
 
 
-.text-card-foreground {
-  color: hsl(var(--card-foreground));
+
+.p-1 {
+  padding: 0.25rem;
 }
 
 
-.text-current {
-  color: currentColor;
+
+.p-1\.5 {
+  padding: 0.375rem;
 }
 
 
-.text-destructive {
-  color: hsl(var(--destructive));
+
+.p-2 {
+  padding: 0.5rem;
 }
 
 
-.text-destructive-foreground {
-  color: hsl(var(--destructive-foreground));
+
+.p-2\.5 {
+  padding: 0.625rem;
 }
 
 
-.text-error {
-  color: var(--error);
+
+.p-3 {
+  padding: 0.75rem;
 }
 
 
-.text-foreground {
-  color: hsl(var(--foreground));
+
+.p-4 {
+  padding: 1rem;
 }
 
 
-.text-foreground-secondary {
-  color: var(--foreground-secondary);
+
+.p-5 {
+  padding: 1.25rem;
 }
 
 
-.text-foreground\/20 {
-  color: hsl(var(--foreground) / 0.2);
+
+.p-6 {
+  padding: 1.5rem;
 }
 
 
-.text-foreground\/60 {
-  color: hsl(var(--foreground) / 0.6);
+
+.p-7 {
+  padding: 1.75rem;
 }
 
 
-.text-foreground\/80 {
-  color: hsl(var(--foreground) / 0.8);
+
+.p-8 {
+  padding: 2rem;
 }
 
 
-.text-green-500 {
-  --tw-text-opacity: 1;
-  color: rgb(34 197 94 / var(--tw-text-opacity, 1));
+
+.p-\[3px\] {
+  padding: 3px;
 }
 
 
-.text-muted {
-  color: hsl(var(--muted));
+
+.p-px {
+  padding: 1px;
 }
 
 
-.text-muted-foreground {
-  color: hsl(var(--muted-foreground));
+
+.px-1\.5 {
+  padding-left: 0.375rem;
+  padding-right: 0.375rem;
 }
 
 
-.text-muted-foreground\/50 {
-  color: hsl(var(--muted-foreground) / 0.5);
+
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 
-.text-muted-foreground\/60 {
-  color: hsl(var(--muted-foreground) / 0.6);
+
+.px-2\.5 {
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
 }
 
 
-.text-popover-foreground {
-  color: hsl(var(--popover-foreground));
+
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
 
-.text-primary {
-  color: hsl(var(--primary));
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 
-.text-primary-foreground {
-  color: hsl(var(--primary-foreground));
+
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 
-.text-primary\/30 {
-  color: hsl(var(--primary) / 0.3);
+
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 
-.text-red-500 {
-  --tw-text-opacity: 1;
-  color: rgb(239 68 68 / var(--tw-text-opacity, 1));
+
+.px-8 {
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 
-.text-secondary {
-  color: hsl(var(--secondary));
+
+.py-0\.5 {
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
 }
 
 
-.text-secondary-foreground {
-  color: hsl(var(--secondary-foreground));
-}
 
-
-.text-transparent {
-  color: transparent;
-}
-
-
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
-}
-
-
-.text-yellow-400 {
-  --tw-text-opacity: 1;
-  color: rgb(250 204 21 / var(--tw-text-opacity, 1));
-}
-
-
-.text-zinc-500 {
-  --tw-text-opacity: 1;
-  color: rgb(113 113 122 / var(--tw-text-opacity, 1));
-}
-
-
-.line-through {
-  text-decoration-line: line-through;
-}
-
-
-.underline-offset-4 {
-  text-underline-offset: 4px;
-}
-
-
-.antialiased {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }

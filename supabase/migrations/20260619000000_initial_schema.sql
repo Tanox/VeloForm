@@ -91,6 +91,8 @@ ALTER TABLE public.components ENABLE ROW LEVEL SECURITY;
 -- 6.1 configurations 表策略
 -- 仅配置所有者可读自己的配置，消除任意用户（含 anon key）读取他人配置的隐私泄露风险（IDOR）
 DROP POLICY IF EXISTS "Configurations are publicly readable" ON public.configurations;
+-- 与后续创建名保持一致，保证本迁移可重复执行（不会报 policy already exists）
+DROP POLICY IF EXISTS "Users can read their own configurations" ON public.configurations;
 CREATE POLICY "Users can read their own configurations"
     ON public.configurations FOR SELECT
     USING (auth.uid() = user_id);

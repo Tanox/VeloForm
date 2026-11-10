@@ -1,144 +1,56 @@
 /* 文件路径: src/app/styles/design-system-13.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
 
-@layer components {
-  [data-slot='accordion-content'][data-open] {
-    animation: accordion-down var(--duration-normal) var(--ease-out);
-  }
 
-
-  [data-slot='accordion-content'][data-closed] {
-    animation: accordion-up var(--duration-normal) var(--ease-out);
-  }
-
-
-  [data-slot='accordion-trigger'][data-open] [data-slot='accordion-trigger-icon'] {
-    transform: rotate(180deg);
-  }
-
+.dark\:data-\[checked\]\:bg-primary[data-checked]:is(.dark *) {
+  background-color: hsl(var(--primary));
 }
 
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
 
-
-  .text-pretty {
-    text-wrap: pretty;
-  }
-
-
-  .animate-in {
-    animation: animateIn var(--duration-normal) var(--ease-out);
-  }
-
-
-  .fade-in {
-    animation: fadeIn var(--duration-normal) var(--ease-out);
-  }
-
-
-  .slide-up {
-    animation: slideUp var(--duration-slow) var(--ease-out);
-  }
-
-
-  .stagger-in {
-    animation: staggerIn var(--duration-slow) var(--ease-out) both;
-  }
-
+.dark\:data-\[checked\]\:bg-primary-foreground[data-checked]:is(.dark *) {
+  background-color: hsl(var(--primary-foreground));
 }
 
 
-@keyframes animateIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
+.dark\:data-\[unchecked\]\:bg-foreground[data-unchecked]:is(.dark *) {
+  background-color: hsl(var(--foreground));
 }
 
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
 
-  to {
-    opacity: 1;
-  }
-
+.dark\:data-\[unchecked\]\:bg-input\/80[data-unchecked]:is(.dark *) {
+  background-color: hsl(var(--input) / 0.8);
 }
 
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
+.dark\:data-\[active\]\:text-foreground[data-active]:is(.dark *) {
+  color: hsl(var(--foreground));
 }
 
 
-@keyframes staggerIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px) scale(0.98);
-  }
 
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-
+.dark\:data-\[variant\=destructive\]\:focus\:bg-destructive\/20:focus[data-variant='destructive']:is(
+    .dark *
+  ) {
+  background-color: hsl(var(--destructive) / 0.2);
 }
 
 
-@keyframes accordion-down {
-  from {
-    height: 0;
-  }
 
-  to {
-    height: var(--accordion-panel-height);
-  }
-
+.group\/tabs-list[data-variant='line']
+  .dark\:group-data-\[variant\=line\]\/tabs-list\:data-\[active\]\:border-transparent[data-active]:is(
+    .dark *
+  ) {
+  border-color: transparent;
 }
 
 
-@keyframes accordion-up {
-  from {
-    height: var(--accordion-panel-height);
-  }
 
-  to {
-    height: 0;
-  }
-
+.group\/tabs-list[data-variant='line']
+  .dark\:group-data-\[variant\=line\]\/tabs-list\:data-\[active\]\:bg-transparent[data-active]:is(
+    .dark *
+  ) {
+  background-color: transparent;
 }
-
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-
-}
-
-

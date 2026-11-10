@@ -1,177 +1,184 @@
 /* 文件路径: src/app/styles/design-system-07.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
 
-.group[data-disabled='true'] .group-data-\[disabled\=true\]\:pointer-events-none {
+
+.focus-visible\:ring-2:focus-visible {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width)
+    var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width))
+    var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+
+
+.focus-visible\:ring-destructive\/20:focus-visible {
+  --tw-ring-color: hsl(var(--destructive) / 0.2);
+}
+
+
+
+.focus-visible\:ring-ring:focus-visible {
+  --tw-ring-color: hsl(var(--ring));
+}
+
+
+
+.focus-visible\:ring-ring\/50:focus-visible {
+  --tw-ring-color: hsl(var(--ring) / 0.5);
+}
+
+
+
+.focus-visible\:ring-offset-2:focus-visible {
+  --tw-ring-offset-width: 2px;
+}
+
+
+
+.active\:ring-2:active {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width)
+    var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width))
+    var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+
+
+.disabled\:pointer-events-none:disabled {
   pointer-events: none;
 }
 
 
-.group\/alert-dialog-content[data-size='sm'] .group-data-\[size\=sm\]\/alert-dialog-content\:grid {
-  display: grid;
+
+.disabled\:cursor-not-allowed:disabled {
+  cursor: not-allowed;
 }
 
 
-.group\/avatar[data-size='default'] .group-data-\[size\=default\]\/avatar\:size-2\.5 {
-  width: 0.625rem;
-  height: 0.625rem;
+
+.disabled\:bg-input\/50:disabled {
+  background-color: hsl(var(--input) / 0.5);
 }
 
 
-.group\/switch[data-size='default'] .group-data-\[size\=default\]\/switch\:size-4 {
-  width: 1rem;
-  height: 1rem;
-}
 
-
-.group\/avatar[data-size='lg'] .group-data-\[size\=lg\]\/avatar\:size-3 {
-  width: 0.75rem;
-  height: 0.75rem;
-}
-
-
-.group\/avatar[data-size='sm'] .group-data-\[size\=sm\]\/avatar\:size-2 {
-  width: 0.5rem;
-  height: 0.5rem;
-}
-
-
-.group\/switch[data-size='sm'] .group-data-\[size\=sm\]\/switch\:size-3 {
-  width: 0.75rem;
-  height: 0.75rem;
-}
-
-
-.group\/tabs[data-horizontal] .group-data-\[horizontal\]\/tabs\:h-8 {
-  height: 2rem;
-}
-
-
-.group\/tabs[data-vertical] .group-data-\[vertical\]\/tabs\:h-fit {
-  height: -moz-fit-content;
-  height: fit-content;
-}
-
-
-.group\/tabs[data-vertical] .group-data-\[vertical\]\/tabs\:w-full {
-  width: 100%;
-}
-
-
-.group\/alert-dialog-content[data-size='sm']
-  .group-data-\[size\=sm\]\/alert-dialog-content\:grid-cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-
-.group\/tabs[data-vertical] .group-data-\[vertical\]\/tabs\:flex-col {
-  flex-direction: column;
-}
-
-
-.group\/tabs[data-vertical] .group-data-\[vertical\]\/tabs\:justify-start {
-  justify-content: flex-start;
-}
-
-
-.group\/tabs-list[data-variant='line'] .group-data-\[variant\=line\]\/tabs-list\:bg-transparent {
-  background-color: transparent;
-}
-
-
-.group\/avatar[data-size='sm'] .group-data-\[size\=sm\]\/avatar\:text-xs {
-  font-size: 0.75rem;
-  line-height: 1rem;
-}
-
-
-.group[data-disabled='true'] .group-data-\[disabled\=true\]\:opacity-50 {
+.disabled\:opacity-50:disabled {
   opacity: 0.5;
 }
 
 
-.group\/tabs[data-horizontal] .group-data-\[horizontal\]\/tabs\:after\:inset-x-0::after {
-  content: var(--tw-content);
-  left: 0px;
-  right: 0px;
+
+.group:hover .group-hover\:text-foreground {
+  color: hsl(var(--foreground));
 }
 
 
-.group\/tabs[data-vertical] .group-data-\[vertical\]\/tabs\:after\:inset-y-0::after {
-  content: var(--tw-content);
-  top: 0px;
-  bottom: 0px;
+
+.group:hover .group-hover\:text-primary {
+  color: hsl(var(--primary));
 }
 
 
-.group\/tabs[data-horizontal] .group-data-\[horizontal\]\/tabs\:after\:bottom-\[-5px\]::after {
-  content: var(--tw-content);
-  bottom: -5px;
+
+.group:hover .group-hover\:opacity-100 {
+  opacity: 1;
 }
 
 
-.group\/tabs[data-vertical] .group-data-\[vertical\]\/tabs\:after\:-right-1::after {
-  content: var(--tw-content);
-  right: -0.25rem;
-}
 
-
-.group\/tabs[data-horizontal] .group-data-\[horizontal\]\/tabs\:after\:h-0\.5::after {
-  content: var(--tw-content);
-  height: 0.125rem;
-}
-
-
-.group\/tabs[data-vertical] .group-data-\[vertical\]\/tabs\:after\:w-0\.5::after {
-  content: var(--tw-content);
-  width: 0.125rem;
-}
-
-
-.group\/switch[data-size='default']
-  .group-data-\[size\=default\]\/switch\:data-\[checked\]\:translate-x-\[calc\(100\%-2px\)\][data-checked] {
-  --tw-translate-x: calc(100% - 2px);
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
-    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
-    scaleY(var(--tw-scale-y));
-}
-
-
-.group\/switch[data-size='default']
-  .group-data-\[size\=default\]\/switch\:data-\[unchecked\]\:translate-x-0[data-unchecked] {
-  --tw-translate-x: 0px;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
-    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
-    scaleY(var(--tw-scale-y));
-}
-
-
-.group\/switch[data-size='sm']
-  .group-data-\[size\=sm\]\/switch\:data-\[checked\]\:translate-x-\[calc\(100\%-2px\)\][data-checked] {
-  --tw-translate-x: calc(100% - 2px);
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
-    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
-    scaleY(var(--tw-scale-y));
-}
-
-
-.group\/switch[data-size='sm']
-  .group-data-\[size\=sm\]\/switch\:data-\[unchecked\]\:translate-x-0[data-unchecked] {
-  --tw-translate-x: 0px;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
-    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
-    scaleY(var(--tw-scale-y));
-}
-
-
-.group\/tabs-list[data-variant='line']
-  .group-data-\[variant\=line\]\/tabs-list\:data-\[active\]\:bg-transparent[data-active] {
-  background-color: transparent;
-}
-
-
-.group\/tabs-list[data-variant='default']
-  .group-data-\[variant\=default\]\/tabs-list\:data-\[active\]\:shadow-sm[data-active] {
-  --tw-shadow: var(--shadow-sm);
-  --tw-shadow-colored: var(--shadow-sm);
+.group:hover .group-hover\:shadow-xl {
+  --tw-shadow: var(--shadow-xl);
+  --tw-shadow-colored: var(--shadow-xl);
   box-shadow:
     var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+
+
+.group:hover .group-hover\:shadow-accent\/30 {
+  --tw-shadow-color: hsl(var(--accent) / 0.3);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+
+
+.group:hover .group-hover\:shadow-primary\/30 {
+  --tw-shadow-color: hsl(var(--primary) / 0.3);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+
+
+.group\/dropdown-menu-item:focus .group-focus\/dropdown-menu-item\:text-accent-foreground {
+  color: hsl(var(--accent-foreground));
+}
+
+
+
+.group.toaster .group-\[\.toaster\]\:border-border {
+  border-color: hsl(var(--border));
+}
+
+
+
+.group.toast .group-\[\.toast\]\:bg-muted {
+  background-color: hsl(var(--muted));
+}
+
+
+
+.group.toast .group-\[\.toast\]\:bg-primary {
+  background-color: hsl(var(--primary));
+}
+
+
+
+.group.toaster .group-\[\.toaster\]\:bg-background {
+  background-color: hsl(var(--background));
+}
+
+
+
+.group.toast .group-\[\.toast\]\:text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+}
+
+
+
+.group.toast .group-\[\.toast\]\:text-primary-foreground {
+  color: hsl(var(--primary-foreground));
+}
+
+
+
+.group.toaster .group-\[\.toaster\]\:text-foreground {
+  color: hsl(var(--foreground));
+}
+
+
+
+.group.toaster .group-\[\.toaster\]\:shadow-lg {
+  --tw-shadow: var(--shadow-lg);
+  --tw-shadow-colored: var(--shadow-lg);
+  box-shadow:
+    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+
+
+.peer:disabled ~ .peer-disabled\:cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+
+
+.peer:disabled ~ .peer-disabled\:opacity-50 {
+  opacity: 0.5;
+}
+
+
+
+.has-\[\[data-slot\=alert-action\]\]\:relative:has([data-slot='alert-action']) {
+  position: relative;
 }

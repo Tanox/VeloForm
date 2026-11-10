@@ -1,173 +1,184 @@
 /* 文件路径: src/app/styles/utilities-15.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
 
-.backdrop-blur {
-  --tw-backdrop-blur: blur(8px);
-  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast)
-    var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
-    var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+
+.text-center {
+  text-align: center;
 }
 
 
-.backdrop-blur-2xl {
-  --tw-backdrop-blur: blur(40px);
-  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast)
-    var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
-    var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+
+.text-right {
+  text-align: right;
 }
 
 
-.backdrop-blur-md {
-  --tw-backdrop-blur: blur(12px);
-  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast)
-    var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
-    var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+
+.font-display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
 }
 
 
-.backdrop-blur-sm {
-  --tw-backdrop-blur: blur(4px);
-  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast)
-    var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
-    var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+
+.font-heading {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
 }
 
 
-.backdrop-blur-xl {
-  --tw-backdrop-blur: blur(24px);
-  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast)
-    var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
-    var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
 }
 
 
-.backdrop-filter {
-  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast)
-    var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
-    var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+
+.font-sans {
+  font-family: var(--font-sans), system-ui, sans-serif;
 }
 
 
-.transition {
-  transition-property:
-    color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow,
-    transform, filter, backdrop-filter;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 
-.transition-\[color\2c box-shadow\] {
-  transition-property: color, box-shadow;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
 }
 
 
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
 }
 
 
-.transition-colors {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+
+.text-\[120px\] {
+  font-size: 120px;
 }
 
 
-.transition-none {
-  transition-property: none;
+
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 
-.transition-opacity {
-  transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
 
 
-.transition-shadow {
-  transition-property: box-shadow;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
 
-.transition-transform {
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 
 
-.duration-100 {
-  transition-duration: 100ms;
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 
-.duration-150 {
-  transition-duration: 150ms;
+
+.font-bold {
+  font-weight: 700;
 }
 
 
-.duration-200 {
-  transition-duration: 200ms;
+
+.font-medium {
+  font-weight: 500;
 }
 
 
-.duration-300 {
-  transition-duration: 300ms;
+
+.font-semibold {
+  font-weight: 600;
 }
 
 
-.duration-500 {
-  transition-duration: 500ms;
+
+.uppercase {
+  text-transform: uppercase;
 }
 
 
-.ease-in-out {
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+.italic {
+  font-style: italic;
 }
 
 
-.ease-out {
-  transition-timing-function: var(--ease-out);
+
+.tabular-nums {
+  --tw-numeric-spacing: tabular-nums;
+  font-variant-numeric: var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure)
+    var(--tw-numeric-spacing) var(--tw-numeric-fraction);
 }
 
 
-.text-balance {
-  text-wrap: balance;
+
+.leading-\[1\.1\] {
+  line-height: 1.1;
 }
 
 
-/* ================================
- * Veloform Design System v4.4.1
- * Editorial Minimalism · Precision · Craft
- * Built on shadcn/ui base-nova
- * ================================ */
 
-@keyframes animateIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.leading-none {
+  line-height: 1;
 }
 
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
 
-  to {
-    opacity: 1;
-  }
+.leading-relaxed {
+  line-height: 1.625;
+}
+
+
+
+.leading-snug {
+  line-height: 1.375;
+}
+
+
+
+.tracking-tight {
+  letter-spacing: -0.025em;
+}
+
+
+
+.tracking-tighter {
+  letter-spacing: -0.05em;
+}
+
+
+
+.tracking-wide {
+  letter-spacing: 0.025em;
+}
+
+
+
+.tracking-wider {
+  letter-spacing: 0.05em;
 }

@@ -1,178 +1,180 @@
 /* 文件路径: src/app/styles/utilities-14.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
 
-.opacity-0 {
-  opacity: 0;
+
+.py-1\.5 {
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
 }
 
 
-.opacity-100 {
-  opacity: 1;
+
+.py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 
-.opacity-50 {
-  opacity: 0.5;
+
+.py-16 {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
 
-.opacity-60 {
-  opacity: 0.6;
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 
-.bg-blend-color {
-  background-blend-mode: color;
+
+.py-2\.5 {
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
 }
 
 
-.shadow-2xl {
-  --tw-shadow: var(--shadow-2xl);
-  --tw-shadow-colored: var(--shadow-2xl);
-  box-shadow:
-    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+
+.py-20 {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
 }
 
 
-.shadow-lg {
-  --tw-shadow: var(--shadow-lg);
-  --tw-shadow-colored: var(--shadow-lg);
-  box-shadow:
-    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+
+.py-24 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
 }
 
 
-.shadow-md {
-  --tw-shadow: var(--shadow-md);
-  --tw-shadow-colored: var(--shadow-md);
-  box-shadow:
-    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 
-.shadow-sm {
-  --tw-shadow: var(--shadow-sm);
-  --tw-shadow-colored: var(--shadow-sm);
-  box-shadow:
-    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 
-.shadow-xl {
-  --tw-shadow: var(--shadow-xl);
-  --tw-shadow-colored: var(--shadow-xl);
-  box-shadow:
-    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 
 
-.shadow-accent\/20 {
-  --tw-shadow-color: hsl(var(--accent) / 0.2);
-  --tw-shadow: var(--tw-shadow-colored);
+
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 
-.shadow-primary\/20 {
-  --tw-shadow-color: hsl(var(--primary) / 0.2);
-  --tw-shadow: var(--tw-shadow-colored);
+
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 
-.shadow-primary\/25 {
-  --tw-shadow-color: hsl(var(--primary) / 0.25);
-  --tw-shadow: var(--tw-shadow-colored);
+
+.pb-2\.5 {
+  padding-bottom: 0.625rem;
 }
 
 
-.outline-none {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+
+.pb-3 {
+  padding-bottom: 0.75rem;
 }
 
 
-.outline {
-  outline-style: solid;
+
+.pb-6 {
+  padding-bottom: 1.5rem;
 }
 
 
-.ring-0 {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width)
-    var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width))
-    var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+
+.pl-1\.5 {
+  padding-left: 0.375rem;
 }
 
 
-.ring-1 {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width)
-    var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width))
-    var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+
+.pl-2\.5 {
+  padding-left: 0.625rem;
 }
 
 
-.ring-2 {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width)
-    var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width))
-    var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+
+.pl-4 {
+  padding-left: 1rem;
 }
 
 
-.ring-background {
-  --tw-ring-color: hsl(var(--background));
+
+.pr-2 {
+  padding-right: 0.5rem;
 }
 
 
-.ring-foreground\/10 {
-  --tw-ring-color: hsl(var(--foreground) / 0.1);
+
+.pr-8 {
+  padding-right: 2rem;
 }
 
 
-.ring-foreground\/5 {
-  --tw-ring-color: hsl(var(--foreground) / 0.05);
+
+.pt-0 {
+  padding-top: 0px;
 }
 
 
-.ring-primary\/10 {
-  --tw-ring-color: hsl(var(--primary) / 0.1);
+
+.pt-12 {
+  padding-top: 3rem;
 }
 
 
-.ring-primary\/20 {
-  --tw-ring-color: hsl(var(--primary) / 0.2);
+
+.pt-16 {
+  padding-top: 4rem;
 }
 
 
-.ring-ring\/50 {
-  --tw-ring-color: hsl(var(--ring) / 0.5);
+
+.pt-2 {
+  padding-top: 0.5rem;
 }
 
 
-.blur-2xl {
-  --tw-blur: blur(40px);
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale)
-    var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+
+.pt-20 {
+  padding-top: 5rem;
 }
 
 
-.blur-3xl {
-  --tw-blur: blur(64px);
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale)
-    var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+
+.pt-3 {
+  padding-top: 0.75rem;
 }
 
 
-.blur-xl {
-  --tw-blur: blur(24px);
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale)
-    var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+
+.pt-4 {
+  padding-top: 1rem;
 }
 
 
-.filter {
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale)
-    var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+
+.text-left {
+  text-align: left;
 }

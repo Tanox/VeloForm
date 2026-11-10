@@ -56,6 +56,7 @@
 }
 
 
+
 ::backdrop {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
@@ -111,6 +112,7 @@
 }
 
 
+
 /*
 ! tailwindcss v3.4.19 | MIT License | https://tailwindcss.com
 */
@@ -134,10 +136,12 @@
 }
 
 
+
 ::before,
 ::after {
   --tw-content: '';
 }
+
 
 
 /*
@@ -169,17 +173,4 @@ html,
   /* 6 */
   -webkit-tap-highlight-color: transparent;
   /* 7 */
-}
-
-
-/*
-1. Remove the margin in all browsers.
-2. Inherit line-height from `html` so users can set them as a class directly on the `html` element.
-*/
-
-body {
-  margin: 0;
-  /* 1 */
-  line-height: inherit;
-  /* 2 */
 }

@@ -1,4 +1,6 @@
+// 文件路径: src/lib/recommended-configs.ts v4.4.9
 import { Configuration } from '@/types';
+import { calculateTotals } from '@/lib/config-totals';
 
 const rawRecommendedConfigurations: Configuration[] = [
   {

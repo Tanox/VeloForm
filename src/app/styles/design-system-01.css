@@ -1,182 +1,185 @@
 /* 文件路径: src/app/styles/design-system-01.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.tracking-widest {
+  letter-spacing: 0.1em;
 }
 
 
-@keyframes staggerIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px) scale(0.98);
-  }
 
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.text-accent {
+  color: hsl(var(--accent));
 }
 
 
-@keyframes accordion-down {
-  from {
-    height: 0;
-  }
 
-  to {
-    height: var(--accordion-panel-height);
-  }
+.text-background {
+  color: hsl(var(--background));
 }
 
 
-@keyframes accordion-up {
-  from {
-    height: var(--accordion-panel-height);
-  }
 
-  to {
-    height: 0;
-  }
+.text-border {
+  color: hsl(var(--border));
 }
 
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+
+.text-card-foreground {
+  color: hsl(var(--card-foreground));
 }
 
 
-.file\:inline-flex::file-selector-button {
-  display: inline-flex;
+
+.text-current {
+  color: currentColor;
 }
 
 
-.file\:h-6::file-selector-button {
-  height: 1.5rem;
+
+.text-destructive {
+  color: hsl(var(--destructive));
 }
 
 
-.file\:border-0::file-selector-button {
-  border-width: 0px;
+
+.text-destructive-foreground {
+  color: hsl(var(--destructive-foreground));
 }
 
 
-.file\:bg-transparent::file-selector-button {
-  background-color: transparent;
+
+.text-error {
+  color: var(--error);
 }
 
 
-.file\:text-sm::file-selector-button {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
 
-
-.file\:font-medium::file-selector-button {
-  font-weight: 500;
-}
-
-
-.file\:text-foreground::file-selector-button {
+.text-foreground {
   color: hsl(var(--foreground));
 }
 
 
-.placeholder\:text-muted-foreground::-moz-placeholder {
+
+.text-foreground-secondary {
+  color: var(--foreground-secondary);
+}
+
+
+
+.text-foreground\/20 {
+  color: hsl(var(--foreground) / 0.2);
+}
+
+
+
+.text-foreground\/60 {
+  color: hsl(var(--foreground) / 0.6);
+}
+
+
+
+.text-foreground\/80 {
+  color: hsl(var(--foreground) / 0.8);
+}
+
+
+
+.text-green-500 {
+  --tw-text-opacity: 1;
+  color: rgb(34 197 94 / var(--tw-text-opacity, 1));
+}
+
+
+
+.text-muted {
+  color: hsl(var(--muted));
+}
+
+
+
+.text-muted-foreground {
   color: hsl(var(--muted-foreground));
 }
 
 
-.placeholder\:text-muted-foreground::placeholder {
-  color: hsl(var(--muted-foreground));
+
+.text-muted-foreground\/50 {
+  color: hsl(var(--muted-foreground) / 0.5);
 }
 
 
-.after\:absolute::after {
-  content: var(--tw-content);
-  position: absolute;
+
+.text-muted-foreground\/60 {
+  color: hsl(var(--muted-foreground) / 0.6);
 }
 
 
-.after\:-inset-2::after {
-  content: var(--tw-content);
-  inset: -0.5rem;
+
+.text-popover-foreground {
+  color: hsl(var(--popover-foreground));
 }
 
 
-.after\:inset-0::after {
-  content: var(--tw-content);
-  inset: 0px;
+
+.text-primary {
+  color: hsl(var(--primary));
 }
 
 
-.after\:-inset-x-3::after {
-  content: var(--tw-content);
-  left: -0.75rem;
-  right: -0.75rem;
+
+.text-primary-foreground {
+  color: hsl(var(--primary-foreground));
 }
 
 
-.after\:-inset-y-2::after {
-  content: var(--tw-content);
-  top: -0.5rem;
-  bottom: -0.5rem;
+
+.text-primary\/30 {
+  color: hsl(var(--primary) / 0.3);
 }
 
 
-.after\:rounded-full::after {
-  content: var(--tw-content);
-  border-radius: 9999px;
+
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity, 1));
 }
 
 
-.after\:border::after {
-  content: var(--tw-content);
-  border-width: 1px;
+
+.text-secondary {
+  color: hsl(var(--secondary));
 }
 
 
-.after\:border-border::after {
-  content: var(--tw-content);
-  border-color: hsl(var(--border));
+
+.text-secondary-foreground {
+  color: hsl(var(--secondary-foreground));
 }
 
 
-.after\:bg-foreground::after {
-  content: var(--tw-content);
-  background-color: hsl(var(--foreground));
+
+.text-transparent {
+  color: transparent;
 }
 
 
-.after\:opacity-0::after {
-  content: var(--tw-content);
-  opacity: 0;
+
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
 
-.after\:mix-blend-darken::after {
-  content: var(--tw-content);
-  mix-blend-mode: darken;
+
+.text-yellow-400 {
+  --tw-text-opacity: 1;
+  color: rgb(250 204 21 / var(--tw-text-opacity, 1));
 }
 
 
-.after\:transition-opacity::after {
-  content: var(--tw-content);
-  transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+
+.text-zinc-500 {
+  --tw-text-opacity: 1;
+  color: rgb(113 113 122 / var(--tw-text-opacity, 1));
 }

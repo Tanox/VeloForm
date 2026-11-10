@@ -1,5 +1,20 @@
 /* 文件路径: src/app/styles/preflight-02.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
 
+
+/*
+1. Remove the margin in all browsers.
+2. Inherit line-height from `html` so users can set them as a class directly on the `html` element.
+*/
+
+body {
+  margin: 0;
+  /* 1 */
+  line-height: inherit;
+  /* 2 */
+}
+
+
+
 /*
 1. Add the correct height in Firefox.
 2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
@@ -16,6 +31,7 @@ hr {
 }
 
 
+
 /*
 Add the correct text decoration in Chrome, Edge, and Safari.
 */
@@ -24,6 +40,7 @@ abbr:where([title]) {
   -webkit-text-decoration: underline dotted;
   text-decoration: underline dotted;
 }
+
 
 
 /*
@@ -41,6 +58,7 @@ h6 {
 }
 
 
+
 /*
 Reset links to optimize for opt-in styling instead of opt-out.
 */
@@ -51,6 +69,7 @@ a {
 }
 
 
+
 /*
 Add the correct font weight in Edge and Safari.
 */
@@ -59,6 +78,7 @@ b,
 strong {
   font-weight: bolder;
 }
+
 
 
 /*
@@ -83,6 +103,7 @@ pre {
 }
 
 
+
 /*
 Add the correct font size in all browsers.
 */
@@ -90,6 +111,7 @@ Add the correct font size in all browsers.
 small {
   font-size: 80%;
 }
+
 
 
 /*
@@ -105,14 +127,17 @@ sup {
 }
 
 
+
 sub {
   bottom: -0.25em;
 }
 
 
+
 sup {
   top: -0.5em;
 }
+
 
 
 /*
@@ -128,48 +153,4 @@ table {
   /* 2 */
   border-collapse: collapse;
   /* 3 */
-}
-
-
-/*
-1. Change the font styles in all browsers.
-2. Remove the margin in Firefox and Safari.
-3. Remove default padding in all browsers.
-*/
-
-button,
-input,
-optgroup,
-select,
-textarea {
-  font-family: inherit;
-  /* 1 */
-  font-feature-settings: inherit;
-  /* 1 */
-  font-variation-settings: inherit;
-  /* 1 */
-  font-size: 100%;
-  /* 1 */
-  font-weight: inherit;
-  /* 1 */
-  line-height: inherit;
-  /* 1 */
-  letter-spacing: inherit;
-  /* 1 */
-  color: inherit;
-  /* 1 */
-  margin: 0;
-  /* 2 */
-  padding: 0;
-  /* 3 */
-}
-
-
-/*
-Remove the inheritance of text transform in Edge and Firefox.
-*/
-
-button,
-select {
-  text-transform: none;
 }

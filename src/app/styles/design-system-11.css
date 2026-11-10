@@ -1,182 +1,181 @@
 /* 文件路径: src/app/styles/design-system-11.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
 
-.\[\&\>svg\]\:pointer-events-none > svg {
+
+.data-\[checked\]\:text-primary-foreground[data-checked] {
+  color: hsl(var(--primary-foreground));
+}
+
+
+
+.data-\[open\]\:text-accent-foreground[data-open] {
+  color: hsl(var(--accent-foreground));
+}
+
+
+
+.data-\[popup-open\]\:text-accent-foreground[data-popup-open] {
+  color: hsl(var(--accent-foreground));
+}
+
+
+
+.data-\[variant\=destructive\]\:text-destructive[data-variant='destructive'] {
+  color: hsl(var(--destructive));
+}
+
+
+
+.data-\[disabled\]\:opacity-50[data-disabled] {
+  opacity: 0.5;
+}
+
+
+
+.data-\[open\]\:animate-in[data-open] {
+  animation: animateIn var(--duration-normal) var(--ease-out);
+}
+
+
+
+.data-\[state\=delayed-open\]\:animate-in[data-state='delayed-open'] {
+  animation: animateIn var(--duration-normal) var(--ease-out);
+}
+
+
+
+.data-\[variant\=destructive\]\:focus\:bg-destructive\/10:focus[data-variant='destructive'] {
+  background-color: hsl(var(--destructive) / 0.1);
+}
+
+
+
+.data-\[variant\=destructive\]\:focus\:text-destructive:focus[data-variant='destructive'] {
+  color: hsl(var(--destructive));
+}
+
+
+
+.group[data-disabled='true'] .group-data-\[disabled\=true\]\:pointer-events-none {
   pointer-events: none;
 }
 
 
-.\[\&\>svg\]\:row-span-2 > svg {
-  grid-row: span 2 / span 2;
+
+.group\/alert-dialog-content[data-size='sm'] .group-data-\[size\=sm\]\/alert-dialog-content\:grid {
+  display: grid;
 }
 
 
-.\[\&\>svg\]\:\!size-3 > svg {
-  width: 0.75rem !important;
-  height: 0.75rem !important;
+
+.group\/avatar[data-size='default'] .group-data-\[size\=default\]\/avatar\:size-2\.5 {
+  width: 0.625rem;
+  height: 0.625rem;
 }
 
 
-.\[\&\>svg\]\:size-3\.5 > svg {
-  width: 0.875rem;
-  height: 0.875rem;
-}
 
-
-.\[\&\>svg\]\:size-4 > svg {
+.group\/switch[data-size='default'] .group-data-\[size\=default\]\/switch\:size-4 {
   width: 1rem;
   height: 1rem;
 }
 
 
-.\[\&\>svg\]\:translate-y-0\.5 > svg {
-  --tw-translate-y: 0.125rem;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
-    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
-    scaleY(var(--tw-scale-y));
-}
 
-
-.\[\&\>svg\]\:text-current > svg {
-  color: currentColor;
-}
-
-
-.group\/avatar-group:has([data-size='lg'])
-  .group-has-\[\[data-size\=lg\]\]\/avatar-group\:\[\&\>svg\]\:size-5
-  > svg {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-
-.group\/avatar-group:has([data-size='sm'])
-  .group-has-\[\[data-size\=sm\]\]\/avatar-group\:\[\&\>svg\]\:size-3
-  > svg {
+.group\/avatar[data-size='lg'] .group-data-\[size\=lg\]\/avatar\:size-3 {
   width: 0.75rem;
   height: 0.75rem;
 }
 
 
-.data-\[variant\=destructive\]\:\[\&\>svg\]\:text-destructive > svg[data-variant='destructive'] {
-  color: hsl(var(--destructive));
-}
 
-
-.group\/avatar[data-size='sm'] .group-data-\[size\=sm\]\/avatar\:\[\&\>svg\]\:hidden > svg {
-  display: none;
-}
-
-
-.group\/avatar[data-size='default']
-  .group-data-\[size\=default\]\/avatar\:\[\&\>svg\]\:size-2
-  > svg {
+.group\/avatar[data-size='sm'] .group-data-\[size\=sm\]\/avatar\:size-2 {
   width: 0.5rem;
   height: 0.5rem;
 }
 
 
-.group\/avatar[data-size='lg'] .group-data-\[size\=lg\]\/avatar\:\[\&\>svg\]\:size-2 > svg {
-  width: 0.5rem;
-  height: 0.5rem;
+
+.group\/switch[data-size='sm'] .group-data-\[size\=sm\]\/switch\:size-3 {
+  width: 0.75rem;
+  height: 0.75rem;
 }
 
 
-.focus\:\[\&_\*\]\:text-accent-foreground *:focus {
-  color: hsl(var(--accent-foreground));
+
+.group\/tabs[data-horizontal] .group-data-\[horizontal\]\/tabs\:h-8 {
+  height: 2rem;
 }
 
 
-.\[\&_\[data-slot\=accordion-trigger-icon\]\]\:ml-auto [data-slot='accordion-trigger-icon'] {
-  margin-left: auto;
+
+.group\/tabs[data-vertical] .group-data-\[vertical\]\/tabs\:h-fit {
+  height: -moz-fit-content;
+  height: fit-content;
 }
 
 
-.\[\&_\[data-slot\=accordion-trigger-icon\]\]\:h-4 [data-slot='accordion-trigger-icon'] {
-  height: 1rem;
+
+.group\/tabs[data-vertical] .group-data-\[vertical\]\/tabs\:w-full {
+  width: 100%;
 }
 
 
-.\[\&_\[data-slot\=accordion-trigger-icon\]\]\:w-4 [data-slot='accordion-trigger-icon'] {
-  width: 1rem;
+
+.group\/alert-dialog-content[data-size='sm']
+  .group-data-\[size\=sm\]\/alert-dialog-content\:grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 
-.\[\&_\[data-slot\=accordion-trigger-icon\]\]\:text-muted-foreground
-  [data-slot='accordion-trigger-icon'] {
-  color: hsl(var(--muted-foreground));
+
+.group\/tabs[data-vertical] .group-data-\[vertical\]\/tabs\:flex-col {
+  flex-direction: column;
 }
 
 
-.\[\&_\[data-slot\=accordion-trigger-icon\]\]\:transition-transform
-  [data-slot='accordion-trigger-icon'] {
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+
+.group\/tabs[data-vertical] .group-data-\[vertical\]\/tabs\:justify-start {
+  justify-content: flex-start;
 }
 
 
-.\[\&_\[data-slot\=accordion-trigger-icon\]\]\:duration-200 [data-slot='accordion-trigger-icon'] {
-  transition-duration: 200ms;
+
+.group\/tabs-list[data-variant='line'] .group-data-\[variant\=line\]\/tabs-list\:bg-transparent {
+  background-color: transparent;
 }
 
 
-.\[\&_\[data-slot\=kbd\]\]\:relative [data-slot='kbd'] {
-  position: relative;
+
+.group\/avatar[data-size='sm'] .group-data-\[size\=sm\]\/avatar\:text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 
-.\[\&_\[data-slot\=kbd\]\]\:isolate [data-slot='kbd'] {
-  isolation: isolate;
+
+.group[data-disabled='true'] .group-data-\[disabled\=true\]\:opacity-50 {
+  opacity: 0.5;
 }
 
 
-.\[\&_\[data-slot\=kbd\]\]\:z-50 [data-slot='kbd'] {
-  z-index: 50;
+
+.group\/tabs[data-horizontal] .group-data-\[horizontal\]\/tabs\:after\:inset-x-0::after {
+  content: var(--tw-content);
+  left: 0px;
+  right: 0px;
 }
 
 
-.\[\&_\[data-slot\=kbd\]\]\:rounded-sm [data-slot='kbd'] {
-  border-radius: calc(var(--radius) - 4px);
+
+.group\/tabs[data-vertical] .group-data-\[vertical\]\/tabs\:after\:inset-y-0::after {
+  content: var(--tw-content);
+  top: 0px;
+  bottom: 0px;
 }
 
 
-.\[\&_a\]\:underline a {
-  text-decoration-line: underline;
-}
 
-
-.\[\&_a\]\:underline-offset-2 a {
-  text-underline-offset: 2px;
-}
-
-
-.\[\&_a\]\:hover\:text-foreground:hover a {
-  color: hsl(var(--foreground));
-}
-
-
-.\[\&_p\:not\(\:last-child\)\]\:mb-4 p:not(:last-child) {
-  margin-bottom: 1rem;
-}
-
-
-.\[\&_svg\:not\(\[class\*\=\'size-\'\]\)\]\:size-4 svg:not([class*='size-']) {
-  width: 1rem;
-  height: 1rem;
-}
-
-
-.\[\&_svg\]\:pointer-events-none svg {
-  pointer-events: none;
-}
-
-
-.\[\&_svg\]\:size-4 svg {
-  width: 1rem;
-  height: 1rem;
-}
-
-
-.\[\&_svg\]\:shrink-0 svg {
-  flex-shrink: 0;
+.group\/tabs[data-horizontal] .group-data-\[horizontal\]\/tabs\:after\:bottom-\[-5px\]::after {
+  content: var(--tw-content);
+  bottom: -5px;
 }

@@ -1,5 +1,67 @@
 /* 文件路径: src/app/styles/preflight-04.css v4.4.9 — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */
 
+
+legend {
+  padding: 0;
+}
+
+
+
+ol,
+ul,
+menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+/*
+Reset default styling for dialogs.
+*/
+
+dialog {
+  padding: 0;
+}
+
+
+
+/*
+Prevent resizing textareas horizontally by default.
+*/
+
+textarea {
+  resize: vertical;
+}
+
+
+
+/*
+1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
+2. Set the default placeholder color to the user's configured gray 400 color.
+*/
+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+  opacity: 1;
+  /* 1 */
+  color: #9ca3af;
+  /* 2 */
+}
+
+
+
+input::placeholder,
+textarea::placeholder {
+  opacity: 1;
+  /* 1 */
+  color: #9ca3af;
+  /* 2 */
+}
+
+
+
 /*
 Set the default cursor for buttons.
 */
@@ -10,6 +72,7 @@ button,
 }
 
 
+
 /*
 Make sure disabled buttons don't get the pointer cursor.
 */
@@ -17,6 +80,7 @@ Make sure disabled buttons don't get the pointer cursor.
 :disabled {
   cursor: default;
 }
+
 
 
 /*
@@ -40,6 +104,7 @@ object {
 }
 
 
+
 /*
 Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
 */
@@ -51,11 +116,13 @@ video {
 }
 
 
+
 /* Make elements with the HTML hidden attribute stay hidden by default */
 
 [hidden]:where(:not([hidden='until-found'])) {
   display: none;
 }
+
 
 
 :root {
@@ -115,70 +182,4 @@ video {
   --spacing-page-x: 1.5rem;
   --spacing-section-y: 6rem;
   --spacing-section-y-sm: 4rem;
-}
-
-
-.light {
-  --background: 240 5% 97%;
-  --foreground: 240 14% 8%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 14% 8%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 14% 8%;
-  --primary: 16 78% 48%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 240 15% 96%;
-  --secondary-foreground: 240 14% 8%;
-  --muted: 240 15% 96%;
-  --muted-foreground: 240 8% 42%;
-  --accent: 240 15% 96%;
-  --accent-foreground: 240 14% 8%;
-  --destructive: 0 72% 51%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 240 15% 92%;
-  --input: 240 15% 92%;
-  --ring: 16 78% 48%;
-  --surface: hsl(0 0% 100%);
-  --surface-secondary: hsl(240 15% 98%);
-  --surface-tertiary: hsl(240 15% 95%);
-  --foreground-secondary: hsl(240 8% 42%);
-  --foreground-tertiary: hsl(240 8% 62%);
-  --border-light: hsl(240 15% 94%);
-  --border-subtle: hsl(240 15% 97%);
-  --success: hsl(145 55% 42%);
-  --warning: hsl(38 92% 50%);
-  --error: hsl(0 72% 51%);
-  --info: hsl(16 78% 48%);
-  --shadow-xs: 0 1px 2px rgba(20, 14, 8, 0.03);
-  --shadow-sm: 0 1px 3px rgba(20, 14, 8, 0.04), 0 1px 2px rgba(20, 14, 8, 0.03);
-  --shadow-md: 0 4px 8px -2px rgba(20, 14, 8, 0.05), 0 2px 4px -2px rgba(20, 14, 8, 0.03);
-  --shadow-lg: 0 12px 20px -4px rgba(20, 14, 8, 0.06), 0 4px 8px -4px rgba(20, 14, 8, 0.03);
-  --shadow-xl: 0 24px 40px -8px rgba(20, 14, 8, 0.08), 0 8px 16px -8px rgba(20, 14, 8, 0.04);
-  --shadow-2xl: 0 40px 64px -12px rgba(20, 14, 8, 0.1), 0 16px 32px -12px rgba(20, 14, 8, 0.05);
-}
-
-
-html {
-  font-family: var(--font-sans);
-  font-size: 16px;
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  font-optical-sizing: auto;
-}
-
-
-body {
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'ss01';
-  line-height: 1.6;
-  letter-spacing: -0.01em;
-}
-
-
-::-moz-selection {
-  background-color: hsl(var(--primary) / 0.15);
-  color: hsl(var(--foreground));
 }

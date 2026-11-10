@@ -28,14 +28,20 @@ const ComponentSchema = z.object({
   name: z.string().min(1).max(200),
   category: ComponentCategoryEnum,
   bikeType: BikeTypeEnum,
-  price: z.number().int().min(0).max(1_000_000),
-  weight: z.number().int().min(0).max(100_000),
+  // 允许小数价格/重量（实际组件数据含小数），仍限制有限值与上限防止 DoS
+  price: z.number().finite().min(0).max(1_000_000),
+  weight: z.number().finite().min(0).max(100_000),
   brand: z.string().max(100).optional(),
   model: z.string().max(100).optional(),
   description: z.string().max(500).optional(),
   rating: z.number().min(0).max(5).optional(),
   reviewCount: z.number().int().min(0).max(100_000).optional(),
-  imageUrl: z.string().url().optional(),
+  // 允许站内相对路径图片，同时显式阻断危险协议，兼顾本地保存与分享链接安全
+  imageUrl: z
+    .string()
+    .max(500)
+    .refine((value) => !/^(javascript|data|vbscript):/i.test(value), 'Unsafe image URL scheme')
+    .optional(),
   specs: ComponentSpecsSchema.optional(),
 });
 

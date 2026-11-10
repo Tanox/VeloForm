@@ -71,10 +71,10 @@ export function NavbarMobileMenu({
             </Button>
           )}
         </div>
-        <div className="mt-auto pt-4">
+        <div id="mobile-menu-footer" className="mt-auto pt-4">
           <Separator className="mb-4" />
-          <p className="text-sm text-muted-foreground text-center">
-            Veloform v{APP_CONSTANTS.APP_INFO.version}
+          <p id="mobile-menu-hint" className="text-sm text-muted-foreground text-center">
+            {t('app.tagline')}
           </p>
         </div>
       </SheetContent>
