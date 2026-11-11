@@ -1,3 +1,4 @@
+// 文件路径: src/middleware.test.ts v4.4.10
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import type { NextRequest } from 'next/server';
 

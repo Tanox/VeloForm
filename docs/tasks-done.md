@@ -1,11 +1,30 @@
 # Veloform 已完成任务归档
 
-> **派生来源**：`docs/design/design-review.md`（P0–P3 优化建议）+ OpenSpec 规范对齐
-> **归档时间**：2026-11-11 13:55:32
-> **当前版本**：v4.4.9
+> **派生来源**：`docs/design/design-review.md`（P0–P3 优化建议）+ OpenSpec 规范对齐 + 2026-11-08 全面代码审查 + 2026-11-11 门禁基线
+> **归档时间**：2026-11-11 14:34:00
+> **本次更新时间戳**：2026-11-11T14:34:00+08:00
+> **建档时间戳**：2026-11-11T13:55:32+08:00
+> **当前版本**：v4.4.10
 > **对应任务清单**：[`tasks.md`](./tasks.md)
 
 ## 已完成任务
+
+### 本轮完成（v4.4.10 · 完成并归档于 2026-11-11 14:34:00）
+
+> 来源：`tasks.md` 的 R-01 ~ R-10 剩余任务清单（2026-11-11 13:55:32 建档），全部交付后移入本归档。
+
+| ID   | 任务                                                                | 优先级 | 完成版本 | 完成时间   | 交付物                                                                                                    |
+| :--- | :------------------------------------------------------------------ | :----- | :------- | :--------- | :-------------------------------------------------------------------------------------------------------- |
+| R-01 | 修复 onboarding / delight 组件迁移残留引用，恢复 typecheck 与 build | P0     | v4.4.10  | 2026-11-11 | `OnboardingGuide.tsx`、`OnboardingStepContent.tsx` 改用 `@/components/ui/*`                               |
+| R-02 | 任务源治理：docs 内散落待办 / 进度表标注历史快照                    | P1     | v4.4.10  | 2026-11-11 | `docs/design/design-review.md`、`docs/architecture/MIGRATION.md`、`docs/tasks.md`                         |
+| R-03 | 文档一致性：版本 / 地址 / 技术栈 / 语言列表 / 死链 / Firebase 残留  | P1     | v4.4.10  | 2026-11-11 | `README.md`、`README_EN.md`、`docs/SPEC.md`、`docs/README.md`、`prototype/`                               |
+| R-04 | 环境配置与忽略规则对齐                                              | P1     | v4.4.10  | 2026-11-11 | `.env.example`、`src/lib/env.ts`、`.gitignore`                                                            |
+| R-05 | 安全响应头双轨去重与 CSP 图片域收紧                                 | P1     | v4.4.10  | 2026-11-11 | `src/middleware.ts`、`vercel.json`                                                                        |
+| R-06 | 死代码清理与重复实现收口                                            | P1     | v4.4.10  | 2026-11-11 | 移除大写版 `ErrorBoundary` / `ui/index.ts` / `lib/lazy.tsx` / `useToastStore`，合并为 `ErrorPageView.tsx` |
+| R-07 | 占位交互收口（Live Chat / 导航 / 缩略图）                           | P2     | v4.4.10  | 2026-11-11 | `SupportModal.tsx`、`app/page.tsx` 导航、`app/library/page.tsx` 缩略图                                    |
+| R-08 | 测试与门禁补齐                                                      | P1     | v4.4.10  | 2026-11-11 | `vitest.config.ts`（排除 `.tmp/**` + 分层覆盖率口径）、6 个新增测试文件、`.eslintrc.json`                 |
+| R-09 | 首屏低风险代码分割                                                  | P1     | v4.4.10  | 2026-11-11 | `src/app/page.tsx` 以 `next/dynamic` 拆分非首屏区块                                                       |
+| R-10 | 版本与变更记录同步                                                  | P2     | v4.4.10  | 2026-11-11 | `package.json` / lock / `APP_INFO` / `CHANGELOG.md` / README 双版 / SPEC / prototype / tasks 文档         |
 
 ### 本轮归档（v4.4.8–v4.4.9 · 完成于 2026-11-10 · 归档于 2026-11-11 13:55:32）
 
@@ -39,8 +58,8 @@
 | T-13 | OpenSpec 文档技术栈对齐                            | meta   | v4.4.3         | 2026-10-14 | `security/security-guidelines.md`、`performance/optimization.md` 标注 Firebase/Angular 为历史内容，对齐 Supabase/Next.js |
 | T-14 | 客户端配置版本历史                                 | P2     | v4.4.3         | 2026-10-14 | `src/lib/config-history.ts` + `VersionHistory` 弹窗，localStorage 快照（上限 10）                                        |
 | T-15 | 配置对比视图                                       | P3     | 既有           | —          | 既有 `ComparePanel` / `CompareTable` 已满足并排对比                                                                      |
-| T-17 | 性能监控基准（CI 回归门禁）                        | P3     | v4.4.4         | 2026-10-14 | 新增 `.github/workflows/ci.yml`（lint/test/build），Lighthouse 基准待服务端后接入                                        |
-| T-18 | 长组件列表虚拟化                                   | P3     | v4.4.4（评估） | 2026-10-14 | 评估结论：当前仅 6 分类、组件量小，无需虚拟化，预留接口即可                                                              |
+| T-17 | 性能监控基准（CI 回归门禁）                        | P3     | v4.4.4         | 2026-10-14 | 新增 `.github/workflows/ci.yml`（lint/test/build），Lighthouse 基准：评估结论见 tasks.md「后续专项评估」                 |
+| T-18 | 长组件列表虚拟化                                   | P3     | v4.4.4（评估） | 2026-10-14 | 评估结论：当前仅 6 分类、组件量小，无需虚拟化，评估否决（结论见 tasks.md）                                               |
 | T-16 | i18n 扩展新语言（日语 ja）                         | P3     | v4.4.5         | 2026-10-14 | 新增 `locales/ja/`（22 文件）+ `ja.ts` + `index.ts` 注册 + 三语切换 UI + whimsy 日语文案，i18n 扩展至三语                |
 
 ### 历史已完成（早于 v4.4.3）
@@ -56,6 +75,6 @@
 
 ## 进度统计
 
-- 已完成归档：30 项（T-01 ~ T-18 共 18 项 + M-01 ~ M-12 共 12 项）
-- 进行中 / 待办：10 项（R-01 ~ R-10，见 `tasks.md`，2026-11-11 13:55:32 建档）
-- 历史 18 项完成率：100%；本轮新增任务按 `tasks.md` 实时进度更新
+- 已完成归档：40 项（T-01 ~ T-18 共 18 项 + M-01 ~ M-12 共 12 项 + R-01 ~ R-10 共 10 项）
+- 进行中 / 待办：0 项（`tasks.md` 已于 2026-11-11 14:34:00 最终复核并收口，状态快照显示全部完成）
+- 完成率：100%；后续专项（V-01 ~ V-03）已评估，不计入待办

@@ -1,3 +1,4 @@
+// 文件路径: src/components/ui/ErrorPageView.tsx v4.4.10
 'use client';
 
 import type { LucideIcon } from 'lucide-react';

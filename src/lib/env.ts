@@ -1,4 +1,4 @@
-// 文件路径: src/lib/env.ts v4.4.9
+// 文件路径: src/lib/env.ts v4.4.10
 /**
  * Environment variable validation (Supabase migration)
  * 从 Firebase 迁移至 Supabase，使用 NEXT_PUBLIC_SUPABASE_URL 和

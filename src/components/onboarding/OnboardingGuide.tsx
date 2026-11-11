@@ -1,3 +1,4 @@
+// 文件路径: src/components/onboarding/OnboardingGuide.tsx v4.4.10
 'use client';
 
 import { useState, useEffect } from 'react';

@@ -1,3 +1,4 @@
+// 文件路径: src/lib/hooks/useKeyboardShortcuts.test.ts v4.4.10
 import { renderHook, fireEvent } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 

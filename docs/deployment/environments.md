@@ -77,7 +77,7 @@ graph LR
 ### .env.example
 
 ```bash
-# Firebase Configuration
+# Firebase Configuration（历史参考；当前使用 NEXT_PUBLIC_SUPABASE_*）
 FIREBASE_API_KEY=your_api_key_here
 FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
 FIREBASE_PROJECT_ID=your_project_id
@@ -189,7 +189,7 @@ npm run serve:ssr:app
 
 ---
 
-## Firebase 配置
+## Firebase 配置（历史参考，当前技术栈为 Supabase）
 
 ### firebase-applet-config.json
 

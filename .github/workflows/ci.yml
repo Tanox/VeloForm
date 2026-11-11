@@ -82,7 +82,7 @@ jobs:
           path: .next/
           retention-days: 7
 
-  # 性能监控基准（Lighthouse CI / T-17 后续项）：
-  # 需在具备 Chrome 的 runner 上、并配置 LHCI 服务端或本地静态服务后，
-  # 接入 @lhci/cli（lhci autorun --collect.url=http://localhost:3000）。
+  # 性能监控基准：评估结论见 docs/tasks.md「后续专项评估」；
+  # 当前以 lint / typecheck / format / test / build 作为回归门禁；
+  # Lighthouse / E2E 需独立专项排期，不在本工作流内。
   # 当前 CI 已通过 lint/test/build 阶段作为性能与质量回归门禁。

@@ -1,4 +1,4 @@
-// 文件路径: src/middleware.ts v4.4.9
+// 文件路径: src/middleware.ts v4.4.10
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 

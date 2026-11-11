@@ -12,6 +12,7 @@ dist
 /.next-*/
 .next-swc-cache/
 /coverage/
+/coverage-check/
 /reports/
 /playwright-report/
 /test-results/

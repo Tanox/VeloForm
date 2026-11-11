@@ -7,16 +7,16 @@
 
 此文档已移动到新位置！
 
-**新位置**: [`/prototype/prototype-guide.md`](../prototype/prototype-guide.md)
+**说明**：原型文档已整合至本文件与 `docs/design/`，下列历史链接的目标文件已不再维护
 
 ## 快速导航
 
 ### 原型设计文档
 
 - [原型设计总览](../prototype/README.md)
-- [原型与设计系统](../prototype/prototype-guide.md) - (原本文档位置)
-- [组件映射表](../prototype/documentation/component-mapping.md)
-- [设计系统摘要](../prototype/documentation/design-system-summary.md)
+- 原型入口：`prototype/prototype.html`（样式 / 片段 / 脚本已按职责拆分）
+- [设计审查与组件建议](./design/design-review.md)
+- [设计系统规范](./design/)
 
 ### UI/UX 优化建议
 

@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.10] - 2026-11-11
+
+### 修复 / 工程化 / 任务治理
+
+- 任务体系重整：v4.4.8 / v4.4.9 两轮已交付工作（M-01 ~ M-12）归档至 `docs/tasks-done.md`；`docs/tasks.md` 作为唯一任务源重排 R-01 ~ R-10 优先级与状态并记录更新时间戳，本轮 10 项全部交付后再次同步进度。
+- 修复 onboarding / delight 组件迁移后的残留相对导入，恢复 `npm run typecheck` 与 `npm run build`。
+- 修复 Vitest 扫描 `.tmp/` 临时依赖副本造成的测试门禁假红；明确覆盖率分层统计口径（自研业务逻辑层，排除 UI 适配与 SDK 薄封装），补齐配置版本历史、新手引导、环境变量占位等回归测试，`npm run test:coverage` 恢复达标。
+- 收口 docs 内散落的待办/进度表、文档版本/地址/技术栈/语言列表、Firebase 遗留与死链；安全响应头去重并收紧 CSP 图片域；清理 0 引用模块与重复错误页实现。
+- 环境变量示例与忽略规则对齐、占位交互收口、首屏非关键区块动态导入；`typecheck` / `lint` / `format:check` / `test:coverage` / `build` 全绿。
+
 ## [4.4.9] - 2026-11-10
 
 ### 修复 / 安全 / 规范

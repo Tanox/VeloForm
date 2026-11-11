@@ -1,3 +1,4 @@
+// 文件路径: src/components/onboarding/OnboardingStepContent.tsx v4.4.10
 'use client';
 
 import { memo } from 'react';

@@ -57,7 +57,7 @@ Veloform 是一款基于 Next.js、Tailwind CSS 并由 **Supabase** 驱动的高
 | Tailwind CSS             | v3.4.0   | 样式框架         |
 | Framer Motion            | v10.16.4 | 动画效果         |
 | Lucide React             | v0.294.0 | 图标库           |
-| @base-ui/react           | v1.5.0   | 无样式 UI 组件库 |
+| @base-ui/react           | v1.9.0   | 无样式 UI 组件库 |
 | class-variance-authority | v0.7.1   | 组件变体管理     |
 
 ### 后端服务
@@ -68,13 +68,13 @@ Veloform 是一款基于 Next.js、Tailwind CSS 并由 **Supabase** 驱动的高
 
 ### 开发工具
 
-| 技术       | 版本    | 用途         |
-| ---------- | ------- | ------------ |
-| Vitest     | v3.2.0  | 单元测试框架 |
-| ESLint     | v8.x    | 代码检查     |
-| Prettier   | v3.2.0  | 代码格式化   |
-| Husky      | v9.0.0  | Git Hooks    |
-| Playwright | v1.60.0 | E2E 测试     |
+| 技术     | 版本   | 用途            |
+| -------- | ------ | --------------- |
+| Vitest   | v3.2.0 | 单元测试框架    |
+| ESLint   | v8.x   | 代码检查        |
+| Prettier | v3.2.0 | 代码格式化      |
+| Husky    | v9.0.0 | Git Hooks       |
+| Vitest   | v3.2.0 | 单元 / 组件测试 |
 
 ---
 
@@ -172,7 +172,7 @@ src/
 
 ### 前置要求
 
-- Node.js >= 18.x
+- Node.js >= 20（与 `.nvmrc` / CI 对齐）
 - npm 或 pnpm
 - Supabase 项目（用于 Postgres 数据库 + Row Level Security）
 
@@ -342,8 +342,8 @@ function MyComponent() {
 
 ## 版本信息
 
-当前版本：**v4.4.9**
-最后更新：2026-08-12
+当前版本：**v4.4.10**
+最后更新：2026-11-11
 
 详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)。
 
@@ -353,4 +353,4 @@ function MyComponent() {
 
 本项目采用 **MIT License** 开源协议。
 
-详见 [LICENSE](./LICENSE) 文件。
+许可证全文将在后续版本补充（当前以本节声明为准）。

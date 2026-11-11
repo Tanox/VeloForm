@@ -1,7 +1,7 @@
 # Veloform 项目开发指南
 
 > **路径**: `/docs/PROJECT_GUIDELINES.md`
-> **版本**: v4.4.7
+> **版本**: v4.4.10
 > **更新日期**: 2026-07-28
 
 ## 概述
@@ -17,7 +17,7 @@
 1. **克隆仓库**：
 
    ```bash
-   git clone https://github.com/sutchan/Veloform.git
+   git clone https://github.com/Tanox/VeloForm.git
    cd Veloform
    ```
 
@@ -31,7 +31,7 @@
 
    ```bash
    cp .env.example .env
-   # 编辑 .env 填入 Firebase 配置
+   # 编辑 .env 填入 Supabase 配置（见 .env.example）
    ```
 
 4. **启动开发服务器**：
@@ -77,7 +77,7 @@ refactor/<描述>    - 代码重构
 **示例**：
 
 - `feature/add-suspension-selector`
-- `fix/firebase-auth-error-handling`
+- `fix/supabase-auth-error-handling`
 - `docs/update-api-specification`
 
 ### 提交流程
@@ -213,10 +213,10 @@ Veloform 采用分层文档体系：
 
 面向用户和贡献者的高层文档：
 
-- **[README.md](./README.md)** / **[README_CN.md](./README_CN.md)** - 项目概述
+- **[README.md](../README.md)** / **[README_EN.md](../README_EN.md)** - 项目概述
 - **[PROJECT_GUIDELINES.md](./PROJECT_GUIDELINES.md)** - 本开发指南
 - **[CHANGELOG.md](./CHANGELOG.md)** - 版本变更历史
-- **[IMPROVEMENTS.md](./IMPROVEMENTS.md)** - 改进记录
+- **[CHANGELOG.md](../CHANGELOG.md)** - 改进记录
 
 ### 何时更新文档
 
@@ -301,14 +301,14 @@ npm run test -- --coverage  # 生成覆盖率报告
    ```
 
 2. **填写配置**：
-   编辑 `.env` 文件，填入 Firebase 配置
+   编辑 `.env` 文件，填入 Supabase 配置（见 `.env.example`）
 
 3. **Git 忽略**：
    `.gitignore` 已配置忽略 `.env*` 文件
 
-### Firebase 配置获取
+### Supabase 配置获取
 
-1. 访问 [Firebase Console](https://console.firebase.google.com/)
+1. 访问 [Supabase Dashboard](https://supabase.com/dashboard)
 2. 选择项目 > Project Settings
 3. 在 "Your apps" 中找到 Web App 配置
 4. 复制对应值到 `.env` 文件
@@ -351,4 +351,4 @@ A:
 
 **文档路径**: `/docs/PROJECT_GUIDELINES.md`  
 **最后更新**: 2026-05-05  
-**版本**: v4.4.7
+**版本**: v4.4.10
