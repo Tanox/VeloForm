@@ -1,3 +1,4 @@
+-- 文件路径: supabase/migrations/20261110000000_numeric_precision_and_constraints.sql v4.4.9
 -- Veloform: 修正配置表数值精度与补齐约束
 -- 日期: 2026-11-10
 -- 描述: total_cost / estimated_weight 原为 integer，运行时重量为小数（如 5.64kg），

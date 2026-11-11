@@ -1,3 +1,4 @@
+// 文件路径: src/components/layout/Navbar.tsx v4.4.9
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';

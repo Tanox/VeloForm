@@ -1,3 +1,4 @@
+// 文件路径: src/components/layout/Footer.tsx v4.4.9
 'use client';
 
 import { motion } from 'framer-motion';

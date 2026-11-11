@@ -5,6 +5,7 @@
 
 ## 关键架构与约定
 - 字体：系统字体栈（SF Pro 等），由 `src/app/styles/*` 的 `--font-display`/`--font-sans` 定义，**不依赖 next/font/google**（离线/CI 稳健）。
+- 样式构建：`src/app/styles/*.css` 是已编译产物（含 `@layer`，无 `@tailwind` 指令），`postcss.config.mjs` 只启用 autoprefixer；若恢复 Tailwind 插件会触发 `@layer` 无匹配指令的构建错误。拆分脚本会校验分片大括号平衡。
 - i18n：`en / zh-CN / ja` 三语，`src/lib/i18n/index.ts` 用 `satisfies Translations` 保证键对齐；语言切换 UI 覆盖三语，偏好存 localStorage 并做枚举校验。
 - 版本单一来源：`package.json` → `next.config.mjs` 注入 `NEXT_PUBLIC_APP_VERSION` + `NEXT_PUBLIC_BUILD_ID`（10 位 yymmddhhmm）→ `src/lib/version.ts` → **页脚 `#footer-version`** 展示 `V{semver}· build {id}`；页眉/移动抽屉不得出现版本号。
 - 认证：`AuthModal` 提供登录/注册/登出，会话由 `subscribeToAuthChanges` 同步到 user-store；未登录时保存明确降级为本地草稿并提示，RLS 要求 `auth.uid() = user_id`。

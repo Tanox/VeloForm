@@ -1,3 +1,4 @@
+// 文件路径: src/lib/i18n/zh-CN.ts v4.4.9
 import type { Translations } from './types';
 
 import { app } from './locales/zh-CN/app';

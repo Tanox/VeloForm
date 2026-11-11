@@ -1,3 +1,4 @@
+// 文件路径: src/lib/supabase-service.test.ts v4.4.9
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 
 // 链式 query builder mock：中间方法返回自身（可继续链式），builder 本身是 thenable，

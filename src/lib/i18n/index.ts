@@ -1,3 +1,4 @@
+// 文件路径: src/lib/i18n/index.ts v4.4.9
 'use client';
 
 /**

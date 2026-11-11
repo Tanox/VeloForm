@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 安全头去重并补充 `frame-ancestors`；页脚统一展示 `V{version}· build {yymmddhhmm}`，页眉不再显示版本。
 - 拆分 `src/app/globals.css` 与 `prototype/prototype.html` 超长源码为 ≤200 行模块；补齐语义化 id。
 - 覆盖率统计口径显式化、恢复 Git 预提交钩子、清理无效脚本与过期文档/项目记忆。
+- 修复生产构建阻断：`@base-ui/react` 由存在内部导出不一致的 1.6.0 升级至 1.9.0；`postcss.config.mjs` 改为 Next.js 官方插件声明并按样式产物形态只保留 autoprefixer；`tailwind.config.mjs` 改用静态插件导入。
+- 样式拆分脚本补齐 `@layer`/`@media` 大块处理与大括号平衡校验，从未拆分的原始样式重新生成自闭合分片，构建期 CSS 解析不再报错。
 
 ## [4.4.8] - 2026-11-10
 

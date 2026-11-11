@@ -1,7 +1,7 @@
 // 文件路径: scripts/split-styles.mjs v4.4.9
 // 将超长 globals.css 按顶层 CSS 规则块拆分为 <=185 行的模块化分片。
 // 幂等：重复执行会重建 src/app/styles/ 并重写入口，顺序与拆分前完全一致。
-import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, renameSync } from 'node:fs';
 import { join } from 'node:path';
 
 const SRC = 'src/app/globals.css';
@@ -72,14 +72,24 @@ function parseBlocks(lines) {
 
 // 超大 at-rule 块（如 @media）内部拆成多个同条件的完整块，保持顺序与语义不变
 function splitAtRuleBlock(block) {
-  // 块首可能带空行或注释，先定位真正的 at-rule 头
-  const headerIndex = block.lines.findIndex((line) => line.trim() !== '');
-  const prefix = block.lines.slice(0, headerIndex);
-  const header = block.lines[headerIndex]?.trim() ?? '';
-  if (!/^@(media|supports)\b/.test(header) || !header.endsWith('{')) return [block];
-  if (!/}\s*$/.test(block.lines[block.lines.length - 1].trim())) return [block];
+  const lines = block.lines;
+  // 精确定位 at-rule 头与闭合行，块前后的注释/空行都需保留
+  const headerIndex = lines.findIndex(
+    (line) => /^\s*@(media|supports|layer)\b/.test(line) && line.trim().endsWith('{')
+  );
+  if (headerIndex < 0) return [block];
+  let closeIndex = -1;
+  for (let i = lines.length - 1; i > headerIndex; i -= 1) {
+    if (/}\s*$/.test(lines[i].trim())) {
+      closeIndex = i;
+      break;
+    }
+  }
+  if (closeIndex < 0) return [block];
 
-  const inner = block.lines.slice(headerIndex + 1, -1);
+  const prefix = lines.slice(0, headerIndex);
+  const inner = lines.slice(headerIndex + 1, closeIndex);
+  const suffix = lines.slice(closeIndex + 1);
   const subBlocks = [];
   let current = [];
   const state = { depth: 0, inComment: false, quote: null };
@@ -112,9 +122,10 @@ function splitAtRuleBlock(block) {
   return groups.map((items, index) => ({
     lines: [
       ...(index === 0 ? prefix : []),
-      block.lines[headerIndex],
+      lines[headerIndex],
       ...items.flatMap((sub) => [...sub, '']),
       '}',
+      ...(index === groups.length - 1 ? suffix : []),
     ],
     startLine: block.startLine,
   }));
@@ -156,7 +167,7 @@ const chunks = packChunks(blocks);
 const counters = {};
 const names = [];
 
-rmSync(OUT_DIR, { recursive: true, force: true });
+// 不做递归删除：IDE 安全删除护栏会拦截目录批量删除，这里只覆盖写入
 mkdirSync(OUT_DIR, { recursive: true });
 
 chunks.forEach((chunk) => {
@@ -164,11 +175,12 @@ chunks.forEach((chunk) => {
   counters[group] = (counters[group] || 0) + 1;
   const name = `${group}-${String(counters[group]).padStart(2, '0')}.css`;
   const body = chunk.map((block) => block.lines.join('\n')).join('\n\n');
-  writeFileSync(
-    join(OUT_DIR, name),
-    `/* 文件路径: src/app/styles/${name} ${VERSION} — 由 scripts/split-styles.mjs 生成，请勿直接编辑 */\n${body}\n`,
-    'utf8'
-  );
+  // 每个分片必须自闭合，否则浏览器/PostCSS 解析会失败
+  const balance = { depth: 0, inComment: false, quote: null };
+  body.split('\n').forEach((line) => scanLine(line, balance));
+  if (balance.depth) throw new Error(`分片 ${name} 大括号不平衡 (${balance.depth})`);
+  const banner = `/* 文件路径: src/app/styles/${name} ${VERSION} — 由 scripts/split-styles.mjs 生成 */\n`;
+  writeFileSync(join(OUT_DIR, name), `${banner}${body}\n`, 'utf8');
   names.push(name);
 });
 

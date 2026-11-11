@@ -1,3 +1,4 @@
+// 文件路径: src/lib/i18n/types.ts v4.4.9
 /**
  * i18n schema definition (single source of truth).
  * Imported by en.ts / zh-CN.ts to assemble `translations` with `satisfies Translations`.

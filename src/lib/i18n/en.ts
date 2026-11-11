@@ -1,3 +1,4 @@
+// 文件路径: src/lib/i18n/en.ts v4.4.9
 import type { Translations } from './types';
 
 import { app } from './locales/en/app';

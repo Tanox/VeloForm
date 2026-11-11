@@ -1,4 +1,4 @@
-// 文件路径: src/lib/supabase-service.ts v4.4.8
+// 文件路径: src/lib/supabase-service.ts v4.4.9
 import { Configuration } from '@/types';
 import { getSupabaseClient, isSupabaseConfigured } from './supabase';
 import { supabaseLogger } from './logger';

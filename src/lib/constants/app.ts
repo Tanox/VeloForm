@@ -1,3 +1,4 @@
+// 文件路径: src/lib/constants/app.ts v4.4.9
 export const APP_CONSTANTS = {
   BIKE_TYPES: ['Road', 'MTB', 'Fold'] as const,
   COMPONENT_CATEGORIES: [
