@@ -1,3 +1,4 @@
+// 文件路径: src/components/layout/SyncProvider.test.tsx v4.4.9
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import { SyncProvider } from './SyncProvider';

@@ -4,8 +4,8 @@ import './whimsy.css';
 import { Providers } from './providers';
 import { Toaster } from 'sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { SyncProvider } from '@/components/SyncProvider';
-import { ClientErrorBoundary } from '@/components/ClientErrorBoundary';
+import { SyncProvider } from '@/components/layout/SyncProvider';
+import { ClientErrorBoundary } from '@/components/layout/ClientErrorBoundary';
 import { DelightLayer } from '@/components/ui/DelightLayer';
 import { logger } from '@/lib/logger';
 

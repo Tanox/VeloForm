@@ -1,4 +1,4 @@
-// 文件路径: src/components/SyncProvider.tsx v4.4.9
+// 文件路径: src/components/layout/SyncProvider.tsx v4.4.9
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
