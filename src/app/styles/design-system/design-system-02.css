@@ -4,17 +4,14 @@
   border-width: 0px;
 }
 
-
 .last\:border-b-0:last-child {
   border-bottom-width: 0px;
 }
-
 
 .focus-within\:outline-none:focus-within {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
-
 
 .focus-within\:ring-2:focus-within {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width)
@@ -24,151 +21,121 @@
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 
-
 .focus-within\:ring-ring:focus-within {
   --tw-ring-color: hsl(var(--ring));
 }
-
 
 .focus-within\:ring-offset-2:focus-within {
   --tw-ring-offset-width: 2px;
 }
 
-
 .hover\:border-accent\/30:hover {
   border-color: hsl(var(--accent) / 0.3);
 }
-
 
 .hover\:border-border:hover {
   border-color: hsl(var(--border));
 }
 
-
 .hover\:border-foreground\/20:hover {
   border-color: hsl(var(--foreground) / 0.2);
 }
-
 
 .hover\:border-primary:hover {
   border-color: hsl(var(--primary));
 }
 
-
 .hover\:border-primary\/30:hover {
   border-color: hsl(var(--primary) / 0.3);
 }
-
 
 .hover\:border-primary\/50:hover {
   border-color: hsl(var(--primary) / 0.5);
 }
 
-
 .hover\:bg-accent:hover {
   background-color: hsl(var(--accent));
 }
-
 
 .hover\:bg-accent\/5:hover {
   background-color: hsl(var(--accent) / 0.05);
 }
 
-
 .hover\:bg-destructive\/90:hover {
   background-color: hsl(var(--destructive) / 0.9);
 }
-
 
 .hover\:bg-green-500\/10:hover {
   background-color: rgb(34 197 94 / 0.1);
 }
 
-
 .hover\:bg-muted:hover {
   background-color: hsl(var(--muted));
 }
-
 
 .hover\:bg-muted\/50:hover {
   background-color: hsl(var(--muted) / 0.5);
 }
 
-
 .hover\:bg-primary\/10:hover {
   background-color: hsl(var(--primary) / 0.1);
 }
-
 
 .hover\:bg-primary\/5:hover {
   background-color: hsl(var(--primary) / 0.05);
 }
 
-
 .hover\:bg-primary\/90:hover {
   background-color: hsl(var(--primary) / 0.9);
 }
-
 
 .hover\:bg-secondary\/80:hover {
   background-color: hsl(var(--secondary) / 0.8);
 }
 
-
 .hover\:bg-surface-secondary:hover {
   background-color: var(--surface-secondary);
 }
-
 
 .hover\:bg-surface-tertiary:hover {
   background-color: var(--surface-tertiary);
 }
 
-
 .hover\:bg-zinc-800\/50:hover {
   background-color: rgb(39 39 42 / 0.5);
 }
-
 
 .hover\:text-accent-foreground:hover {
   color: hsl(var(--accent-foreground));
 }
 
-
 .hover\:text-foreground:hover {
   color: hsl(var(--foreground));
 }
-
 
 .hover\:text-foreground\/70:hover {
   color: hsl(var(--foreground) / 0.7);
 }
 
-
 .hover\:text-muted-foreground:hover {
   color: hsl(var(--muted-foreground));
 }
-
 
 .hover\:text-primary:hover {
   color: hsl(var(--primary));
 }
 
-
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
-
 
 .hover\:no-underline:hover {
   text-decoration-line: none;
 }
 
-
 .hover\:opacity-90:hover {
   opacity: 0.9;
 }
-
 
 .hover\:shadow-lg:hover {
   --tw-shadow: var(--shadow-lg);

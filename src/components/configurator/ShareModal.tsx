@@ -117,7 +117,9 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
               </div>
               <div className="relative text-center">
                 <span className="block font-semibold text-foreground">{t('share.link')}</span>
-                <span className="block text-xs text-muted-foreground mt-0.5">{t('share.copyHint')}</span>
+                <span className="block text-xs text-muted-foreground mt-0.5">
+                  {t('share.copyHint')}
+                </span>
               </div>
             </motion.button>
 
@@ -134,7 +136,9 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
               </div>
               <div className="relative text-center">
                 <span className="block font-semibold text-foreground">{t('share.exportJSON')}</span>
-                <span className="block text-xs text-muted-foreground mt-0.5">{t('share.exportHint')}</span>
+                <span className="block text-xs text-muted-foreground mt-0.5">
+                  {t('share.exportHint')}
+                </span>
               </div>
             </motion.button>
           </div>

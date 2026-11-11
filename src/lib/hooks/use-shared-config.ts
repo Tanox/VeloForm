@@ -30,11 +30,7 @@ export function toConfigComponents(items: ShareableConfig['components']): Config
 export function clearConfigParam(): void {
   const url = new URL(window.location.href);
   url.searchParams.delete('config');
-  window.history.replaceState(
-    window.history.state,
-    '',
-    `${url.pathname}${url.search}${url.hash}`
-  );
+  window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`);
 }
 
 /**

@@ -127,12 +127,8 @@ export function BikeTypeSelector() {
               dangerouslySetInnerHTML={{ __html: info.icon }}
             />
 
-            <div className="text-base font-bold text-foreground mb-1">
-              {info.label}
-            </div>
-            <div className="text-xs text-muted-foreground mb-4">
-              {info.description}
-            </div>
+            <div className="text-base font-bold text-foreground mb-1">{info.label}</div>
+            <div className="text-xs text-muted-foreground mb-4">{info.description}</div>
 
             <div className="flex gap-4 pt-3 border-t border-border-subtle">
               <div className="flex flex-col">

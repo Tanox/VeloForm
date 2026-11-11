@@ -7,3 +7,12 @@ coverage
 .env.local
 .env.*.local
 *.log
+.tmp
+reports
+.next-*
+Veloform.code-workspace
+
+# 原型拆分生成片段：按拼接顺序加载，非独立可解析的 CSS/JS 源文件
+prototype/styles/
+prototype/parts/
+prototype/scripts/

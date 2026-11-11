@@ -83,7 +83,9 @@ export function CostBreakdownChart() {
           <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center">
             <PieChart className="w-4 h-4 text-primary" />
           </div>
-          <span className="text-sm font-semibold text-foreground uppercase tracking-wider">成本分布</span>
+          <span className="text-sm font-semibold text-foreground uppercase tracking-wider">
+            成本分布
+          </span>
         </div>
         <span className="text-xs font-mono text-muted-foreground">{segments.length} ITEMS</span>
       </div>
@@ -116,13 +118,7 @@ export function CostBreakdownChart() {
 
             <circle cx="100" cy="100" r="42" fill="var(--card)" />
 
-            <text
-              x="100"
-              y="96"
-              textAnchor="middle"
-              className="fill-muted-foreground"
-              fontSize="9"
-            >
+            <text x="100" y="96" textAnchor="middle" className="fill-muted-foreground" fontSize="9">
               总计
             </text>
             <text

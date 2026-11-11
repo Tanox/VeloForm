@@ -42,10 +42,7 @@ export function NavbarMobileMenu({
           </Button>
         }
       />
-      <SheetContent
-        side="right"
-        className="w-full sm:max-w-sm bg-card border-l border-border"
-      >
+      <SheetContent side="right" className="w-full sm:max-w-sm bg-card border-l border-border">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">

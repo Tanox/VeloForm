@@ -72,8 +72,8 @@ function ComponentSelectorItemBase({
               isSelected
                 ? 'bg-primary text-primary-foreground shadow-sm'
                 : isPromotional
-                ? 'bg-primary/10 text-primary'
-                : 'bg-surface-tertiary text-muted-foreground'
+                  ? 'bg-primary/10 text-primary'
+                  : 'bg-surface-tertiary text-muted-foreground'
             }`}
             aria-hidden="true"
           >
@@ -114,8 +114,7 @@ function ComponentSelectorItemBase({
               )}
               {isPromotional && (
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-primary/10 text-primary text-xs font-bold rounded-full">
-                  <Zap className="w-3 h-3" aria-hidden="true" />
-                  -{discount}%
+                  <Zap className="w-3 h-3" aria-hidden="true" />-{discount}%
                 </span>
               )}
             </div>
@@ -135,10 +134,14 @@ function ComponentSelectorItemBase({
                 )}
               </div>
               <div className="flex items-center justify-end gap-2 mt-0.5 text-sm">
-                <span className="text-muted-foreground">{formatWeight(component.weight / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR)}</span>
+                <span className="text-muted-foreground">
+                  {formatWeight(component.weight / APP_CONSTANTS.WEIGHT_CONVERSION_FACTOR)}
+                </span>
                 {isPromotional && (
                   <span className="text-xs text-primary font-medium flex items-center gap-1">
-                    <span className="line-through opacity-60">{formatCurrency(originalPrice ?? component.price)}</span>
+                    <span className="line-through opacity-60">
+                      {formatCurrency(originalPrice ?? component.price)}
+                    </span>
                     <span>省{formatCurrency(savings)}</span>
                   </span>
                 )}

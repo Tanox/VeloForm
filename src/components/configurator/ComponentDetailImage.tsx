@@ -61,8 +61,8 @@ export function ComponentDetailImage({ detail }: ComponentDetailImageProps) {
         </motion.div>
       </div>
 
-      {/* 缩略图列表（占位） */}
-      <ComponentDetailThumbnailList />
+      {/* 缩略图：使用详情数据的真实图片，无图时不渲染 */}
+      <ComponentDetailThumbnailList imageUrl={detail.imageUrl} name={detail.name} />
     </motion.div>
   );
 }

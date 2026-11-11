@@ -33,7 +33,7 @@ function createDataService<T extends { id: string }>() {
     items: [] as T[],
     addItem(item: T): void {
       this.items.push(item);
-    }
+    },
   };
 }
 
@@ -57,9 +57,7 @@ function setBikeType(type: string): void { ... }
 
 ```typescript
 // ✅ Good
-async function saveConfiguration(
-  config: Configuration
-): Promise<void> {
+async function saveConfiguration(config: Configuration): Promise<void> {
   // ...
 }
 
@@ -114,14 +112,14 @@ type ComponentId = string & { readonly __brand: unique symbol };
 
 **确定使用场景**：
 
-| 场景 | 'use client' |
-|------|---------------|
-| 使用 Hooks (useState, useEffect 等) | 必须 |
-| 使用浏览器 API (window, document) | 必须 |
-| 事件处理器 | 必须 |
-| 纯服务端组件 (Server Components) | 禁止 |
-| 仅接收 props 渲染 UI | 禁止 |
-| 数据获取 (server components) | 禁止 |
+| 场景                                | 'use client' |
+| ----------------------------------- | ------------ |
+| 使用 Hooks (useState, useEffect 等) | 必须         |
+| 使用浏览器 API (window, document)   | 必须         |
+| 事件处理器                          | 必须         |
+| 纯服务端组件 (Server Components)    | 禁止         |
+| 仅接收 props 渲染 UI                | 禁止         |
+| 数据获取 (server components)        | 禁止         |
 
 ```typescript
 // ✅ Good - 需要交互的组件
@@ -251,7 +249,7 @@ const [items, setItems] = useState(JSON.parse(localStorage.getItem('items') || '
 const [formState, setFormState] = useState({
   name: '',
   email: '',
-  isSubmitting: false
+  isSubmitting: false,
 });
 
 // ❌ Bad - 多个独立状态
@@ -267,15 +265,15 @@ const [isSubmitting, setIsSubmitting] = useState(false);
 ```typescript
 // ✅ Good - 完整依赖
 useEffect(() => {
-  const subscription = dataSource.subscribe(data => setData(data));
+  const subscription = dataSource.subscribe((data) => setData(data));
   return () => subscription.unsubscribe();
 }, [dataSource]);
 
 // ❌ Bad - 遗漏依赖
 useEffect(() => {
-  const subscription = dataSource.subscribe(data => setData(data));
+  const subscription = dataSource.subscribe((data) => setData(data));
   return () => subscription.unsubscribe();
-// eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
 ```
 
@@ -285,7 +283,7 @@ useEffect(() => {
 // ✅ Good - 清理副作用
 useEffect(() => {
   const timer = setInterval(() => {
-    setSeconds(s => s + 1);
+    setSeconds((s) => s + 1);
   }, 1000);
 
   return () => clearInterval(timer); // 清理定时器
@@ -359,10 +357,13 @@ const sortedItems = useMemo(() => {
 
 ```typescript
 // ✅ Good - 引用稳定性
-const options = useMemo(() => ({
-  enableHighAccuracy: true,
-  timeout: 5000
-}), []); // 空依赖，引用永远不变
+const options = useMemo(
+  () => ({
+    enableHighAccuracy: true,
+    timeout: 5000,
+  }),
+  []
+); // 空依赖，引用永远不变
 ```
 
 ```typescript
@@ -400,23 +401,21 @@ export const useConfigStore = create<ConfigState>()(
 
       addComponent: (component) =>
         set((state) => ({
-          components: [...state.components, component]
+          components: [...state.components, component],
         })),
 
       removeComponent: (id) =>
         set((state) => ({
           components: state.components.filter((c) => c.id !== id),
-          selectedId: state.selectedId === id ? null : state.selectedId
+          selectedId: state.selectedId === id ? null : state.selectedId,
         })),
 
       selectComponent: (id) => set({ selectedId: id }),
 
       updateComponent: (id, updates) =>
         set((state) => ({
-          components: state.components.map((c) =>
-            c.id === id ? { ...c, ...updates } : c
-          )
-        }))
+          components: state.components.map((c) => (c.id === id ? { ...c, ...updates } : c)),
+        })),
     }),
     { name: 'config-storage' }
   )
@@ -454,13 +453,13 @@ function ConfigList() {
 
 ```typescript
 // ✅ Good - 清晰的前缀命名
-useAuthStore      // 认证相关
-useConfigStore    // 配置相关
-useUIStore        // UI 状态相关
+useAuthStore; // 认证相关
+useConfigStore; // 配置相关
+useUIStore; // UI 状态相关
 
 // ❌ Bad - 模糊命名
-useStore
-useAppStore
+useStore;
+useAppStore;
 ```
 
 ### 4. 派生状态
@@ -506,9 +505,7 @@ function ConfigSummary() {
 **暗色模式支持**：
 
 ```tsx
-<div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-  Content
-</div>
+<div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">Content</div>
 ```
 
 **避免自定义 CSS**：
@@ -524,10 +521,10 @@ function ConfigSummary() {
 ```
 
 ```tsx
-{/* ✅ Good - Tailwind utilities */}
-<button className="px-4 py-2 bg-blue-500 text-white rounded">
-  Click me
-</button>
+{
+  /* ✅ Good - Tailwind utilities */
+}
+<button className="px-4 py-2 bg-blue-500 text-white rounded">Click me</button>;
 ```
 
 **提取重复模式为组件**：
@@ -556,20 +553,17 @@ export function PrimaryButton({ children, onClick }: PrimaryButtonProps) {
 ```javascript
 // tailwind.config.js
 module.exports = {
-  content: [
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}'
-  ],
+  content: ['./app/**/*.{js,ts,jsx,tsx,mdx}', './components/**/*.{js,ts,jsx,tsx,mdx}'],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
         brand: {
-          500: '#3b82f6'
-        }
-      }
-    }
-  }
+          500: '#3b82f6',
+        },
+      },
+    },
+  },
 };
 ```
 
@@ -677,7 +671,13 @@ describe('useConfigStore', () => {
     const { result } = renderHook(() => useConfigStore());
 
     act(() => {
-      result.current.addComponent({ id: '1', name: 'Wheel', category: 'wheel', price: 100, weight: 500 });
+      result.current.addComponent({
+        id: '1',
+        name: 'Wheel',
+        category: 'wheel',
+        price: 100,
+        weight: 500,
+      });
     });
 
     expect(result.current.components).toHaveLength(1);
@@ -687,7 +687,13 @@ describe('useConfigStore', () => {
     const { result } = renderHook(() => useConfigStore());
 
     act(() => {
-      result.current.addComponent({ id: '1', name: 'Wheel', category: 'wheel', price: 100, weight: 500 });
+      result.current.addComponent({
+        id: '1',
+        name: 'Wheel',
+        category: 'wheel',
+        price: 100,
+        weight: 500,
+      });
       result.current.selectComponent('1');
     });
 
@@ -698,12 +704,12 @@ describe('useConfigStore', () => {
 
 ### 5. 测试覆盖率目标
 
-| 指标 | 目标 |
-|------|------|
+| 指标       | 目标  |
+| ---------- | ----- |
 | 语句覆盖率 | ≥ 80% |
 | 分支覆盖率 | ≥ 75% |
 | 函数覆盖率 | ≥ 85% |
-| 行覆盖率 | ≥ 80% |
+| 行覆盖率   | ≥ 80% |
 
 **运行测试**：
 
@@ -738,7 +744,7 @@ async function saveConfig(config: Configuration): Promise<void> {
       code: 'SAVE_CONFIG_FAILED',
       message: error instanceof Error ? error.message : 'Unknown error',
       context: { configId: config.id },
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     console.error('[Save Config Error]', appError);
@@ -782,13 +788,13 @@ export class ErrorBoundary extends Component<Props, State> {
 
   render(): ReactNode {
     if (this.state.hasError) {
-      return this.props.fallback ?? (
-        <div className="p-4 bg-red-100 text-red-800 rounded">
-          <h2>Something went wrong</h2>
-          <button onClick={() => this.setState({ hasError: false })}>
-            Try again
-          </button>
-        </div>
+      return (
+        this.props.fallback ?? (
+          <div className="p-4 bg-red-100 text-red-800 rounded">
+            <h2>Something went wrong</h2>
+            <button onClick={() => this.setState({ hasError: false })}>Try again</button>
+          </div>
+        )
       );
     }
 
@@ -803,12 +809,12 @@ export class ErrorBoundary extends Component<Props, State> {
 
 ### 1. 日志级别
 
-| 级别 | 用途 | 示例 |
-|------|------|------|
-| `ERROR` | 需要立即处理的错误 | API 调用失败、认证错误 |
-| `WARN` | 潜在问题但不影响功能 | 废弃 API 使用、性能警告 |
-| `INFO` | 重要业务事件 | 用户登录、配置保存 |
-| `DEBUG` | 调试信息（仅开发环境） | 状态变更、API 请求详情 |
+| 级别    | 用途                   | 示例                    |
+| ------- | ---------------------- | ----------------------- |
+| `ERROR` | 需要立即处理的错误     | API 调用失败、认证错误  |
+| `WARN`  | 潜在问题但不影响功能   | 废弃 API 使用、性能警告 |
+| `INFO`  | 重要业务事件           | 用户登录、配置保存      |
+| `DEBUG` | 调试信息（仅开发环境） | 状态变更、API 请求详情  |
 
 ### 2. 日志格式
 
@@ -817,7 +823,7 @@ export class ErrorBoundary extends Component<Props, State> {
 console.log('[Auth] User logged in', {
   userId: user.uid,
   email: user.email,
-  timestamp: new Date().toISOString()
+  timestamp: new Date().toISOString(),
 });
 
 // ❌ Bad - Unstructured
@@ -839,7 +845,7 @@ const logger = {
 
   error(message: string, error?: unknown): void {
     console.error(message, error);
-  }
+  },
 };
 ```
 
@@ -916,7 +922,7 @@ const translations = {
   'sidebar.road': 'Road Bike',
   'sidebar.mtb': 'Mountain Bike',
   'preview.weight': 'Weight',
-  'preview.cost': 'Cost'
+  'preview.cost': 'Cost',
 };
 ```
 
@@ -991,6 +997,7 @@ hotfix/<description>    - Critical fixes
 ```
 
 **示例**：
+
 - `feature/add-mtb-suspension`
 - `fix/firebase-auth-error`
 - `docs/update-api-spec`
@@ -1008,6 +1015,7 @@ hotfix/<description>    - Critical fixes
 ```
 
 **Types**：
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation
@@ -1044,10 +1052,10 @@ Closes #123
 
 ### 1. Bundle Size 预算
 
-| 类型 | 警告 | 错误 |
-|------|------|------|
-| Initial bundle | 1.5 MB | 2 MB |
-| Component style | 4 kB | 8 kB |
+| 类型            | 警告   | 错误 |
+| --------------- | ------ | ---- |
+| Initial bundle  | 1.5 MB | 2 MB |
+| Component style | 4 kB   | 8 kB |
 
 **检查 bundle size**：
 
@@ -1124,7 +1132,7 @@ import dynamic from 'next/dynamic';
 
 const HeavyChart = dynamic(() => import('@/components/HeavyChart'), {
   loading: () => <Skeleton />,
-  ssr: false
+  ssr: false,
 });
 
 export function Dashboard() {

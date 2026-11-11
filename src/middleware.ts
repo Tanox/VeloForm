@@ -31,8 +31,8 @@ export function middleware(request: NextRequest) {
     "connect-src 'self' https://*.supabase.co https://*.supabase.io",
     // Frame 策略：仅允许 Supabase Auth
     "frame-src 'self' https://*.supabase.co",
-    // 图片策略：限制为安全来源
-    "img-src 'self' data: https: blob:",
+    // 图片策略：与 next.config.mjs 的 remotePatterns 白名单保持一致，避免 https: 通配
+    "img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://trae-api-cn.mchost.guru",
     // 字体策略：明确域名白名单
     "font-src 'self' data: https://api.fontshare.com https://cdn.fontshare.com",
     // Manifest：允许加载站点 manifest（PWA 已移除，保留以兼容静态 manifest.json）

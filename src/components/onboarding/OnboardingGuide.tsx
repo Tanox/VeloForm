@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Dialog, DialogContent } from './dialog';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { useTranslation } from '@/lib/i18n';
+import { safeLocalStorage } from '@/lib/storage';
 import { X } from 'lucide-react';
 import { onboardingSteps } from './onboarding-steps';
 import { OnboardingStepIndicator } from './OnboardingStepIndicator';
@@ -15,7 +16,7 @@ export function OnboardingGuide() {
   const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
-    const hasSeenGuide = localStorage.getItem('veloform_onboarding_v2');
+    const hasSeenGuide = safeLocalStorage().getItem('veloform_onboarding_v2');
     if (!hasSeenGuide) {
       // 延迟显示，让页面先加载完成
       const timer = setTimeout(() => setIsOpen(true), 800);
@@ -25,7 +26,7 @@ export function OnboardingGuide() {
 
   const handleClose = () => {
     setIsOpen(false);
-    localStorage.setItem('veloform_onboarding_v2', 'true');
+    safeLocalStorage().setItem('veloform_onboarding_v2', 'true');
   };
 
   const handleNext = () => {

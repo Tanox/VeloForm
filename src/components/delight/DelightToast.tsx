@@ -113,9 +113,7 @@ export function DelightToast() {
               </span>
               <div>
                 <p className="text-sm font-semibold text-foreground">{it.title}</p>
-                {it.message && (
-                  <p className="mt-0.5 text-xs text-muted-foreground">{it.message}</p>
-                )}
+                {it.message && <p className="mt-0.5 text-xs text-muted-foreground">{it.message}</p>}
               </div>
             </div>
           </motion.div>

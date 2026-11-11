@@ -20,30 +20,30 @@ Veloform 的组件按照职责范围分为三个类别：
 
 业务核心组件，位于 `src/components/configurator/` 目录。
 
-| 组件名 | 文件名 | 职责 |
-|--------|--------|------|
-| BuildList | `build-list.tsx` | 显示已选配置项列表，支持删除和重新排序 |
-| ComponentSelector | `component-selector.tsx` | 组件选择器，提供分类浏览和搜索功能 |
-| SummaryPanel | `summary-panel.tsx` | 配置摘要面板，展示总价格和配置概要 |
-| BikeTypeSelector | `bike-type-selector.tsx` | 车型选择器，支持不同车型的配置切换 |
+| 组件名            | 文件名                   | 职责                                   |
+| ----------------- | ------------------------ | -------------------------------------- |
+| BuildList         | `build-list.tsx`         | 显示已选配置项列表，支持删除和重新排序 |
+| ComponentSelector | `component-selector.tsx` | 组件选择器，提供分类浏览和搜索功能     |
+| SummaryPanel      | `summary-panel.tsx`      | 配置摘要面板，展示总价格和配置概要     |
+| BikeTypeSelector  | `bike-type-selector.tsx` | 车型选择器，支持不同车型的配置切换     |
 
 ### 2.2 layout 组件
 
 布局组件，位于 `src/components/layout/` 目录。
 
-| 组件名 | 文件名 | 职责 |
-|--------|--------|------|
+| 组件名 | 文件名       | 职责                                      |
+| ------ | ------------ | ----------------------------------------- |
 | Navbar | `navbar.tsx` | 顶部导航栏，包含 Logo、菜单和用户操作入口 |
 
 ### 2.3 ui 组件
 
 基础 UI 组件，位于 `src/components/ui/` 目录，可复用性高。
 
-| 组件名 | 文件名 | 职责 |
-|--------|--------|------|
+| 组件名 | 文件名       | 职责                                 |
+| ------ | ------------ | ------------------------------------ |
 | Button | `button.tsx` | 多功能按钮组件，支持变体、尺寸和状态 |
-| Card | `card.tsx` | 卡片容器，提供统一的视觉容器 |
-| Modal | `modal.tsx` | 模态对话框，支持自定义内容和动画 |
+| Card   | `card.tsx`   | 卡片容器，提供统一的视觉容器         |
+| Modal  | `modal.tsx`  | 模态对话框，支持自定义内容和动画     |
 
 ## 3. 命名规范
 
@@ -165,7 +165,7 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 }
+    transition: { staggerChildren: 0.1 },
   },
 };
 
@@ -217,9 +217,7 @@ export const useConfigStore = create<ConfigState>()(
         })),
       removeComponent: (componentId) =>
         set((state) => ({
-          selectedComponents: state.selectedComponents.filter(
-            (c) => c.id !== componentId
-          ),
+          selectedComponents: state.selectedComponents.filter((c) => c.id !== componentId),
         })),
       resetConfig: () =>
         set({
@@ -270,14 +268,14 @@ export function BuildList() {
 
 以下场景必须将组件标记为客户端组件：
 
-| 场景 | 示例 |
-|------|------|
-| 使用 React Hooks | `useState`, `useEffect`, `useRef` |
-| 使用事件处理 | `onClick`, `onChange`, `onSubmit` |
-| 使用浏览器 API | `window`, `document`, `localStorage` |
-| 使用动画库 | Framer Motion, React Spring |
-| 使用状态管理 | Zustand store |
-| 使用客户端库 | Firebase SDK（部分场景） |
+| 场景             | 示例                                 |
+| ---------------- | ------------------------------------ |
+| 使用 React Hooks | `useState`, `useEffect`, `useRef`    |
+| 使用事件处理     | `onClick`, `onChange`, `onSubmit`    |
+| 使用浏览器 API   | `window`, `document`, `localStorage` |
+| 使用动画库       | Framer Motion, React Spring          |
+| 使用状态管理     | Zustand store                        |
+| 使用客户端库     | Firebase SDK（部分场景）             |
 
 ### 7.2 服务端组件优先原则
 

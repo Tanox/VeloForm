@@ -104,7 +104,12 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
               <UserRound className="h-4 w-4" aria-hidden="true" />
               {t('auth.signedInAs')}
             </p>
-            <Button id="auth-signout-button" variant="outline" className="w-full" onClick={handleSignOut}>
+            <Button
+              id="auth-signout-button"
+              variant="outline"
+              className="w-full"
+              onClick={handleSignOut}
+            >
               {t('auth.signOut')}
             </Button>
           </div>

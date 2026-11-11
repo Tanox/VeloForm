@@ -4,176 +4,142 @@
   letter-spacing: 0.025em;
 }
 
-
 .tracking-wider {
   letter-spacing: 0.05em;
 }
-
 
 .tracking-widest {
   letter-spacing: 0.1em;
 }
 
-
 .text-accent {
   color: hsl(var(--accent));
 }
-
 
 .text-background {
   color: hsl(var(--background));
 }
 
-
 .text-border {
   color: hsl(var(--border));
 }
-
 
 .text-card-foreground {
   color: hsl(var(--card-foreground));
 }
 
-
 .text-current {
   color: currentColor;
 }
-
 
 .text-destructive {
   color: hsl(var(--destructive));
 }
 
-
 .text-destructive-foreground {
   color: hsl(var(--destructive-foreground));
 }
-
 
 .text-error {
   color: var(--error);
 }
 
-
 .text-foreground {
   color: hsl(var(--foreground));
 }
-
 
 .text-foreground-secondary {
   color: var(--foreground-secondary);
 }
 
-
 .text-foreground\/20 {
   color: hsl(var(--foreground) / 0.2);
 }
-
 
 .text-foreground\/60 {
   color: hsl(var(--foreground) / 0.6);
 }
 
-
 .text-foreground\/80 {
   color: hsl(var(--foreground) / 0.8);
 }
-
 
 .text-green-500 {
   --tw-text-opacity: 1;
   color: rgb(34 197 94 / var(--tw-text-opacity, 1));
 }
 
-
 .text-muted {
   color: hsl(var(--muted));
 }
-
 
 .text-muted-foreground {
   color: hsl(var(--muted-foreground));
 }
 
-
 .text-muted-foreground\/50 {
   color: hsl(var(--muted-foreground) / 0.5);
 }
-
 
 .text-muted-foreground\/60 {
   color: hsl(var(--muted-foreground) / 0.6);
 }
 
-
 .text-popover-foreground {
   color: hsl(var(--popover-foreground));
 }
-
 
 .text-primary {
   color: hsl(var(--primary));
 }
 
-
 .text-primary-foreground {
   color: hsl(var(--primary-foreground));
 }
 
-
 .text-primary\/30 {
   color: hsl(var(--primary) / 0.3);
 }
-
 
 .text-red-500 {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity, 1));
 }
 
-
 .text-secondary {
   color: hsl(var(--secondary));
 }
-
 
 .text-secondary-foreground {
   color: hsl(var(--secondary-foreground));
 }
 
-
 .text-transparent {
   color: transparent;
 }
-
 
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
-
 .text-yellow-400 {
   --tw-text-opacity: 1;
   color: rgb(250 204 21 / var(--tw-text-opacity, 1));
 }
-
 
 .text-zinc-500 {
   --tw-text-opacity: 1;
   color: rgb(113 113 122 / var(--tw-text-opacity, 1));
 }
 
-
 .line-through {
   text-decoration-line: line-through;
 }
 
-
 .underline-offset-4 {
   text-underline-offset: 4px;
 }
-
 
 .antialiased {
   -webkit-font-smoothing: antialiased;

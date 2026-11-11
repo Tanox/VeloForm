@@ -84,15 +84,15 @@ export function SupportModal({ isOpen, onClose }: SupportModalProps) {
                   <Phone className="w-8 h-8 text-accent mb-2" />
                   <span className="text-xs text-muted text-center">Phone</span>
                 </motion.a>
-                <motion.button
-                  className="flex flex-col items-center p-4 bg-zinc-900/50 rounded-xl hover:bg-zinc-800/50 transition-colors"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => {}}
+                {/* 功能未上线：以禁用态明确告知，避免「点击无反应」的假入口 */}
+                <motion.div
+                  className="flex flex-col items-center p-4 bg-zinc-900/50 rounded-xl opacity-50 cursor-not-allowed"
+                  aria-disabled="true"
+                  title="Live chat is coming soon"
                 >
                   <MessageCircle className="w-8 h-8 text-green-500 mb-2" />
-                  <span className="text-xs text-muted text-center">Live Chat</span>
-                </motion.button>
+                  <span className="text-xs text-muted text-center">Live Chat (Soon)</span>
+                </motion.div>
               </div>
 
               <div className="bg-zinc-900/50 rounded-xl p-4">

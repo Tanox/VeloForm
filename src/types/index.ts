@@ -1,11 +1,6 @@
 export type BikeType = 'Road' | 'MTB' | 'Fold';
 export type ComponentCategory =
-  | 'Frame'
-  | 'Drivetrain'
-  | 'Wheelset'
-  | 'Suspension'
-  | 'Cockpit'
-  | 'Tires';
+  'Frame' | 'Drivetrain' | 'Wheelset' | 'Suspension' | 'Cockpit' | 'Tires';
 
 // --- 分类 specs 定义 ---
 export interface DrivetrainSpecs {
@@ -78,12 +73,11 @@ interface ConfigComponentBase {
 
 // 宽松的通用配置组件类型：category 与 specs 的关联通过映射类型来映射表
 // 这是项目内默认使用的普通对象类型，便于 interface extends 与对象字面量推断
-export type ConfigComponent<
-  T extends ComponentCategory = ComponentCategory
-> = ConfigComponentBase & {
-  category: T;
-  specs?: ComponentSpecsMap[T];
-};
+export type ConfigComponent<T extends ComponentCategory = ComponentCategory> =
+  ConfigComponentBase & {
+    category: T;
+    specs?: ComponentSpecsMap[T];
+  };
 
 export interface Configuration {
   id: string;

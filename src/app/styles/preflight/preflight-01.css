@@ -55,7 +55,6 @@
   --tw-contain-style:  ;
 }
 
-
 ::backdrop {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
@@ -110,7 +109,6 @@
   --tw-contain-style:  ;
 }
 
-
 /*
 ! tailwindcss v3.4.19 | MIT License | https://tailwindcss.com
 */
@@ -133,12 +131,10 @@
   /* 2 */
 }
 
-
 ::before,
 ::after {
   --tw-content: '';
 }
-
 
 /*
 1. Use a consistent sensible line-height in all browsers.
@@ -170,7 +166,6 @@ html,
   -webkit-tap-highlight-color: transparent;
   /* 7 */
 }
-
 
 /*
 1. Remove the margin in all browsers.

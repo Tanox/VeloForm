@@ -17,9 +17,7 @@ function OnboardingStepIndicatorBase({ steps, currentStep }: OnboardingStepIndic
           <motion.div
             key={index}
             className={`h-2 rounded-full transition-all duration-300 ${
-              index <= currentStep
-                ? 'bg-gradient-to-r from-primary to-accent'
-                : 'bg-zinc-700'
+              index <= currentStep ? 'bg-gradient-to-r from-primary to-accent' : 'bg-zinc-700'
             }`}
             initial={{ width: index === currentStep ? 32 : 8 }}
             animate={{ width: index <= currentStep ? 32 : 8 }}

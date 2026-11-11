@@ -11,23 +11,23 @@ Veloform 是一个本地化（EN/ZH-CN）、高性能的自行车配置器，专
 
 ## 技术栈
 
-| 层级 | 技术 | 版本 |
-| :--- | :--- | :--- |
-| **框架** | Next.js (App Router) | ^14.1.0 |
-| **UI 库** | React | ^18.2.0 |
-| **语言** | TypeScript | ^5 |
-| **样式** | Tailwind CSS (Mobile-first) | ^3.4.0 |
-| **组件系统** | shadcn/ui (base-nova) + @base-ui/react | ^1.5.0 |
-| **状态管理** | Zustand | ^4.5.0 |
-| **后端/数据库** | Supabase (PostgreSQL) | ^2.45.0 |
-| **动画** | Framer Motion | ^10.16.4 |
-| **图标** | Lucide React | ^0.294.0 |
-| **通知** | Sonner | ^2.0.7 |
-| **代码检查** | ESLint + Prettier | ^8 / ^3.2.0 |
-| **测试** | Vitest + Testing Library | ^1.2.0 / ^14.2.0 |
-| **部署** | Vercel / EdgeOne Pages | — |
-| **PWA** | next-pwa | ^5.6.0 |
-| **国际化** | Custom I18n hook (locales/) | — |
+| 层级            | 技术                                   | 版本             |
+| :-------------- | :------------------------------------- | :--------------- |
+| **框架**        | Next.js (App Router)                   | ^14.1.0          |
+| **UI 库**       | React                                  | ^18.2.0          |
+| **语言**        | TypeScript                             | ^5               |
+| **样式**        | Tailwind CSS (Mobile-first)            | ^3.4.0           |
+| **组件系统**    | shadcn/ui (base-nova) + @base-ui/react | ^1.5.0           |
+| **状态管理**    | Zustand                                | ^4.5.0           |
+| **后端/数据库** | Supabase (PostgreSQL)                  | ^2.45.0          |
+| **动画**        | Framer Motion                          | ^10.16.4         |
+| **图标**        | Lucide React                           | ^0.294.0         |
+| **通知**        | Sonner                                 | ^2.0.7           |
+| **代码检查**    | ESLint + Prettier                      | ^8 / ^3.2.0      |
+| **测试**        | Vitest + Testing Library               | ^1.2.0 / ^14.2.0 |
+| **部署**        | Vercel / EdgeOne Pages                 | —                |
+| **PWA**         | next-pwa                               | ^5.6.0           |
+| **国际化**      | Custom I18n hook (locales/)            | —                |
 
 ---
 
@@ -39,18 +39,18 @@ Next.js App Router 默认使用 React Server Components (RSC)，以减少客户�
 
 ```typescript
 // 客户端组件：需要交互、状态、生命周期
-'use client'
+'use client';
 
-import { useState } from 'react'
+import { useState } from 'react';
 
 export function ComponentSelector() {
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   // ...
 }
 
 // 服务端组件：数据获取、SEO 优化
 export default async function ConfiguratorPage() {
-  const initialData = await fetchConfigData()
+  const initialData = await fetchConfigData();
   // ...
 }
 ```
@@ -85,17 +85,13 @@ Supabase 在客户端通过 `@supabase/supabase-js` 直接调用，支持 Row Le
 
 ```typescript
 // lib/config-service.ts
-import { supabase } from '@/lib/supabase/client'
+import { supabase } from '@/lib/supabase/client';
 
 export async function saveConfig(config: BikeConfig) {
-  const { data, error } = await supabase
-    .from('configurations')
-    .upsert(config)
-    .select()
-    .single()
+  const { data, error } = await supabase.from('configurations').upsert(config).select().single();
 
-  if (error) throw error
-  return data
+  if (error) throw error;
+  return data;
 }
 ```
 

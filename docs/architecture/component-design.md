@@ -40,6 +40,7 @@ export function Navbar() {
 ```
 
 **职责**：
+
 - 管理本地状态
 - 处理用户交互
 - 通过 Zustand Store 读取/更新全局状态
@@ -59,7 +60,7 @@ import { BuildList } from '@/components/configurator/BuildList';
 export default function Home() {
   // 可以在此处进行服务端数据获取
   // const initialData = await fetchInitialConfig();
-  
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -73,6 +74,7 @@ export default function Home() {
 ```
 
 **职责**：
+
 - 服务端数据获取（如需）
 - 静态内容渲染
 - SEO 优化
@@ -116,10 +118,10 @@ components/
 interface BuildListProps {
   // Required prop
   components: ConfigComponent[];
-  
+
   // Optional prop with default
   isLoading?: boolean;
-  
+
   // Callback function
   onEdit?: (id: string) => void;
 }
@@ -139,6 +141,7 @@ export function BuildList({ components, isLoading = false, onEdit }: BuildListPr
 ```
 
 **最佳实践**：
+
 - 使用 interface 定义 Props 类型
 - 为可选 Props 提供合理的默认值
 - 使用可选链 `?.` 处理可选回调
@@ -177,13 +180,13 @@ export function ComponentSelector({ onSelect, onClose }: ComponentSelectorProps)
 
 ### 常用 Hooks
 
-| Hook | 用途 | 示例 |
-|------|------|------|
-| `useState` | 管理本地状态 | `const [count, setCount] = useState(0)` |
-| `useEffect` | 处理副作用 | 数据获取、订阅、DOM 操作 |
-| `useCallback` | 缓存回调函数 | 优化子组件重新渲染 |
-| `useMemo` | 缓存计算结果 | 复杂计算优化 |
-| `useRef` | 访问 DOM 或持久化值 | 获取 DOM 元素引用 |
+| Hook          | 用途                | 示例                                    |
+| ------------- | ------------------- | --------------------------------------- |
+| `useState`    | 管理本地状态        | `const [count, setCount] = useState(0)` |
+| `useEffect`   | 处理副作用          | 数据获取、订阅、DOM 操作                |
+| `useCallback` | 缓存回调函数        | 优化子组件重新渲染                      |
+| `useMemo`     | 缓存计算结果        | 复杂计算优化                            |
+| `useRef`      | 访问 DOM 或持久化值 | 获取 DOM 元素引用                       |
 
 ### useEffect 使用模式
 
@@ -216,9 +219,9 @@ useEffect(() => {
   const handleResize = () => {
     // Handle window resize
   };
-  
+
   window.addEventListener('resize', handleResize);
-  
+
   // 清理函数
   return () => {
     window.removeEventListener('resize', handleResize);
@@ -325,10 +328,10 @@ export function Modal({ isOpen, onClose, children }) {
   if (!isOpen) return null;
 
   return (
-    <div 
-      ref={modalRef} 
+    <div
+      ref={modalRef}
       tabIndex={-1}
-      role="dialog" 
+      role="dialog"
       aria-modal="true"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
@@ -367,10 +370,10 @@ describe('BuildList', () => {
   it('should call onEdit when edit button is clicked', () => {
     const onEditMock = vi.fn();
     render(<BuildList components={mockComponents} onEdit={onEditMock} />);
-    
+
     const editButton = screen.getByRole('button', { name: /edit/i });
     fireEvent.click(editButton);
-    
+
     expect(onEditMock).toHaveBeenCalledWith('1');
   });
 });
@@ -463,38 +466,39 @@ export function FadeInCard({ children }) {
 
 ### Configurator 模块组件
 
-| 组件 | 类型 | 路径 | 职责 | 状态来源 |
-|------|------|------|------|----------|
-| `BuildList` | Client | `components/configurator/` | 组件列表展示和编辑 | `useConfigStore` |
-| `BikeTypeSelector` | Client | `components/configurator/` | 车型切换选择器 | `useConfigStore` |
-| `ComponentSelector` | Client | `components/configurator/` | 组件选择模态框 | `useConfigStore` |
-| `ComponentDetailModal` | Client | `components/configurator/` | 组件详情展示 | Props + `useConfigStore` |
-| `RecommendedConfigs` | Client | `components/configurator/` | 推荐配置卡片 | 静态数据 |
-| `ComparePanel` | Client | `components/configurator/` | 配置比较面板 | Local state |
-| `SummaryPanel` | Client | `components/configurator/` | 汇总面板（价格/重量） | `useConfigStore` |
-| `CostBreakdownChart` | Client | `components/configurator/` | 成本分解图表 | `useConfigStore` |
-| `ShareModal` | Client | `components/configurator/` | 分享模态框 | Local state |
+| 组件                   | 类型   | 路径                       | 职责                  | 状态来源                 |
+| ---------------------- | ------ | -------------------------- | --------------------- | ------------------------ |
+| `BuildList`            | Client | `components/configurator/` | 组件列表展示和编辑    | `useConfigStore`         |
+| `BikeTypeSelector`     | Client | `components/configurator/` | 车型切换选择器        | `useConfigStore`         |
+| `ComponentSelector`    | Client | `components/configurator/` | 组件选择模态框        | `useConfigStore`         |
+| `ComponentDetailModal` | Client | `components/configurator/` | 组件详情展示          | Props + `useConfigStore` |
+| `RecommendedConfigs`   | Client | `components/configurator/` | 推荐配置卡片          | 静态数据                 |
+| `ComparePanel`         | Client | `components/configurator/` | 配置比较面板          | Local state              |
+| `SummaryPanel`         | Client | `components/configurator/` | 汇总面板（价格/重量） | `useConfigStore`         |
+| `CostBreakdownChart`   | Client | `components/configurator/` | 成本分解图表          | `useConfigStore`         |
+| `ShareModal`           | Client | `components/configurator/` | 分享模态框            | Local state              |
 
 ### Layout 模块组件
 
-| 组件 | 类型 | 路径 | 职责 | 状态来源 |
-|------|------|------|------|----------|
+| 组件     | 类型   | 路径                 | 职责                               | 状态来源                         |
+| -------- | ------ | -------------------- | ---------------------------------- | -------------------------------- |
 | `Navbar` | Client | `components/layout/` | 导航栏（Logo、主题切换、语言切换） | `useConfigStore`, `useAuthStore` |
 
 ### UI 模块组件
 
-| 组件 | 类型 | 路径 | 职责 | Props |
-|------|------|------|------|--------|
-| `Button` | Shared | `components/ui/` | 按钮组件 | `variant`, `size`, `children`, `onClick` |
-| `Card` | Shared | `components/ui/` | 卡片容器 | `children`, `className` |
-| `Modal` | Client | `components/ui/` | 模态框基础组件 | `isOpen`, `onClose`, `children`, `title` |
-| `Toast` | Client | `components/ui/` | Toast 通知容器 | — |
-| `ThemeToggle` | Client | `components/ui/` | 主题切换按钮 | — |
-| `OnboardingGuide` | Client | `components/ui/` | 新手引导组件 | Local state |
-| `SupportModal` | Client | `components/ui/` | 支持/帮助模态框 | `isOpen`, `onClose` |
-| `ErrorBoundary` | Shared | `components/ui/` | 错误边界组件 | `children` |
+| 组件              | 类型   | 路径             | 职责            | Props                                    |
+| ----------------- | ------ | ---------------- | --------------- | ---------------------------------------- |
+| `Button`          | Shared | `components/ui/` | 按钮组件        | `variant`, `size`, `children`, `onClick` |
+| `Card`            | Shared | `components/ui/` | 卡片容器        | `children`, `className`                  |
+| `Modal`           | Client | `components/ui/` | 模态框基础组件  | `isOpen`, `onClose`, `children`, `title` |
+| `Toast`           | Client | `components/ui/` | Toast 通知容器  | —                                        |
+| `ThemeToggle`     | Client | `components/ui/` | 主题切换按钮    | —                                        |
+| `OnboardingGuide` | Client | `components/ui/` | 新手引导组件    | Local state                              |
+| `SupportModal`    | Client | `components/ui/` | 支持/帮助模态框 | `isOpen`, `onClose`                      |
+| `ErrorBoundary`   | Shared | `components/ui/` | 错误边界组件    | `children`                               |
 
 **说明**：
+
 - **Client 组件**：使用 `'use client'` 指令，包含状态管理和交互逻辑
 - **Shared 组件**：纯展示组件或工具组件，可用于 Server 和 Client 组件中
 - **状态管理**：业务组件通过 Zustand stores (`useConfigStore`, `useAuthStore`) 读取/更新全局状态

@@ -80,10 +80,7 @@ export function Features() {
                 className="bg-card p-8 hover:bg-surface-hover transition-colors duration-200"
                 aria-label={title as string}
               >
-                <div
-                  className="w-12 h-12 mb-5 flex items-center justify-center"
-                  aria-hidden="true"
-                >
+                <div className="w-12 h-12 mb-5 flex items-center justify-center" aria-hidden="true">
                   <feature.icon className="w-6 h-6 text-primary" />
                 </div>
 

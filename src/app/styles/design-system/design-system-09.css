@@ -5,156 +5,125 @@
     margin-bottom: 5rem;
   }
 
-
   .sm\:mb-8 {
     margin-bottom: 2rem;
   }
-
 
   .sm\:mt-4 {
     margin-top: 1rem;
   }
 
-
   .sm\:mt-8 {
     margin-top: 2rem;
   }
-
 
   .sm\:block {
     display: block;
   }
 
-
   .sm\:inline {
     display: inline;
   }
-
 
   .sm\:flex {
     display: flex;
   }
 
-
   .sm\:hidden {
     display: none;
   }
-
 
   .sm\:h-12 {
     height: 3rem;
   }
 
-
   .sm\:h-14 {
     height: 3.5rem;
   }
-
 
   .sm\:h-24 {
     height: 6rem;
   }
 
-
   .sm\:h-5 {
     height: 1.25rem;
   }
-
 
   .sm\:h-7 {
     height: 1.75rem;
   }
 
-
   .sm\:min-h-\[200px\] {
     min-height: 200px;
   }
-
 
   .sm\:w-12 {
     width: 3rem;
   }
 
-
   .sm\:w-14 {
     width: 3.5rem;
   }
-
 
   .sm\:w-24 {
     width: 6rem;
   }
 
-
   .sm\:w-5 {
     width: 1.25rem;
   }
-
 
   .sm\:w-7 {
     width: 1.75rem;
   }
 
-
   .sm\:w-auto {
     width: auto;
   }
-
 
   .sm\:max-w-lg {
     max-width: 32rem;
   }
 
-
   .sm\:max-w-sm {
     max-width: 24rem;
   }
-
 
   .sm\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-
   .sm\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-
 
   .sm\:flex-row {
     flex-direction: row;
   }
 
-
   .sm\:justify-end {
     justify-content: flex-end;
   }
-
 
   .sm\:gap-12 {
     gap: 3rem;
   }
 
-
   .sm\:gap-3 {
     gap: 0.75rem;
   }
-
 
   .sm\:gap-4 {
     gap: 1rem;
   }
 
-
   .sm\:gap-5 {
     gap: 1.25rem;
   }
 
-
   .sm\:gap-6 {
     gap: 1.5rem;
   }
-
 
   .sm\:space-y-4 > :not([hidden]) ~ :not([hidden]) {
     --tw-space-y-reverse: 0;
@@ -162,24 +131,19 @@
     margin-bottom: calc(1rem * var(--tw-space-y-reverse));
   }
 
-
   .sm\:p-4 {
     padding: 1rem;
   }
-
 
   .sm\:p-5 {
     padding: 1.25rem;
   }
 
-
   .sm\:p-7 {
     padding: 1.75rem;
   }
 
-
   .sm\:p-8 {
     padding: 2rem;
   }
-
 }

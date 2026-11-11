@@ -1,9 +1,9 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { Select as SelectPrimitive } from "@base-ui/react/select"
-import { ChevronUpIcon, ChevronDownIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import * as React from 'react';
+import { Select as SelectPrimitive } from '@base-ui/react/select';
+import { ChevronUpIcon, ChevronDownIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 function SelectScrollUpButton({
   className,
@@ -18,10 +18,9 @@ function SelectScrollUpButton({
       )}
       {...props}
     >
-      <ChevronUpIcon
-      />
+      <ChevronUpIcon />
     </SelectPrimitive.ScrollUpArrow>
-  )
+  );
 }
 
 function SelectScrollDownButton({
@@ -37,10 +36,9 @@ function SelectScrollDownButton({
       )}
       {...props}
     >
-      <ChevronDownIcon
-      />
+      <ChevronDownIcon />
     </SelectPrimitive.ScrollDownArrow>
-  )
+  );
 }
 
-export { SelectScrollUpButton, SelectScrollDownButton }
+export { SelectScrollUpButton, SelectScrollDownButton };

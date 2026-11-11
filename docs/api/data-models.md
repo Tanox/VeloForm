@@ -18,17 +18,18 @@
 
 **Schema**：
 
-| 属性 | 类型 | 必填 | 约束 | 说明 |
-|------|------|------|------|------|
-| `id` | `string` | Yes | Unique, kebab-case | 唯一标识符（如 `'frame_road_sl8'`） |
-| `category` | `string` | Yes | Enum | 组件类别 |
-| `name` | `string` | Yes | Max 200 chars | 显示名称 |
-| `price` | `number` | Yes | >= 0 | 价格（USD） |
-| `weight` | `number` | Yes | > 0 | 重量（grams） |
-| `bikeType` | `BikeType` | No | `'Road' \| 'MTB' \| 'Fold'` | 关联车型 |
-| `specs` | `string` | No | Max 500 chars | 规格描述 |
+| 属性       | 类型       | 必填 | 约束                        | 说明                                |
+| ---------- | ---------- | ---- | --------------------------- | ----------------------------------- |
+| `id`       | `string`   | Yes  | Unique, kebab-case          | 唯一标识符（如 `'frame_road_sl8'`） |
+| `category` | `string`   | Yes  | Enum                        | 组件类别                            |
+| `name`     | `string`   | Yes  | Max 200 chars               | 显示名称                            |
+| `price`    | `number`   | Yes  | >= 0                        | 价格（USD）                         |
+| `weight`   | `number`   | Yes  | > 0                         | 重量（grams）                       |
+| `bikeType` | `BikeType` | No   | `'Road' \| 'MTB' \| 'Fold'` | 关联车型                            |
+| `specs`    | `string`   | No   | Max 500 chars               | 规格描述                            |
 
 **Category 枚举值**：
+
 - `Frame` - 车架
 - `Drivetrain` - 传动系统
 - `Wheelset` - 轮组
@@ -46,7 +47,7 @@ const component: ConfigComponent = {
   price: 2800,
   weight: 1520,
   bikeType: 'Road',
-  specs: '12-speed electronic, 2x12 configuration'
+  specs: '12-speed electronic, 2x12 configuration',
 };
 ```
 
@@ -78,19 +79,19 @@ function validateComponent(comp: ConfigComponent): boolean {
 
 **Schema**：
 
-| 属性 | 类型 | 必填 | 约束 | 说明 |
-|------|------|------|------|------|
-| `id` | `string` | No | UUID v4 | Firestore 文档 ID |
-| `userId` | `string` | Yes* | Firebase UID | 所有者 UID（服务器端设置） |
-| `bikeType` | `string` | Yes | `'Road' \| 'MTB' \| 'Fold'` | 车型类别 |
-| `name` | `string` | Yes | Max 200 chars | 构建名称 |
-| `components` | `ConfigComponent[]` | Yes | Max 50 items | 选中组件列表 |
-| `totalCost` | `number` | Yes | >= 0 | 总成本（USD） |
-| `estimatedWeight` | `number` | Yes | > 0 | 估算重量（kg） |
-| `createdAt` | `Timestamp` | No | Server timestamp | 创建时间 |
-| `updatedAt` | `Timestamp` | No | Server timestamp | 更新时间 |
+| 属性              | 类型                | 必填 | 约束                        | 说明                       |
+| ----------------- | ------------------- | ---- | --------------------------- | -------------------------- |
+| `id`              | `string`            | No   | UUID v4                     | Firestore 文档 ID          |
+| `userId`          | `string`            | Yes* | Firebase UID                | 所有者 UID（服务器端设置） |
+| `bikeType`        | `string`            | Yes  | `'Road' \| 'MTB' \| 'Fold'` | 车型类别                   |
+| `name`            | `string`            | Yes  | Max 200 chars               | 构建名称                   |
+| `components`      | `ConfigComponent[]` | Yes  | Max 50 items                | 选中组件列表               |
+| `totalCost`       | `number`            | Yes  | >= 0                        | 总成本（USD）              |
+| `estimatedWeight` | `number`            | Yes  | > 0                         | 估算重量（kg）             |
+| `createdAt`       | `Timestamp`         | No   | Server timestamp            | 创建时间                   |
+| `updatedAt`       | `Timestamp`         | No   | Server timestamp            | 更新时间                   |
 
-*\* 创建时由服务器自动设置*
+_\* 创建时由服务器自动设置_
 
 **示例**：
 
@@ -106,20 +107,20 @@ const configuration: Configuration = {
       category: 'Frame',
       name: 'S-Works Tarmac SL8 Frame',
       price: 3500,
-      weight: 795
+      weight: 795,
     },
     {
       id: 'drivetrain_road_duraace',
       category: 'Drivetrain',
       name: 'Shimano Dura-Ace Di2 R9200',
       price: 2800,
-      weight: 1520
-    }
+      weight: 1520,
+    },
   ],
   totalCost: 8500,
   estimatedWeight: 6.8,
   createdAt: Timestamp.fromDate(new Date('2026-05-01')),
-  updatedAt: Timestamp.fromDate(new Date('2026-05-01'))
+  updatedAt: Timestamp.fromDate(new Date('2026-05-01')),
 };
 ```
 
@@ -131,20 +132,18 @@ totalCost = components.reduce((sum, c) => sum + c.price, 0);
 
 // Estimated weight calculation (includes base frame weight)
 const baseWeights: Record<string, number> = {
-  Road: 0.9,   // 900g base frame
-  MTB: 1.8,    // 1800g base frame
-  Fold: 2.0    // 2000g base frame
+  Road: 0.9, // 900g base frame
+  MTB: 1.8, // 1800g base frame
+  Fold: 2.0, // 2000g base frame
 };
 
-const componentWeightKg = components.reduce(
-  (sum, c) => sum + c.weight / 1000,
-  0
-);
+const componentWeightKg = components.reduce((sum, c) => sum + c.weight / 1000, 0);
 
 estimatedWeight = baseWeights[bikeType] + componentWeightKg;
 ```
 
 **不变量**：
+
 1. `userId` 创建后不可修改
 2. `createdAt` 创建后不可修改
 3. `updatedAt` 每次更新时必须刷新为服务器时间
@@ -160,17 +159,18 @@ estimatedWeight = baseWeights[bikeType] + componentWeightKg;
 
 **Schema**：
 
-| 属性 | 类型 | 必填 | 约束 | 说明 |
-|------|------|------|------|------|
-| `id` | `string` | Yes | Document ID | 文档 ID |
-| `category` | `string` | Yes | Enum | 组件类别 |
-| `bikeType` | `string` | Yes | `'Road' \| 'MTB' \| 'Fold'` | 关联车型 |
-| `name` | `string` | Yes | Max 200 chars | 显示名称 |
-| `price` | `number` | Yes | >= 0 | 价格（USD） |
-| `weight` | `number` | Yes | > 0 | 重量（grams） |
-| `specs` | `string` | Yes | Max 500 chars | 规格字符串 |
+| 属性       | 类型     | 必填 | 约束                        | 说明          |
+| ---------- | -------- | ---- | --------------------------- | ------------- |
+| `id`       | `string` | Yes  | Document ID                 | 文档 ID       |
+| `category` | `string` | Yes  | Enum                        | 组件类别      |
+| `bikeType` | `string` | Yes  | `'Road' \| 'MTB' \| 'Fold'` | 关联车型      |
+| `name`     | `string` | Yes  | Max 200 chars               | 显示名称      |
+| `price`    | `number` | Yes  | >= 0                        | 价格（USD）   |
+| `weight`   | `number` | Yes  | > 0                         | 重量（grams） |
+| `specs`    | `string` | Yes  | Max 500 chars               | 规格字符串    |
 
 **与 ConfigComponent 的区别**：
+
 - `DatabaseComponent` 包含 `specs` 字段
 - `DatabaseComponent` 始终有 `bikeType`
 - `ConfigComponent` 是用户配置中的快照，可能来自 DB 或自定义
@@ -185,7 +185,7 @@ const dbComponent: DatabaseComponent = {
   name: 'S-Works Tarmac SL8 Frame',
   price: 3500,
   weight: 795,
-  specs: 'Carbon Fact 12r, OSBB, 12x142mm Thru-Axle'
+  specs: 'Carbon Fact 12r, OSBB, 12x142mm Thru-Axle',
 };
 ```
 
@@ -197,12 +197,12 @@ const dbComponent: DatabaseComponent = {
 
 ### Road Bike 默认组件
 
-| ID | Category | Name | Price | Weight |
-|----|----------|------|-------|--------|
-| `1` | Drivetrain | Shimano Dura-Ace Di2 R9200 | $4200 | 2430g |
-| `2` | Wheelset | Roval Rapide CLX II | $2800 | 1520g |
-| `3` | Cockpit | Roval Rapide Cockpit | $600 | 310g |
-| `4` | Tires | Turbo Cotton 28mm | $180 | 480g |
+| ID  | Category   | Name                       | Price | Weight |
+| --- | ---------- | -------------------------- | ----- | ------ |
+| `1` | Drivetrain | Shimano Dura-Ace Di2 R9200 | $4200 | 2430g  |
+| `2` | Wheelset   | Roval Rapide CLX II        | $2800 | 1520g  |
+| `3` | Cockpit    | Roval Rapide Cockpit       | $600  | 310g   |
+| `4` | Tires      | Turbo Cotton 28mm          | $180  | 480g   |
 
 **Base Frame Weight**: 900g
 
@@ -210,12 +210,12 @@ const dbComponent: DatabaseComponent = {
 
 ### MTB 默认组件
 
-| ID | Category | Name | Price | Weight |
-|----|----------|------|-------|--------|
-| `5` | Drivetrain | SRAM XX1 Eagle AXS | $2500 | 1515g |
-| `6` | Suspension | Fox 34 Float Factory | $1050 | 1738g |
-| `7` | Wheelset | Reserve 30\|SL | $1800 | 1650g |
-| `8` | Tires | Maxxis Rekon 2.4 | $160 | 1600g |
+| ID  | Category   | Name                 | Price | Weight |
+| --- | ---------- | -------------------- | ----- | ------ |
+| `5` | Drivetrain | SRAM XX1 Eagle AXS   | $2500 | 1515g  |
+| `6` | Suspension | Fox 34 Float Factory | $1050 | 1738g  |
+| `7` | Wheelset   | Reserve 30\|SL       | $1800 | 1650g  |
+| `8` | Tires      | Maxxis Rekon 2.4     | $160  | 1600g  |
 
 **Base Frame Weight**: 1800g
 
@@ -223,11 +223,11 @@ const dbComponent: DatabaseComponent = {
 
 ### Fold 默认组件
 
-| ID | Category | Name | Price | Weight |
-|----|----------|------|-------|--------|
-| `9` | Drivetrain | Brompton 6-Speed | $400 | 1200g |
-| `10` | Frame | Titanium Main Frame | $2100 | 1800g |
-| `11` | Wheelset | Brompton Superlight | $800 | 1100g |
+| ID   | Category   | Name                | Price | Weight |
+| ---- | ---------- | ------------------- | ----- | ------ |
+| `9`  | Drivetrain | Brompton 6-Speed    | $400  | 1200g  |
+| `10` | Frame      | Titanium Main Frame | $2100 | 1800g  |
+| `11` | Wheelset   | Brompton Superlight | $800  | 1100g  |
 
 **Base Frame Weight**: 2000g
 
@@ -244,16 +244,16 @@ export type BikeType = 'Road' | 'MTB' | 'Fold';
 
 export interface ConfigComponent {
   id: string;
-  category: string;        // 'Frame' | 'Drivetrain' | 'Wheelset' | 'Suspension' | 'Cockpit' | 'Tires'
+  category: string; // 'Frame' | 'Drivetrain' | 'Wheelset' | 'Suspension' | 'Cockpit' | 'Tires'
   name: string;
-  price: number;           // USD
-  weight: number;          // grams
-  bikeType?: BikeType;     // 仅在 DB 组件中使用
+  price: number; // USD
+  weight: number; // grams
+  bikeType?: BikeType; // 仅在 DB 组件中使用
 }
 
 export interface DatabaseComponent extends ConfigComponent {
-  bikeType: BikeType;     // DB 中必填
-  specs: string;          // 规格描述字符串
+  bikeType: BikeType; // DB 中必填
+  specs: string; // 规格描述字符串
 }
 
 export interface Configuration {
@@ -360,7 +360,7 @@ export function validateConfiguration(config: Partial<Configuration>): {
 
   return {
     valid: errors.length === 0,
-    errors
+    errors,
   };
 }
 ```
@@ -399,7 +399,7 @@ function migrateConfiguration(
     migrated = {
       ...migrated,
       schemaVersion: 2,
-      notes: migrated.notes || ''
+      notes: migrated.notes || '',
     };
   }
 

@@ -1,123 +1,123 @@
 /* 文件路径: prototype/styles/part-01.css v4.4.9 — 由 scripts/split-prototype.mjs 生成 */
 
-    /* ============================================================
+/* ============================================================
        VELOFORM — Precision Engineering Prototype
        ============================================================ */
 
-    :root {
-      /* Core Palette — Industrial Luxury (Dark Mode Default) */
-      --bg-primary: #0a0a0b;
-      --bg-secondary: #111113;
-      --bg-tertiary: #18181b;
-      --bg-elevated: #1c1c20;
+:root {
+  /* Core Palette — Industrial Luxury (Dark Mode Default) */
+  --bg-primary: #0a0a0b;
+  --bg-secondary: #111113;
+  --bg-tertiary: #18181b;
+  --bg-elevated: #1c1c20;
 
-      --surface: #141417;
-      --surface-hover: #1a1a1e;
-      --surface-active: #222227;
+  --surface: #141417;
+  --surface-hover: #1a1a1e;
+  --surface-active: #222227;
 
-      --border-subtle: #1f1f23;
-      --border-default: #2a2a30;
-      --border-strong: #3a3a42;
+  --border-subtle: #1f1f23;
+  --border-default: #2a2a30;
+  --border-strong: #3a3a42;
 
-      --text-primary: #f4f4f5;
-      --text-secondary: #a1a1aa;
-      --text-tertiary: #71717a;
-      --text-muted: #52525b;
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+  --text-muted: #52525b;
 
-      /* Accent — Burnt Sienna / Corten Steel */
-      --accent: #e85d2c;
-      --accent-hover: #f06b3a;
-      --accent-pressed: #d44d1f;
-      --accent-soft: rgba(232, 93, 44, 0.12);
-      --accent-glow: rgba(232, 93, 44, 0.3);
+  /* Accent — Burnt Sienna / Corten Steel */
+  --accent: #e85d2c;
+  --accent-hover: #f06b3a;
+  --accent-pressed: #d44d1f;
+  --accent-soft: rgba(232, 93, 44, 0.12);
+  --accent-glow: rgba(232, 93, 44, 0.3);
 
-      /* Steel Blue Secondary */
-      --steel: #6b8ba4;
-      --steel-soft: rgba(107, 139, 164, 0.1);
+  /* Steel Blue Secondary */
+  --steel: #6b8ba4;
+  --steel-soft: rgba(107, 139, 164, 0.1);
 
-      /* Status */
-      --success: #4ade80;
-      --warning: #fbbf24;
-      --error: #f87171;
+  /* Status */
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --error: #f87171;
 
-      /* Typography — SF Pro 系统字体 */
-      --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-      --font-mono: 'SF Mono', ui-monospace, 'Menlo', 'Monaco', 'Cascadia Code', monospace;
-    }
+  /* Typography — SF Pro 系统字体 */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', 'PingFang SC',
+    'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', ui-monospace, 'Menlo', 'Monaco', 'Cascadia Code', monospace;
+}
 
+/* 浅色模式 */
+[data-theme='light'],
+.light {
+  --bg-primary: #fafafa;
+  --bg-secondary: #f5f5f7;
+  --bg-tertiary: #ebebeb;
+  --bg-elevated: #ffffff;
 
-    /* 浅色模式 */
-    [data-theme="light"],
-    .light {
-      --bg-primary: #fafafa;
-      --bg-secondary: #f5f5f7;
-      --bg-tertiary: #ebebeb;
-      --bg-elevated: #ffffff;
+  --surface: #ffffff;
+  --surface-hover: #f5f5f7;
+  --surface-active: #e8e8ed;
 
-      --surface: #ffffff;
-      --surface-hover: #f5f5f7;
-      --surface-active: #e8e8ed;
+  --border-subtle: #e5e5ea;
+  --border-default: #d1d1d6;
+  --border-strong: #c7c7cc;
 
-      --border-subtle: #e5e5ea;
-      --border-default: #d1d1d6;
-      --border-strong: #c7c7cc;
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --text-tertiary: #aeaeb2;
+  --text-muted: #d1d1d6;
 
-      --text-primary: #1d1d1f;
-      --text-secondary: #6e6e73;
-      --text-tertiary: #aeaeb2;
-      --text-muted: #d1d1d6;
+  --accent: #d44d1f;
+  --accent-hover: #e85d2c;
+  --accent-pressed: #b84018;
+  --accent-soft: rgba(212, 77, 31, 0.08);
+  --accent-glow: rgba(212, 77, 31, 0.2);
 
-      --accent: #d44d1f;
-      --accent-hover: #e85d2c;
-      --accent-pressed: #b84018;
-      --accent-soft: rgba(212, 77, 31, 0.08);
-      --accent-glow: rgba(212, 77, 31, 0.2);
+  --steel: #5a7a94;
+  --steel-soft: rgba(90, 122, 148, 0.1);
 
-      --steel: #5a7a94;
-      --steel-soft: rgba(90, 122, 148, 0.1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.15);
+  --shadow-glow: 0 0 40px var(--accent-glow);
+}
 
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-      --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
-      --shadow-xl: 0 24px 64px rgba(0,0,0,0.15);
-      --shadow-glow: 0 0 40px var(--accent-glow);
-    }
+/* 自动跟随系统 */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --bg-primary: #fafafa;
+    --bg-secondary: #f5f5f7;
+    --bg-tertiary: #ebebeb;
+    --bg-elevated: #ffffff;
 
+    --surface: #ffffff;
+    --surface-hover: #f5f5f7;
+    --surface-active: #e8e8ed;
 
-    /* 自动跟随系统 */
-    @media (prefers-color-scheme: light) {
-      :root:not([data-theme="dark"]) {
-        --bg-primary: #fafafa;
-        --bg-secondary: #f5f5f7;
-        --bg-tertiary: #ebebeb;
-        --bg-elevated: #ffffff;
+    --border-subtle: #e5e5ea;
+    --border-default: #d1d1d6;
+    --border-strong: #c7c7cc;
 
-        --surface: #ffffff;
-        --surface-hover: #f5f5f7;
-        --surface-active: #e8e8ed;
+    --text-primary: #1d1d1f;
+    --text-secondary: #6e6e73;
+    --text-tertiary: #aeaeb2;
+    --text-muted: #d1d1d6;
 
-        --border-subtle: #e5e5ea;
-        --border-default: #d1d1d6;
-        --border-strong: #c7c7cc;
+    --accent: #d44d1f;
+    --accent-hover: #e85d2c;
+    --accent-pressed: #b84018;
+    --accent-soft: rgba(212, 77, 31, 0.08);
+    --accent-glow: rgba(212, 77, 31, 0.2);
 
-        --text-primary: #1d1d1f;
-        --text-secondary: #6e6e73;
-        --text-tertiary: #aeaeb2;
-        --text-muted: #d1d1d6;
+    --steel: #5a7a94;
+    --steel-soft: rgba(90, 122, 148, 0.1);
 
-        --accent: #d44d1f;
-        --accent-hover: #e85d2c;
-        --accent-pressed: #b84018;
-        --accent-soft: rgba(212, 77, 31, 0.08);
-        --accent-glow: rgba(212, 77, 31, 0.2);
-
-        --steel: #5a7a94;
-        --steel-soft: rgba(90, 122, 148, 0.1);
-
-        --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-        --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-        --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
-        --shadow-xl: 0 24px 64px rgba(0,0,0,0.15);
-        --shadow-glow: 0 0 40px var(--accent-glow);
-      }
-    }
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.15);
+    --shadow-glow: 0 0 40px var(--accent-glow);
+  }
+}

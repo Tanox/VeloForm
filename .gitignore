@@ -36,4 +36,5 @@ public/sw.js
 public/workbox-*.js
 
 /.workbuddy
-scripts/
+
+# 正式工具脚本（scripts/）须入库，不得整体忽略；一次性脚本与产物走 .tmp/ 与产物目录

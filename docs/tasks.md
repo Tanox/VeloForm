@@ -1,42 +1,54 @@
 # Veloform 任务清单（进行中 / 待办）
 
-> **派生来源**：`docs/design/design-review.md`（P0–P3 优化建议）+ OpenSpec 规范对齐
-> **最后更新**：2026-11-10
+> **派生来源**：`docs/design/design-review.md`（P0–P3 优化建议）+ OpenSpec 规范对齐 + 全仓待办盘点
+> **最后更新**：2026-11-11 13:55:32
+> **本次更新戳**：2026-11-11 13:55:32（建档 / 归档 / 优先级与状态重排）
 > **当前版本**：v4.4.9
-> **说明**：本清单由 OpenSpec 派生，已完成的任务已归档至 [`tasks-done.md`](./tasks-done.md)。
+> **说明**：本清单由 OpenSpec 派生，已完成的任务已归档至 [`tasks-done.md`](./tasks-done.md)；本文件是项目**唯一任务来源**。
 
 ## 优先级约定
 
-| 优先级 | 含义 |
-| :--- | :--- |
-| P0 | 核心体验，应立即处理 |
-| P1 | 高优先级，显著提升体验 |
-| P2 | 中优先级，锦上添花 |
-| P3 | 低优先级，长期优化 |
+| 优先级 | 含义                            |
+| :----- | :------------------------------ |
+| P0     | 核心体验 / 阻断门禁，应立即处理 |
+| P1     | 高优先级，显著提升质量与安全性  |
+| P2     | 中优先级，工程化与一致性        |
+| P3     | 低优先级，长期优化              |
 
 ## 进行中 / 待办任务
 
-| ID | 任务 | 优先级 | 状态 | 说明 |
-| :--- | :--- | :--- | :--- | :--- |
-| — | 全部任务已完成 | — | 已完成 | 派生自 OpenSpec 的全部 18 项任务（T-01 ~ T-18）均已交付并归档至 `tasks-done.md` |
+> **状态快照时间**：2026-11-11 13:55:32；`状态` 取值：待办 / 进行中 / 已完成 / 已评估（不实施）。
 
-## 状态说明
+| ID   | 任务                                                           | 优先级 | 状态 | 更新于           | 说明 / 验收标准                                                                                                                                                                                          |
+| :--- | :------------------------------------------------------------- | :----- | :--- | :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R-01 | 修复 onboarding 迁移残留引用导致的 typecheck 阻断              | P0     | 待办 | 2026-11-11 13:55 | `src/components/onboarding/OnboardingGuide.tsx:5`、`OnboardingStepContent.tsx:5` 指向不存在的 `./dialog` / `./button`；`npm run typecheck` 需 0 错误                                                     |
+| R-02 | 任务源治理：收口 docs 内散落的待办 / 进度表                    | P0     | 待办 | 2026-11-11 13:55 | `design/design-review.md`、`architecture/MIGRATION.md`、`development/ci-cd.md`、`development/testing.md`、`ci.yml` 注释、PR 模板等；标注已交付 / 评估否决 / 示例 / 外部依赖，任务记录只保留在本文件      |
+| R-03 | 文档一致性：版本、地址、技术栈、语言列表、死链与 Firebase 残留 | P1     | 待办 | 2026-11-11 13:55 | `PROJECT_GUIDELINES.md`、`README*`、`docs/SPEC.md`、`deployment/environments.md`、`prototype-guide.md`；过期版本头与 `./LICENSE` 等死链一并处理                                                          |
+| R-04 | 环境配置与忽略规则：清理遗留变量、修正 `scripts/` 误忽略       | P1     | 待办 | 2026-11-11 13:55 | 本地 `.env` 残留 Firebase/Gemini 且缺 Supabase 变量；`.gitignore:39` 忽略整个正式脚本目录；生产环境缺失变量需可见告警                                                                                    |
+| R-05 | 安全响应头双轨去重与 CSP 图片域收紧                            | P1     | 待办 | 2026-11-11 13:55 | `vercel.json` 与 `src/middleware.ts` 重复设置 nosniff / X-Frame-Options / Referrer-Policy / Cache-Control；`img-src https:` 通配收敛；`unsafe-inline` 因 Next 14 无 nonce 保留并注明后续随大版本升级处理 |
+| R-06 | 死代码清理与重复实现收口                                       | P1     | 待办 | 2026-11-11 13:55 | 删除 0 引用模块（`lib/lazy.tsx`、`components/ui/index.ts`、大写 `ErrorBoundary.tsx`、`useToastStore`、`SUPABASE_TABLES`）；两个错误页抽公共组件；localStorage 统一走 `storage.ts`                        |
+| R-07 | 占位交互收口（Live Chat / onNavigate / 缩略图）                | P1     | 待办 | 2026-11-11 13:55 | `SupportModal.tsx:91` 空 `onClick`、`app/library/page.tsx:26` 空 `onNavigate`、`ComponentDetailThumbnailList` 占位块；改为禁用态 / 明确提示 / 真实渲染，禁止「点了没反应」                               |
+| R-08 | 测试与门禁补齐                                                 | P1     | 待办 | 2026-11-11 13:55 | 补 middleware / 快捷键 hook 测试；`coverage.all` 口径显式化；修复 `format:check` 基线（当前 11 文件不达标）并纳入 CI；ESLint 补 `no-console` 等基础规则                                                  |
+| R-09 | 首屏低风险代码分割                                             | P2     | 待办 | 2026-11-11 13:55 | 首页非首屏区块（Pricing / Cta / RecommendedConfigs）改 `next/dynamic` 动态导入，保持 Suspense 与交互契约，`npm run build` 通过                                                                           |
+| R-10 | 版本与变更记录同步                                             | P2     | 待办 | 2026-11-11 13:55 | 本轮改动后 bump 至 v4.4.10，同步 `package.json` / lock / `APP_INFO` / README / SPEC / CHANGELOG / 被改动文件头注释                                                                                       |
 
-- 本轮（2026-10-14，v4.4.5）完成 T-16：新增日语（ja）语言包，i18n 扩展至 en / zh-CN / ja 三语，并修正 `app.ts` 展示版本漂移（4.4.1 → 4.4.5）。
-- 累计已完成 T-01 ~ T-18 共 18 项由 OpenSpec 派生的任务，完成率 100%。
+## 状态说明（2026-11-11 13:55:32 基线）
+
+- 任务来源：① `tasks.md` 维护轮次记录中已交付但尚未归档的 v4.4.8 / v4.4.9 两轮工作（已移入 `tasks-done.md`，M-01 ~ M-12）；② 全仓文档与源码待办盘点；③ 本轮门禁实测。
+- 门禁基线：`npm run check` 在 `typecheck` 阶段失败（R-01）；`npm run format:check` 有 11 个文件不达标（R-08）；`node_modules` 与 `package-lock.json` 已就绪且与 `package.json` 一致（`next 14.2.35`）。
+- 外部依赖 / 专项评估（**已评估，不列入待办**）：Lighthouse CI 与 `@lhci/cli`、E2E Playwright、Sentry / GA4 / Web Vitals / Uptime 监控、Codecov、Google OAuth、Supabase 生产密钥、Next 16 + React 19 大版本迁移均需外部服务或独立专项排期；其现状与决策统一记录于本文件「后续专项评估」章节，不占用本轮待办口径，也不宣称已实施。
+
+## 后续专项评估（已评估 · 2026-11-11 13:55:32）
+
+| 事项                                                    | 结论                                                                                                                          | 依据                               |
+| :------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------- | :--------------------------------- |
+| Lighthouse CI（T-17 后续）                              | 保持 CI lint/typecheck/test/build 作为回归门禁；Lighthouse 需 Chrome runner 与基准服务端，另立专项                            | `ci.yml:82-85`、`CHANGELOG.md:72`  |
+| E2E（Playwright）                                       | 当前 30 个 Vitest 用例覆盖核心逻辑，E2E 需浏览器矩阵与稳定环境，另立专项                                                      | `development/testing.md:456`       |
+| 观测性（Sentry / GA4 / Web Vitals / 健康检查 / Uptime） | 文档为规划示例，需外部账号与密钥，不实施                                                                                      | `development/ci-cd.md:96-642`      |
+| Next 16 + React 19 升级                                 | 当前 14.2.35 已对齐 lock 与 eslint-config-next；大版本迁移涉及 App Router / React 19 / `next lint` 变更，需独立回归，另立专项 | `package.json`、`.nvmrc`、`ci.yml` |
+| T-18 长列表虚拟化                                       | 评估否决：仅 6 分类、组件量小，无需虚拟化                                                                                     | `tasks-done.md`                    |
 
 ## 维护轮次记录
 
-- **2026-11-10（v4.4.8）代码健壮性与规范对齐轮次**：
-  - 修复云端保存异常被吞并恒报“保存成功”的静默数据丢失；分享链接生成端做 `encodeURIComponent`、首页新增 `?config=` 消费端；SQL 加固迁移修正 `DROP` 策略名以保证全新库部署幂等。
-  - 修复推荐配置（MTB/Fold）总价硬编码与组件明细不符；Navbar 语言切换后导航刷新；Supabase 配置校验补齐 anon key；`config-history` 快照读取校验；保存期间禁用按钮防并发写入。
-  - 为导航栏、页脚、车型选择器、推荐配置区、分享弹窗等补充语义化 id；原型 `prototype.html` 的 id 统一为 kebab-case 并与代码侧对齐。
-  - 同步 `SPEC.md`/`README`/`README_EN` 仓库地址（Tanox/VeloForm）、语言列表（EN/ZH-CN/JA）、Next 版本（14.2.35）；`APP_INFO.version` 与 `package.json` 对齐至 4.4.8；重新生成 `package-lock.json` 以匹配依赖版本。
-  - 类型检查、104 项测试、ESLint 门禁均通过；详见 `CHANGELOG.md`。
-- **2026-11-10（v4.4.9）功能完整性 / 鲁棒性 / 规范对齐轮次**：
-  - 补齐认证入口（`AuthModal` + 三语词条）、云端同步按 `updatedAt` 合并、保存 in-flight 锁、失败态提示与未登录本地降级。
-  - 分享链路闭环：生成端编码、消费端独立 hook（zod 校验 / 类型映射 / 保留其它 query 与 hash / popstate 重放）。
-  - 修复 SQL 迁移重复执行、字段精度、环境变量占位符误判、保存校验误拒小数与相对路径、推荐配置重量硬编码、覆盖率统计口径、Git 预提交钩子失效。
-  - 拆分 `globals.css`（33 分片）与 `prototype.html`（CSS/HTML/JS 分片）为 ≤200 行模块；应用与原型主要容器统一语义化 kebab-case id；页脚版本与 build 编号唯一展示。
-  - 同步 README/README_EN/SPEC/CHANGELOG/原型说明/项目记忆至 v4.4.9，删除无效 `generate-icons` 脚本引用。
-  - 门禁：`npm run typecheck` / `npm run lint` / `npm test` / `npm run build` 与核心流程回归测试。
+- **2026-11-11 13:55:32（v4.4.9）任务治理轮次**：归档 v4.4.8 / v4.4.9 两轮已交付工作至 `tasks-done.md`（M-01 ~ M-12）；重排剩余任务优先级与状态（R-01 ~ R-10），记录本轮更新戳与门禁基线。
+- 历史轮次明细已归档，不在本文件重复维护；最新进度以「进行中 / 待办任务」表与 `tasks-done.md` 进度统计为准。

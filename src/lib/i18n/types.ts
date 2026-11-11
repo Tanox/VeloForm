@@ -22,7 +22,8 @@ export type DeepPartial<T> = {
 };
 
 export interface Translations
-  extends CoreTranslations,
+  extends
+    CoreTranslations,
     ConfiguratorTranslations,
     CompareShareTranslations,
     MarketingTranslations,

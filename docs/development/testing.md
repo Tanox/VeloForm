@@ -22,6 +22,7 @@
 ```
 
 **目标分布**：
+
 - **单元测试**: 70% - 快速、隔离、可重复
 - **集成测试**: 20% - 验证组件/服务协作
 - **E2E 测试**: 10% - 关键用户流程
@@ -35,6 +36,7 @@
 **测试运行器**: Vitest ^2.0.0
 
 **依赖包**:
+
 - `vitest` - 测试运行器
 - `@testing-library/react` - React 组件测试
 - `@testing-library/jest-dom` - DOM 断言
@@ -59,10 +61,10 @@ export default defineConfig({
         statements: 80,
         branches: 75,
         functions: 85,
-        lines: 80
-      }
-    }
-  }
+        lines: 80,
+      },
+    },
+  },
 });
 ```
 
@@ -149,6 +151,7 @@ describe('BuildList', () => {
 ```
 
 **测试要点**：
+
 - ✅ 组件能否成功渲染
 - ✅ Props 数据正确显示
 - ✅ 回调函数正确触发
@@ -177,7 +180,7 @@ describe('useBuildTotal', () => {
   it('should calculate total from components', () => {
     const components = [
       { price: 1000, weight: 800 },
-      { price: 500, weight: 400 }
+      { price: 500, weight: 400 },
     ];
 
     const { result } = renderHook(() => useBuildTotal(components));
@@ -185,10 +188,9 @@ describe('useBuildTotal', () => {
   });
 
   it('should update when components change', () => {
-    const { result, rerender } = renderHook(
-      ({ components }) => useBuildTotal(components),
-      { initialProps: { components: [] } }
-    );
+    const { result, rerender } = renderHook(({ components }) => useBuildTotal(components), {
+      initialProps: { components: [] },
+    });
 
     expect(result.current.total).toBe(0);
 
@@ -217,7 +219,7 @@ describe('validateConfiguration', () => {
       name: 'Test Bike',
       components: [],
       totalCost: 1000,
-      estimatedWeight: 7.5
+      estimatedWeight: 7.5,
     };
 
     const result = validateConfiguration(config);
@@ -231,7 +233,7 @@ describe('validateConfiguration', () => {
       name: '',
       components: [],
       totalCost: 1000,
-      estimatedWeight: 7.5
+      estimatedWeight: 7.5,
     };
 
     const result = validateConfiguration(config);
@@ -245,7 +247,7 @@ describe('validateConfiguration', () => {
       name: 'Test',
       components: [],
       totalCost: 1000,
-      estimatedWeight: 7.5
+      estimatedWeight: 7.5,
     };
 
     const result = validateConfiguration(config);
@@ -259,7 +261,7 @@ describe('validateConfiguration', () => {
       name: 'Test',
       components: Array(51).fill({ id: '1' } as any),
       totalCost: 1000,
-      estimatedWeight: 7.5
+      estimatedWeight: 7.5,
     };
 
     const result = validateConfiguration(config);
@@ -278,10 +280,7 @@ import { calculateWeight } from './weight';
 
 describe('calculateWeight', () => {
   it('should calculate weight with components', () => {
-    const components = [
-      { weight: 1520 },
-      { weight: 1370 }
-    ];
+    const components = [{ weight: 1520 }, { weight: 1370 }];
 
     const weight = calculateWeight(components, 'Road');
     expect(weight).toBeCloseTo(3.79);
@@ -314,22 +313,22 @@ export const mockFirebaseAuth = {
     return vi.fn();
   }),
   signInWithPopup: vi.fn(),
-  signOut: vi.fn()
+  signOut: vi.fn(),
 };
 
 export const mockFirebaseFirestore = {
   getFirestore: vi.fn(() => ({})),
   collection: vi.fn(() => ({
     addDoc: vi.fn(),
-    getDocs: vi.fn()
+    getDocs: vi.fn(),
   })),
-  doc: vi.fn()
+  doc: vi.fn(),
 };
 
 vi.mock('@/lib/firebase', () => ({
   auth: mockFirebaseAuth,
   db: mockFirebaseFirestore,
-  googleProvider: {}
+  googleProvider: {},
 }));
 ```
 
@@ -357,7 +356,7 @@ describe('useAuth', () => {
   it('should set user on successful login', async () => {
     const mockUser = { uid: '123', email: 'test@example.com' };
     (firebase.auth.signInWithPopup as any).mockResolvedValueOnce({
-      user: mockUser
+      user: mockUser,
     });
 
     const { result } = renderHook(() => useAuth());
@@ -376,10 +375,10 @@ vi.mock('next/navigation', () => ({
     push: vi.fn(),
     replace: vi.fn(),
     refresh: vi.fn(),
-    back: vi.fn()
+    back: vi.fn(),
   }),
   usePathname: () => '/build',
-  useSearchParams: () => new URLSearchParams()
+  useSearchParams: () => new URLSearchParams(),
 }));
 ```
 
@@ -543,6 +542,7 @@ npm run test -- --coverage
 ```
 
 **生成报告**：
+
 - Terminal 中的文本摘要
 - HTML 报告在 `coverage/index.html`
 - JSON 报告在 `coverage/coverage-final.json`
@@ -550,6 +550,7 @@ npm run test -- --coverage
 ### 排除文件
 
 以下文件不计入覆盖率：
+
 - `*.test.ts` / `*.spec.ts` (测试文件本身)
 - `main.ts` / `main.tsx` (入口文件)
 - `env.*.ts` (环境配置)
@@ -563,6 +564,7 @@ npm run test -- --coverage
 ### ✅ 推荐做法
 
 1. **每个测试独立**：
+
    ```typescript
    beforeEach(() => {
      vi.clearAllMocks();
@@ -570,6 +572,7 @@ npm run test -- --coverage
    ```
 
 2. **使用描述性测试名称**：
+
    ```typescript
    it('should call onSync callback when save button is clicked', () => {
      // ...
@@ -577,6 +580,7 @@ npm run test -- --coverage
    ```
 
 3. **Arrange-Act-Assert 模式**：
+
    ```typescript
    it('should calculate total cost', () => {
      // Arrange
@@ -591,11 +595,12 @@ npm run test -- --coverage
    ```
 
 4. **Mock 外部依赖**：
+
    ```typescript
    vi.mock('@/lib/firebase', () => ({
      auth: {
-       signInWithPopup: vi.fn()
-     }
+       signInWithPopup: vi.fn(),
+     },
    }));
    ```
 
@@ -616,6 +621,7 @@ npm run test -- --coverage
 ### ❌ 避免的做法
 
 1. **测试实现细节**：
+
    ```typescript
    // ❌ Bad - Testing internal state
    expect(component.state.internalValue).toBe(...);
@@ -625,6 +631,7 @@ npm run test -- --coverage
    ```
 
 2. **硬编码魔法数字**：
+
    ```typescript
    // ❌ Bad
    expect(result).toBe(3.79);
@@ -635,6 +642,7 @@ npm run test -- --coverage
    ```
 
 3. **测试之间共享状态**：
+
    ```typescript
    // ❌ Bad - Test order dependent
    it('test 1', () => {

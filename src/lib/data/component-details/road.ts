@@ -3,72 +3,92 @@ import { roadTireDetails } from './road-tires';
 
 export const roadDetails: Record<string, ComponentDetail> = {
   ...roadTireDetails,
-  'd1': {
+  d1: {
     id: 'd1',
-    category: 'Drivetrain', bikeType: "Road",
+    category: 'Drivetrain',
+    bikeType: 'Road',
     name: 'Shimano Dura-Ace Di2 R9200',
     price: 4200,
     weight: 2430,
     brand: 'Shimano',
     model: 'Dura-Ace Di2 R9200',
-    description: 'The pinnacle of Shimano road cycling technology, featuring wireless shifting and exceptional performance.',
+    description:
+      'The pinnacle of Shimano road cycling technology, featuring wireless shifting and exceptional performance.',
     specs: {
-      'Speeds': 12,
+      Speeds: 12,
       'Cassette Range': '11-30T',
-      'Chainrings': '52/36T',
+      Chainrings: '52/36T',
       'Battery Life': '1000km',
       'Shift Speed': '0.15s',
     },
     features: ['Wireless shifting', 'Auto Di2', 'Synchronized shifting', 'Low battery alert'],
     rating: 4.9,
     reviewCount: 128,
-    imageUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Shimano%20Dura-Ace%20Di2%20R9200%20road%20bike%20drivetrain%20components%20professional%20product%20photo&image_size=landscape_4_3',
+    imageUrl:
+      'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Shimano%20Dura-Ace%20Di2%20R9200%20road%20bike%20drivetrain%20components%20professional%20product%20photo&image_size=landscape_4_3',
   },
-  'd2': {
+  d2: {
     id: 'd2',
-    category: 'Drivetrain', bikeType: "Road",
+    category: 'Drivetrain',
+    bikeType: 'Road',
     name: 'SRAM Red AXS',
     price: 4000,
     weight: 2380,
     brand: 'SRAM',
     model: 'Red AXS',
-    description: 'SRAM\'s flagship wireless groupset with Orbit chain management and blistering shift speeds.',
+    description:
+      "SRAM's flagship wireless groupset with Orbit chain management and blistering shift speeds.",
     specs: {
-      'Speeds': 12,
+      Speeds: 12,
       'Cassette Range': '10-33T',
-      'Chainrings': '48/35T',
+      Chainrings: '48/35T',
       'Battery Life': '600km',
       'Shift Speed': '0.08s',
     },
-    features: ['1x or 2x options', 'Orbit chain management', 'Wide cassette range', 'Tool-free battery removal'],
+    features: [
+      '1x or 2x options',
+      'Orbit chain management',
+      'Wide cassette range',
+      'Tool-free battery removal',
+    ],
     rating: 4.8,
     reviewCount: 95,
-    imageUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=SRAM%20Red%20AXS%20wireless%20drivetrain%20components%20professional%20product%20photo&image_size=landscape_4_3',
+    imageUrl:
+      'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=SRAM%20Red%20AXS%20wireless%20drivetrain%20components%20professional%20product%20photo&image_size=landscape_4_3',
   },
-  'd3': {
+  d3: {
     id: 'd3',
-    category: 'Drivetrain', bikeType: "Road",
+    category: 'Drivetrain',
+    bikeType: 'Road',
     name: 'Campagnolo Super Record EPS',
     price: 4500,
     weight: 2450,
     brand: 'Campagnolo',
     model: 'Super Record EPS',
-    description: 'Italian craftsmanship meets electronic precision. The ultimate in luxury road components.',
+    description:
+      'Italian craftsmanship meets electronic precision. The ultimate in luxury road components.',
     specs: {
-      'Speeds': 12,
+      Speeds: 12,
       'Cassette Range': '11-32T',
-      'Chainrings': '53/39T',
+      Chainrings: '53/39T',
       'Battery Life': '800km',
       'Shift Speed': '0.12s',
     },
-    features: ['Ergonomic shifters', 'Ultra-smooth shifting', 'Carbon fiber components', 'Italian design'],
+    features: [
+      'Ergonomic shifters',
+      'Ultra-smooth shifting',
+      'Carbon fiber components',
+      'Italian design',
+    ],
     rating: 4.9,
     reviewCount: 42,
-    imageUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Campagnolo%20Super%20Record%20EPS%20drivetrain%20components%20professional%20product%20photo&image_size=landscape_4_3',
+    imageUrl:
+      'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Campagnolo%20Super%20Record%20EPS%20drivetrain%20components%20professional%20product%20photo&image_size=landscape_4_3',
   },
-  'w1': {
+  w1: {
     id: 'w1',
-    category: 'Wheelset', bikeType: "Road",
+    category: 'Wheelset',
+    bikeType: 'Road',
     name: 'Roval Rapide CLX II',
     price: 2800,
     weight: 1520,
@@ -85,11 +105,13 @@ export const roadDetails: Record<string, ComponentDetail> = {
     features: ['Hookless rims', 'Tubeless ready', 'Aero shaping', 'DT Swiss hubs'],
     rating: 4.8,
     reviewCount: 156,
-    imageUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Roval%20Rapide%20CLX%20II%20carbon%20road%20bike%20wheelset%20professional%20product%20photo&image_size=landscape_4_3',
+    imageUrl:
+      'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Roval%20Rapide%20CLX%20II%20carbon%20road%20bike%20wheelset%20professional%20product%20photo&image_size=landscape_4_3',
   },
-  'w2': {
+  w2: {
     id: 'w2',
-    category: 'Wheelset', bikeType: "Road",
+    category: 'Wheelset',
+    bikeType: 'Road',
     name: 'Zipp 454 NSW',
     price: 3200,
     weight: 1480,
@@ -106,11 +128,13 @@ export const roadDetails: Record<string, ComponentDetail> = {
     features: ['Wave rim technology', 'NSW hubset', 'Aero spokes', 'Hookless design'],
     rating: 4.9,
     reviewCount: 89,
-    imageUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Zipp%20454%20NSW%20carbon%20wheelset%20with%20wave%20rim%20technology%20professional%20product%20photo&image_size=landscape_4_3',
+    imageUrl:
+      'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Zipp%20454%20NSW%20carbon%20wheelset%20with%20wave%20rim%20technology%20professional%20product%20photo&image_size=landscape_4_3',
   },
-  'w3': {
+  w3: {
     id: 'w3',
-    category: 'Wheelset', bikeType: "Road",
+    category: 'Wheelset',
+    bikeType: 'Road',
     name: 'Enve SES 4.5',
     price: 2900,
     weight: 1550,
@@ -127,11 +151,13 @@ export const roadDetails: Record<string, ComponentDetail> = {
     features: ['Wide internal width', 'Tubeless ready', 'All-road capability', 'ENVE Alloy hubs'],
     rating: 4.7,
     reviewCount: 67,
-    imageUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Enve%20SES%204.5%20carbon%20wheelset%20professional%20product%20photo&image_size=landscape_4_3',
+    imageUrl:
+      'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Enve%20SES%204.5%20carbon%20wheelset%20professional%20product%20photo&image_size=landscape_4_3',
   },
-  'c1': {
+  c1: {
     id: 'c1',
-    category: 'Cockpit', bikeType: "Road",
+    category: 'Cockpit',
+    bikeType: 'Road',
     name: 'Roval Rapide Cockpit',
     price: 600,
     weight: 310,
@@ -141,18 +167,20 @@ export const roadDetails: Record<string, ComponentDetail> = {
     specs: {
       'Handlebar Width': '38/40/42/44cm',
       'Stem Length': '80-120mm',
-      'Drop': '125mm',
-      'Reach': '79mm',
-      'Material': 'Carbon',
+      Drop: '125mm',
+      Reach: '79mm',
+      Material: 'Carbon',
     },
     features: ['Integrated design', 'Cable routing', 'Aero profile', 'Computer mount included'],
     rating: 4.8,
     reviewCount: 78,
-    imageUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Roval%20Rapide%20integrated%20carbon%20cockpit%20handlebar%20professional%20product%20photo&image_size=landscape_4_3',
+    imageUrl:
+      'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Roval%20Rapide%20integrated%20carbon%20cockpit%20handlebar%20professional%20product%20photo&image_size=landscape_4_3',
   },
-  'c2': {
+  c2: {
     id: 'c2',
-    category: 'Cockpit', bikeType: "Road",
+    category: 'Cockpit',
+    bikeType: 'Road',
     name: 'Enve SES AR',
     price: 550,
     weight: 320,
@@ -162,14 +190,14 @@ export const roadDetails: Record<string, ComponentDetail> = {
     specs: {
       'Handlebar Width': '40/42/44cm',
       'Stem Length': '70-130mm',
-      'Drop': '130mm',
-      'Reach': '80mm',
-      'Material': 'Carbon',
+      Drop: '130mm',
+      Reach: '80mm',
+      Material: 'Carbon',
     },
     features: ['Flared drops', 'Internal routing', 'Comfort shaping', 'Lightweight'],
     rating: 4.6,
     reviewCount: 45,
-    imageUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Enve%20SES%20AR%20all-road%20carbon%20handlebar%20professional%20product%20photo&image_size=landscape_4_3',
+    imageUrl:
+      'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Enve%20SES%20AR%20all-road%20carbon%20handlebar%20professional%20product%20photo&image_size=landscape_4_3',
   },
 };
-

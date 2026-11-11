@@ -65,7 +65,6 @@
     --spacing-section-y-sm: 4rem;
   }
 
-
   .dark {
     --background: 20 14% 6%;
     --foreground: 40 30% 98%;
@@ -107,7 +106,6 @@
     --shadow-2xl: 0 40px 64px -12px rgba(0, 0, 0, 0.65), 0 16px 32px -12px rgba(0, 0, 0, 0.45);
   }
 
-
   html {
     font-family: var(--font-sans);
     font-size: 16px;
@@ -118,7 +116,6 @@
     font-optical-sizing: auto;
   }
 
-
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
@@ -127,29 +124,24 @@
     letter-spacing: -0.01em;
   }
 
-
   ::selection {
     background-color: hsl(var(--primary) / 0.15);
     color: hsl(var(--foreground));
   }
-
 
   html {
     scrollbar-width: thin;
     scrollbar-color: hsl(var(--border)) transparent;
   }
 
-
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
 
-
   ::-webkit-scrollbar-track {
     background: transparent;
   }
-
 
   ::-webkit-scrollbar-thumb {
     background-color: hsl(var(--muted-foreground) / 0.3);
@@ -157,17 +149,14 @@
     transition: background-color var(--duration-fast) var(--ease-out);
   }
 
-
   ::-webkit-scrollbar-thumb:hover {
     background-color: hsl(var(--muted-foreground) / 0.5);
   }
-
 
   :focus-visible {
     outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
   }
-
 
   h1,
   h2,
@@ -179,5 +168,4 @@
     letter-spacing: -0.02em;
     text-wrap: balance;
   }
-
 }

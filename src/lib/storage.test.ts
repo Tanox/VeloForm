@@ -30,7 +30,8 @@ describe('safeLocalStorage', () => {
       removeItem: (k: string) => mem.delete(k),
       setItem: (k: string, v: string) => mem.set(k, String(v)),
     };
-    vi.stubGlobal('window', { localStorage: fakeLocalStorage } as unknown as Window & typeof globalThis);
+    vi.stubGlobal('window', { localStorage: fakeLocalStorage } as unknown as Window &
+      typeof globalThis);
     const storage = safeLocalStorage();
     storage.setItem('a', '1');
     expect(storage.getItem('a')).toBe('1');
@@ -52,7 +53,9 @@ describe('safeLocalStorage', () => {
     const storage = safeJSONStorage;
     expect(storage).toBeDefined();
     storage!.setItem('obj', { state: { foo: 'bar', n: 1 }, version: 0 });
-    const restored = storage!.getItem('obj') as unknown as { state: { foo: string; n: number } } | null;
+    const restored = storage!.getItem('obj') as unknown as {
+      state: { foo: string; n: number };
+    } | null;
     expect(restored?.state.foo).toBe('bar');
     expect(restored?.state.n).toBe(1);
   });

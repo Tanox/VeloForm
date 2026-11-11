@@ -31,24 +31,26 @@
 
 ### 2.1 框架变更
 
-| 维度 | Angular | Next.js |
-|------|---------|---------|
-| 核心语言 | TypeScript + HTML 模板 | React + JSX |
-| 路由系统 | Angular Router（模块化） | App Router / Pages Router |
-| 依赖注入 | 内置 DI 容器 | React Context / Hooks |
-| 表单处理 | Reactive Forms / Template-driven | React Hook Form |
-| HTTP 请求 | HttpClient | Fetch API / SWR / TanStack Query |
-| 路由守卫 | Guards | Middleware |
+| 维度      | Angular                          | Next.js                          |
+| --------- | -------------------------------- | -------------------------------- |
+| 核心语言  | TypeScript + HTML 模板           | React + JSX                      |
+| 路由系统  | Angular Router（模块化）         | App Router / Pages Router        |
+| 依赖注入  | 内置 DI 容器                     | React Context / Hooks            |
+| 表单处理  | Reactive Forms / Template-driven | React Hook Form                  |
+| HTTP 请求 | HttpClient                       | Fetch API / SWR / TanStack Query |
+| 路由守卫  | Guards                           | Middleware                       |
 
 ### 2.2 架构变更
 
 **Angular 架构模式**：
+
 - 模块化架构（NgModule）
 - 组件化开发
 - 服务层（Service）
 - 依赖注入容器
 
 **Next.js 架构模式**：
+
 - App Router 路由系统
 - Server Components / Client Components
 - API Routes / Route Handlers
@@ -56,13 +58,13 @@
 
 ### 2.3 状态管理变更
 
-| 场景 | Angular 方案 | Next.js 方案 |
-|------|-------------|--------------|
-| 组件状态 | Component State | useState Hook |
-| 共享状态 | Service + RxJS | Context API / Zustand / Redux Toolkit |
-| 服务端状态 | HttpClient + Observable | TanStack Query / SWR |
-| 表单状态 | FormGroup | React Hook Form |
-| 全局状态 | NgRx（如使用） | Zustand / Redux Toolkit |
+| 场景       | Angular 方案            | Next.js 方案                          |
+| ---------- | ----------------------- | ------------------------------------- |
+| 组件状态   | Component State         | useState Hook                         |
+| 共享状态   | Service + RxJS          | Context API / Zustand / Redux Toolkit |
+| 服务端状态 | HttpClient + Observable | TanStack Query / SWR                  |
+| 表单状态   | FormGroup               | React Hook Form                       |
+| 全局状态   | NgRx（如使用）          | Zustand / Redux Toolkit               |
 
 ### 2.4 样式方案变更
 
@@ -78,6 +80,7 @@
 **决策**：采用 App Router（App Router）而非 Pages Router
 
 **理由**：
+
 - 更好的服务端组件支持
 - 更直观的文件约定式路由
 - Layouts 和 Templates 提供更灵活的布局控制
@@ -90,6 +93,7 @@
 **决策**：采用 Zustand 作为主要状态管理库
 
 **理由**：
+
 - 轻量级，API 简洁
 - 不需要 Provider 嵌套
 - 良好的 TypeScript 支持
@@ -102,6 +106,7 @@
 **决策**：采用 TanStack Query
 
 **理由**：
+
 - 自动缓存和重新获取
 - 内置分页和无限滚动支持
 - 乐观更新机制
@@ -112,6 +117,7 @@
 **决策**：采用 Tailwind CSS
 
 **理由**：
+
 - 原子化 CSS，减小 bundle 体积
 - 开发时快速迭代
 - 内置暗色模式支持
@@ -124,6 +130,7 @@
 **决策**：采用 React Hook Form + Zod
 
 **理由**：
+
 - 性能优异，非受控表单
 - 简洁的 API 设计
 - Zod 提供运行时验证
@@ -193,29 +200,29 @@
 
 ### A. 术语对照表
 
-| Angular 术语 | Next.js/React 术语 |
-|-------------|-------------------|
-| Component | Component |
-| Directive | Higher-Order Component / Hook |
-| Pipe | Utility Function |
-| Module | - |
-| Service | Hook / Context / External Library |
-| Guard | Middleware |
-| Interceptor | Middleware / Fetch Wrapper |
-| Observable | Promise / use hook |
-| Route | Page / Route |
-| @Input/@Output | Props |
+| Angular 术语   | Next.js/React 术语                |
+| -------------- | --------------------------------- |
+| Component      | Component                         |
+| Directive      | Higher-Order Component / Hook     |
+| Pipe           | Utility Function                  |
+| Module         | -                                 |
+| Service        | Hook / Context / External Library |
+| Guard          | Middleware                        |
+| Interceptor    | Middleware / Fetch Wrapper        |
+| Observable     | Promise / use hook                |
+| Route          | Page / Route                      |
+| @Input/@Output | Props                             |
 
 ### B. 命令对照表
 
-| 操作 | Angular CLI | Next.js |
-|------|-------------|---------|
-| 新建项目 | `ng new` | `npx create-next-app` |
-| 生成组件 | `ng generate component` | 手动创建 |
-| 生成服务 | `ng generate service` | 手动创建 |
-| 开发服务器 | `ng serve` | `npm run dev` |
-| 构建 | `ng build` | `npm run build` |
-| 测试 | `ng test` | `npm run test` |
+| 操作       | Angular CLI             | Next.js               |
+| ---------- | ----------------------- | --------------------- |
+| 新建项目   | `ng new`                | `npx create-next-app` |
+| 生成组件   | `ng generate component` | 手动创建              |
+| 生成服务   | `ng generate service`   | 手动创建              |
+| 开发服务器 | `ng serve`              | `npm run dev`         |
+| 构建       | `ng build`              | `npm run build`       |
+| 测试       | `ng test`               | `npm run test`        |
 
 ---
 

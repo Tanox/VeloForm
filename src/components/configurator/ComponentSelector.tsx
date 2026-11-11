@@ -52,7 +52,8 @@ export function ComponentSelector() {
   );
 
   const recommendedComponent = useMemo(
-    () => (recommendedCategory ? components.find((c) => c.category === recommendedCategory) : undefined),
+    () =>
+      recommendedCategory ? components.find((c) => c.category === recommendedCategory) : undefined,
     [recommendedCategory, components]
   );
 
@@ -67,7 +68,8 @@ export function ComponentSelector() {
       const finalComponent = { ...component };
       if (promotionalComponents[component.id]) {
         finalComponent.price = Math.round(
-          promotionalComponents[component.id].originalPrice * (1 - promotionalComponents[component.id].discount / 100)
+          promotionalComponents[component.id].originalPrice *
+            (1 - promotionalComponents[component.id].discount / 100)
         );
       }
       replaceComponent(finalComponent);
@@ -106,15 +108,22 @@ export function ComponentSelector() {
   return (
     <>
       <Dialog open={showComponentSelector} onOpenChange={closeComponentSelector}>
-        <DialogContent id="component-selector-dialog" className="max-w-3xl max-h-[85vh] overflow-hidden flex flex-col">
+        <DialogContent
+          id="component-selector-dialog"
+          className="max-w-3xl max-h-[85vh] overflow-hidden flex flex-col"
+        >
           <DialogHeader>
-            <DialogTitle className="text-xl">选择 {getCategoryTranslation(currentComponent.category)}</DialogTitle>
+            <DialogTitle className="text-xl">
+              选择 {getCategoryTranslation(currentComponent.category)}
+            </DialogTitle>
           </DialogHeader>
 
           {recommendedComponent && (
             <div className="flex items-center justify-between gap-3 rounded-lg bg-primary/5 border border-primary/15 px-3 py-2">
               <p className="text-xs text-muted-foreground">
-                <span className="font-medium text-foreground">{t('componentDetail.recommendation')}</span>
+                <span className="font-medium text-foreground">
+                  {t('componentDetail.recommendation')}
+                </span>
                 ：{getCategoryTranslation(recommendedComponent.category)}
               </p>
               <Button
@@ -152,8 +161,14 @@ export function ComponentSelector() {
                         isSelected={isSelected}
                         isPromotional={isPromotional}
                         savings={savings}
-                        discount={isPromotional ? promotionalComponents[component.id].discount : undefined}
-                        originalPrice={isPromotional ? promotionalComponents[component.id].originalPrice : undefined}
+                        discount={
+                          isPromotional ? promotionalComponents[component.id].discount : undefined
+                        }
+                        originalPrice={
+                          isPromotional
+                            ? promotionalComponents[component.id].originalPrice
+                            : undefined
+                        }
                         onSelect={handleSelect}
                         onViewDetail={handleViewDetail}
                       />
@@ -165,9 +180,7 @@ export function ComponentSelector() {
           </div>
 
           <div className="mt-4 pt-4 border-t border-border-light flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">
-              共 {alternatives.length} 个可选组件
-            </p>
+            <p className="text-sm text-muted-foreground">共 {alternatives.length} 个可选组件</p>
             <Button
               variant="ghost"
               size="sm"
@@ -181,7 +194,13 @@ export function ComponentSelector() {
         </DialogContent>
       </Dialog>
 
-      <Suspense fallback={<div className="p-8"><Skeleton className="h-64 w-full rounded-2xl" /></div>}>
+      <Suspense
+        fallback={
+          <div className="p-8">
+            <Skeleton className="h-64 w-full rounded-2xl" />
+          </div>
+        }
+      >
         <ComponentDetailModal
           isOpen={showDetailModal}
           onClose={() => setShowDetailModal(false)}

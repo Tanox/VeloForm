@@ -11,21 +11,31 @@ import { useTranslation } from '@/lib/i18n';
 import { motion } from 'framer-motion';
 import { FolderOpen, Trash2, GitCompare } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ComparePanel } from '@/components/configurator/ComparePanel';
 import { deleteConfiguration as deleteConfig } from '@/lib/config-service';
 
 export default function LibraryPage() {
   const t = useTranslation();
+  const router = useRouter();
   const myConfigs = useMyConfigs();
   const loadConfiguration = useConfigStore((s) => s.loadConfiguration);
   const toggleCompare = useCompareStore((s) => s.toggleCompare);
   const comparingConfigIds = useComparingConfigIds();
 
+  // 配置库页的导航项返回首页锚点所在页面；停留在库页时不做无效跳转
+  const handleNavigate = (page: string) => {
+    router.push(page === 'library' ? '/library' : '/');
+  };
+
   return (
     <div id="library-root" className="min-h-screen">
-      <Navbar onNavigate={() => {}} />
+      <Navbar onNavigate={handleNavigate} />
 
-      <main id="library-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-32 sm:pb-40">
+      <main
+        id="library-content"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-32 sm:pb-40"
+      >
         <div id="library-header" className="mb-6 sm:mb-8">
           <Link href="/">
             <Button variant="ghost" size="sm">
@@ -63,7 +73,10 @@ export default function LibraryPage() {
               </div>
             }
           >
-            <div id="library-config-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+            <div
+              id="library-config-grid"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
+            >
               {myConfigs.map((config, index) => (
                 <motion.div
                   id={`library-config-card-${config.id || index}`}

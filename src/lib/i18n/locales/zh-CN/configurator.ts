@@ -9,8 +9,7 @@ export const configurator = {
   estimatedWeight: '预估重量',
   emptyState: {
     title: '尚未选择任何组件',
-    description:
-      '从下方按钮开始选择组件，打造专属于你的完美座驾。每个组件都有实时价格和重量显示。',
+    description: '从下方按钮开始选择组件，打造专属于你的完美座驾。每个组件都有实时价格和重量显示。',
     cta: '开始选择组件',
   },
   loginToSave: '登录以保存配置',

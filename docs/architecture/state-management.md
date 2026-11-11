@@ -51,20 +51,20 @@ Store 实例通过 `useConfigStore` Hook 导出，可在任何组件中使用。
 
 ConfigStore 包含以下状态字段：
 
-| 属性 | 类型 | 默认值 | 用途 |
-|------|------|--------|------|
-| `activeType` | `BikeType` | `'Road'` | 当前选择的自行车类型（Road/MTB/City） |
-| `components` | `ConfigComponent[]` | Road 类型默认值 | 当前配置的所有组件列表 |
-| `configId` | `string \| null` | `null` | 当前配置的唯一标识符 |
-| `manualConfigName` | `string \| null` | `null` | 用户手动设置的配置名称 |
-| `allDbComponents` | `ConfigComponent[]` | `[]` | 从数据库加载的所有可用组件 |
-| `showLibrary` | `boolean` | `false` | 控制组件库面板的显示/隐藏 |
-| `myConfigs` | `Configuration[]` | `[]` | 当前用户的所有保存配置列表 |
-| `isLoggedIn` | `boolean` | `false` | 用户登录状态标识 |
-| `isSaving` | `boolean` | `false` | 保存操作进行中状态 |
-| `showComponentSelector` | `boolean` | `false` | 组件选择器弹窗显示状态 |
-| `editingComponentId` | `string` | `''` | 当前正在编辑的组件 ID |
-| `userId` | `string \| null` | `null` | 当前登录用户的 Firebase UID |
+| 属性                    | 类型                | 默认值          | 用途                                  |
+| ----------------------- | ------------------- | --------------- | ------------------------------------- |
+| `activeType`            | `BikeType`          | `'Road'`        | 当前选择的自行车类型（Road/MTB/City） |
+| `components`            | `ConfigComponent[]` | Road 类型默认值 | 当前配置的所有组件列表                |
+| `configId`              | `string \| null`    | `null`          | 当前配置的唯一标识符                  |
+| `manualConfigName`      | `string \| null`    | `null`          | 用户手动设置的配置名称                |
+| `allDbComponents`       | `ConfigComponent[]` | `[]`            | 从数据库加载的所有可用组件            |
+| `showLibrary`           | `boolean`           | `false`         | 控制组件库面板的显示/隐藏             |
+| `myConfigs`             | `Configuration[]`   | `[]`            | 当前用户的所有保存配置列表            |
+| `isLoggedIn`            | `boolean`           | `false`         | 用户登录状态标识                      |
+| `isSaving`              | `boolean`           | `false`         | 保存操作进行中状态                    |
+| `showComponentSelector` | `boolean`           | `false`         | 组件选择器弹窗显示状态                |
+| `editingComponentId`    | `string`            | `''`            | 当前正在编辑的组件 ID                 |
+| `userId`                | `string \| null`    | `null`          | 当前登录用户的 Firebase UID           |
 
 ### BikeType 枚举
 
@@ -105,46 +105,46 @@ interface Configuration {
 
 ### 4.1 类型切换与组件管理
 
-| Action | 参数 | 功能描述 |
-|--------|------|----------|
-| `setActiveType` | `type: BikeType` | 切换自行车类型，同时重置组件为该类型的默认值，并清除 configId |
-| `replaceComponent` | `newComponent: ConfigComponent` | 替换指定分类的组件，保留其他组件不变 |
-| `setComponents` | `components: ConfigComponent[]` | 直接设置组件列表（批量更新） |
-| `resetToDefaults` | 无 | 重置为当前类型的默认组件配置 |
+| Action             | 参数                            | 功能描述                                                      |
+| ------------------ | ------------------------------- | ------------------------------------------------------------- |
+| `setActiveType`    | `type: BikeType`                | 切换自行车类型，同时重置组件为该类型的默认值，并清除 configId |
+| `replaceComponent` | `newComponent: ConfigComponent` | 替换指定分类的组件，保留其他组件不变                          |
+| `setComponents`    | `components: ConfigComponent[]` | 直接设置组件列表（批量更新）                                  |
+| `resetToDefaults`  | 无                              | 重置为当前类型的默认组件配置                                  |
 
 ### 4.2 配置管理
 
-| Action | 参数 | 功能描述 |
-|--------|------|----------|
-| `loadConfiguration` | `config: Configuration` | 加载完整配置，设定类型、组件、配置ID和名称 |
-| `saveConfiguration` | 无 | 异步保存当前配置到 Firebase 或降级到 localStorage |
-| `deleteConfiguration` | `configId: string` | 从存储中删除指定配置 |
-| `loadMyConfigs` | `userId?: string` | 从 Firebase 加载用户的所有配置 |
-| `setMyConfigs` | `configs: Configuration[]` | 直接设置我的配置列表 |
-| `setConfigId` | `id: string \| null` | 设置当前配置的 ID |
-| `setManualConfigName` | `name: string \| null` | 设置手动配置名称 |
+| Action                | 参数                       | 功能描述                                          |
+| --------------------- | -------------------------- | ------------------------------------------------- |
+| `loadConfiguration`   | `config: Configuration`    | 加载完整配置，设定类型、组件、配置ID和名称        |
+| `saveConfiguration`   | 无                         | 异步保存当前配置到 Firebase 或降级到 localStorage |
+| `deleteConfiguration` | `configId: string`         | 从存储中删除指定配置                              |
+| `loadMyConfigs`       | `userId?: string`          | 从 Firebase 加载用户的所有配置                    |
+| `setMyConfigs`        | `configs: Configuration[]` | 直接设置我的配置列表                              |
+| `setConfigId`         | `id: string \| null`       | 设置当前配置的 ID                                 |
+| `setManualConfigName` | `name: string \| null`     | 设置手动配置名称                                  |
 
 ### 4.3 UI 状态控制
 
-| Action | 参数 | 功能描述 |
-|--------|------|----------|
-| `toggleLibrary` | 无 | 切换组件库的显示/隐藏状态 |
+| Action                    | 参数                   | 功能描述                                    |
+| ------------------------- | ---------------------- | ------------------------------------------- |
+| `toggleLibrary`           | 无                     | 切换组件库的显示/隐藏状态                   |
 | `toggleComponentSelector` | `componentId?: string` | 切换组件选择器弹窗，可指定正在编辑的组件 ID |
 
 ### 4.4 用户状态
 
-| Action | 参数 | 功能描述 |
-|--------|------|----------|
-| `setLoggedIn` | `loggedIn: boolean` | 设置用户登录状态 |
-| `setUserId` | `userId: string \| null` | 设置当前用户 ID |
-| `setSaving` | `saving: boolean` | 设置保存操作进行中状态 |
+| Action        | 参数                     | 功能描述               |
+| ------------- | ------------------------ | ---------------------- |
+| `setLoggedIn` | `loggedIn: boolean`      | 设置用户登录状态       |
+| `setUserId`   | `userId: string \| null` | 设置当前用户 ID        |
+| `setSaving`   | `saving: boolean`        | 设置保存操作进行中状态 |
 
 ### 4.5 计算属性
 
-| Action | 参数 | 功能描述 |
-|--------|------|----------|
-| `getTotalCost` | 无 | 计算所有组件的总价格 |
-| `getTotalWeight` | 无 | 计算总重量（基础重量 + 组件重量）/ 转换因子 |
+| Action           | 参数 | 功能描述                                    |
+| ---------------- | ---- | ------------------------------------------- |
+| `getTotalCost`   | 无   | 计算所有组件的总价格                        |
+| `getTotalWeight` | 无   | 计算总重量（基础重量 + 组件重量）/ 转换因子 |
 
 ## 5. Selectors
 
@@ -184,11 +184,9 @@ const configCount = useConfigStore((state) => state.myConfigs.length);
 
 ```typescript
 // 创建可复用的 Selector Hook
-const useActiveComponents = () =>
-  useConfigStore((state) => state.components);
+const useActiveComponents = () => useConfigStore((state) => state.components);
 
-const useIsLoading = () =>
-  useConfigStore((state) => state.isSaving || state.isLoading);
+const useIsLoading = () => useConfigStore((state) => state.isSaving || state.isLoading);
 
 const useCurrentConfig = () =>
   useConfigStore((state) => ({
@@ -203,14 +201,10 @@ const useCurrentConfig = () =>
 
 ```typescript
 // 获取特定类型的配置
-const mtbConfigs = useConfigStore(
-  (state) => state.myConfigs.filter((c) => c.bikeType === 'MTB')
-);
+const mtbConfigs = useConfigStore((state) => state.myConfigs.filter((c) => c.bikeType === 'MTB'));
 
 // 获取已保存的配置
-const hasSavedConfig = useConfigStore(
-  (state) => state.configId !== null
-);
+const hasSavedConfig = useConfigStore((state) => state.configId !== null);
 ```
 
 ## 6. Firebase 集成
@@ -370,8 +364,11 @@ Store 文件应保持简洁，复杂逻辑应提取到独立服务：
 import { devtools } from 'zustand/middleware';
 
 export const useConfigStore = create<ConfigStore>()(
-  devtools((set, get) => ({
-    // ... store implementation
-  }), { name: 'Veloform Config Store' })
+  devtools(
+    (set, get) => ({
+      // ... store implementation
+    }),
+    { name: 'Veloform Config Store' }
+  )
 );
 ```

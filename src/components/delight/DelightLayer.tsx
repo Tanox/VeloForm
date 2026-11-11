@@ -49,10 +49,7 @@ export function DelightLayer() {
         );
         if (!reduceMotion) {
           document.body.classList.add('easter-egg-active');
-          window.setTimeout(
-            () => document.body.classList.remove('easter-egg-active'),
-            8000
-          );
+          window.setTimeout(() => document.body.classList.remove('easter-egg-active'), 8000);
         }
       }
     };

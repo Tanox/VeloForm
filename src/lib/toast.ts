@@ -1,3 +1,4 @@
+// 文件路径: src/lib/toast.ts v4.4.10
 'use client';
 
 import { toast as sonnerToast, Toaster } from 'sonner';
@@ -26,12 +27,6 @@ export function toast(type: ToastType, message: string, duration?: number) {
       break;
   }
 }
-
-// Legacy exports for backwards compatibility
-export const useToastStore = {
-  getState: () => ({ toasts: [] }),
-  subscribe: () => () => {},
-};
 
 // Re-export sonner Toaster component
 export const Toast = Toaster;

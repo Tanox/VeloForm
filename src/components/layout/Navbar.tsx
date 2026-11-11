@@ -135,7 +135,11 @@ export function Navbar({ onNavigate }: NavbarProps) {
             </button>
 
             <div className="hidden md:flex items-center gap-1">
-              <NavbarNavLinks items={navItems} onItemClick={handleNavItemClick} className="h-9 px-4" />
+              <NavbarNavLinks
+                items={navItems}
+                onItemClick={handleNavItemClick}
+                className="h-9 px-4"
+              />
             </div>
 
             <div className="flex items-center gap-1">

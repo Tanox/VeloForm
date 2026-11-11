@@ -44,20 +44,21 @@ export class App {
   // 基础状态
   activeType = signal<'Road' | 'MTB' | 'Fold'>('Road');
   components = signal<ConfigComponent[]>(ROAD_DEFAULTS);
-  
+
   // 计算属性
   configName = computed(() => {
-    switch(this.activeType()) {
-      case 'Road': return 'S-Works Tarmac SL8';
-      case 'MTB': return 'Epic World Cup';
-      case 'Fold': return 'Brompton T Line';
+    switch (this.activeType()) {
+      case 'Road':
+        return 'S-Works Tarmac SL8';
+      case 'MTB':
+        return 'Epic World Cup';
+      case 'Fold':
+        return 'Brompton T Line';
     }
   });
-  
-  totalCost = computed(() => 
-    this.components().reduce((sum, c) => sum + c.price, 0)
-  );
-  
+
+  totalCost = computed(() => this.components().reduce((sum, c) => sum + c.price, 0));
+
   // 副作用
   constructor() {
     effect(() => {
@@ -80,29 +81,29 @@ export class App {
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
   private notifications = signal<Notification[]>([]);
-  
+
   notifications$ = this.notifications.asReadonly();
-  
+
   success(message: string) {
     this.addNotification(message, 'success');
   }
-  
+
   error(message: string) {
     this.addNotification(message, 'error');
   }
-  
+
   private addNotification(message: string, type: NotificationType) {
     const notification: Notification = {
       id: crypto.randomUUID(),
       message,
       type,
-      createdAt: new Date()
+      createdAt: new Date(),
     };
-    this.notifications.update(n => [...n, notification]);
-    
+    this.notifications.update((n) => [...n, notification]);
+
     // 3秒后自动移除
     setTimeout(() => {
-      this.notifications.update(n => n.filter(notif => notif.id !== notification.id));
+      this.notifications.update((n) => n.filter((notif) => notif.id !== notification.id));
     }, 3000);
   }
 }
@@ -112,14 +113,14 @@ export class NotificationService {
 
 ## 权衡分析
 
-| 因素 | 支持 Signal | 支持 RxJS |
-|------|-------------|-----------|
-| **性能** | 细粒度更新，只更新依赖信号的组件 | 订阅模式，可能产生不必要的更新 |
-| **学习曲线** | 简单直观，API 简洁 | 概念较多，学习成本高 |
-| **类型安全** | 编译时类型检查 | 类型安全但需要额外操作符 |
-| **组合性** | computed 信号可组合 | 操作符丰富，但复杂度高 |
-| **Angular 集成** | 原生支持，无缝集成 | 需要额外导入和配置 |
-| **调试** | 简单直观 | 操作符链复杂，调试困难 |
+| 因素             | 支持 Signal                      | 支持 RxJS                      |
+| ---------------- | -------------------------------- | ------------------------------ |
+| **性能**         | 细粒度更新，只更新依赖信号的组件 | 订阅模式，可能产生不必要的更新 |
+| **学习曲线**     | 简单直观，API 简洁               | 概念较多，学习成本高           |
+| **类型安全**     | 编译时类型检查                   | 类型安全但需要额外操作符       |
+| **组合性**       | computed 信号可组合              | 操作符丰富，但复杂度高         |
+| **Angular 集成** | 原生支持，无缝集成               | 需要额外导入和配置             |
+| **调试**         | 简单直观                         | 操作符链复杂，调试困难         |
 
 ---
 
@@ -144,13 +145,11 @@ export class NotificationService {
 describe('App', () => {
   it('should update totalCost when components change', () => {
     const app = new App();
-    
+
     expect(app.totalCost()).toBe(7780); // 默认 Road 配置
-    
-    app.components.set([
-      { id: '1', category: 'Frame', name: 'Test', price: 1000, weight: 1000 }
-    ]);
-    
+
+    app.components.set([{ id: '1', category: 'Frame', name: 'Test', price: 1000, weight: 1000 }]);
+
     expect(app.totalCost()).toBe(1000);
   });
 });

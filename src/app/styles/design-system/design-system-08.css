@@ -8,13 +8,11 @@
     var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-
 .group\/tabs-list[data-variant='line']
   .group-data-\[variant\=line\]\/tabs-list\:data-\[active\]\:after\:opacity-100[data-active]::after {
   content: var(--tw-content);
   opacity: 1;
 }
-
 
 @supports (backdrop-filter: var(--tw)) {
   .supports-\[backdrop-filter\]\:backdrop-blur-sm {
@@ -26,93 +24,75 @@
   }
 }
 
-
 .dark\:bg-destructive\/20:is(.dark *) {
   background-color: hsl(var(--destructive) / 0.2);
 }
 
-
 .dark\:bg-input\/30:is(.dark *) {
   background-color: hsl(var(--input) / 0.3);
 }
-
 
 .dark\:bg-zinc-800:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(39 39 42 / var(--tw-bg-opacity, 1));
 }
 
-
 .dark\:text-muted-foreground:is(.dark *) {
   color: hsl(var(--muted-foreground));
 }
-
 
 .dark\:after\:mix-blend-lighten:is(.dark *)::after {
   content: var(--tw-content);
   mix-blend-mode: lighten;
 }
 
-
 .dark\:hover\:bg-input\/50:hover:is(.dark *) {
   background-color: hsl(var(--input) / 0.5);
 }
-
 
 .dark\:hover\:bg-muted\/50:hover:is(.dark *) {
   background-color: hsl(var(--muted) / 0.5);
 }
 
-
 .dark\:hover\:text-foreground:hover:is(.dark *) {
   color: hsl(var(--foreground));
 }
-
 
 .dark\:focus-visible\:ring-destructive\/40:focus-visible:is(.dark *) {
   --tw-ring-color: hsl(var(--destructive) / 0.4);
 }
 
-
 .dark\:disabled\:bg-input\/80:disabled:is(.dark *) {
   background-color: hsl(var(--input) / 0.8);
 }
-
 
 .dark\:data-\[active\]\:border-input[data-active]:is(.dark *) {
   border-color: hsl(var(--input));
 }
 
-
 .dark\:data-\[active\]\:bg-input\/30[data-active]:is(.dark *) {
   background-color: hsl(var(--input) / 0.3);
 }
-
 
 .dark\:data-\[checked\]\:bg-primary[data-checked]:is(.dark *) {
   background-color: hsl(var(--primary));
 }
 
-
 .dark\:data-\[checked\]\:bg-primary-foreground[data-checked]:is(.dark *) {
   background-color: hsl(var(--primary-foreground));
 }
-
 
 .dark\:data-\[unchecked\]\:bg-foreground[data-unchecked]:is(.dark *) {
   background-color: hsl(var(--foreground));
 }
 
-
 .dark\:data-\[unchecked\]\:bg-input\/80[data-unchecked]:is(.dark *) {
   background-color: hsl(var(--input) / 0.8);
 }
 
-
 .dark\:data-\[active\]\:text-foreground[data-active]:is(.dark *) {
   color: hsl(var(--foreground));
 }
-
 
 .dark\:data-\[variant\=destructive\]\:focus\:bg-destructive\/20:focus[data-variant='destructive']:is(
     .dark *
@@ -120,14 +100,12 @@
   background-color: hsl(var(--destructive) / 0.2);
 }
 
-
 .group\/tabs-list[data-variant='line']
   .dark\:group-data-\[variant\=line\]\/tabs-list\:data-\[active\]\:border-transparent[data-active]:is(
     .dark *
   ) {
   border-color: transparent;
 }
-
 
 .group\/tabs-list[data-variant='line']
   .dark\:group-data-\[variant\=line\]\/tabs-list\:data-\[active\]\:bg-transparent[data-active]:is(

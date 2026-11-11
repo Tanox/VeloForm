@@ -43,8 +43,6 @@ describe('i18n runtime behavior', () => {
     expect(useI18nStore.getState().t('nav.home')).toBe('ホーム');
     expect(useI18nStore.getState().t('common.save')).toBe('保存');
     // Falls back to English for any missing key
-    expect(useI18nStore.getState().t('this.key.does.not.exist')).toBe(
-      'this.key.does.not.exist'
-    );
+    expect(useI18nStore.getState().t('this.key.does.not.exist')).toBe('this.key.does.not.exist');
   });
 });

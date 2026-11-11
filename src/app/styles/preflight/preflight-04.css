@@ -9,7 +9,6 @@ button,
   cursor: pointer;
 }
 
-
 /*
 Make sure disabled buttons don't get the pointer cursor.
 */
@@ -17,7 +16,6 @@ Make sure disabled buttons don't get the pointer cursor.
 :disabled {
   cursor: default;
 }
-
 
 /*
 1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
@@ -39,7 +37,6 @@ object {
   /* 2 */
 }
 
-
 /*
 Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
 */
@@ -50,13 +47,11 @@ video {
   height: auto;
 }
 
-
 /* Make elements with the HTML hidden attribute stay hidden by default */
 
 [hidden]:where(:not([hidden='until-found'])) {
   display: none;
 }
-
 
 :root {
   /* Core Palette — Industrial Luxury (Dark Mode Default) */
@@ -117,7 +112,6 @@ video {
   --spacing-section-y-sm: 4rem;
 }
 
-
 .light {
   --background: 240 5% 97%;
   --foreground: 240 14% 8%;
@@ -157,7 +151,6 @@ video {
   --shadow-2xl: 0 40px 64px -12px rgba(20, 14, 8, 0.1), 0 16px 32px -12px rgba(20, 14, 8, 0.05);
 }
 
-
 html {
   font-family: var(--font-sans);
   font-size: 16px;
@@ -168,7 +161,6 @@ html {
   font-optical-sizing: auto;
 }
 
-
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
@@ -176,7 +168,6 @@ body {
   line-height: 1.6;
   letter-spacing: -0.01em;
 }
-
 
 ::-moz-selection {
   background-color: hsl(var(--primary) / 0.15);

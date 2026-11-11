@@ -69,10 +69,9 @@ export function getEnvSnapshot(): Env {
   return snapshot;
 }
 
-// 仅在开发模式下自动校验，避免生产环境因缺失变量崩溃。
-if (process.env.NODE_ENV === 'development') {
-  const result = validateEnv();
-  if (!result.ok) {
-    logger.warn('Environment validation warning:', result.message);
-  }
+// 所有环境均校验并告警：生产环境缺少云端变量会静默降级，必须可见。
+// 仅告警不抛错，避免缺少可选云端配置时直接阻断部署。
+const result = validateEnv();
+if (!result.ok) {
+  logger.warn('Environment validation warning:', result.message);
 }

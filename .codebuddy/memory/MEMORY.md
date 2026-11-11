@@ -4,6 +4,7 @@
 > 当前版本：v4.4.9（main 分支，2026-11-10）
 
 ## 关键架构与约定
+
 - 字体：系统字体栈（SF Pro 等），由 `src/app/styles/*` 的 `--font-display`/`--font-sans` 定义，**不依赖 next/font/google**（离线/CI 稳健）。
 - 样式构建：`src/app/styles/*.css` 是已编译产物（含 `@layer`，无 `@tailwind` 指令），`postcss.config.mjs` 只启用 autoprefixer；若恢复 Tailwind 插件会触发 `@layer` 无匹配指令的构建错误。拆分脚本会校验分片大括号平衡。
 - i18n：`en / zh-CN / ja` 三语，`src/lib/i18n/index.ts` 用 `satisfies Translations` 保证键对齐；语言切换 UI 覆盖三语，偏好存 localStorage 并做枚举校验。
@@ -16,12 +17,14 @@
 - 测试：vitest 3.x，`pool=forks`（Windows），`vitest.config.ts` 用 `coverage.include/exclude` 显式限定统计口径；测试文件静态 import。
 
 ## 环境注意
+
 - 本机 Node 26.x；`npm install` 会触发 IDE Safe-Delete 批量删除护栏（node_modules ≥500 文件），**不要反复重试或改写等效删除**，需用户在 IDE 手动确认后执行。
 - 长命令（tsc/lint/test/build）用后台 detached node 脚本 + `.tmp/*-out.txt` 结果文件轮询，前台常因耗时被跳过。
 - 项目历史上 package.json 曾写入 UTF-8 BOM，已修复（v4.4.1）；build 报 `Unexpected token` 优先排查 BOM。
 - 2026-11-10 存在多会话并行改动同一仓库的情况；写文档/提交前必须重新 `git status` + `git log` + 实查版本号。
 
 ## 版本发布
+
 - 规则：每次修改至少 bump 一次 patch；同步 `package.json`/`package-lock.json`、`README.md`/`README_EN.md` 版本展示位、`docs/SPEC.md`、`docs/tasks.md`、`CHANGELOG.md` 新增小节、页脚自动注入；**只有被改动文件**更新头注释版本，禁止全仓批量刷写，历史 CHANGELOG 版本不得改写。
 - 规范文档位置（v4.4.7 起）：`docs/`（api/architecture/design/development/deployment/performance/security + 根级 SPEC.md/README.md/PROJECT_GUIDELINES.md/规范标准化.md/prototype-guide.md），`docs/README.md` 为规范索引；唯一任务单源为 `docs/tasks.md` + `docs/tasks-done.md` 归档。
 - 主要分支：main（生产）、develop（集成）；远程 `https://github.com/Tanox/VeloForm.git`。

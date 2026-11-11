@@ -3,14 +3,7 @@
 import { motion } from 'framer-motion';
 import { useCallback } from 'react';
 import { useClientReducedMotion } from '@/lib/hooks/use-client-reduced-motion';
-import {
-  Bike,
-  Award,
-  Users,
-  Globe,
-  Heart,
-  Target,
-} from 'lucide-react';
+import { Bike, Award, Users, Globe, Heart, Target } from 'lucide-react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { useTranslation } from '@/lib/i18n';

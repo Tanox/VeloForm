@@ -2,7 +2,7 @@
 
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-import { Button } from './button';
+import { Button } from '@/components/ui/button';
 import { ChevronRight, Sparkles } from 'lucide-react';
 import { type TranslationFunction } from '@/lib/i18n';
 import { OnboardingStep } from './onboarding-steps';
@@ -96,19 +96,11 @@ function OnboardingStepContentBase({
         className="mt-6 sm:mt-8 flex gap-3"
       >
         {stepIndex > 0 && (
-          <Button
-            variant="ghost"
-            className="flex-1 touch-target"
-            onClick={onBack}
-          >
+          <Button variant="ghost" className="flex-1 touch-target" onClick={onBack}>
             {t('onboarding.back')}
           </Button>
         )}
-        <Button
-          className="flex-1 touch-target tap-scale"
-          size="lg"
-          onClick={onNext}
-        >
+        <Button className="flex-1 touch-target tap-scale" size="lg" onClick={onNext}>
           {!isLastStep ? (
             <>
               {t('onboarding.next')}

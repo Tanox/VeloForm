@@ -29,6 +29,7 @@ const translations: Record<string, Translations> = {
 import { create } from 'zustand';
 import type { StateCreator } from 'zustand';
 import { useCallback, useEffect } from 'react';
+import { safeLocalStorage } from '@/lib/storage';
 
 type Language = keyof typeof translations;
 
@@ -41,7 +42,7 @@ const STORAGE_KEY = 'veloform-language';
 function getInitialLanguage(): Language {
   if (typeof window === 'undefined') return 'en';
   try {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
+    const stored = safeLocalStorage().getItem(STORAGE_KEY);
     if (stored === 'en' || stored === 'zh-CN' || stored === 'ja') return stored;
     const navLang = window.navigator?.language?.toLowerCase() ?? '';
     if (navLang.startsWith('zh')) return 'zh-CN';
@@ -65,10 +66,7 @@ interface I18nStore {
   t: (key: string, params?: Record<string, string | number>) => string | readonly string[];
 }
 
-function getNestedValue(
-  obj: unknown,
-  path: string
-): string | readonly string[] | undefined {
+function getNestedValue(obj: unknown, path: string): string | readonly string[] | undefined {
   const result = path.split('.').reduce<unknown>((acc, part) => {
     if (typeof acc === 'object' && acc !== null) {
       return (acc as Record<string, unknown>)[part];
@@ -90,7 +88,7 @@ const i18nStoreCreator: StateCreator<I18nStore> = (set, get) => ({
     set({ language: lang });
     if (typeof window !== 'undefined') {
       try {
-        window.localStorage.setItem(STORAGE_KEY, lang);
+        safeLocalStorage().setItem(STORAGE_KEY, lang);
       } catch {
         /* ignore storage errors */
       }

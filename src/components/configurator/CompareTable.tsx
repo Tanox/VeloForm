@@ -14,15 +14,27 @@ interface CompareTableProps {
   t: (key: string, params?: Record<string, string | number>) => string | readonly string[];
 }
 
-function CompareTableBase({ comparingConfigs, minCost, minWeight, getBestValue, t }: CompareTableProps) {
+function CompareTableBase({
+  comparingConfigs,
+  minCost,
+  minWeight,
+  getBestValue,
+  t,
+}: CompareTableProps) {
   const categories = comparingConfigs[0]?.components.map((c) => c.category) || [];
 
   return (
-    <div id="compare-table" className="overflow-x-auto rounded-2xl border border-border-light overflow-hidden">
+    <div
+      id="compare-table"
+      className="overflow-x-auto rounded-2xl border border-border-light overflow-hidden"
+    >
       <table className="w-full min-w-[700px]">
         <thead>
           <tr className="bg-surface-tertiary/50">
-            <th scope="col" className="text-left py-4 px-5 text-sm font-semibold text-muted-foreground w-1/5">
+            <th
+              scope="col"
+              className="text-left py-4 px-5 text-sm font-semibold text-muted-foreground w-1/5"
+            >
               {t('compare.component')}
             </th>
             {comparingConfigs.map((config) => (
@@ -48,8 +60,8 @@ function CompareTableBase({ comparingConfigs, minCost, minWeight, getBestValue, 
             const bestWeight = getBestValue(weights);
 
             return (
-          <tr key={category} className="border-t border-border-light">
-            <th scope="row" className="py-4 px-5 text-left">
+              <tr key={category} className="border-t border-border-light">
+                <th scope="row" className="py-4 px-5 text-left">
                   <span className="text-sm font-semibold text-foreground">
                     {t(`categories.${category.toLowerCase()}`) || category}
                   </span>
@@ -143,7 +155,9 @@ function CompareTableBase({ comparingConfigs, minCost, minWeight, getBestValue, 
           {/* 总重量行 */}
           <tr className="border-t border-border-light bg-surface-tertiary/30">
             <th scope="row" className="py-5 px-5 text-left">
-              <span className="text-sm font-bold text-foreground">{t('compare.estimatedWeight')}</span>
+              <span className="text-sm font-bold text-foreground">
+                {t('compare.estimatedWeight')}
+              </span>
             </th>
             {comparingConfigs.map((config, idx) => (
               <td key={idx} className="text-center py-5 px-4">

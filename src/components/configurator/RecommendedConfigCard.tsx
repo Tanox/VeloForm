@@ -26,7 +26,10 @@ function RecommendedConfigCardBase({ config, index, onLoad }: RecommendedConfigC
       transition={{ delay: index * 0.08 }}
     >
       <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-md">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full" aria-hidden="true" />
+        <div
+          className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full"
+          aria-hidden="true"
+        />
 
         <div className="relative p-6">
           <div className="flex items-center gap-2 mb-3">

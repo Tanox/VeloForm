@@ -259,13 +259,13 @@ jobs:
 
 ### 性能预算
 
-| 指标 | 警告阈值 | 错误阈值 |
-|------|---------|---------|
-| First Contentful Paint (FCP) | < 1.8s | < 2.5s |
-| Largest Contentful Paint (LCP) | < 2.5s | < 4.0s |
-| Time to Interactive (TTI) | < 3.8s | < 5.0s |
-| Total Blocking Time (TBT) | < 200ms | < 400ms |
-| Cumulative Layout Shift (CLS) | < 0.1 | < 0.25 |
+| 指标                           | 警告阈值 | 错误阈值 |
+| ------------------------------ | -------- | -------- |
+| First Contentful Paint (FCP)   | < 1.8s   | < 2.5s   |
+| Largest Contentful Paint (LCP) | < 2.5s   | < 4.0s   |
+| Time to Interactive (TTI)      | < 3.8s   | < 5.0s   |
+| Total Blocking Time (TBT)      | < 200ms  | < 400ms  |
+| Cumulative Layout Shift (CLS)  | < 0.1    | < 0.25   |
 
 ---
 
@@ -293,7 +293,7 @@ export const appConfig: ApplicationConfig = {
         },
       }),
     },
-  ]
+  ],
 };
 
 // Initialize Sentry
@@ -301,7 +301,7 @@ Sentry.init({
   dsn: 'https://your-dsn@sentry.io/project-id',
   environment: import.meta.env.PROD ? 'production' : 'development',
   release: `veloform@${APP_VERSION}`,
-  
+
   // Performance Monitoring
   integrations: [
     new Integrations.BrowserTracing({
@@ -311,10 +311,10 @@ Sentry.init({
       samplingRate: 0.1, // 10% of sessions
     }),
   ],
-  
+
   // Set tracesSampleRate to 1.0 to capture 100% of transactions
   tracesSampleRate: 0.2, // 20% in production
-  
+
   // Session Replay
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
@@ -328,6 +328,7 @@ Sentry.setUser({
 ```
 
 **关键错误告警规则**：
+
 - Firebase 认证失败率 > 5%
 - Firestore 写入错误率 > 2%
 - Three.js 渲染错误
@@ -389,12 +390,15 @@ function sendToAnalytics(metric: string, value: number) {
   });
 
   // Send to custom analytics endpoint
-  navigator.sendBeacon('/api/analytics', JSON.stringify({
-    metric,
-    value,
-    timestamp: Date.now(),
-    url: window.location.href,
-  }));
+  navigator.sendBeacon(
+    '/api/analytics',
+    JSON.stringify({
+      metric,
+      value,
+      timestamp: Date.now(),
+      url: window.location.href,
+    })
+  );
 }
 ```
 
@@ -418,7 +422,11 @@ export function trackPageView(page: string) {
 }
 
 // Track key user actions
-export function trackConfigurationSaved(bikeType: string, componentCount: number, totalCost: number) {
+export function trackConfigurationSaved(
+  bikeType: string,
+  componentCount: number,
+  totalCost: number
+) {
   trackEvent('configuration_saved', {
     bike_type: bikeType,
     component_count: componentCount,
@@ -488,7 +496,7 @@ export class LoggerService {
 
   error(message: string, error?: any): void {
     this.writeLog(LogLevel.ERROR, message, { error });
-    
+
     // Always send errors to Sentry in production
     if (this.isProduction) {
       Sentry.captureMessage(message, {
@@ -509,8 +517,8 @@ export class LoggerService {
 
     // Console logging in development
     if (!this.isProduction) {
-      const consoleMethod = level === LogLevel.ERROR ? 'error' :
-                           level === LogLevel.WARN ? 'warn' : 'log';
+      const consoleMethod =
+        level === LogLevel.ERROR ? 'error' : level === LogLevel.WARN ? 'warn' : 'log';
       console[consoleMethod](`[${level}] ${message}`, context);
     }
 
@@ -562,6 +570,7 @@ app.get('/api/ready', (req, res) => {
 ### Uptime 监控
 
 使用 **UptimeRobot** 或 **Pingdom**：
+
 - 监控频率：每 5 分钟
 - 告警渠道：Slack + Email
 - SLA 目标：99.9%
@@ -572,13 +581,13 @@ app.get('/api/ready', (req, res) => {
 
 ### 告警规则
 
-| 指标 | 阈值 | 持续时间 | 告警级别 | 通知渠道 |
-|------|------|---------|---------|---------|
-| 错误率 | > 5% | 5 分钟 | Critical | Slack + PagerDuty |
-| P95 延迟 | > 2s | 10 分钟 | Warning | Slack |
-| 可用性 | < 99.9% | 15 分钟 | Critical | Slack + Email |
-| Bundle Size | > 2MB | - | Warning | GitHub Issue |
-| LCP | > 4s | 30 分钟 | Warning | Slack |
+| 指标        | 阈值    | 持续时间 | 告警级别 | 通知渠道          |
+| ----------- | ------- | -------- | -------- | ----------------- |
+| 错误率      | > 5%    | 5 分钟   | Critical | Slack + PagerDuty |
+| P95 延迟    | > 2s    | 10 分钟  | Warning  | Slack             |
+| 可用性      | < 99.9% | 15 分钟  | Critical | Slack + Email     |
+| Bundle Size | > 2MB   | -        | Warning  | GitHub Issue      |
+| LCP         | > 4s    | 30 分钟  | Warning  | Slack             |
 
 ### 告警模板
 
@@ -591,10 +600,12 @@ app.get('/api/ready', (req, res) => {
 **Affected Users**: ~150 users
 
 **Recent Errors**:
+
 - Firebase auth failed (45 occurrences)
 - Firestore write timeout (23 occurrences)
 
-**Action Required**: 
+**Action Required**:
+
 1. Check Firebase status: https://status.firebase.google.com
 2. Review recent deployments
 3. Check server logs

@@ -15,7 +15,6 @@ hr {
   /* 3 */
 }
 
-
 /*
 Add the correct text decoration in Chrome, Edge, and Safari.
 */
@@ -24,7 +23,6 @@ abbr:where([title]) {
   -webkit-text-decoration: underline dotted;
   text-decoration: underline dotted;
 }
-
 
 /*
 Remove the default font size and weight for headings.
@@ -40,7 +38,6 @@ h6 {
   font-weight: inherit;
 }
 
-
 /*
 Reset links to optimize for opt-in styling instead of opt-out.
 */
@@ -50,7 +47,6 @@ a {
   text-decoration: inherit;
 }
 
-
 /*
 Add the correct font weight in Edge and Safari.
 */
@@ -59,7 +55,6 @@ b,
 strong {
   font-weight: bolder;
 }
-
 
 /*
 1. Use the user's configured `mono` font-family by default.
@@ -82,7 +77,6 @@ pre {
   /* 4 */
 }
 
-
 /*
 Add the correct font size in all browsers.
 */
@@ -90,7 +84,6 @@ Add the correct font size in all browsers.
 small {
   font-size: 80%;
 }
-
 
 /*
 Prevent `sub` and `sup` elements from affecting the line height in all browsers.
@@ -104,16 +97,13 @@ sup {
   vertical-align: baseline;
 }
 
-
 sub {
   bottom: -0.25em;
 }
 
-
 sup {
   top: -0.5em;
 }
-
 
 /*
 1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
@@ -129,7 +119,6 @@ table {
   border-collapse: collapse;
   /* 3 */
 }
-
 
 /*
 1. Change the font styles in all browsers.
@@ -163,7 +152,6 @@ textarea {
   padding: 0;
   /* 3 */
 }
-
 
 /*
 Remove the inheritance of text transform in Edge and Firefox.

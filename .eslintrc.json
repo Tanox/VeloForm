@@ -1,6 +1,16 @@
 {
   "extends": ["next/core-web-vitals"],
   "rules": {
-    "eqeqeq": ["error", "always"]
-  }
+    "eqeqeq": ["error", "always"],
+    "no-console": "error",
+    "no-debugger": "error"
+  },
+  "overrides": [
+    {
+      "files": ["src/lib/logger.ts", "**/*.test.{ts,tsx}"],
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ]
 }

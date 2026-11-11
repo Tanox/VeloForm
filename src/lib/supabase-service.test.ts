@@ -72,12 +72,12 @@ const baseConfig: Configuration = {
 };
 
 describe('supabase-service', () => {
-    beforeEach(() => {
-      vi.clearAllMocks();
-      insertMock.__setResolved({ data: { id: 'row-1' }, error: null });
-      loadMock.__setResolved({ data: [], error: null });
-      deleteMock.__setResolved({ data: null, error: null });
-    });
+  beforeEach(() => {
+    vi.clearAllMocks();
+    insertMock.__setResolved({ data: { id: 'row-1' }, error: null });
+    loadMock.__setResolved({ data: [], error: null });
+    deleteMock.__setResolved({ data: null, error: null });
+  });
 
   afterEach(() => {
     vi.restoreAllMocks();
@@ -85,7 +85,10 @@ describe('supabase-service', () => {
 
   describe('saveConfigurationToSupabase', () => {
     it('inserts when config id is missing', async () => {
-      const id = await saveConfigurationToSupabase({ ...baseConfig, id: undefined as never }, 'user-1');
+      const id = await saveConfigurationToSupabase(
+        { ...baseConfig, id: undefined as never },
+        'user-1'
+      );
       expect(insertMock.insert).toHaveBeenCalled();
       expect(id).toBe('row-1');
     });

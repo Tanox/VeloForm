@@ -100,7 +100,8 @@ const en: WhimsyDict = {
   },
   build: {
     emptyTitle: 'Your garage is empty',
-    emptyDesc: 'Ready to build your first dream machine? Every part gets you one step closer to the perfect ride.',
+    emptyDesc:
+      'Ready to build your first dream machine? Every part gets you one step closer to the perfect ride.',
     emptyCta: 'Pick your first part',
     completeTitle: 'Build complete 🎉',
     completeMsg: 'Your dream ride is ready to roll!',
@@ -138,7 +139,8 @@ const ja: WhimsyDict = {
   },
   build: {
     emptyTitle: 'ガレージはまだ空っぽ',
-    emptyDesc: '最初のドリームマシンを作る準備はできていますか？パーツを一つ増えるごとに、完璧な一台に近づきます。',
+    emptyDesc:
+      '最初のドリームマシンを作る準備はできていますか？パーツを一つ増えるごとに、完璧な一台に近づきます。',
     emptyCta: '最初のパーツを選ぶ',
     completeTitle: '組み立て完了 🎉',
     completeMsg: 'あなたの夢の一台は出発できる状態です！',

@@ -2,17 +2,15 @@
 'use client';
 
 import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Hero } from '@/components/sections/Hero';
 import { Features } from '@/components/sections/Features';
-import { Pricing } from '@/components/sections/Pricing';
-import { Cta } from '@/components/sections/Cta';
 import { BikeTypeSelector } from '@/components/configurator/BikeTypeSelector';
 import { BuildList } from '@/components/configurator/BuildList';
 import { SummaryPanel } from '@/components/configurator/SummaryPanel';
 import { ComponentSelector } from '@/components/configurator/ComponentSelector';
-import { RecommendedConfigs } from '@/components/configurator/RecommendedConfigs';
 import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
 import { SectionSkeleton } from '@/components/ui/SectionSkeleton';
@@ -20,6 +18,13 @@ import { motion } from 'framer-motion';
 import { uiLogger } from '@/lib/logger';
 import { useKeyboardShortcuts } from '@/lib/hooks/useKeyboardShortcuts';
 import { useSharedConfig } from '@/lib/hooks/use-shared-config';
+
+// 非首屏区块按需加载，Suspense 提供加载态，避免全部区块打进首屏 chunk
+const Pricing = dynamic(() => import('@/components/sections/Pricing').then((m) => m.Pricing));
+const Cta = dynamic(() => import('@/components/sections/Cta').then((m) => m.Cta));
+const RecommendedConfigs = dynamic(() =>
+  import('@/components/configurator/RecommendedConfigs').then((m) => m.RecommendedConfigs)
+);
 
 export default function Home() {
   const handleNavigate = (page: string) => {
@@ -54,9 +59,7 @@ export default function Home() {
             <h2 className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-3">
               选择你的车型
             </h2>
-            <p className="text-muted text-lg">
-              我们为您提供公路车、山地车和折叠车三种选择
-            </p>
+            <p className="text-muted text-lg">我们为您提供公路车、山地车和折叠车三种选择</p>
           </div>
           <BikeTypeSelector />
         </motion.section>
@@ -85,7 +88,13 @@ export default function Home() {
         </ErrorBoundary>
 
         {/* Recommended Configurations */}
-        <Suspense fallback={<div className="max-w-7xl mx-auto px-4"><SectionSkeleton height="h-64" /></div>}>
+        <Suspense
+          fallback={
+            <div className="max-w-7xl mx-auto px-4">
+              <SectionSkeleton height="h-64" />
+            </div>
+          }
+        >
           <motion.section
             id="section-recommended"
             initial={{ opacity: 0, y: 40 }}

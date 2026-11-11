@@ -69,7 +69,10 @@ export function VersionHistory({ isOpen, onClose }: VersionHistoryProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent id="version-history-dialog" className="max-w-lg max-h-[85vh] overflow-hidden flex flex-col">
+      <DialogContent
+        id="version-history-dialog"
+        className="max-w-lg max-h-[85vh] overflow-hidden flex flex-col"
+      >
         <DialogHeader>
           <DialogTitle className="text-xl flex items-center gap-2">
             <History className="w-5 h-5" aria-hidden="true" />

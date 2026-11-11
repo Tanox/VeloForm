@@ -43,7 +43,9 @@ function BuildListItemBase({ component, index, onEdit }: BuildListItemProps) {
           strokeLinejoin="round"
           aria-hidden="true"
           // 安全：categoryIcons 为编译期静态常量映射，category 仅作 key 查询且有兜底，无用户输入注入
-          dangerouslySetInnerHTML={{ __html: categoryIcons[component.category.toLowerCase()] || categoryIcons.frame }}
+          dangerouslySetInnerHTML={{
+            __html: categoryIcons[component.category.toLowerCase()] || categoryIcons.frame,
+          }}
         />
       </div>
 
@@ -51,13 +53,9 @@ function BuildListItemBase({ component, index, onEdit }: BuildListItemProps) {
         <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider mb-1">
           {categoryLabels[component.category.toLowerCase()] || component.category}
         </div>
-        <div className="text-sm font-semibold text-foreground truncate">
-          {component.name}
-        </div>
+        <div className="text-sm font-semibold text-foreground truncate">{component.name}</div>
         {component.brand && (
-          <div className="text-xs text-muted-foreground mt-0.5">
-            {component.brand}
-          </div>
+          <div className="text-xs text-muted-foreground mt-0.5">{component.brand}</div>
         )}
       </div>
 
@@ -73,7 +71,13 @@ function BuildListItemBase({ component, index, onEdit }: BuildListItemProps) {
       <motion.button
         className="w-8 h-8 rounded-md border border-border bg-background text-muted-foreground flex items-center justify-center flex-shrink-0"
         initial={{ opacity: 0, x: -8 }}
-        whileHover={{ opacity: 1, x: 0, borderColor: 'var(--primary)', color: 'var(--primary)', backgroundColor: 'var(--primary)/5' }}
+        whileHover={{
+          opacity: 1,
+          x: 0,
+          borderColor: 'var(--primary)',
+          color: 'var(--primary)',
+          backgroundColor: 'var(--primary)/5',
+        }}
         onClick={(e) => {
           e.stopPropagation();
           onEdit(component.id);

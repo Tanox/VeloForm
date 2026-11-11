@@ -1,20 +1,45 @@
 'use client';
 
-import React from 'react';
+import { useState } from 'react';
+import Image from 'next/image';
+import { ImageOff } from 'lucide-react';
 
-function ComponentDetailThumbnailListBase() {
+interface ComponentDetailThumbnailListProps {
+  imageUrl?: string;
+  name: string;
+}
+
+/**
+ * 组件详情缩略图：仅渲染真实存在的主图，避免无图集数据时的占位块。
+ * 图片加载失败时降级为图标，不产生「可点击却无内容」的假入口。
+ */
+export function ComponentDetailThumbnailList({
+  imageUrl,
+  name,
+}: ComponentDetailThumbnailListProps) {
+  const [hasError, setHasError] = useState(false);
+  if (!imageUrl || hasError) return null;
+
   return (
-    <div className="flex gap-2 mt-4">
-      {[1, 2, 3].map((i) => (
-        <div
-          key={i}
-          className="w-16 h-16 rounded-xl bg-surface-tertiary border border-border-light overflow-hidden"
-        >
-          <div className="w-full h-full bg-gradient-to-br from-surface-tertiary to-surface" />
-        </div>
-      ))}
+    <div
+      id="component-detail-thumbnails"
+      className="flex gap-2 mt-4"
+      role="list"
+      aria-label={`${name} thumbnail`}
+    >
+      <div
+        className="w-16 h-16 rounded-xl bg-surface-tertiary border border-border-light overflow-hidden"
+        role="listitem"
+      >
+        <Image
+          src={imageUrl}
+          alt={name}
+          width={64}
+          height={64}
+          className="w-full h-full object-cover"
+          onError={() => setHasError(true)}
+        />
+      </div>
     </div>
   );
 }
-
-export const ComponentDetailThumbnailList = React.memo(ComponentDetailThumbnailListBase);

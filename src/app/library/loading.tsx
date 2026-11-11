@@ -15,10 +15,7 @@ export default function LibraryLoading() {
   const reduceMotion = useClientReducedMotion();
 
   useEffect(() => {
-    const timer = window.setInterval(
-      () => setIdx((p) => (p + 1) % phrases.length),
-      1900
-    );
+    const timer = window.setInterval(() => setIdx((p) => (p + 1) % phrases.length), 1900);
     return () => window.clearInterval(timer);
   }, [phrases.length]);
 
@@ -47,7 +44,9 @@ export default function LibraryLoading() {
         <div className="mb-6 sm:mb-8 flex items-center gap-3">
           <motion.div
             animate={reduceMotion ? undefined : { rotate: 360 }}
-            transition={reduceMotion ? undefined : { duration: 1.6, repeat: Infinity, ease: 'linear' }}
+            transition={
+              reduceMotion ? undefined : { duration: 1.6, repeat: Infinity, ease: 'linear' }
+            }
             className="flex-shrink-0"
           >
             <Bike className="w-7 h-7 text-primary" aria-hidden="true" />

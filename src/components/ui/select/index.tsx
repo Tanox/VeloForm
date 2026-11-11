@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 export { Select, SelectGroup, SelectValue } from './select-root';
 export { SelectTrigger } from './select-trigger';

@@ -14,7 +14,13 @@ interface AboutStatCardProps {
   getTransition: (delay?: number) => { duration: number; delay: number };
 }
 
-function AboutStatCardBase({ icon: Icon, labelKey, index, getInitial, getTransition }: AboutStatCardProps) {
+function AboutStatCardBase({
+  icon: Icon,
+  labelKey,
+  index,
+  getInitial,
+  getTransition,
+}: AboutStatCardProps) {
   const t = useTranslation();
   return (
     <motion.div

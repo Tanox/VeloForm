@@ -12,7 +12,12 @@ vi.mock('@/lib/supabase', () => ({
   isSupabaseConfigured: () => false,
 }));
 
-import { saveConfiguration, deleteConfiguration, exportConfiguration, generateShareableLink } from './config-service';
+import {
+  saveConfiguration,
+  deleteConfiguration,
+  exportConfiguration,
+  generateShareableLink,
+} from './config-service';
 import { useConfigStore } from '@/lib/stores/config-store';
 import { useCompareStore } from '@/lib/stores/compare-store';
 

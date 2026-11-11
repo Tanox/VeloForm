@@ -17,10 +17,7 @@ export default function HomeLoading() {
   const reduceMotion = useClientReducedMotion();
 
   useEffect(() => {
-    const timer = window.setInterval(
-      () => setIdx((p) => (p + 1) % phrases.length),
-      1900
-    );
+    const timer = window.setInterval(() => setIdx((p) => (p + 1) % phrases.length), 1900);
     return () => window.clearInterval(timer);
   }, [phrases.length]);
 
@@ -30,7 +27,9 @@ export default function HomeLoading() {
       <div className="relative mb-8">
         <motion.div
           animate={reduceMotion ? undefined : { y: [0, -6, 0] }}
-          transition={reduceMotion ? undefined : { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+          transition={
+            reduceMotion ? undefined : { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }
+          }
         >
           <Bike className="w-16 h-16 text-primary" aria-hidden="true" />
         </motion.div>
@@ -68,7 +67,9 @@ export default function HomeLoading() {
           style={{ width: '45%' }}
           initial={{ x: reduceMotion ? '0%' : '-100%' }}
           animate={reduceMotion ? { x: '0%' } : { x: '260%' }}
-          transition={reduceMotion ? undefined : { duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+          transition={
+            reduceMotion ? undefined : { duration: 1.4, repeat: Infinity, ease: 'easeInOut' }
+          }
         />
       </div>
 

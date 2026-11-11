@@ -114,15 +114,21 @@ export function Hero({ onNavigate }: HeroProps) {
             >
               <div className="flex flex-col gap-1">
                 <span className="text-2xl font-mono font-semibold text-foreground">500+</span>
-                <span className="text-xs text-muted-foreground uppercase tracking-wider">组件选项</span>
+                <span className="text-xs text-muted-foreground uppercase tracking-wider">
+                  组件选项
+                </span>
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-2xl font-mono font-semibold text-foreground">12kg</span>
-                <span className="text-xs text-muted-foreground uppercase tracking-wider">最轻配置</span>
+                <span className="text-xs text-muted-foreground uppercase tracking-wider">
+                  最轻配置
+                </span>
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-2xl font-mono font-semibold text-foreground">∞</span>
-                <span className="text-xs text-muted-foreground uppercase tracking-wider">组合可能</span>
+                <span className="text-xs text-muted-foreground uppercase tracking-wider">
+                  组合可能
+                </span>
               </div>
             </motion.div>
           </div>
@@ -145,19 +151,27 @@ export function Hero({ onNavigate }: HeroProps) {
                   style={{ filter: 'saturate(0.85) contrast(1.1)' }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
-                
+
                 <div className="absolute top-4 left-4 px-3 py-1.5 bg-background/70 backdrop-blur-md border border-border rounded-md">
-                  <span className="text-xs font-mono text-muted-foreground tracking-wider">FRAME — T800 CARBON</span>
+                  <span className="text-xs font-mono text-muted-foreground tracking-wider">
+                    FRAME — T800 CARBON
+                  </span>
                 </div>
-                
+
                 <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
                   <div className="flex flex-col gap-1">
-                    <span className="text-xs text-muted-foreground uppercase tracking-wider">重量</span>
+                    <span className="text-xs text-muted-foreground uppercase tracking-wider">
+                      重量
+                    </span>
                     <span className="text-base font-mono font-semibold text-foreground">890g</span>
                   </div>
                   <div className="flex flex-col gap-1 text-right">
-                    <span className="text-xs text-muted-foreground uppercase tracking-wider">刚性</span>
-                    <span className="text-base font-mono font-semibold text-foreground">142 N/mm</span>
+                    <span className="text-xs text-muted-foreground uppercase tracking-wider">
+                      刚性
+                    </span>
+                    <span className="text-base font-mono font-semibold text-foreground">
+                      142 N/mm
+                    </span>
                   </div>
                 </div>
               </div>
@@ -167,8 +181,12 @@ export function Hero({ onNavigate }: HeroProps) {
                 animate={shouldReduceMotion ? {} : { y: [0, -10, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
               >
-                <div className="text-xs text-muted-foreground uppercase tracking-wider mb-2">配置完成度</div>
-                <div className="text-3xl font-mono font-bold text-primary leading-none mb-1">72%</div>
+                <div className="text-xs text-muted-foreground uppercase tracking-wider mb-2">
+                  配置完成度
+                </div>
+                <div className="text-3xl font-mono font-bold text-primary leading-none mb-1">
+                  72%
+                </div>
                 <div className="text-xs font-mono text-muted-foreground mb-3">COMPLETION</div>
                 <div className="h-[3px] bg-background rounded-full overflow-hidden">
                   <motion.div

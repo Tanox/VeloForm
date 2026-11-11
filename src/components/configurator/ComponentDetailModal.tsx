@@ -33,12 +33,12 @@ export function ComponentDetailModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-                <DialogContent id="component-detail-modal" className="max-w-5xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-xl">{detail.name}</DialogTitle>
-          </DialogHeader>
-          <div id="component-detail-content" className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <ComponentDetailImage detail={detail} />
+      <DialogContent id="component-detail-modal" className="max-w-5xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="text-xl">{detail.name}</DialogTitle>
+        </DialogHeader>
+        <div id="component-detail-content" className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <ComponentDetailImage detail={detail} />
 
           {/* 右侧：详情 */}
           <motion.div
@@ -80,7 +80,9 @@ export function ComponentDetailModal({
                   <span className="text-lg font-bold text-primary">¥</span>
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider">{t('componentDetail.price')}</p>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider">
+                    {t('componentDetail.price')}
+                  </p>
                   <p className="text-xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
                     {formatCurrency(detail.price)}
                   </p>
@@ -91,7 +93,9 @@ export function ComponentDetailModal({
                   <Scale className="w-5 h-5 text-accent" />
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider">{t('componentDetail.weight')}</p>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider">
+                    {t('componentDetail.weight')}
+                  </p>
                   <p className="text-xl font-bold bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
                     {formatWeight(detail.weight / 1000)}
                   </p>
@@ -148,7 +152,12 @@ export function ComponentDetailModal({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                <Button id="component-detail-select" size="lg" onClick={onSelect} className="w-full">
+                <Button
+                  id="component-detail-select"
+                  size="lg"
+                  onClick={onSelect}
+                  className="w-full"
+                >
                   {t('componentDetail.selectComponent')}
                   <ChevronRight className="w-5 h-5 ml-2" />
                 </Button>

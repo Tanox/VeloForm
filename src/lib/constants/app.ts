@@ -15,10 +15,6 @@ export const APP_CONSTANTS = {
     Fold: 2000,
   } as const,
   WEIGHT_CONVERSION_FACTOR: 1000,
-  SUPABASE_TABLES: {
-    configurations: 'configurations',
-    components: 'components',
-  } as const,
   APP_INFO: {
     name: 'Veloform',
     version: '4.4.9',

@@ -80,7 +80,9 @@ export function BuildList() {
     <div id="build-list" className="space-y-2">
       <div className="flex items-center justify-between py-2">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-foreground uppercase tracking-wider">组件清单</span>
+          <span className="text-sm font-semibold text-foreground uppercase tracking-wider">
+            组件清单
+          </span>
           <span className="px-2 py-0.5 text-xs font-mono text-muted-foreground bg-card border border-border rounded-md">
             {components.length} / {totalCategories}
           </span>
@@ -103,9 +105,7 @@ export function BuildList() {
           <div className="w-16 h-16 mx-auto mb-4 bg-muted rounded-xl flex items-center justify-center">
             <Plus className="w-8 h-8 text-muted-foreground" />
           </div>
-          <h4 className="text-lg font-semibold text-foreground mb-2">
-            {w('build.emptyTitle')}
-          </h4>
+          <h4 className="text-lg font-semibold text-foreground mb-2">{w('build.emptyTitle')}</h4>
           <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
             {w('build.emptyDesc')}
           </p>

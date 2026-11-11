@@ -26,17 +26,17 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface ConfigState {
-  activeType: BikeType;           // 当前选中车型
-  components: ConfigComponent[];  // 当前配置组件列表
-  configId: string | null;        // 当前配置 ID（已保存时）
-  manualConfigName: string | null;// 用户自定义配置名称
+  activeType: BikeType; // 当前选中车型
+  components: ConfigComponent[]; // 当前配置组件列表
+  configId: string | null; // 当前配置 ID（已保存时）
+  manualConfigName: string | null; // 用户自定义配置名称
   allDbComponents: ConfigComponent[]; // 数据库组件缓存
-  showLibrary: boolean;           // 是否显示配置库模态框
-  myConfigs: Configuration[];     // 用户保存的配置列表
-  isLoggedIn: boolean;            // 用户登录状态
-  isSaving: boolean;              // 保存操作进行中
+  showLibrary: boolean; // 是否显示配置库模态框
+  myConfigs: Configuration[]; // 用户保存的配置列表
+  isLoggedIn: boolean; // 用户登录状态
+  isSaving: boolean; // 保存操作进行中
   showComponentSelector: boolean; // 是否显示组件选择器
-  editingComponentId: string;     // 当前编辑的组件 ID
+  editingComponentId: string; // 当前编辑的组件 ID
 }
 
 interface ConfigActions {
@@ -77,7 +77,7 @@ export const useConfigStore = create<ConfigStore>()(
       // Actions
       setActiveType: (type) => set({ activeType: type }),
       setComponents: (components) => set({ components }),
-      addComponent: (component) => 
+      addComponent: (component) =>
         set((state) => ({ components: [...state.components, component] })),
       removeComponent: (id) =>
         set((state) => ({
@@ -85,9 +85,7 @@ export const useConfigStore = create<ConfigStore>()(
         })),
       updateComponent: (id, updates) =>
         set((state) => ({
-          components: state.components.map((c) =>
-            c.id === id ? { ...c, ...updates } : c
-          ),
+          components: state.components.map((c) => (c.id === id ? { ...c, ...updates } : c)),
         })),
       setConfigId: (id) => set({ configId: id }),
       setManualConfigName: (name) => set({ manualConfigName: name }),
@@ -97,12 +95,13 @@ export const useConfigStore = create<ConfigStore>()(
       setIsSaving: (saving) => set({ isSaving: saving }),
       setShowComponentSelector: (show) => set({ showComponentSelector: show }),
       setEditingComponentId: (id) => set({ editingComponentId: id }),
-      resetConfig: () => set({
-        activeType: 'Road',
-        components: ROAD_DEFAULT_COMPONENTS,
-        configId: null,
-        manualConfigName: null,
-      }),
+      resetConfig: () =>
+        set({
+          activeType: 'Road',
+          components: ROAD_DEFAULT_COMPONENTS,
+          configId: null,
+          manualConfigName: null,
+        }),
     }),
     {
       name: 'veloform-config-storage', // localStorage key
@@ -130,7 +129,7 @@ export function SummaryPanel() {
   const activeType = useConfigStore((state) => state.activeType);
 
   // 总成本计算
-  const totalCost = useMemo(() => 
+  const totalCost = useMemo(() =>
     components.reduce((acc, c) => acc + c.price, 0),
     [components]
   );
@@ -169,13 +168,13 @@ graph TD
     B -->|props: components, isSaving| D[BuildList]
     B -->|props: cost, weight| E[SummaryPanel]
     B -->|props: configs| F[ComparePanel]
-    
+
     C -->|onChange: setActiveType| A
     D -->|onClick: updateComponent| A
     D -->|onClick: removeComponent| A
     E -->|onClick: saveConfig| G[FirebaseService]
     F -->|onClick: loadConfig| A
-    
+
     G -->|save/load| H[(Firestore)]
     H -->|onAuthStateChanged| I[useAuthStore]
     I -->|isLoggedIn| A
@@ -204,11 +203,11 @@ export default function Home() {
 
   return (
     <main>
-      <BuildList 
-        components={components} 
+      <BuildList
+        components={components}
         isSaving={isSaving}
       />
-      <SummaryPanel 
+      <SummaryPanel
         activeType={activeType}
         components={components}
       />
@@ -239,6 +238,7 @@ export function BuildList({ components, isSaving }: BuildListProps) {
 ```
 
 **使用场景**：
+
 - 配置数据传递给展示组件
 - 加载状态传递给列表组件
 - 任何需要从 store 读取数据的场景
@@ -280,8 +280,8 @@ export default function Home() {
   const setActiveType = useConfigStore((state) => state.setActiveType);
 
   return (
-    <BikeTypeSelector 
-      activeType={activeType} 
+    <BikeTypeSelector
+      activeType={activeType}
       onTypeChange={setActiveType}
     />
   );
@@ -289,6 +289,7 @@ export default function Home() {
 ```
 
 **使用场景**：
+
 - 用户选择车型
 - 触发组件编辑操作
 - 触发配置保存/重置操作
@@ -326,6 +327,7 @@ export function ComponentSelector() {
 ```
 
 **使用场景**：
+
 - 模态框组件（独立控制显示/隐藏）
 - 全局导航栏（访问用户状态）
 - 任何需要跨层级共享的状态
@@ -376,6 +378,7 @@ export const showToast = (message: string, type?: Toast['type']) => {
 ```
 
 **使用场景**：
+
 - 保存成功/失败提示
 - 操作确认反馈
 - 错误消息展示
@@ -418,7 +421,7 @@ export function LibraryModal({ isOpen, onClose }: LibraryModalProps) {
   }, [isOpen, user, setMyConfigs]);
 
   if (!isOpen) return null;
-  
+
   return (
     // Modal content
   );
@@ -619,34 +622,32 @@ export function LibraryModal({ isOpen, onClose }: LibraryModalProps) {
 ### ✅ 推荐做法
 
 1. **使用不可变更新**：
+
    ```typescript
    // Good - 创建新数组
    setComponents([...components, newComponent]);
-   
+
    // Good - 使用 map 更新
-   setComponents(components.map(c => 
-     c.id === id ? { ...c, price: newPrice } : c
-   ));
-   
+   setComponents(components.map((c) => (c.id === id ? { ...c, price: newPrice } : c)));
+
    // Bad - 直接修改原数组
    components.push(newComponent);
    ```
 
 2. **使用 selector 优化重渲染**：
+
    ```typescript
    // Good - 只订阅需要的状态
    const activeType = useConfigStore((state) => state.activeType);
-   
+
    // Bad - 订阅整个 store（任何状态变化都会重渲染）
    const store = useConfigStore();
    ```
 
 3. **使用 useMemo 缓存计算值**：
+
    ```typescript
-   const totalCost = useMemo(() => 
-     components.reduce((sum, c) => sum + c.price, 0),
-     [components]
-   );
+   const totalCost = useMemo(() => components.reduce((sum, c) => sum + c.price, 0), [components]);
    ```
 
 4. **批量更新相关状态**：
@@ -662,6 +663,7 @@ export function LibraryModal({ isOpen, onClose }: LibraryModalProps) {
 ### ❌ 避免的做法
 
 1. **在 render 中直接修改状态**：
+
    ```typescript
    // Bad - 在 render 中修改状态
    function Component() {
@@ -671,17 +673,15 @@ export function LibraryModal({ isOpen, onClose }: LibraryModalProps) {
    ```
 
 2. **过度使用 useEffect 同步状态**：
+
    ```typescript
    // Bad - 不必要的 useEffect
    useEffect(() => {
      setTotalCost(components.reduce((sum, c) => sum + c.price, 0));
    }, [components]);
-   
+
    // Good - 使用 useMemo 或直接计算
-   const totalCost = useMemo(() => 
-     components.reduce((sum, c) => sum + c.price, 0),
-     [components]
-   );
+   const totalCost = useMemo(() => components.reduce((sum, c) => sum + c.price, 0), [components]);
    ```
 
 3. **深层嵌套的 props 传递**：
@@ -694,7 +694,7 @@ export function LibraryModal({ isOpen, onClose }: LibraryModalProps) {
        </C>
      </B>
    </A>
-   
+
    // Good - 直接从 store 读取
    function D() {
      const data = useConfigStore((state) => state.data);
@@ -721,7 +721,7 @@ export function BuildList() {
   // 可以使用 hooks 和浏览器 API
   const [isOpen, setIsOpen] = useState(false);
   const components = useConfigStore((state) => state.components);
-  
+
   return <div>...</div>;
 }
 ```

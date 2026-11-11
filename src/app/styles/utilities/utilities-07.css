@@ -6,13 +6,11 @@
   margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 
-
 .space-y-2\.5 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.625rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.625rem * var(--tw-space-y-reverse));
 }
-
 
 .space-y-3 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
@@ -20,13 +18,11 @@
   margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
 }
 
-
 .space-y-4 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
-
 
 .space-y-5 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
@@ -34,13 +30,11 @@
   margin-bottom: calc(1.25rem * var(--tw-space-y-reverse));
 }
 
-
 .space-y-6 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
-
 
 .space-y-8 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
@@ -48,36 +42,29 @@
   margin-bottom: calc(2rem * var(--tw-space-y-reverse));
 }
 
-
 .self-start {
   align-self: flex-start;
 }
-
 
 .justify-self-end {
   justify-self: end;
 }
 
-
 .overflow-hidden {
   overflow: hidden;
 }
-
 
 .overflow-x-auto {
   overflow-x: auto;
 }
 
-
 .overflow-y-auto {
   overflow-y: auto;
 }
 
-
 .overflow-x-hidden {
   overflow-x: hidden;
 }
-
 
 .truncate {
   overflow: hidden;
@@ -85,97 +72,78 @@
   white-space: nowrap;
 }
 
-
 .whitespace-nowrap {
   white-space: nowrap;
 }
-
 
 .text-balance {
   text-wrap: balance;
 }
 
-
 .break-all {
   word-break: break-all;
 }
-
 
 .rounded {
   border-radius: 0.25rem;
 }
 
-
 .rounded-2xl {
   border-radius: 1rem;
 }
-
 
 .rounded-3xl {
   border-radius: 1.5rem;
 }
 
-
 .rounded-\[2px\] {
   border-radius: 2px;
 }
-
 
 .rounded-\[4px\] {
   border-radius: 4px;
 }
 
-
 .rounded-\[inherit\] {
   border-radius: inherit;
 }
-
 
 .rounded-full {
   border-radius: 9999px;
 }
 
-
 .rounded-lg {
   border-radius: var(--radius);
 }
-
 
 .rounded-md {
   border-radius: calc(var(--radius) - 2px);
 }
 
-
 .rounded-xl {
   border-radius: 0.75rem;
 }
-
 
 .rounded-b-xl {
   border-bottom-right-radius: 0.75rem;
   border-bottom-left-radius: 0.75rem;
 }
 
-
 .rounded-bl-full {
   border-bottom-left-radius: 9999px;
 }
-
 
 .border {
   border-width: 1px;
 }
 
-
 .border-b {
   border-bottom-width: 1px;
 }
 
-
 .border-t {
   border-top-width: 1px;
 }
-
 
 .border-t-2 {
   border-top-width: 2px;

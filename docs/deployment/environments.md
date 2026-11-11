@@ -12,11 +12,11 @@
 
 ## 环境分类
 
-| 环境 | 用途 | URL | 访问权限 |
-|------|------|-----|----------|
-| **Development** | 本地开发 | `http://localhost:3000` | 开发者 |
-| **Staging** | 预发布测试 | `https://staging.veloform.app` | 内部团队 |
-| **Production** | 生产环境 | `https://veloform.app` | 公开 |
+| 环境            | 用途       | URL                            | 访问权限 |
+| --------------- | ---------- | ------------------------------ | -------- |
+| **Development** | 本地开发   | `http://localhost:3000`        | 开发者   |
+| **Staging**     | 预发布测试 | `https://staging.veloform.app` | 内部团队 |
+| **Production**  | 生产环境   | `https://veloform.app`         | 公开     |
 
 ---
 
@@ -63,6 +63,7 @@ graph LR
 ```
 
 **步骤**：
+
 1. 推送代码到 `main` 分支
 2. Vercel 自动触发构建
 3. 执行 `npm run build`
@@ -107,6 +108,7 @@ npm run dev
 ### Vercel 环境变量配置
 
 在 Vercel Dashboard 中设置：
+
 1. 进入项目 Settings > Environment Variables
 2. 添加所有必需变量
 3. 选择适用环境（Production / Preview / Development）
@@ -130,7 +132,7 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
-import {join} from 'node:path';
+import { join } from 'node:path';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -142,15 +144,13 @@ app.use(
     maxAge: '1y',
     index: false,
     redirect: false,
-  }),
+  })
 );
 
 app.use((req, res, next) => {
   angularApp
     .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
+    .then((response) => (response ? writeResponseToNodeResponse(response, res) : next()))
     .catch(next);
 });
 
@@ -166,6 +166,7 @@ export const reqHandler = createNodeRequestHandler(app);
 ```
 
 **请求处理器**用于 Angular CLI 开发服务器或 Firebase Cloud Functions：
+
 ```typescript
 export const reqHandler = createNodeRequestHandler(app);
 ```
@@ -181,6 +182,7 @@ npm run serve:ssr:app
 ```
 
 **生产环境建议**：
+
 - 使用 PM2 进行进程管理
 - 配置 Nginx 反向代理
 - 启用 HTTPS（Let's Encrypt）
@@ -207,11 +209,13 @@ npm run serve:ssr:app
 ```
 
 **读取方式**：直接通过 `import` 导入 JSON 文件（`firebase.ts`）：
+
 ```typescript
 import firebaseConfig from '../../../firebase-applet-config.json';
 ```
 
 **安全提醒**：
+
 - 此文件包含占位符占位符占位符，实际配置通过环境变量注入（Vercel Secrets 面板）。
 - 不要提交真实的 Firebase 密钥到仓库（已加入 `.gitignore`）。
 - `firestoreDatabaseId` 字段为 Veloform 特有，用于支持多数据库。
@@ -287,8 +291,8 @@ console.log('This module is loaded');
 export const routes: Routes = [
   {
     path: 'library',
-    loadComponent: () => import('./components/library').then(m => m.LibraryComponent)
-  }
+    loadComponent: () => import('./components/library').then((m) => m.LibraryComponent),
+  },
 ];
 ```
 
@@ -298,12 +302,12 @@ export const routes: Routes = [
 
 ### Core Web Vitals 目标
 
-| 指标 | 目标值 | 测量工具 |
-|------|--------|----------|
-| LCP (Largest Contentful Paint) | < 2.5s | Lighthouse |
-| FID (First Input Delay) | < 100ms | Web Vitals Extension |
-| CLS (Cumulative Layout Shift) | < 0.1 | PageSpeed Insights |
-| FCP (First Contentful Paint) | < 1.8s | Chrome DevTools |
+| 指标                           | 目标值  | 测量工具             |
+| ------------------------------ | ------- | -------------------- |
+| LCP (Largest Contentful Paint) | < 2.5s  | Lighthouse           |
+| FID (First Input Delay)        | < 100ms | Web Vitals Extension |
+| CLS (Cumulative Layout Shift)  | < 0.1   | PageSpeed Insights   |
+| FCP (First Contentful Paint)   | < 1.8s  | Chrome DevTools      |
 
 ### Lighthouse CI
 
@@ -361,7 +365,7 @@ export const appConfig: ApplicationConfig = {
       provide: TraceService,
       useClass: TraceService,
     },
-  ]
+  ],
 };
 
 // Initialize Sentry
@@ -412,42 +416,45 @@ git push origin main
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Veloform - Advanced Bike Configurator v3.1.1</title>
-  <meta name="description" content="Design your dream bicycle with real-time 3D preview. Configure Road, MTB, and Folding bikes with premium components.">
+  <head>
+    <meta charset="utf-8" />
+    <title>Veloform - Advanced Bike Configurator v3.1.1</title>
+    <meta
+      name="description"
+      content="Design your dream bicycle with real-time 3D preview. Configure Road, MTB, and Folding bikes with premium components."
+    />
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Veloform - Advanced Bike Configurator">
-  <meta property="og:description" content="Design your dream bicycle with real-time 3D preview">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://veloform.app">
-  <meta property="og:image" content="https://veloform.app/og-image.jpg">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Veloform - Advanced Bike Configurator" />
+    <meta property="og:description" content="Design your dream bicycle with real-time 3D preview" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://veloform.app" />
+    <meta property="og:image" content="https://veloform.app/og-image.jpg" />
 
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://veloform.app">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://veloform.app" />
 
-  <!-- JSON-LD Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Veloform",
-    "description": "Advanced bicycle configurator with 3D preview",
-    "url": "https://veloform.app",
-    "applicationCategory": "DesignApplication",
-    "operatingSystem": "Web Browser",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    }
-  }
-  </script>
-</head>
-<body>
-  <app-root></app-root>
-</body>
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Veloform",
+        "description": "Advanced bicycle configurator with 3D preview",
+        "url": "https://veloform.app",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
 </html>
 ```
 
@@ -458,13 +465,15 @@ git push origin main
 ```typescript
 export const config: ApplicationConfig = {
   providers: [
-    provideServerRendering(withPrerendering([
-      { path: '/', renderMode: RenderMode.Prerender },
-      { path: '/road', renderMode: RenderMode.Prerender },
-      { path: '/mtb', renderMode: RenderMode.Prerender },
-      { path: '/fold', renderMode: RenderMode.Prerender }
-    ]))
-  ]
+    provideServerRendering(
+      withPrerendering([
+        { path: '/', renderMode: RenderMode.Prerender },
+        { path: '/road', renderMode: RenderMode.Prerender },
+        { path: '/mtb', renderMode: RenderMode.Prerender },
+        { path: '/fold', renderMode: RenderMode.Prerender },
+      ])
+    ),
+  ],
 };
 ```
 

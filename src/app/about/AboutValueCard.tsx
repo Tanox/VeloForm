@@ -14,7 +14,13 @@ interface AboutValueCardProps {
   getTransition: (delay?: number) => { duration: number; delay: number };
 }
 
-function AboutValueCardBase({ icon: Icon, labelKey, index, getInitial, getTransition }: AboutValueCardProps) {
+function AboutValueCardBase({
+  icon: Icon,
+  labelKey,
+  index,
+  getInitial,
+  getTransition,
+}: AboutValueCardProps) {
   const t = useTranslation();
   return (
     <motion.div
@@ -31,9 +37,7 @@ function AboutValueCardBase({ icon: Icon, labelKey, index, getInitial, getTransi
       <h3 className="text-xl font-display font-semibold text-foreground mb-3">
         {t(`${labelKey}.title`)}
       </h3>
-      <p className="text-secondary leading-relaxed">
-        {t(`${labelKey}.description`)}
-      </p>
+      <p className="text-secondary leading-relaxed">{t(`${labelKey}.description`)}</p>
     </motion.div>
   );
 }

@@ -18,9 +18,7 @@ import { configLogger } from '@/lib/logger';
  * 保存前校验配置数据，防止被污染的 store 状态直接入库。
  * 复用 shareable-config 的 zod schema（约束 bikeType/name/components 结构）。
  */
-function validateConfigForSave(
-  config: ReturnType<typeof buildConfigurationFromStore>
-): boolean {
+function validateConfigForSave(config: ReturnType<typeof buildConfigurationFromStore>): boolean {
   const result = ShareableConfigSchema.safeParse({
     bikeType: config.bikeType,
     name: config.name,
@@ -125,10 +123,7 @@ export async function deleteConfiguration(configId: string): Promise<void> {
   try {
     // 本地草稿 id 非 uuid，传给 Supabase 会触发类型错误，直接跳过云端删除
     if (isSupabaseConfigured() && !configId.startsWith('local_')) {
-      await deleteConfigurationFromSupabase(
-        configId,
-        useUserStore.getState().userId || undefined
-      );
+      await deleteConfigurationFromSupabase(configId, useUserStore.getState().userId || undefined);
       toast('info', 'Configuration deleted from cloud');
     }
   } catch (error) {
