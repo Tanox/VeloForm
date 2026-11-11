@@ -149,24 +149,9 @@ if (source.startsWith('/* 文件路径: src/app/globals.css')) {
 }
 
 const lines = source.split(/\r?\n/);
-const parsed = parseBlocks(lines);
-const oversizedBefore = parsed.filter((block) => block.lines.length > MAX_LINES);
-const blocks = parsed.flatMap((block) =>
+const blocks = parseBlocks(lines).flatMap((block) =>
   block.lines.length > MAX_LINES ? splitAtRuleBlock(block) : [block]
 );
-const oversizedAfter = blocks.filter((block) => block.lines.length > MAX_LINES);
-console.log(
-  `超大规则块：拆分前 ${oversizedBefore.length} 个，拆分后 ${oversizedAfter.length} 个`
-);
-if (oversizedAfter.length) {
-  oversizedAfter.forEach((block) => {
-    console.log(
-      `  未拆分块 ${block.lines.length} 行，首行=${JSON.stringify(
-        block.lines[0]
-      )}，尾行=${JSON.stringify(block.lines[block.lines.length - 1])}`
-    );
-  });
-}
 const chunks = packChunks(blocks);
 const counters = {};
 const names = [];

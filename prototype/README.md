@@ -1,56 +1,65 @@
 # Veloform 原型设计参考
 
-> **版本**: v4.2.1
-> **更新日期**: 2026-07-28
+> **版本**: v4.4.9
+> **更新日期**: 2026-11-10
 > **设计风格**: 极简主义 · 克制精准 · 国际水准
 
 ---
 
 ## 概述
 
-本目录包含 Veloform 项目的原型设计参考文档。正式的设计规范文档位于 [../docs/design/](../docs/design/) 目录。
+本目录包含 Veloform 项目的原型设计参考文档与可直接预览的高保真原型。正式设计规范见 [../docs/design/](../docs/design/)。
+
+---
+
+## 原型结构（v4.4.9 拆分）
+
+`prototype.html` 为**唯一预览入口**，双击即可在 `file://` 下运行，无需构建或服务器。为满足单文件 ≤200 行的源码规范，内容已按职责拆分：
+
+| 目录 | 内容 | 说明 |
+| --- | --- | --- |
+| `prototype.html` | 入口（30 行） | 按固定顺序引入样式与片段，**顺序不可调整** |
+| `styles/part-*.css` | 12 个样式分片 | 与拆分前 `<style>` 内容等价，按原顺序加载 |
+| `parts/part-*.js` | 4 个 HTML 片段 | 通过同步 `document.write` 注入，保证 `file://` 可用 |
+| `scripts/prototype.js` | 交互脚本 | 主题切换、组件弹窗、滚动等全局函数 |
+
+分片由 `scripts/split-prototype.mjs` 生成（幂等），请勿直接编辑生成物；修改原型内容请调整脚本源数据后重新生成。所有 DOM `id` 统一使用 kebab-case，便于调试、无障碍关联与端到端定位。
 
 ---
 
 ## 核心文档
 
-| 文档                                    | 描述                             |
-| --------------------------------------- | -------------------------------- |
+| 文档 | 描述 |
+| --- | --- |
 | [设计系统规范](./design-system-spec.md) | 色彩、字体、间距、图标、动效规范 |
-| [组件库规范](./component-library.md)    | 基础/复合/业务组件规范           |
-| [交互标准](./interaction-standards.md)  | 模式、反馈、错误、空状态         |
+| [组件库规范](./component-library.md) | 基础/复合/业务组件规范 |
+| [交互标准](./interaction-standards.md) | 模式、反馈、错误、空状态 |
 
 ---
 
 ## 官方规范
 
-完整的设计规范和技术文档请参考 OpenSpec：
-
-- [UI 设计系统](../docs/design/ui-design-system.md) - 官方设计系统文档
-- [组件设计规范](../docs/architecture/component-design.md) - 组件架构与模式
-- [规范文档首页](../docs/README.md) - 完整项目规范
+- [UI 设计系统](../docs/design/ui-design-system.md)
+- [组件设计规范](../docs/architecture/component-design.md)
+- [规范文档首页](../docs/README.md)
 
 ---
 
 ## 技术栈
 
-- **Next.js 14** (App Router) + **React 18** + **TypeScript**
-- **Tailwind CSS v3** + **shadcn/ui** (base-nova style)
-- **@base-ui/react** - 基础组件原语
-- **Framer Motion** - 动画库（克制使用）
-- **Lucide React** - 图标库
-
----
+- **Next.js 14.2** (App Router) + **React 18** + **TypeScript**
+- **Tailwind CSS v3** + **@base-ui/react** 组件原语
+- **Framer Motion**（克制使用） / **Lucide React** 图标
 
 ## 设计原则
 
-1. **极简克制** - 每个元素必须有存在理由
-2. **功能优先** - 设计服务于功能
-3. **像素完美** - 4px 网格系统，精确间距
-4. **自然交互** - 符合物理规律的动效，即时反馈
-5. **可访问性** - WCAG 2.1 AA 标准
+1. 极简克制：每个元素必须有存在理由
+2. 功能优先：设计服务于功能
+3. 像素完美：4px 网格系统
+4. 自然交互：符合物理规律的动效与即时反馈
+5. 可访问性：WCAG 2.1 AA 标准
 
 ---
 
-**最后更新**: 2026-07-29
-**版本**: v4.2.1
+**最后更新**: 2026-11-10
+**版本**: v4.4.9

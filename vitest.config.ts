@@ -1,3 +1,4 @@
+// 文件路径: vitest.config.ts v4.4.9
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import path from 'path';

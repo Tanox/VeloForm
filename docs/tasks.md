@@ -2,7 +2,7 @@
 
 > **派生来源**：`docs/design/design-review.md`（P0–P3 优化建议）+ OpenSpec 规范对齐
 > **最后更新**：2026-11-10
-> **当前版本**：v4.4.8
+> **当前版本**：v4.4.9
 > **说明**：本清单由 OpenSpec 派生，已完成的任务已归档至 [`tasks-done.md`](./tasks-done.md)。
 
 ## 优先级约定
@@ -33,3 +33,10 @@
   - 为导航栏、页脚、车型选择器、推荐配置区、分享弹窗等补充语义化 id；原型 `prototype.html` 的 id 统一为 kebab-case 并与代码侧对齐。
   - 同步 `SPEC.md`/`README`/`README_EN` 仓库地址（Tanox/VeloForm）、语言列表（EN/ZH-CN/JA）、Next 版本（14.2.35）；`APP_INFO.version` 与 `package.json` 对齐至 4.4.8；重新生成 `package-lock.json` 以匹配依赖版本。
   - 类型检查、104 项测试、ESLint 门禁均通过；详见 `CHANGELOG.md`。
+- **2026-11-10（v4.4.9）功能完整性 / 鲁棒性 / 规范对齐轮次**：
+  - 补齐认证入口（`AuthModal` + 三语词条）、云端同步按 `updatedAt` 合并、保存 in-flight 锁、失败态提示与未登录本地降级。
+  - 分享链路闭环：生成端编码、消费端独立 hook（zod 校验 / 类型映射 / 保留其它 query 与 hash / popstate 重放）。
+  - 修复 SQL 迁移重复执行、字段精度、环境变量占位符误判、保存校验误拒小数与相对路径、推荐配置重量硬编码、覆盖率统计口径、Git 预提交钩子失效。
+  - 拆分 `globals.css`（33 分片）与 `prototype.html`（CSS/HTML/JS 分片）为 ≤200 行模块；应用与原型主要容器统一语义化 kebab-case id；页脚版本与 build 编号唯一展示。
+  - 同步 README/README_EN/SPEC/CHANGELOG/原型说明/项目记忆至 v4.4.9，删除无效 `generate-icons` 脚本引用。
+  - 门禁：`npm run typecheck` / `npm run lint` / `npm test` / `npm run build` 与核心流程回归测试。

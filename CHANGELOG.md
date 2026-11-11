@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.9] - 2026-11-10
+
+### 修复 / 安全 / 规范
+
+- 补齐认证入口（登录/注册/登出弹窗与三语词条），修复 RLS 下未登录无法同步的链路断裂。
+- 云端同步改为按 `updatedAt` 合并，登出不再清空本地配置；保存增加 in-flight 锁与失败态提示。
+- 分享链接补齐消费端（含编码、zod 校验、其它 query/hash 保留、组件类型映射）与独立 hook。
+- 修复保存校验误拒小数价格/相对路径图片、环境变量占位符误判、SQL 迁移不可重复执行与重量字段精度丢失。
+- 推荐配置总价/重量统一由组件明细派生；边界格式化与 NaN/脏数据兜底加固。
+- 安全头去重并补充 `frame-ancestors`；页脚统一展示 `V{version}· build {yymmddhhmm}`，页眉不再显示版本。
+- 拆分 `src/app/globals.css` 与 `prototype/prototype.html` 超长源码为 ≤200 行模块；补齐语义化 id。
+- 覆盖率统计口径显式化、恢复 Git 预提交钩子、清理无效脚本与过期文档/项目记忆。
+
 ## [4.4.8] - 2026-11-10
 
 ### 修复 / 安全 / 规范

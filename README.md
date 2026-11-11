@@ -8,7 +8,7 @@
 
 Veloform 是一款基于 Next.js、Tailwind CSS 并由 **Supabase** 驱动的高级自行车配置器应用。它允许用户浏览和定制不同类别自行车的配置清单，包括公路车 (Road)、山地车 (MTB) 和折叠车 (Fold)。
 
-**生产地址**: [https://veloform.app](https://veloform.app)  
+**生产地址**: [https://veloform.app](https://veloform.app)
 **代码仓库**: [https://github.com/Tanox/VeloForm](https://github.com/Tanox/VeloForm)
 
 ---
@@ -26,6 +26,9 @@ Veloform 是一款基于 Next.js、Tailwind CSS 并由 **Supabase** 驱动的高
 - **配置库管理**: 保存、加载、分享个人配置方案
 - **流畅动画**: 基于 Framer Motion 的微交互动画，提供自然流畅的用户体验
 - **性能优化**: 选择性状态订阅，避免不必要的组件重渲染
+- **账号与云端**: 顶栏「登录」打开认证弹窗（邮箱/密码或 Google）；未登录保存明确降级为本地草稿并提示，登录后按更新时间合并云端配置，本地草稿不会丢失
+- **分享链接**: 配置库「分享」生成带 zod 校验的 `?config=` 链接，打开后自动还原配置并清理该参数（其它查询参数与锚点保留）
+- **版本可追溯**: 页脚统一展示 `V{版本}· build {yymmddhhmm}`，由 `package.json` 单一版本源在构建期注入，页眉不再显示版本
 
 ---
 
@@ -178,7 +181,7 @@ src/
 1. **克隆仓库**：
 
    ```bash
-   git clone https://github.com/sutchan/Veloform.git
+   git clone https://github.com/Tanox/VeloForm.git
    cd Veloform
    ```
 
@@ -248,7 +251,6 @@ src/
 | 命令                     | 说明                     |
 | ------------------------ | ------------------------ |
 | `npm run analyze`        | 分析打包体积             |
-| `npm run generate-icons` | 生成图标资源             |
 | `npm run prepare`        | 初始化 Git Hooks (Husky) |
 
 ---
@@ -340,7 +342,7 @@ function MyComponent() {
 
 ## 版本信息
 
-当前版本：**v4.4.7**
+当前版本：**v4.4.9**
 最后更新：2026-08-12
 
 详细变更记录见 [CHANGELOG.md](./CHANGELOG.md)。

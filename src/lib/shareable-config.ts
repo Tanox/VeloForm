@@ -1,3 +1,4 @@
+// 文件路径: src/lib/shareable-config.ts v4.4.9
 /**
  * Schema validation for shareable configuration links.
  * Prevents prototype pollution and injection attacks from URL parameters.

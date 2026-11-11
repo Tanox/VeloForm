@@ -1,3 +1,4 @@
+-- 文件路径: supabase/migrations/20260619000000_initial_schema.sql v4.4.9
 -- Veloform: Firebase → Supabase 迁移脚本
 -- 日期: 2026-06-19
 -- 描述: 完整的 PostgreSQL 表结构、行级安全策略（RLS）、索引

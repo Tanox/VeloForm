@@ -1,10 +1,12 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+// 文件路径: src/lib/env.test.ts v4.4.9
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+// 静态导入：env.ts 的导出均为纯读 process.env 的函数，动态 import 在 fork 池下会超时
+import { validateEnv, getEnv, getEnvSnapshot, REQUIRED_ENV_KEYS } from './env';
 
 describe('env', () => {
   const originalEnv = process.env;
 
   beforeEach(() => {
-    vi.resetModules();
     process.env = { ...originalEnv };
   });
 
@@ -13,11 +15,10 @@ describe('env', () => {
   });
 
   describe('validateEnv', () => {
-    it('should report missing required variables', async () => {
+    it('should report missing required variables', () => {
       delete process.env.NEXT_PUBLIC_SUPABASE_URL;
       delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-      const { validateEnv } = await import('./env');
       const result = validateEnv();
 
       expect(result.ok).toBe(false);
@@ -25,11 +26,10 @@ describe('env', () => {
       expect(result.message).toContain('Missing required environment variables');
     });
 
-    it('should succeed when all required variables are present', async () => {
+    it('should succeed when all required variables are present', () => {
       process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://example.supabase.co';
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiJ9...';
 
-      const { validateEnv } = await import('./env');
       const result = validateEnv();
 
       expect(result.ok).toBe(true);
@@ -38,25 +38,22 @@ describe('env', () => {
   });
 
   describe('getEnv', () => {
-    it('should return env value when set', async () => {
+    it('should return env value when set', () => {
       process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://my-project.supabase.co';
-      const { getEnv } = await import('./env');
       expect(getEnv('NEXT_PUBLIC_SUPABASE_URL')).toBe('https://my-project.supabase.co');
     });
 
-    it('should return fallback when env is missing', async () => {
+    it('should return fallback when env is missing', () => {
       delete process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const { getEnv } = await import('./env');
       expect(getEnv('NEXT_PUBLIC_SUPABASE_URL', 'fallback')).toBe('fallback');
     });
   });
 
   describe('getEnvSnapshot', () => {
-    it('should return a snapshot containing required keys', async () => {
+    it('should return a snapshot containing required keys', () => {
       process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://example.supabase.co';
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiJ9...';
 
-      const { getEnvSnapshot, REQUIRED_ENV_KEYS } = await import('./env');
       const snapshot = getEnvSnapshot();
       for (const key of REQUIRED_ENV_KEYS) {
         expect(key in snapshot).toBe(true);

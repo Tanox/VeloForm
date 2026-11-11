@@ -149,6 +149,7 @@ export function useTranslation() {
     (key: string, params?: Record<string, string | number>) => {
       return t(key, params);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- language 是刷新下游翻译缓存的必要依赖
     [t, language]
   );
 }

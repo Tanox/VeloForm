@@ -1,6 +1,6 @@
+// 文件路径: src/app/page.tsx v4.4.9
 'use client';
 
-// 文件路径: src/app/page.tsx v4.4.9
 import { Suspense } from 'react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';

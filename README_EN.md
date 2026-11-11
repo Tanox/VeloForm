@@ -8,7 +8,7 @@
 
 Veloform is an advanced bicycle configurator built with Next.js, Tailwind CSS, and powered by Supabase. It allows users to browse and customize configuration lists for different types of bicycles, including Road, Mountain (MTB), and Folding bikes.
 
-**Production URL**: [https://veloform.app](https://veloform.app)  
+**Production URL**: [https://veloform.app](https://veloform.app)
 **Repository**: [https://github.com/Tanox/VeloForm](https://github.com/Tanox/VeloForm)
 
 ---
@@ -25,6 +25,9 @@ Veloform is an advanced bicycle configurator built with Next.js, Tailwind CSS, a
 - **Config Library Management**: Save, load, and share your custom configurations
 - **Smooth Animations**: Micro-interactions powered by Framer Motion for natural and delightful user experience
 - **Performance Optimized**: Selective state subscription to avoid unnecessary re-renders
+- **Account & Cloud**: Open the sign-in dialog from the navbar (email/password or Google); anonymous saves degrade to a clearly-labeled local draft, and signed-in syncs merge by update time so local drafts are never discarded
+- **Share Links**: The library generates a zod-validated `?config=` link; opening it restores the build and removes only that parameter (other query params and the hash are preserved)
+- **Version Traceability**: The footer shows `V{version}· build {yymmddhhmm}`, injected at build time from the single `package.json` version source; no version is shown in the header
 
 ---
 
@@ -115,7 +118,7 @@ For detailed development guidelines, see [docs/PROJECT_GUIDELINES.md](docs/PROJE
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/sutchan/Veloform.git
+   git clone https://github.com/Tanox/VeloForm.git
    cd Veloform
    ```
 
@@ -216,7 +219,7 @@ MIT License
 
 ## Version
 
-Current version: **v4.4.7**
+Current version: **v4.4.9**
 Last updated: 2026-08-12
 
 For detailed changelog, see [CHANGELOG.md](./CHANGELOG.md).

@@ -8,7 +8,7 @@ import { useConfigStore } from '@/lib/stores/config-store';
 import { toast } from '@/lib/toast';
 
 /** 分享载荷的组件转换为应用内部类型；specs 为通用字典，按类别在运行时消费 */
-function toConfigComponents(items: ShareableConfig['components']): ConfigComponent[] {
+export function toConfigComponents(items: ShareableConfig['components']): ConfigComponent[] {
   return items.map((item) => ({
     id: item.id,
     name: item.name,
@@ -27,7 +27,7 @@ function toConfigComponents(items: ShareableConfig['components']): ConfigCompone
 }
 
 /** 只移除 config 参数，保留其它查询参数与 hash，避免刷新时重复加载 */
-function clearConfigParam(): void {
+export function clearConfigParam(): void {
   const url = new URL(window.location.href);
   url.searchParams.delete('config');
   window.history.replaceState(

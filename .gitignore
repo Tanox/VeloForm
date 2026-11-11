@@ -2,22 +2,28 @@ node_modules
 dist
 .angular
 .vscode
-*.log
 .DS_Store
-.env
-.env.local
-coverage
 .idea
 *.tgz
+*.log
 .cache
-.tmp
-/.next
-.next/
-
-# Build artifacts
-*.tsbuildinfo
+.tmp/
+/.next/
+/.next-*/
 .next-swc-cache/
-reports/
+/coverage/
+/reports/
+/playwright-report/
+/test-results/
+audit-*.json
+*-result.json
+*.tsbuildinfo
+
+# Environment files（.code-workspace 是项目配置，禁止忽略或删除）
+.env
+.env.local
+.env.production
+.env.*.local
 
 # Vitest temp files
 vitest.config.ts.timestamp-*
@@ -25,10 +31,9 @@ vitest.config.ts.timestamp-*
 # IDE-specific
 .trae/
 
-# PWA
+# PWA（历史产物）
 public/sw.js
 public/workbox-*.js
 
 /.workbuddy
-*.txt
-*.log
+scripts/

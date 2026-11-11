@@ -1,3 +1,4 @@
+// 文件路径: src/components/layout/NavbarMobileMenu.tsx v4.4.9
 'use client';
 
 import { Menu, Moon, Sun, Bike } from 'lucide-react';
