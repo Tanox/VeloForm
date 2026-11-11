@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Bike, Moon, Sun, UserRound } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useTranslation, useLanguage, useSetLanguage } from '@/lib/i18n';
-import { OnboardingGuide } from '@/components/ui/OnboardingGuide';
+import { OnboardingGuide } from '@/components/ui/onboarding/OnboardingGuide';
 import { SupportModal } from '@/components/ui/SupportModal';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
