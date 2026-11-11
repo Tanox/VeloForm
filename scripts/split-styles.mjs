@@ -169,6 +169,7 @@ const names = [];
 mkdirSync(OUT_DIR, { recursive: true });
 chunks.forEach((chunk) => {
   const group = groupFor(chunk[0].startLine);
+  mkdirSync(join(OUT_DIR, group), { recursive: true });
   counters[group] = (counters[group] || 0) + 1;
   const name = `${group}-${String(counters[group]).padStart(2, '0')}.css`;
   const body = chunk.map((block) => block.lines.join('\n')).join('\n\n');
@@ -176,9 +177,10 @@ chunks.forEach((chunk) => {
   const balance = { depth: 0, inComment: false, quote: null };
   body.split('\n').forEach((line) => scanLine(line, balance));
   if (balance.depth) throw new Error(`分片 ${name} 大括号不平衡 (${balance.depth})`);
-  const banner = `/* 文件路径: src/app/styles/${name} ${VERSION} — 由 scripts/split-styles.mjs 生成 */\n`;
-  writeFileSync(join(OUT_DIR, name), `${banner}${body}\n`, 'utf8');
-  names.push(name);
+  const relName = `${group}/${name}`;
+  const banner = `/* 文件路径: src/app/styles/${relName} ${VERSION} — 由 scripts/split-styles.mjs 生成 */\n`;
+  writeFileSync(join(OUT_DIR, relName), `${banner}${body}\n`, 'utf8');
+  names.push(relName);
 });
 
 // 旧分片移入 .tmp 暂存（不删除），避免残留未被入口引用的文件
