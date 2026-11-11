@@ -6,7 +6,7 @@ import { Toaster } from 'sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { SyncProvider } from '@/components/layout/SyncProvider';
 import { ClientErrorBoundary } from '@/components/layout/ClientErrorBoundary';
-import { DelightLayer } from '@/components/ui/delight/DelightLayer';
+import { DelightLayer } from '@/components/delight/DelightLayer';
 import { logger } from '@/lib/logger';
 
 // 字体通过 globals.css 中的 --font-display / --font-sans CSS 变量定义（含系统字体栈 fallback）。

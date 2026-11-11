@@ -51,7 +51,7 @@ export { Toaster, toast } from 'sonner'
 
 // Veloform specific components
 export { LoadingScreen } from './LoadingScreen'
-export { OnboardingGuide } from './onboarding/OnboardingGuide'
+export { OnboardingGuide } from '../onboarding/OnboardingGuide'
 export { SupportModal } from './SupportModal'
 export { ThemeToggle } from './ThemeToggle'
 export { ErrorBoundary } from './error-boundary'

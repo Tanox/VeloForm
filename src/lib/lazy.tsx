@@ -56,7 +56,7 @@ export const LazyComparePanel = lazy(
 /** OnboardingGuide: 新手引导，按需加载 */
 export const LazyOnboardingGuide = lazy(
   () =>
-    import('@/components/ui/onboarding/OnboardingGuide').then((m) => ({
+    import('@/components/onboarding/OnboardingGuide').then((m) => ({
       default: m.OnboardingGuide,
     }))
 );
