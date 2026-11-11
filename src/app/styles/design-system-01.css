@@ -1,0 +1,182 @@
+/* 文件路径: src/app/styles/design-system-01.css v4.4.9 — 由 scripts/split-styles.mjs 生成 */
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes staggerIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+
+  to {
+    height: var(--accordion-panel-height);
+  }
+}
+
+
+@keyframes accordion-up {
+  from {
+    height: var(--accordion-panel-height);
+  }
+
+  to {
+    height: 0;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+.file\:inline-flex::file-selector-button {
+  display: inline-flex;
+}
+
+
+.file\:h-6::file-selector-button {
+  height: 1.5rem;
+}
+
+
+.file\:border-0::file-selector-button {
+  border-width: 0px;
+}
+
+
+.file\:bg-transparent::file-selector-button {
+  background-color: transparent;
+}
+
+
+.file\:text-sm::file-selector-button {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+
+.file\:font-medium::file-selector-button {
+  font-weight: 500;
+}
+
+
+.file\:text-foreground::file-selector-button {
+  color: hsl(var(--foreground));
+}
+
+
+.placeholder\:text-muted-foreground::-moz-placeholder {
+  color: hsl(var(--muted-foreground));
+}
+
+
+.placeholder\:text-muted-foreground::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+
+
+.after\:absolute::after {
+  content: var(--tw-content);
+  position: absolute;
+}
+
+
+.after\:-inset-2::after {
+  content: var(--tw-content);
+  inset: -0.5rem;
+}
+
+
+.after\:inset-0::after {
+  content: var(--tw-content);
+  inset: 0px;
+}
+
+
+.after\:-inset-x-3::after {
+  content: var(--tw-content);
+  left: -0.75rem;
+  right: -0.75rem;
+}
+
+
+.after\:-inset-y-2::after {
+  content: var(--tw-content);
+  top: -0.5rem;
+  bottom: -0.5rem;
+}
+
+
+.after\:rounded-full::after {
+  content: var(--tw-content);
+  border-radius: 9999px;
+}
+
+
+.after\:border::after {
+  content: var(--tw-content);
+  border-width: 1px;
+}
+
+
+.after\:border-border::after {
+  content: var(--tw-content);
+  border-color: hsl(var(--border));
+}
+
+
+.after\:bg-foreground::after {
+  content: var(--tw-content);
+  background-color: hsl(var(--foreground));
+}
+
+
+.after\:opacity-0::after {
+  content: var(--tw-content);
+  opacity: 0;
+}
+
+
+.after\:mix-blend-darken::after {
+  content: var(--tw-content);
+  mix-blend-mode: darken;
+}
+
+
+.after\:transition-opacity::after {
+  content: var(--tw-content);
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}

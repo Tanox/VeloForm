@@ -1,0 +1,181 @@
+/* 文件路径: src/app/styles/design-system-06.css v4.4.9 — 由 scripts/split-styles.mjs 生成 */
+
+.data-\[side\=left\]\:-translate-y-1\/2[data-side='left'] {
+  --tw-translate-y: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+    scaleY(var(--tw-scale-y));
+}
+
+
+.data-\[side\=right\]\:-translate-y-1\/2[data-side='right'] {
+  --tw-translate-y: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+    scaleY(var(--tw-scale-y));
+}
+
+
+.data-\[align-trigger\=true\]\:animate-none[data-align-trigger='true'] {
+  animation: none;
+}
+
+
+.data-\[disabled\]\:cursor-not-allowed[data-disabled] {
+  cursor: not-allowed;
+}
+
+
+.data-\[horizontal\]\:flex-col[data-horizontal] {
+  flex-direction: column;
+}
+
+
+.data-\[vertical\]\:flex-col[data-vertical] {
+  flex-direction: column;
+}
+
+
+.data-\[vertical\]\:self-stretch[data-vertical] {
+  align-self: stretch;
+}
+
+
+.data-\[closed\]\:overflow-hidden[data-closed] {
+  overflow: hidden;
+}
+
+
+.data-\[size\=sm\]\:rounded-\[min\(var\(--radius-md\)\2c 10px\)\][data-size='sm'] {
+  border-radius: min(var(--radius-md), 10px);
+}
+
+
+.data-\[variant\=line\]\:rounded-none[data-variant='line'] {
+  border-radius: 0px;
+}
+
+
+.data-\[horizontal\]\:border-t[data-horizontal] {
+  border-top-width: 1px;
+}
+
+
+.data-\[side\=bottom\]\:border-t[data-side='bottom'] {
+  border-top-width: 1px;
+}
+
+
+.data-\[side\=left\]\:border-r[data-side='left'] {
+  border-right-width: 1px;
+}
+
+
+.data-\[side\=right\]\:border-l[data-side='right'] {
+  border-left-width: 1px;
+}
+
+
+.data-\[side\=top\]\:border-b[data-side='top'] {
+  border-bottom-width: 1px;
+}
+
+
+.data-\[vertical\]\:border-l[data-vertical] {
+  border-left-width: 1px;
+}
+
+
+.data-\[checked\]\:border-primary[data-checked] {
+  border-color: hsl(var(--primary));
+}
+
+
+.data-\[horizontal\]\:border-t-transparent[data-horizontal] {
+  border-top-color: transparent;
+}
+
+
+.data-\[vertical\]\:border-l-transparent[data-vertical] {
+  border-left-color: transparent;
+}
+
+
+.data-\[active\]\:bg-background[data-active] {
+  background-color: hsl(var(--background));
+}
+
+
+.data-\[checked\]\:bg-primary[data-checked] {
+  background-color: hsl(var(--primary));
+}
+
+
+.data-\[open\]\:bg-accent[data-open] {
+  background-color: hsl(var(--accent));
+}
+
+
+.data-\[popup-open\]\:bg-accent[data-popup-open] {
+  background-color: hsl(var(--accent));
+}
+
+
+.data-\[unchecked\]\:bg-input[data-unchecked] {
+  background-color: hsl(var(--input));
+}
+
+
+.data-\[inset\]\:pl-7[data-inset] {
+  padding-left: 1.75rem;
+}
+
+
+.data-\[active\]\:text-foreground[data-active] {
+  color: hsl(var(--foreground));
+}
+
+
+.data-\[checked\]\:text-primary-foreground[data-checked] {
+  color: hsl(var(--primary-foreground));
+}
+
+
+.data-\[open\]\:text-accent-foreground[data-open] {
+  color: hsl(var(--accent-foreground));
+}
+
+
+.data-\[popup-open\]\:text-accent-foreground[data-popup-open] {
+  color: hsl(var(--accent-foreground));
+}
+
+
+.data-\[variant\=destructive\]\:text-destructive[data-variant='destructive'] {
+  color: hsl(var(--destructive));
+}
+
+
+.data-\[disabled\]\:opacity-50[data-disabled] {
+  opacity: 0.5;
+}
+
+
+.data-\[open\]\:animate-in[data-open] {
+  animation: animateIn var(--duration-normal) var(--ease-out);
+}
+
+
+.data-\[state\=delayed-open\]\:animate-in[data-state='delayed-open'] {
+  animation: animateIn var(--duration-normal) var(--ease-out);
+}
+
+
+.data-\[variant\=destructive\]\:focus\:bg-destructive\/10:focus[data-variant='destructive'] {
+  background-color: hsl(var(--destructive) / 0.1);
+}
+
+
+.data-\[variant\=destructive\]\:focus\:text-destructive:focus[data-variant='destructive'] {
+  color: hsl(var(--destructive));
+}

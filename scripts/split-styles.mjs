@@ -1,6 +1,5 @@
 // 文件路径: scripts/split-styles.mjs v4.4.9
-// 将超长 globals.css 按顶层 CSS 规则块拆分为 <=185 行的模块化分片。
-// 幂等：重复执行会重建 src/app/styles/ 并重写入口，顺序与拆分前完全一致。
+// 将超长 globals.css 按顶层规则块拆为 <=185 行模块；幂等，顺序与拆分前一致。
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, renameSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -166,10 +165,8 @@ const blocks = parseBlocks(lines).flatMap((block) =>
 const chunks = packChunks(blocks);
 const counters = {};
 const names = [];
-
 // 不做递归删除：IDE 安全删除护栏会拦截目录批量删除，这里只覆盖写入
 mkdirSync(OUT_DIR, { recursive: true });
-
 chunks.forEach((chunk) => {
   const group = groupFor(chunk[0].startLine);
   counters[group] = (counters[group] || 0) + 1;
@@ -183,6 +180,11 @@ chunks.forEach((chunk) => {
   writeFileSync(join(OUT_DIR, name), `${banner}${body}\n`, 'utf8');
   names.push(name);
 });
+
+// 旧分片移入 .tmp 暂存（不删除），避免残留未被入口引用的文件
+const stale = readdirSync(OUT_DIR).filter((f) => f.endsWith('.css') && !names.includes(f));
+if (stale.length) mkdirSync('.tmp/styles-old', { recursive: true });
+stale.forEach((f) => renameSync(join(OUT_DIR, f), join('.tmp/styles-old', `${Date.now()}-${f}`)));
 
 const entry = [
   `/* 文件路径: src/app/globals.css ${VERSION}`,
