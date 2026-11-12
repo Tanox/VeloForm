@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.11] - 2026-11-12
+
+### 工程化 / 目录治理
+
+- 临时文件与产物目录统一收敛：`.tmp/` 为唯一临时目录，一次性脚本、日志、探针与临时构建产物一律写入其中，禁止在仓库根目录散落。
+- 新增 `npm run build:tmp`：生产构建输出到固定目录 `.tmp/next/build`；旧目录采用「重命名归档」代替删除，规避 IDE 批量删除护栏；新增 `npm run clean:tmp` 统一回收临时文件。
+- `next.config.mjs` 校验 `NEXT_DIST_DIR`：指向 `.tmp/` 之外的路径时直接抛错，从机制上杜绝根目录再次生成 `.next-*` 变体目录。
+- 清理根目录 12 个 `.next-*` 历史变体构建目录（约 1.5GB），仅保留平台约定的 `.next/`；`tsconfig.json` 中 3 条历史变体 include 路径收敛为固定路径，并排除 `.tmp/` 参与类型检查。
+- 补齐门禁忽略项：ESLint `ignorePatterns`、`.gitignore` 目录注释与 `AGENTS.md` 仓库协作约定（临时目录 / 产物目录 / 门禁忽略 / 版本同步规则）。
+
 ## [4.4.10] - 2026-11-11
 
 ### 修复 / 工程化 / 任务治理

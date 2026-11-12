@@ -1,11 +1,12 @@
 {
   "name": "veloform-next",
-  "version": "4.4.10",
+  "version": "4.4.11",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:tmp": "node scripts/build-tmp.mjs",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
@@ -16,6 +17,7 @@
     "test:coverage": "vitest run --coverage",
     "split:styles": "node scripts/split-styles.mjs",
     "split:prototype": "node scripts/split-prototype.mjs",
+    "clean:tmp": "node scripts/clean-tmp.mjs",
     "prepare": "husky",
     "check": "npm run typecheck && npm run lint && npm test"
   },

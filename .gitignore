@@ -7,7 +7,11 @@ dist
 *.tgz
 *.log
 .cache
+
+# 临时目录：一次性脚本、日志、临时构建产物统一存放于此，禁止在仓库根目录散落
 .tmp/
+
+# 构建产物：.next 为平台约定目录；.next-* 为历史变体残留，新增变体必须放在 .tmp/ 下
 /.next/
 /.next-*/
 .next-swc-cache/

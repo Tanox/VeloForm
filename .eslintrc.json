@@ -1,5 +1,6 @@
 {
   "extends": ["next/core-web-vitals"],
+  "ignorePatterns": [".next*/", ".tmp/**", "coverage/**", "coverage-check/**", "next-env.d.ts"],
   "rules": {
     "eqeqeq": ["error", "always"],
     "no-console": "error",

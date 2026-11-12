@@ -27,9 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next-final/types/**/*.ts",
-    ".next-review/types/**/*.ts",
-    ".next-final2/types/**/*.ts"
+    ".tmp/next/build/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "angular-backup", "vitest.config.ts"]
+  "exclude": ["node_modules", ".tmp", "angular-backup", "vitest.config.ts"]
 }

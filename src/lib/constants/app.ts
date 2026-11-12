@@ -1,4 +1,4 @@
-// 文件路径: src/lib/constants/app.ts v4.4.10
+// 文件路径: src/lib/constants/app.ts v4.4.11
 export const APP_CONSTANTS = {
   BIKE_TYPES: ['Road', 'MTB', 'Fold'] as const,
   COMPONENT_CATEGORIES: [
@@ -17,7 +17,7 @@ export const APP_CONSTANTS = {
   WEIGHT_CONVERSION_FACTOR: 1000,
   APP_INFO: {
     name: 'Veloform',
-    version: '4.4.10',
+    version: '4.4.11',
     tagline: 'Bike Configurator',
   } as const,
 } as const;

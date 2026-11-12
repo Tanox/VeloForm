@@ -1,7 +1,7 @@
 # Veloform 项目开发指南
 
 > **路径**: `/docs/PROJECT_GUIDELINES.md`
-> **版本**: v4.4.10
+> **版本**: v4.4.11
 > **更新日期**: 2026-07-28
 
 ## 概述
@@ -45,14 +45,16 @@
 
 ### 常用命令
 
-| 命令                    | 说明                        |
-| ----------------------- | --------------------------- |
-| `npm run dev`           | 本地开发服务器（端口 3000） |
-| `npm run build`         | 生产构建                    |
-| `npm run test`          | 执行单元测试                |
-| `npm run lint`          | ESLint 代码检查             |
-| `npm run watch`         | 开发模式构建并监听          |
-| `npm run serve:ssr:app` | 运行 SSR 服务               |
+| 命令                    | 说明                                 |
+| ----------------------- | ------------------------------------ |
+| `npm run dev`           | 本地开发服务器（端口 3000）          |
+| `npm run build`         | 生产构建                             |
+| `npm run build:tmp`     | 生产构建（输出到 `.tmp/next/build`） |
+| `npm run clean:tmp`     | 清空 `.tmp/` 临时目录                |
+| `npm run test`          | 执行单元测试                         |
+| `npm run lint`          | ESLint 代码检查                      |
+| `npm run watch`         | 开发模式构建并监听                   |
+| `npm run serve:ssr:app` | 运行 SSR 服务                        |
 
 ---
 
@@ -288,6 +290,42 @@ npm run test -- --coverage  # 生成覆盖率报告
 
 ---
 
+## 临时文件与产物目录规范
+
+> 目的：仓库根目录保持整洁，临时文件与构建产物统一收敛到固定子目录，避免根目录堆积
+> `.next-*` 一类变体目录（历史上曾残留 12 个变体目录、约 1.5GB）。
+
+### 目录约定
+
+| 目录                                       | 用途                                                   | 是否入库           |
+| ------------------------------------------ | ------------------------------------------------------ | ------------------ |
+| `.tmp/`                                    | **唯一临时目录**：一次性脚本、日志、探针、临时构建产物 | 否（`.gitignore`） |
+| `.tmp/next/build/`                         | 临时构建输出（`npm run build:tmp`）                    | 否                 |
+| `.next/`                                   | 平台约定构建目录（Vercel / Cloudflare 依赖）           | 否                 |
+| `scripts/`                                 | 正式工具脚本（须入库）                                 | 是                 |
+| `coverage/`、`coverage-check/`、`reports/` | 覆盖率与报告产物                                       | 否                 |
+
+### 强制规则
+
+1. **禁止在仓库根目录创建临时文件**：`.tmp-*`、`_tmp_*`、`*.log`、`*.out`、`*.txt` 等一律不得落在根目录。
+2. **临时构建目录固定为 `.tmp/next/build`**：Next.js 按 `distDir` 精确匹配 `tsconfig.json` 的
+   `include` 片段，目录改名会导致 `tsconfig.json` 被自动改写并堆积历史路径，因此路径必须固定。
+3. **`NEXT_DIST_DIR` 只能指向 `.tmp/` 下的路径**：`next.config.mjs` 会校验，越界直接抛错，
+   从机制上杜绝根目录再次出现 `.next-*` 变体目录。
+4. **旧构建目录用「重命名归档」代替删除**：归档至 `.tmp/next/stale-<时间戳>`，避免触发 IDE 批量删除护栏。
+5. **会话结束前清理**：`npm run clean:tmp` 清空 `.tmp/`（保留目录本身）。
+6. **门禁必须忽略临时目录**：ESLint（`ignorePatterns`）、Prettier（`.prettierignore`）、
+   Vitest（`exclude`）、TypeScript（`exclude`）均已配置忽略 `.tmp/`，避免临时脚本造成门禁假红。
+
+### 命令
+
+```bash
+npm run build:tmp    # 构建到 .tmp/next/build（不污染根目录）
+npm run clean:tmp    # 清空 .tmp/ 临时目录
+```
+
+---
+
 ## 环境配置
 
 ### 环境变量管理
@@ -351,4 +389,4 @@ A:
 
 **文档路径**: `/docs/PROJECT_GUIDELINES.md`  
 **最后更新**: 2026-05-05  
-**版本**: v4.4.10
+**版本**: v4.4.11
